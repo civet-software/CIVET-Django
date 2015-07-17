@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Text Extraction Testbed</title>
+	<meta name="generator" content="BBEdit 11.0" />
+<style>
+    body {
+        height:700px;
+        width:960px;
+        padding:5px; 
+        border: 2px dashed blue
+        }
+    h2 { font-size: 20px; line-height: 1.3; margin: 0 0 .2em; }
+    h3 { font-size: 18px; line-height: 1.3; margin: 0 0 .2em; }
+    h4 { font-size: 16px; line-height: 1; margin: 0 0 .2em;}
+    .highlight {background-color:lightgreen;}
+    .nament {color:blue;}
+    <!--.num {background-color:green;} -->
+    .date {color:coral;}
+    .termst {color:red;}
+    {{ newterm }}
+</style>
+</head>
+<!--
+Options:
+    Click in text box selects words with the given letter
+    right arrow goes through selections
+    down arrow puts current highlighted word in box
+    left arrow puts any mouse-selected text in box
+    tab goes between fields
+    return does whatever the default is
+-->
+<body onload="initglobals()">
+
+<script>
+
+// declare an assortment of globals
+var	wdindex = 0;  // location of start of search for next word in wordset
+var	curstr = ""   // text of current highlighted word
+var curhighlight = ""  // id of the words currently highlighted
+var curfield = ""  // id of the words currently highlighted
+var inputText;
+var glinner;
+
+function initglobals()
+{
+	inputText = document.getElementById("inputText");
+	glinner = inputText.innerHTML;
+    document.onkeypress =  dokeypress;
+    document.onkeydown =  dokeydown;
+}
+
+
+function highlight(text)
+{
+    inputText = document.getElementById("inputText")
+    var innerHTML = inputText.innerHTML
+    var index = innerHTML.indexOf(text);
+    if ( index >= 0 )
+    { 
+        innerHTML = innerHTML.substring(0,index) + "<span class='highlight'>" + innerHTML.substring(index,index+text.length) + "</span>" + innerHTML.substring(index + text.length);
+        inputText.innerHTML = innerHTML 
+    }
+
+}
+
+function nextword()
+{
+    var curHTML = glinner;
+    var endspace = curHTML.indexOf(' ',wdindex+1);
+    if (endspace < 0) { endspace = curHTML.length} // -1?
+	console.log("Indices: " + wdindex + '  ' + endspace + '  ' + curHTML.length);   
+    curHTML = curHTML.substring(0,wdindex) + "<span class='highlight'>" + curHTML.substring(wdindex,endspace) + "</span>" + curHTML.substring(endspace);
+    inputText.innerHTML = curHTML;
+    wdindex = endspace + 1
+    if (wdindex >= glinner.length) { wdindex = 0}
+
+}
+
+function nexthightag()
+{
+    var curHTML = glinner;
+    wdindex = curHTML.indexOf(curhighlight,wdindex)
+    if (wdindex < 0)  // wraps back to beginning
+    { 
+        wdindex = 0
+        wdindex = curHTML.indexOf(curhighlight,wdindex)
+    }
+
+    var endspace = curHTML.indexOf("</span>",wdindex+1) + 7;
+    var startspace = curHTML.lastIndexOf("<span ",wdindex);
+    var startcontent = curHTML.indexOf(">",wdindex)+1;
+//	console.log("Indices: " + wdindex + '  ' + endspace );   
+//	console.log("String 1: " + curHTML.substring(0,wdindex-1));   
+//	console.log("String 2: " + curHTML.substring(wdindex-13,endspace));   
+//    curstr = curHTML.substring(wdindex+curhighlight.length+2,endspace-7)
+//	console.log("curstr: " + curstr);   
+    curstr = curHTML.substring(startcontent,endspace-7) // global which has the current highlighted content
+    curHTML = curHTML.substring(0,startspace) + "<span class='highlight'>" + curHTML.substring(startspace,endspace) + "</span>" + curHTML.substring(endspace);
+//	console.log("curHTML: " + curHTML);   
+    inputText.innerHTML = curHTML;
+    wdindex = endspace + 1;
+    if (wdindex >= glinner.length) { wdindex = 0}  // should that be curHTML?
+    // not sure why I have to reset this but it works <15.06.11>: probably because I reset innerHTML
+    var list = document.getElementsByClassName(curhighlight);
+    for (var i = 0; i < list.length; i++) {
+        list[i].style.color="red";
+    }
+}
+
+function coloraclass(curclass, thisfield)
+// changes color of the words in the class and reverts existing highlighted words to black
+// <15.06.11>: basically this is just an initialization routine
+{
+//	var elem = document.getElementById(curclass);
+//    var theclass = "mk" + theprefix
+//    var list = document.getElementsByClassName(theclass);
+//    for (var i = 0; i < list.length; i++) {
+//        list[i].style.color="red";
+//    }
+	curfield = thisfield;  // text entry field which we are trying to fill
+    curhighlight = curclass;
+    wdindex = 0;
+//    console.log("glinner: " + glinner);   
+    var list = document.getElementsByClassName(curhighlight);
+    nexthightag();  // this actually does the coloring
+    document.getElementById("inputText").focus()
+}
+function dokeypress(evt){
+    var charCode = evt.keyCode
+//    console.log('Char '+charCode );
+}
+
+function dokeydown(evt)
+// it would be nice to have the down key get either a selection or the highlighted
+// text, depending on whether a selection had been made, but haven't figured that one out yet
+
+{
+    var charCode = evt.keyCode
+    console.log('Down '+charCode );
+    if (charCode == 39) {nexthightag()}  // right arrow
+    if (charCode == 40) {  // down arrow
+    	var elem = document.getElementById(curfield);
+        console.log("curword: " + curstr + " curfield: " + curfield); 
+        elem.value = curstr;
+    }
+    if (charCode == 37) {  // down arrow
+    	var elem = document.getElementById(curfield);
+        if (document.getSelection) {
+            elem.value = document.getSelection().toString();
+	        console.log("selection2: " + elem.value);             
+        }  
+    }
+}
+</script>
+
+<!--<button onclick="nexthightag()">Tag wordset</button>
+<button onclick="nextword()">Next word</button>-->
+
+<h2>Document: {{docidst}}</h2>
+{% if doccmtst %}
+<h3>Comments: {{doccmtst}}</h3>
+{% endif %}
+<div id="inputText" style="float:left; width:48%;height:90%;line-height:1.5em;padding:5px;border:4px double #DEBB07; overflow:auto">
+{% autoescape off %}
+	{{markedtext}}
+{% endautoescape %}
+</div>
+
+<form action="djciv_data/save_and_return" method = "post">{% csrf_token %}
+{% autoescape off %}
+    {{form_content}}
+{% endautoescape %}
+
+<div id="submitArea" style="clear:both; float:bottom; height:20px;padding:10px;border:2px dotted green;">
+<b>Options after saving:</b>
+<button type="submit">Return to this collection</button>
+<button type="submit" formaction="djciv_data/save_and_new">Select new collection</button>
+<button type="submit" formaction="djciv_data/setup_download">Download data</button>
+</div>
+</form>
+</body>
+</html>

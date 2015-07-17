@@ -1,0 +1,45 @@
+collid: TestTexts_003
+colldate: 2015-06-08
+colledit: 2015-06-08
+collcmt: Text file source: Apr15.OTH.stories.txt
+
+texts:
+
+  - textid: TestTexts_004_001
+    textdate: 2000-01-01
+    textpublisher: BBC Monitoring South Asia
+    textpubid: BBCSAP
+    textbiblio:  BBCSAP0020150401eb4100231
+    textgeogloc: 
+    textlang: English
+    textlicense: (c) 2015 The British Broadcasting Corporation. All Rights Reserved. No material may be reproduced except with the express permission of The British Broadcasting Corporation.   
+    textlede: Bangladesh: Rights group says 64 killed in police custody, cross-fire
+    textcmt: 
+    textoriginal: |
+        Text of report headlined "ASK report Jan-Mar, 64 killed in 'crossfire', custody" published by Bangladeshi newspaper The Daily Star website on 1 April
+        
+        As many as 64 people were killed in custody of law enforcers and so-called crossfire in the first three months of the year, said rights organization Ain o Salish Kendra (ASK).
+        
+        Of them, 46 people were killed in so-called crossfire - 15 by Rapid Action Battalion (Rab), 24 by police and seven by other law enforcement agencies.
+        
+        The number of people who died in custody between January and March is 18. Ten of them were killed in police and detective firing, according to a statement of the rights watchdog last night.
+        
+        Contacted, Deputy Director Maj Rumman Mahmud of the Rab's Legal and Media Wing said they were yet to see the report and would comment after going through it.
+        
+        The ASK statement was prepared on the basis of reports published in the national dailies and its own findings on incidents of human rights violation.
+        
+    textmkup: |
+        Text of report headlined "ASK report Jan-Mar, 64 killed in 'crossfire', custody" published by Bangladeshi newspaper The Daily Star website on 1 April
+        
+        As many as 64 people were killed in custody of law enforcers and so-called crossfire in the first three months of the year, said rights organization Ain o Salish Kendra (ASK).
+        
+        Of them, 46 people were killed in so-called crossfire - 15 by Rapid Action Battalion (Rab), 24 by police and seven by other law enforcement agencies.
+        
+        The number of people who died in custody between January and March is 18. Ten of them were killed in police and detective firing, according to a statement of the rights watchdog last night.
+        
+        Contacted, Deputy Director Maj Rumman Mahmud of the Rab's Legal and Media Wing said they were yet to see the report and would comment after going through it.
+        
+        The ASK statement was prepared on the basis of reports published in the national dailies and its own findings on incidents of human rights violation.
+        
+    textmkupdate: 2015-06-08
+

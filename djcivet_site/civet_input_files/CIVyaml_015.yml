@@ -1,0 +1,27 @@
+collid: TestTexts_014
+colldate: 2015-06-08
+colledit: 2015-06-08
+collcmt: Text file source: Apr15.OTH.stories.txt
+
+texts:
+
+  - textid: TestTexts_015_001
+    textdate: 2000-01-01
+    textpublisher: BBC Monitoring Newsfile
+    textpubid: BBCMNF
+    textbiblio:  BBCMNF0020150415eb4f001b9
+    textgeogloc: 
+    textlang: English
+    textlicense: (c) 2015 The British Broadcasting Corporation. All Rights Reserved. No material may be reproduced except with the express permission of The British Broadcasting Corporation.   
+    textlede: Six killed and 12 injured in Saudi raid on north of Yemen - TV
+    textcmt: 
+    textoriginal: |
+        "Al-Alam correspondent: Six deaths and 12 injuries in initial toll for Saudi raids on petrol stations in Sa'ada governorate, northern Yemen", Al-Alam channel reported in an "urgent" screen caption at 1030 gmt on 15 April.
+        
+        Source: Al-Alam TV, Tehran, in Arabic 1030 gmt 15 Apr 15
+    textmkup: |
+        "Al-Alam correspondent: Six deaths and 12 injuries in initial toll for Saudi raids on petrol stations in Sa'ada governorate, northern Yemen", Al-Alam channel reported in an "urgent" screen caption at 1030 gmt on 15 April.
+        
+        Source: Al-Alam TV, Tehran, in Arabic 1030 gmt 15 Apr 15
+    textmkupdate: 2015-06-08
+

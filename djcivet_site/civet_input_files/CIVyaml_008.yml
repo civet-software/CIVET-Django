@@ -1,0 +1,64 @@
+collid: TestTexts_007
+colldate: 2015-06-08
+colledit: 2015-06-08
+collcmt: Text file source: Apr15.OTH.stories.txt
+
+texts:
+
+  - textid: TestTexts_008_001
+    textdate: 2000-01-01
+    textpublisher: BBC Monitoring Middle East
+    textpubid: BBCMEP
+    textbiblio:  BBCMEP0020150405eb45001jl
+    textgeogloc: 
+    textlang: English
+    textlicense: (c) 2015 The British Broadcasting Corporation. All Rights Reserved. No material may be reproduced except with the express permission of The British Broadcasting Corporation.   
+    textlede: Six killed in suicide attack in Libyan town
+    textcmt: 
+    textoriginal: |
+        Six people were killed in a suicide attack that targeted Al-Sidadah gate in Misratah (east of Tripoli) on 5 April.
+        
+        The official Libyan news agency WAL correspondent said two children died after they arrived to Misratah hospital. The children's mother was also killed in the attack. The suicide attack left 12 injured.
+        
+        Source: WAL (also known as LANA) news agency, Tripoli, in Arabic 0848 gmt 5 Apr 15
+    textmkup: |
+        Six people were killed in a suicide attack that targeted Al-Sidadah gate in Misratah (east of Tripoli) on 5 April.
+        
+        The official Libyan news agency WAL correspondent said two children died after they arrived to Misratah hospital. The children's mother was also killed in the attack. The suicide attack left 12 injured.
+        
+        Source: WAL (also known as LANA) news agency, Tripoli, in Arabic 0848 gmt 5 Apr 15
+    textmkupdate: 2015-06-08
+
+
+  - textid: TestTexts_008_003
+    textdate: 2000-01-01
+    textpublisher: Associated Press Newswires
+    textpubid: APRS
+    textbiblio:  APRS000020150405eb45005xg
+    textgeogloc: TRIPOLI
+    textlang: English
+    textlicense: (c) 2015.  The Associated Press.  All Rights Reserved.   
+    textlede: Suicide car bomb near Libya's Misrata kills 6 people
+    textcmt: 
+    textoriginal: |
+        The official media agency for Libya's milita-backed government says a suicide car <b>bomb killed</b> 6 people near the western city of Misrata.
+        
+        It says that the dead from Saturday's bombing included a mother and her two sons, and that 21 others were injured.
+        
+        A security official from Misrata, speaking on condition of anonymity because he was not authorized to speak to journalists, says that most of the wounded were militiamen guarding a gate to the city, the apparent target of the attack.
+        
+        Militias from Misrata serve as a key power base for Libya's Tripoli-based government. Misrata has recently sent its militias to battle Islamic State-affiliated militants who control the central Libyan city of Sirte.
+        
+        Libya has two rival governments claiming legitimacy as their allied militias fight across the country.
+    textmkup: |
+        The official media agency for Libya's milita-backed government says a suicide car <b>bomb killed</b> 6 people near the western city of Misrata.
+        
+        It says that the dead from Saturday's bombing included a mother and her two sons, and that 21 others were injured.
+        
+        A security official from Misrata, speaking on condition of anonymity because he was not authorized to speak to journalists, says that most of the wounded were militiamen guarding a gate to the city, the apparent target of the attack.
+        
+        Militias from Misrata serve as a key power base for Libya's Tripoli-based government. Misrata has recently sent its militias to battle Islamic State-affiliated militants who control the central Libyan city of Sirte.
+        
+        Libya has two rival governments claiming legitimacy as their allied militias fight across the country.
+    textmkupdate: 2015-06-08
+

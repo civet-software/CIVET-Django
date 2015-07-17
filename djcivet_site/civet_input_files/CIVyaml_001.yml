@@ -1,0 +1,116 @@
+collid: TestTexts_000
+colldate: 2015-06-08
+colledit: 2015-06-08
+collcmt: Text file source: Apr15.OTH.stories.txt
+
+texts:
+
+  - textid: TestTexts_001_001
+    textdate: 2000-01-01
+    textpublisher: Agence France Presse
+    textpubid: AFPR
+    textbiblio:  AFPR000020150401eb41009st
+    textgeogloc: 
+    textlang: English
+    textlicense: Copyright Agence France-Presse, 2015 All reproduction and presentation rights reserved.   
+    textlede: Dozens dead as dairy bombed in war-torn Yemen
+    textcmt: 
+    textoriginal: |
+        Dozens of civilians were reported killed Wednesday when a dairy was bombed in Yemen, as aid groups warned of a brewing humanitarian crisis from the Saudi-led coalition's strikes on Shiite rebels.
+        
+        Yemen's foreign minister called for the coalition to send in ground troops, saying that, "at some stage, air strikes will be ineffective".
+        
+        Diplomats said meanwhile that Gulf countries were locked in tough negotiations with Russia on a UN draft resolution to impose an arms embargo and sanctions on the Huthi Shiite rebels.
+        
+        But rights groups have voiced growing alarm about civilian casualties from the nearly week-old air war aimed at preventing the fall of President Abedrabbo Mansour Hadi.
+        
+        At least 37 workers were killed and 80 wounded overnight at the dairy in the Red Sea port of Hodeida, Governor Hasan al-Hai said, without specifying whether the plant was hit by an air strike or rebel shelling.
+        
+        Health authorities said 35 people were killed and dozens wounded, and that rescuers had to search for survivors under the rubble of the partly destroyed factory.
+        
+    textmkup: |
+        Dozens of civilians were reported killed Wednesday when a dairy was bombed in Yemen, as aid groups warned of a brewing humanitarian crisis from the Saudi-led coalition's strikes on Shiite rebels.
+        
+        Yemen's foreign minister called for the coalition to send in ground troops, saying that, "at some stage, air strikes will be ineffective".
+        
+        Diplomats said meanwhile that Gulf countries were locked in tough negotiations with Russia on a UN draft resolution to impose an arms embargo and sanctions on the Huthi Shiite rebels.
+        
+        But rights groups have voiced growing alarm about civilian casualties from the nearly week-old air war aimed at preventing the fall of President Abedrabbo Mansour Hadi.
+        
+        At least 37 workers were killed and 80 wounded overnight at the dairy in the Red Sea port of Hodeida, Governor Hasan al-Hai said, without specifying whether the plant was hit by an air strike or rebel shelling.
+        
+        Health authorities said 35 people were killed and dozens wounded, and that rescuers had to search for survivors under the rubble of the partly destroyed factory.
+        
+    textmkupdate: 2015-06-08
+
+
+  - textid: TestTexts_001_003
+    textdate: 2000-01-01
+    textpublisher: BBC Monitoring Newsfile
+    textpubid: BBCMNF
+    textbiblio:  BBCMNF0020150401eb41002mi
+    textgeogloc: 
+    textlang: English
+    textlicense: (c) 2015 The British Broadcasting Corporation. All Rights Reserved. No material may be reproduced except with the express permission of The British Broadcasting Corporation.   
+    textlede: "Nineteen killed, 76 wounded" in clashes in Yemen's Aden
+    textcmt: 
+    textoriginal: |
+        "Medical source to Al-Jazeera: Nineteen killed, 76 wounded in ongoing clashes in Aden, southern Yemen," Qatar-based Al-Jazeera TV reported in an "urgent" screen caption at 2024 gmt on 1 April.
+        
+        Source: Al-Jazeera TV, Doha, in Arabic 2024 gmt 1 Apr 15
+    textmkup: |
+        "Medical source to Al-Jazeera: Nineteen killed, 76 wounded in ongoing clashes in Aden, southern Yemen," Qatar-based Al-Jazeera TV reported in an "urgent" screen caption at 2024 gmt on 1 April.
+        
+        Source: Al-Jazeera TV, Doha, in Arabic 2024 gmt 1 Apr 15
+    textmkupdate: 2015-06-08
+
+
+  - textid: TestTexts_001_005
+    textdate: 2000-01-01
+    textpublisher: Agence France Presse
+    textpubid: AFPR
+    textbiblio:  AFPR000020150401eb41004s9
+    textgeogloc: 
+    textlang: English
+    textlicense: Copyright Agence France-Presse, 2015 All reproduction and presentation rights reserved.   
+    textlede: 37 dead in bombing of dairy in west Yemen: provincial governor
+    textcmt: 
+    textoriginal: |
+        At least 37 people were killed when a dairy in western Yemen was bombed overnight, an official said Wednesday after a seventh night of Saudi-led air strikes against Shiite rebels.
+        
+        Eighty others were wounded at the plant in Hodeida, provincial governor Hasan al-Hai said, without specifying whether the factory was hit by an air strike or rebel shelling.
+        
+        jj-mh/ak/dr/pg
+    textmkup: |
+        At least 37 people were killed when a dairy in western Yemen was bombed overnight, an official said Wednesday after a seventh night of Saudi-led air strikes against Shiite rebels.
+        
+        Eighty others were wounded at the plant in Hodeida, provincial governor Hasan al-Hai said, without specifying whether the factory was hit by an air strike or rebel shelling.
+        
+        jj-mh/ak/dr/pg
+    textmkupdate: 2015-06-08
+
+
+  - textid: TestTexts_001_007
+    textdate: 2000-01-01
+    textpublisher: NYTFEED
+    textpubid: English
+    textbiblio:  NYTFEED020150401eb420030d
+    textgeogloc: 
+    textlang: Copyright 2015. The New York Times Company. All Rights Reserved.  
+    textlicense: 
+    textlede: Explosion at Dairy Factory in Yemen Kills Dozens
+    textcmt: 
+    textoriginal: |
+        
+        Witnesses reported fierce street battles and high civilian casualties in the Yemeni city on Wednesday night, including in the Khormakser district along the coast. Local journalists said the Houthis were facing stiff resistance from fighters allied with the exiled president, Abdu Rabbu Mansour Hadi  [http://www.nytimes.com/2015/02/22/world/africa/yemens-former-president-flees-capital.html].
+        
+        A Houthi victory in Aden, Yemen  [http://topics.nytimes.com/top/news/international/countriesandterritories/yemen/index.html?inline=nyt-geo]’s second largest city, would represent a significant setback for the Saudi-led military coalition, which has declared an open-ended operation intended to restore Mr. Hadi to power. &nbsp;Houthi control of the city would likely expose it to even greater turmoil, as local fighters opposed to the Houthis continued to resist their presence, and as coalition forces intensify their efforts to dislodge the Houthis using airstrikes and naval shelling.
+        
+    textmkup: |
+        
+        Witnesses reported fierce street battles and high civilian casualties in the Yemeni city on Wednesday night, including in the Khormakser district along the coast. Local journalists said the Houthis were facing stiff resistance from fighters allied with the exiled president, Abdu Rabbu Mansour Hadi  [http://www.nytimes.com/2015/02/22/world/africa/yemens-former-president-flees-capital.html].
+        
+        A Houthi victory in Aden, Yemen  [http://topics.nytimes.com/top/news/international/countriesandterritories/yemen/index.html?inline=nyt-geo]’s second largest city, would represent a significant setback for the Saudi-led military coalition, which has declared an open-ended operation intended to restore Mr. Hadi to power. &nbsp;Houthi control of the city would likely expose it to even greater turmoil, as local fighters opposed to the Houthis continued to resist their presence, and as coalition forces intensify their efforts to dislodge the Houthis using airstrikes and naval shelling.
+        
+    textmkupdate: 2015-06-08
+

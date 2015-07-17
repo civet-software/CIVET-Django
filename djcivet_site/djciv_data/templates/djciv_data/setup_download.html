@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>CIVET Download</title>
+    <meta name="generator" content="BBEdit 11.0" />
+</head>
+<body>
+<!--<form action="djciv_data/do_download" method = "post">{% csrf_token %} -->
+<form action="djciv_data/{{download_action}}" method = "post">{% csrf_token %} 
+<h1>Download CIVET data:</h1>
+<h2>Enter name of output file:</h2>
+<input type="text" name="filename" value="{{filename}}" size = "64">
+[".txt" suffix will automatically be added]
+
+<br><br><button type="submit">Download file</button>
+</form>
+<h3>To continue, use one of the following links:</h3>
+<ul>
+<li><a href="djciv_data/reset_data">Start new data file</a></li>
+<li><a href="djciv_data/continue_coding">Continue coding</a></li>
+<li><a href="djciv_data/home">Return to home page</a></li>
+</ul><h3>To quit, just close the window</h3>
+
+<h3>Note 15.07.09</h3>
+<p>This is currently the same for the basic and collection-based coding, whereas these should probably have different sets of options
+
+</body>
+</html>

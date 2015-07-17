@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>CIVET Collection Selection</title>
+    <meta name="generator" content="BBEdit 11.0" />
+</head>
+<body>
+<form method="POST" action="edit_collection">{% csrf_token %}
+
+<H1>Select a collection to edit:</H1>
+
+<b>Note 10-July-2015</b>: These collections are currently hard-coded in the system. In the operational system, these will be
+uploaded in a zipped directory.
+<p>
+<select name="current_collection">
+    <option value="">Select a collection</option>
+{% for option in files %}
+    <option value="{{ option }}">{{ option }}</option> 
+{% endfor %}
+</select>
+
+<h2><input type="submit" id="submit" name="submit" value="Annotate the collection" >
+<input type="submit"  formaction="code_collection" value="Code the collection" ></h2>
+
+</form>
+<h3>Operating instructions for the text-extraction demonstration are <a href="djciv_data/operating_instructions">here</a></h3>
+
+</body>
+</html>

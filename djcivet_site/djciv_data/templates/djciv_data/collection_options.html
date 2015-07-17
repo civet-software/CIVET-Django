@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>CIVET File Selection</title>
+    <meta name="generator" content="BBEdit 11.0" />
+</head>
+<body>
+<form method="POST" action="select_collection">{% csrf_token %}
+
+<H1>Active collection:{{ active_coll }}</H1>
+
+<h2>Select an action: <br>
+<ul>
+<li><input type="submit" id="submit" value="Select a new collection" >
+<li><input type="submit"  formaction="edit_collection" value="Edit the current collection" >
+<li><input type="submit"  formaction="code_collection" value="Code from the current collection" >
+<li><input type="submit"  formaction="save_collections" value="Save active collection to local disk" >
+<li><input type="submit"  formaction="save_data" value="Save data to local disk" >
+<li><input type="submit"  formaction="save_all" value="Save all collections and data to local disk" >
+<li><input type="submit"  formaction="sort_collections" value="Sort files [not implemented]" ></h2>
+</ul>
+</form>
+<h3>Operating instructions for the text-extraction demonstration are <a href="/operating">here</a></h3>
+
+</body>
+</html>

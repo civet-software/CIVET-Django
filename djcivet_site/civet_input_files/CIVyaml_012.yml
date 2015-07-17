@@ -1,0 +1,48 @@
+collid: TestTexts_011
+colldate: 2015-06-08
+colledit: 2015-06-08
+collcmt: Text file source: Apr15.OTH.stories.txt
+
+texts:
+
+  - textid: TestTexts_012_001
+    textdate: 2000-01-01
+    textpublisher: BBC Monitoring Newsfile
+    textpubid: BBCMNF
+    textbiblio:  BBCMNF0020150410eb4a001gt
+    textgeogloc: 
+    textlang: English
+    textlicense: (c) 2015 The British Broadcasting Corporation. All Rights Reserved. No material may be reproduced except with the express permission of The British Broadcasting Corporation.   
+    textlede: "Suicide <b>bombing kills</b> 40, wounds dozens" in southeast Yemen's Shabwa province
+    textcmt: 
+    textoriginal: |
+        "Al-Jazeera correspondent: 40 killed and dozens wounded by a suicide bombing in a police station in Bayhan in [south-eastern province of] Shabwa," the Qatari government-funded, pan-Arab news channel Al-Jazeera satellite TV reported in an "urgent" screen caption at 1302 on 10 April.
+        
+        Source: Al-Jazeera TV, Doha, in Arabic 1302 gmt 10 Apr 15
+    textmkup: |
+        "Al-Jazeera correspondent: 40 killed and dozens wounded by a suicide bombing in a police station in Bayhan in [south-eastern province of] Shabwa," the Qatari government-funded, pan-Arab news channel Al-Jazeera satellite TV reported in an "urgent" screen caption at 1302 on 10 April.
+        
+        Source: Al-Jazeera TV, Doha, in Arabic 1302 gmt 10 Apr 15
+    textmkupdate: 2015-06-08
+
+
+  - textid: TestTexts_012_003
+    textdate: 2000-01-01
+    textpublisher: Reuters News
+    textpubid: LBA
+    textbiblio:  LBA0000020150410eb4a00ga9
+    textgeogloc: ADEN
+    textlang: English
+    textlicense: Copyright 2015 Thomson Reuters. All Rights Reserved.  
+    textlede: Car bomb in central Yemen kills at least 7 - residents
+    textcmt: 
+    textoriginal: |
+        A car bomb detonated outside a security building used by Houthi militiamen in central Yemen on Friday, killing at least seven people and wounding dozens, residents and a local official said.
+        
+        The city of Bayhan in Shabwa province has witnessed heavy fighting between the Iran-allied Houthi fighters and local militiamen who have been supported by days of Saudi-led air strikes. (Reporting By Mohammed Mukhashaf and Mohammed Ghobari; Writing by Noah Browning; Editing by Andrew Heavens) 
+    textmkup: |
+        A car bomb detonated outside a security building used by Houthi militiamen in central Yemen on Friday, killing at least seven people and wounding dozens, residents and a local official said.
+        
+        The city of Bayhan in Shabwa province has witnessed heavy fighting between the Iran-allied Houthi fighters and local militiamen who have been supported by days of Saudi-led air strikes. (Reporting By Mohammed Mukhashaf and Mohammed Ghobari; Writing by Noah Browning; Editing by Andrew Heavens) 
+    textmkupdate: 2015-06-08
+

@@ -1,0 +1,74 @@
+collid: TestTexts_006
+colldate: 2015-06-08
+colledit: 2015-06-08
+collcmt: Text file source: Apr15.OTH.stories.txt
+
+texts:
+
+  - textid: TestTexts_007_001
+    textdate: 2000-01-01
+    textpublisher: Reuters News
+    textpubid: LBA
+    textbiblio:  LBA0000020150404eb44006mx
+    textgeogloc: 
+    textlang: English
+    textlicense: Copyright 2015 Thomson Reuters. All Rights Reserved.   
+    textlede: CORRECTED-Yemen air strike kills family of nine - residents
+    textcmt: 
+    textoriginal: |
+        (Corrects date in 5th paragraph to April not March)
+        
+        SANAA, April 4 (Reuters) - An air strike on a village near the Yemeni capital Sanaa killed a family of nine, residents said on Saturday, in what appeared to be a hit by the Saudi-led military campaign against Houthi militia.
+        
+        Five other people were wounded and some citizens remained under the rubble, state news agency Saba said.
+        
+        The operation by Saudi Arabia and other Sunni Muslim states is aimed at stopping the Iranian-allied Houthis and former president Ali Abdullah Saleh winning control of Yemen, and at reinstating Saudi-backed President Abd-Rabbu Mansour Hadi.
+        
+        Residents near Okash village, which is near an air force camp on Jebel al-Nabi Shouieb mountain, said the air strike was on Friday night and killed nine people.
+        
+        Saba said the family consisted of two men, a woman and six children. It posted a picture on its website showing three children lying next to each other with pieces of papers with the date April 3, 2015 written on them. Reuters could not immediately verify the authenticity of photo.
+        
+    textmkup: |
+        (Corrects date in 5th paragraph to April not March)
+        
+        SANAA, April 4 (Reuters) - An air strike on a village near the Yemeni capital Sanaa killed a family of nine, residents said on Saturday, in what appeared to be a hit by the Saudi-led military campaign against Houthi militia.
+        
+        Five other people were wounded and some citizens remained under the rubble, state news agency Saba said.
+        
+        The operation by Saudi Arabia and other Sunni Muslim states is aimed at stopping the Iranian-allied Houthis and former president Ali Abdullah Saleh winning control of Yemen, and at reinstating Saudi-backed President Abd-Rabbu Mansour Hadi.
+        
+        Residents near Okash village, which is near an air force camp on Jebel al-Nabi Shouieb mountain, said the air strike was on Friday night and killed nine people.
+        
+        Saba said the family consisted of two men, a woman and six children. It posted a picture on its website showing three children lying next to each other with pieces of papers with the date April 3, 2015 written on them. Reuters could not immediately verify the authenticity of photo.
+        
+    textmkupdate: 2015-06-08
+
+
+  - textid: TestTexts_007_003
+    textdate: 2000-01-01
+    textpublisher: NYTFEED
+    textpubid: English
+    textbiblio:  NYTFEED020150404eb45004s9
+    textgeogloc: 
+    textlang: Copyright 2015. The New York Times Company. All Rights Reserved.   
+    textlicense: 
+    textlede: Apparent Saudi Strike Kills at Least Nine in Yemeni Family
+    textcmt: 
+    textoriginal: |
+        
+        Village residents gave a higher toll, saying that as many as 11 members of the Okaish family, including five children, were killed in the bombing on Friday. The airstrike may have been intended for an air defense base about a mile and half away, a Yemen Interior Ministry official said.
+        
+        Bombings attributed to the coalition have killed dozens of civilians since the start of the Saudi-led air offensive[http://www.nytimes.com/2015/04/03/world/middleeast/yemen-al-qaeda-attack.html?ref=middleeast] intended to cripple the Houthis, a Yemeni militia that has gained control of Sana and other parts of Yemen[http://www.nytimes.com/2015/04/04/world/middleeast/al-qaeda-al-mukalla-yemen.html?ref=middleeast] in the past eight months.
+        
+        The Saudi intervention, which began in late March, has exacerbated the fighting in Yemen’s civil conflict and effectively blockaded the country, starving cities and towns of essential supplies and making it increasingly difficult for civilians to flee.
+        
+    textmkup: |
+        
+        Village residents gave a higher toll, saying that as many as 11 members of the Okaish family, including five children, were killed in the bombing on Friday. The airstrike may have been intended for an air defense base about a mile and half away, a Yemen Interior Ministry official said.
+        
+        Bombings attributed to the coalition have killed dozens of civilians since the start of the Saudi-led air offensive[http://www.nytimes.com/2015/04/03/world/middleeast/yemen-al-qaeda-attack.html?ref=middleeast] intended to cripple the Houthis, a Yemeni militia that has gained control of Sana and other parts of Yemen[http://www.nytimes.com/2015/04/04/world/middleeast/al-qaeda-al-mukalla-yemen.html?ref=middleeast] in the past eight months.
+        
+        The Saudi intervention, which began in late March, has exacerbated the fighting in Yemen’s civil conflict and effectively blockaded the country, starving cities and towns of essential supplies and making it increasingly difficult for civilians to flee.
+        
+    textmkupdate: 2015-06-08
+

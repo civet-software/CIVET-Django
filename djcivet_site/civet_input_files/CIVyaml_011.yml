@@ -1,0 +1,76 @@
+collid: TestTexts_010
+colldate: 2015-06-08
+colledit: 2015-06-08
+collcmt: Text file source: Apr15.OTH.stories.txt
+
+texts:
+
+  - textid: TestTexts_011_001
+    textdate: 2000-01-01
+    textpublisher: Agence France Presse
+    textpubid: AFPR
+    textbiblio:  AFPR000020150409eb4900461
+    textgeogloc: 
+    textlang: English
+    textlicense: Copyright Agence France-Presse, 2015 All reproduction and presentation rights reserved.   
+    textlede: Mortar fire kills 11 civilians in Egypt's Sinai
+    textcmt: 
+    textoriginal: |
+        Mortar fire has killed 11 civilians, all but one of them women and children, in Egypt's North Sinai, where the government is battling an Islamist insurgency, police and medics said Thursday.
+        
+        The mortar rounds, which hit two houses in a village southeast of the provincial capital El-Arish Wednesday night, also wounded six people, the officials said without specifying who was behind the attack.
+        
+        Sinai is a hotbed of a jihadist group once known as Ansar Beit al-Maqdis, which changed its named to Sinai Province after pledging allegiance last year to the Islamic State (IS) group.
+        
+        In a separate incident in the same area, a roadside bomb targeting an armoured personnel carrier killed two police and wounded three, police said.
+        
+        On April 2, Sinai Province claimed a series of simultaneous attacks that killed 15 soldiers and two civilians in the restive peninsula.
+        
+        The group has killed scores of security personnel since the army ousted Islamist president Mohamed Morsi in 2013. It says its attacks are in retaliation for the brutal crackdown against Islamists that left hundreds dead and thousands jailed.
+        
+    textmkup: |
+        Mortar fire has killed 11 civilians, all but one of them women and children, in Egypt's North Sinai, where the government is battling an Islamist insurgency, police and medics said Thursday.
+        
+        The mortar rounds, which hit two houses in a village southeast of the provincial capital El-Arish Wednesday night, also wounded six people, the officials said without specifying who was behind the attack.
+        
+        Sinai is a hotbed of a jihadist group once known as Ansar Beit al-Maqdis, which changed its named to Sinai Province after pledging allegiance last year to the Islamic State (IS) group.
+        
+        In a separate incident in the same area, a roadside bomb targeting an armoured personnel carrier killed two police and wounded three, police said.
+        
+        On April 2, Sinai Province claimed a series of simultaneous attacks that killed 15 soldiers and two civilians in the restive peninsula.
+        
+        The group has killed scores of security personnel since the army ousted Islamist president Mohamed Morsi in 2013. It says its attacks are in retaliation for the brutal crackdown against Islamists that left hundreds dead and thousands jailed.
+        
+    textmkupdate: 2015-06-08
+
+
+  - textid: TestTexts_011_003
+    textdate: 2000-01-01
+    textpublisher: BBC Monitoring Newsfile
+    textpubid: BBCMNF
+    textbiblio:  BBCMNF0020150409eb49001b9
+    textgeogloc: 
+    textlang: English
+    textlicense: (c) 2015 The British Broadcasting Corporation. All Rights Reserved. No material may be reproduced except with the express permission of The British Broadcasting Corporation.   
+    textlede: Twelve civilians killed in North Sinai attack
+    textcmt: 
+    textoriginal: |
+        Egyptian media have reported the death of a dozen civilians in an attack in the city of Shaykh Zuwayid in North Sinai on 8 April.
+        
+        Media outlets, however, differed in their reporting about the source of the attack. While the official news agency (MENA) reported that "Takfiris bombarded houses with mortar shells" during "clashes with security forces in Shaykh Zuwayid in North Sinai", state-owned Al-Ahram website quoted Health Ministry Undersecretary for North Sinai Tariq Khatir as saying that "an unknown rocket-propelled grenade hit houses of citizens".
+        
+        Meanwhile, the Muslim Brotherhood's Freedom and Justice portal accused the military of "firing artillery shells at the residents houses". The website quoted the "Sinai human rights violations unit at the Egyptian Observatory of Rights and Freedom" as saying that "the Egyptian army has carried out a new massacre against civilians".
+        
+        According to MENA, the Health Ministry said that 12 civilians were killed and five others wounded in the attack.
+        
+    textmkup: |
+        Egyptian media have reported the death of a dozen civilians in an attack in the city of Shaykh Zuwayid in North Sinai on 8 April.
+        
+        Media outlets, however, differed in their reporting about the source of the attack. While the official news agency (MENA) reported that "Takfiris bombarded houses with mortar shells" during "clashes with security forces in Shaykh Zuwayid in North Sinai", state-owned Al-Ahram website quoted Health Ministry Undersecretary for North Sinai Tariq Khatir as saying that "an unknown rocket-propelled grenade hit houses of citizens".
+        
+        Meanwhile, the Muslim Brotherhood's Freedom and Justice portal accused the military of "firing artillery shells at the residents houses". The website quoted the "Sinai human rights violations unit at the Egyptian Observatory of Rights and Freedom" as saying that "the Egyptian army has carried out a new massacre against civilians".
+        
+        According to MENA, the Health Ministry said that 12 civilians were killed and five others wounded in the attack.
+        
+    textmkupdate: 2015-06-08
+

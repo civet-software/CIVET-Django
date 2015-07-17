@@ -1,0 +1,33 @@
+collid: TestTexts_001
+colldate: 2015-06-08
+colledit: 2015-06-08
+collcmt: Text file source: Apr15.OTH.stories.txt
+
+texts:
+
+  - textid: TestTexts_002_001
+    textdate: 2000-01-01
+    textpublisher: BBC Monitoring Africa
+    textpubid: BBCAP
+    textbiblio:  BBCAP00020150401eb4100105
+    textgeogloc: 
+    textlang: English
+    textlicense: (c) 2015 The British Broadcasting Corporation. All Rights Reserved. No material may be reproduced except with the express permission of The British Broadcasting Corporation.   
+    textlede: Several people killed in clashes along Chadian-Libyan border
+    textcmt: 
+    textoriginal: |
+        Text of report by Chadian privately-owned, pro-government website Alwihda on 30 March
+        
+        Several people have been killed and others injured in violent clashes in Gotrone along the Chad-Libyan border. According to the latest information collected by AlwihdaInfo, since yesterday [29 March], a heavily armed group from Toubous is said to have been in hot pursuit of assailants who attacked one of their vehicles, leading to the death of two of their people.
+        
+        Yesterday afternoon, armed Chadian ethnic groups clashed violently at the Chad-Libyan border, specifically in Gotrone, Libya, near the Chadian border.According to several sources collected locally by AlwihdaInfo, a Wagna group (a Gourane ethnic group from Onianga Kebir) is said to have ambushed and opened fire on a vehicle belonging to the Toubous armed elements. These alleged attackers are said to have taken a huge quantity of drugs that their target was hiding. This Toubous group lost two of its people some were wounded.
+        
+    textmkup: |
+        Text of report by Chadian privately-owned, pro-government website Alwihda on 30 March
+        
+        Several people have been killed and others injured in violent clashes in Gotrone along the Chad-Libyan border. According to the latest information collected by AlwihdaInfo, since yesterday [29 March], a heavily armed group from Toubous is said to have been in hot pursuit of assailants who attacked one of their vehicles, leading to the death of two of their people.
+        
+        Yesterday afternoon, armed Chadian ethnic groups clashed violently at the Chad-Libyan border, specifically in Gotrone, Libya, near the Chadian border.According to several sources collected locally by AlwihdaInfo, a Wagna group (a Gourane ethnic group from Onianga Kebir) is said to have ambushed and opened fire on a vehicle belonging to the Toubous armed elements. These alleged attackers are said to have taken a huge quantity of drugs that their target was hiding. This Toubous group lost two of its people some were wounded.
+        
+    textmkupdate: 2015-06-08
+

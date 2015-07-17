@@ -1,0 +1,35 @@
+collid: TestTexts_009
+colldate: 2015-06-08
+colledit: 2015-06-08
+collcmt: Text file source: Apr15.OTH.stories.txt
+
+texts:
+
+  - textid: TestTexts_010_001
+    textdate: 2000-01-01
+    textpublisher: Agence France Presse
+    textpubid: AFPR
+    textbiblio:  AFPR000020150408eb48006sh
+    textgeogloc: 
+    textlang: English
+    textlicense: Copyright Agence France-Presse, 2015 All reproduction and presentation rights reserved.   
+    textlede: 22 dead in rebel shelling on Yemen's Aden
+    textcmt: 
+    textoriginal: |
+        At least 22 people were killed on Wednesday in tank and mortar shelling by rebel forces on residential areas in Yemen's second city Aden, a medic and a local official said.
+        
+        "Twenty-two dead and more than 70 wounded have been transferred to several hospitals in Aden," a medical official told AFP, adding that most of the casualties were civilians.
+        
+        A local official confirmed that rebel forces "randomly shelled... civilian homes" Mualla and Crater districts of Aden.
+        
+        faw/lyn/pg
+    textmkup: |
+        At least 22 people were killed on Wednesday in tank and mortar shelling by rebel forces on residential areas in Yemen's second city Aden, a medic and a local official said.
+        
+        "Twenty-two dead and more than 70 wounded have been transferred to several hospitals in Aden," a medical official told AFP, adding that most of the casualties were civilians.
+        
+        A local official confirmed that rebel forces "randomly shelled... civilian homes" Mualla and Crater districts of Aden.
+        
+        faw/lyn/pg
+    textmkupdate: 2015-06-08
+

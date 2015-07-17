@@ -1,0 +1,70 @@
+collid: TestTexts_012
+colldate: 2015-06-08
+colledit: 2015-06-08
+collcmt: Text file source: Apr15.OTH.stories.txt
+
+texts:
+
+  - textid: TestTexts_013_001
+    textdate: 2000-01-01
+    textpublisher: BBC Monitoring Newsfile
+    textpubid: BBCMNF
+    textbiblio:  BBCMNF0020150412eb4c00001
+    textgeogloc: 
+    textlang: English
+    textlicense: (c) 2015 The British Broadcasting Corporation. All Rights Reserved. No material may be reproduced except with the express permission of The British Broadcasting Corporation.   
+    textlede: Eleven reportedly killed, 20 injured in Saudi attack on Yemen's Ta'iz
+    textcmt: 
+    textoriginal: |
+        "The number of victims of the Saudi aggression on homes of marginalized people in Mawiyah area in Ta'iz [in Yemen] rises to 11 dead and 20 injured," Iranian Arabic-speaking Al-Alam TV said in an "urgent" caption at 1509 gmt on 12 April.
+        
+        The Saudi-led coalition started the "Decisive Storm" operation against Shi'i Huthi rebels in Yemen on 25 March. The coalition's air strikes are said to kill scores of civilians since the operation began.
+        
+        Source: Al-Alam TV, Tehran, in Arabic 0509gmt 12 Apr 15
+    textmkup: |
+        "The number of victims of the Saudi aggression on homes of marginalized people in Mawiyah area in Ta'iz [in Yemen] rises to 11 dead and 20 injured," Iranian Arabic-speaking Al-Alam TV said in an "urgent" caption at 1509 gmt on 12 April.
+        
+        The Saudi-led coalition started the "Decisive Storm" operation against Shi'i Huthi rebels in Yemen on 25 March. The coalition's air strikes are said to kill scores of civilians since the operation began.
+        
+        Source: Al-Alam TV, Tehran, in Arabic 0509gmt 12 Apr 15
+    textmkupdate: 2015-06-08
+
+
+  - textid: TestTexts_013_003
+    textdate: 2000-01-01
+    textpublisher: Reuters News
+    textpubid: LBA
+    textbiblio:  LBA0000020150412eb4c007k9
+    textgeogloc: ADEN
+    textlang: English
+    textlicense: Copyright 2015 Thomson Reuters. All Rights Reserved.   
+    textlede: Air strikes kill eight civilians in Yemen -medical source
+    textcmt: 
+    textoriginal: |
+        Saudi-led airstrikes targeting a military camp killed eight civilians in the central Yemeni city of Taiz on Sunday, a medical source said.
+        
+        The air raids were aimed at a site held by soldiers loyal to former Yemeni President Ali Abdullah Saleh, who have joined up with Iranian-allied Houthi rebels against local militias in the south, the source said.
+        
+        Saudi Arabia and its Sunni Arab allies began air strikes against the Houthis more than two weeks ago, hoping to halt their advance towards the southern port city of Aden.
+        
+        The campaign has raised fears that a sectarian proxy war between rivals Riyadh and Tehran will heat up and further destabilize the Middle East.
+        
+        Saleh is still highly influential in the military despite having given up power in 2012 after mass protests against his rule, and troops loyal to him are believed to be backing the Houthis.
+        
+        Saudi Arabia is concerned that the violence could spill over the border it shares with Yemen, and is also worried about the influence of Shi'ite Iran, which has denied Saudi allegations it has provided direct military support to the Houthis.
+        
+    textmkup: |
+        Saudi-led airstrikes targeting a military camp killed eight civilians in the central Yemeni city of Taiz on Sunday, a medical source said.
+        
+        The air raids were aimed at a site held by soldiers loyal to former Yemeni President Ali Abdullah Saleh, who have joined up with Iranian-allied Houthi rebels against local militias in the south, the source said.
+        
+        Saudi Arabia and its Sunni Arab allies began air strikes against the Houthis more than two weeks ago, hoping to halt their advance towards the southern port city of Aden.
+        
+        The campaign has raised fears that a sectarian proxy war between rivals Riyadh and Tehran will heat up and further destabilize the Middle East.
+        
+        Saleh is still highly influential in the military despite having given up power in 2012 after mass protests against his rule, and troops loyal to him are believed to be backing the Houthis.
+        
+        Saudi Arabia is concerned that the violence could spill over the border it shares with Yemen, and is also worried about the influence of Shi'ite Iran, which has denied Saudi allegations it has provided direct military support to the Houthis.
+        
+    textmkupdate: 2015-06-08
+

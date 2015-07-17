@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>CIVET Testbed page for CKEditor</title>
+        <!-- Make sure the path to CKEditor is correct.-->
+        <script type="text/javascript" src="/static/djciv_data/ckeditor/ckeditor.js"></script>
+        <link rel="stylesheet" type="text/css" href="/static/djciv_data/civetstyle.css" />  <!-- is this needed? -->
+    </head>
+    <body>
+        <form method="POST" action="save_edits">{% csrf_token %}
+            <h1>Collection: {{ current_collection }}</H1>
+            <textarea name="editor1" id="editor1" rows="40" cols="80">
+              {% autoescape off %}
+               {{ thetext }}            
+              {% endautoescape %}
+            </textarea>
+            <script>
+                // Replace the <textarea id="editor1"> with a CKEditor
+                // instance, using a custom configuration.
+                CKEDITOR.replace( 'editor1');
+               // CKEDITOR.replace( 'editor1', {customConfig: 'testbed.config.js'});
+            </script> 
+        <h2><input type="submit"  value="Save edits and select new collection" >
+        <input type="submit"  formaction="code_collection" value="Save edits and code the collection" ></h2>
+        <input type="submit"  formaction="cancel_edits" value="Discard edits and select new collection" ></h2>
+        <input type="submit"  formaction="apply_markup" value="Apply automatic markup" ></h2>
+        </form>
+    </body>
+</html>

@@ -1,0 +1,39 @@
+collid: TestTexts_005
+colldate: 2015-06-08
+colledit: 2015-06-08
+collcmt: Text file source: Apr15.OTH.stories.txt
+
+texts:
+
+  - textid: TestTexts_006_001
+    textdate: 2000-01-01
+    textpublisher: BBC Monitoring Middle East
+    textpubid: BBCMEP
+    textbiblio:  BBCMEP0020150403eb43002ut
+    textgeogloc: 
+    textlang: English
+    textlicense: (c) 2015 The British Broadcasting Corporation. All Rights Reserved. No material may be reproduced except with the express permission of The British Broadcasting Corporation.   
+    textlede: Fifteen killed, 20 wounded in Huthi bombing of Yemen's Aden port city
+    textcmt: 
+    textoriginal: |
+        Text of report by Qatari government-funded, pan-Arab news channel Al-Jazeera satellite TV on 3 April
+        
+        At 2204 GMT on 3 April, Al-Jazeera Live TV in Arabic was observed to carry the following breaking news as a screen caption:
+        
+        "Al-Jazeera correspondent: 15 individuals were killed and 20 others were wounded in Huthi bombardment of residential neighbourhoods in Kraytar in Aden Governorate."
+        
+        Further as warranted.
+        
+        Source: Al-Jazeera TV, Doha, in Arabic 2204 gmt 3 Apr 15
+    textmkup: |
+        Text of report by Qatari government-funded, pan-Arab news channel Al-Jazeera satellite TV on 3 April
+        
+        At 2204 GMT on 3 April, Al-Jazeera Live TV in Arabic was observed to carry the following breaking news as a screen caption:
+        
+        "Al-Jazeera correspondent: 15 individuals were killed and 20 others were wounded in Huthi bombardment of residential neighbourhoods in Kraytar in Aden Governorate."
+        
+        Further as warranted.
+        
+        Source: Al-Jazeera TV, Doha, in Arabic 2204 gmt 3 Apr 15
+    textmkupdate: 2015-06-08
+

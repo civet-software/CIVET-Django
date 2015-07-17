@@ -1,0 +1,259 @@
+collid: TestTexts_008
+colldate: 2015-06-08
+colledit: 2015-06-08
+collcmt: Text file source: Apr15.OTH.stories.txt
+
+texts:
+
+  - textid: TestTexts_009_001
+    textdate: 2000-01-01
+    textpublisher: Associated Press Newswires
+    textpubid: APRS
+    textbiblio:  APRS000020150407eb47001xr
+    textgeogloc: HYDERABAD
+    textlang: English
+    textlicense: (c) 2015.  The Associated Press.  All Rights Reserved.   
+    textlede: Police kill 20 suspected <b>sandalwood</b> smugglers in south <b>India</b>
+    textcmt: 
+    textoriginal: |
+        Police killed 20 suspected <b>sandalwood</b> smugglers during a fierce gun battle Tuesday in the southern Indian forests of Andhra Pradesh state.
+        
+        M. Kantha Rao, deputy inspector general of a special police task force, said the smugglers attacked forest and police officials as they were searching for 200 smugglers believed to have been cutting down trees overnight near the Hindu pilgrimage town of Tirupati.
+        
+        The smugglers attacked the officials "with axes and other sharp-edged weapons, forcing the police to open fire" in self-defense, Rao said.
+        
+        Sandalwood smuggling is rampant in southern India, with one ton going for up to $80,000 on the black market thanks to high demand in countries such as China and Japan.
+    textmkup: |
+        Police killed 20 suspected <b>sandalwood</b> smugglers during a fierce gun battle Tuesday in the southern Indian forests of Andhra Pradesh state.
+        
+        M. Kantha Rao, deputy inspector general of a special police task force, said the smugglers attacked forest and police officials as they were searching for 200 smugglers believed to have been cutting down trees overnight near the Hindu pilgrimage town of Tirupati.
+        
+        The smugglers attacked the officials "with axes and other sharp-edged weapons, forcing the police to open fire" in self-defense, Rao said.
+        
+        Sandalwood smuggling is rampant in southern India, with one ton going for up to $80,000 on the black market thanks to high demand in countries such as China and Japan.
+    textmkupdate: 2015-06-08
+
+
+  - textid: TestTexts_009_003
+    textdate: 2000-01-01
+    textpublisher: Reuters News
+    textpubid: LBA
+    textbiblio:  LBA0000020150407eb47008g8
+    textgeogloc: BHUBANESWAR
+    textlang: English
+    textlicense: Copyright 2015 Thomson Reuters. All Rights Reserved.   
+    textlede: Indian police kill 20 <b>sandalwood</b> smugglers in southern forest
+    textcmt: 
+    textoriginal: |
+        Indian police killed 20 suspected <b>sandalwood</b> smugglers on Tuesday, a state police chief said, during the biggest operation in years to stamp out smuggling in remote forests.
+        
+        A police task force in the southern state of Andhra Pradesh came under attack by a group of smugglers of the rare, valuable wood, J.V Ramudu said.
+        
+        "They are very violent, earlier also they killed forest officials," Ramudu said.
+        
+        The area where the encounter took place is home to red sandalwood which is highly prized for furniture in China and Japan, police said. Nine smugglers were killed in one place and 11 in a second clash a kilometre (half a mile) away.
+        
+        India's most wanted sandalwood smuggler, Veerappan, was shot dead in a gunbattle in 2004 but since then smaller gangs have sprung up. Most of the wood is smuggled out through northeast India into Myanmar. (Reporting by Jatin Dash; Editing by Sanjeev Miglani, Robert Birsel) 
+    textmkup: |
+        Indian police killed 20 suspected <b>sandalwood</b> smugglers on Tuesday, a state police chief said, during the biggest operation in years to stamp out smuggling in remote forests.
+        
+        A police task force in the southern state of Andhra Pradesh came under attack by a group of smugglers of the rare, valuable wood, J.V Ramudu said.
+        
+        "They are very violent, earlier also they killed forest officials," Ramudu said.
+        
+        The area where the encounter took place is home to red sandalwood which is highly prized for furniture in China and Japan, police said. Nine smugglers were killed in one place and 11 in a second clash a kilometre (half a mile) away.
+        
+        India's most wanted sandalwood smuggler, Veerappan, was shot dead in a gunbattle in 2004 but since then smaller gangs have sprung up. Most of the wood is smuggled out through northeast India into Myanmar. (Reporting by Jatin Dash; Editing by Sanjeev Miglani, Robert Birsel) 
+    textmkupdate: 2015-06-08
+
+
+  - textid: TestTexts_009_005
+    textdate: 2000-01-01
+    textpublisher: Agence France Presse
+    textpubid: AFPR
+    textbiblio:  AFPR000020150407eb47004el
+    textgeogloc: 
+    textlang: English
+    textlicense: Copyright Agence France-Presse, 2015 All reproduction and presentation rights reserved.   
+    textlede: <b>India</b> police say 20 shot dead in clash with <b>sandalwood</b> smugglers
+    textcmt: 
+    textoriginal: |
+        At least 20 people were killed when police opened fire Tuesday on loggers who attacked them with axes and stones in an area of southern <b>India</b> known for <b>sandalwood</b> smuggling.
+        
+        Deputy Inspector General M. Kantha Rao said his officers had opened fire "in self-defence" after challenging a group of over 100 suspected smugglers in a remote forest in the southern state of Andhra Pradesh.
+        
+        A local forestry department official told AFP separately that the loggers used axes, sticks and stones to attack officers from a newly-formed anti-smuggling task force who were searching the forest.
+        
+        "Our police party warned them to hand over the logs," Rao told AFP.
+        
+        "They were accompanied by forest officials as well. But the smugglers refused to hand over the logs.
+        
+        "Ultimately in self-defence the police opened fire on the smugglers and found nine bodies in one position, and 11 bodies in another," he said.
+        
+        Rao, who heads the task force set up to combat the smuggling of sandalwood, said six or seven police officers had been wounded during the clash in Chittoor district.
+        
+    textmkup: |
+        At least 20 people were killed when police opened fire Tuesday on loggers who attacked them with axes and stones in an area of southern <b>India</b> known for <b>sandalwood</b> smuggling.
+        
+        Deputy Inspector General M. Kantha Rao said his officers had opened fire "in self-defence" after challenging a group of over 100 suspected smugglers in a remote forest in the southern state of Andhra Pradesh.
+        
+        A local forestry department official told AFP separately that the loggers used axes, sticks and stones to attack officers from a newly-formed anti-smuggling task force who were searching the forest.
+        
+        "Our police party warned them to hand over the logs," Rao told AFP.
+        
+        "They were accompanied by forest officials as well. But the smugglers refused to hand over the logs.
+        
+        "Ultimately in self-defence the police opened fire on the smugglers and found nine bodies in one position, and 11 bodies in another," he said.
+        
+        Rao, who heads the task force set up to combat the smuggling of sandalwood, said six or seven police officers had been wounded during the clash in Chittoor district.
+        
+    textmkupdate: 2015-06-08
+
+
+  - textid: TestTexts_009_007
+    textdate: 2000-01-01
+    textpublisher: CNN Wire
+    textpubid: CNNWR
+    textbiblio:  CNNWR00020150407eb47003s5
+    textgeogloc: 
+    textlang: English
+    textlicense: Copyright 2015 Cable News Network. All Rights Reserved.   
+    textlede: More than 20 timber smugglers killed in gunbattle in <b>India</b>, police say
+    textcmt: 
+    textoriginal: |
+        NEW DELHI (CNN) -- More than 20 alleged timber smugglers were killed Tuesday morning in a three-hour gunbattle with authorities in <b>India</b>'s southeastern Andhra Pradesh state, a police official said.
+        
+        Early Tuesday, forest officials near the town of Tirupati spotted hundreds of smugglers cutting trees for red <b>sandalwood</b>, said Deputy Inspector General Kantha Rao, a law enforcement official.
+        
+        The forest officials, who were unarmed, called for police, including an anti-smuggling task force, said Rao, who works for the task force.
+        
+        "We saw several trees chopped down," he said. "These guys came prepared and were heavily armed."
+        
+        Rao said the ensuing gunbattle lasted more than three hours and more than 20 smugglers were shot. Many of them came from the neighboring state of Tamil Nadu, he said.
+        
+        The India Express newspaper published a photo on its website showing a scrubby forest with three bodies lying on the ground.
+        
+    textmkup: |
+        NEW DELHI (CNN) -- More than 20 alleged timber smugglers were killed Tuesday morning in a three-hour gunbattle with authorities in <b>India</b>'s southeastern Andhra Pradesh state, a police official said.
+        
+        Early Tuesday, forest officials near the town of Tirupati spotted hundreds of smugglers cutting trees for red <b>sandalwood</b>, said Deputy Inspector General Kantha Rao, a law enforcement official.
+        
+        The forest officials, who were unarmed, called for police, including an anti-smuggling task force, said Rao, who works for the task force.
+        
+        "We saw several trees chopped down," he said. "These guys came prepared and were heavily armed."
+        
+        Rao said the ensuing gunbattle lasted more than three hours and more than 20 smugglers were shot. Many of them came from the neighboring state of Tamil Nadu, he said.
+        
+        The India Express newspaper published a photo on its website showing a scrubby forest with three bodies lying on the ground.
+        
+    textmkupdate: 2015-06-08
+
+
+  - textid: TestTexts_009_009
+    textdate: 2000-01-01
+    textpublisher: Agence France Presse
+    textpubid: AFPR
+    textbiblio:  AFPR000020150408eb48004y0
+    textgeogloc: 
+    textlang: English
+    textlicense: Copyright Agence France-Presse, 2015 All reproduction and presentation rights reserved.   
+    textlede: Rights groups urge probe into death of 20 Indian loggers
+    textcmt: 
+    textoriginal: |
+        Rights groups called Wednesday for a full investigation into the death of 20 suspected illegal loggers, killed when police opened fire in a forest in southern <b>India</b> notorious for <b>sandalwood</b> smuggling.
+        
+        The head of the anti-smuggling task force behind the killings has said his officers acted in self-defence Tuesday after they were attacked by men armed with axes, sticks and stones in the remote forest of Chittoor in Andhra Pradesh state.
+        
+        But local activists have questioned that account and accused police of regularly using excessive force on wood-cutters, many of whom are poor migrant workers from the neighbouring state of Tamil Nadu.
+        
+        "The killing of 20 suspected red sandalwood smugglers by the Andhra Pradesh police must be investigated in a swift, thorough, and independent manner," said Amnesty International in a statement on Wednesday.
+        
+        "If the killings are found to be unlawful, those responsible should be brought to justice."
+        
+    textmkup: |
+        Rights groups called Wednesday for a full investigation into the death of 20 suspected illegal loggers, killed when police opened fire in a forest in southern <b>India</b> notorious for <b>sandalwood</b> smuggling.
+        
+        The head of the anti-smuggling task force behind the killings has said his officers acted in self-defence Tuesday after they were attacked by men armed with axes, sticks and stones in the remote forest of Chittoor in Andhra Pradesh state.
+        
+        But local activists have questioned that account and accused police of regularly using excessive force on wood-cutters, many of whom are poor migrant workers from the neighbouring state of Tamil Nadu.
+        
+        "The killing of 20 suspected red sandalwood smugglers by the Andhra Pradesh police must be investigated in a swift, thorough, and independent manner," said Amnesty International in a statement on Wednesday.
+        
+        "If the killings are found to be unlawful, those responsible should be brought to justice."
+        
+    textmkupdate: 2015-06-08
+
+
+  - textid: TestTexts_009_011
+    textdate: 2000-01-01
+    textpublisher: Associated Press Newswires
+    textpubid: APRS
+    textbiblio:  APRS000020150415eb4f005kk
+    textgeogloc: NEW DELHI
+    textlang: English
+    textlicense: (c) 2015.  The Associated Press.  All Rights Reserved.   
+    textlede: Protests shut <b>India</b> city after killings of alleged smugglers
+    textcmt: 
+    textoriginal: |
+        A southern Indian city was shut down by protests Wednesday after police killed 20 suspected <b>sandalwood</b> smugglers in the forests of Andhra Pradesh state.
+        
+        While police have said they fired on men who were attacking them "with axes and other sharp-edged weapons" last week, at least two witnesses have told the National Human Rights Commission that the men were pulled off a bus and shot while in custody.
+        
+        A week of protests has followed the killings. Political parties called a protest on Wednesday that shut down the city of Pondicherry. Most shops were shut and private buses stayed off the roads as police patrolled the streets. No violence was reported.
+        
+        The rights commission has asked the local government to start an inquiry into the killings.
+        
+        Most of the men killed in the April 7 encounter were from Tamil Nadu state, which shares a boundary with Andhra Pradesh.
+        
+        Police officials have said they were searching for 200 smugglers believed to have been cutting down trees overnight near the Hindu pilgrimage town of Tirupati.
+        
+    textmkup: |
+        A southern Indian city was shut down by protests Wednesday after police killed 20 suspected <b>sandalwood</b> smugglers in the forests of Andhra Pradesh state.
+        
+        While police have said they fired on men who were attacking them "with axes and other sharp-edged weapons" last week, at least two witnesses have told the National Human Rights Commission that the men were pulled off a bus and shot while in custody.
+        
+        A week of protests has followed the killings. Political parties called a protest on Wednesday that shut down the city of Pondicherry. Most shops were shut and private buses stayed off the roads as police patrolled the streets. No violence was reported.
+        
+        The rights commission has asked the local government to start an inquiry into the killings.
+        
+        Most of the men killed in the April 7 encounter were from Tamil Nadu state, which shares a boundary with Andhra Pradesh.
+        
+        Police officials have said they were searching for 200 smugglers believed to have been cutting down trees overnight near the Hindu pilgrimage town of Tirupati.
+        
+    textmkupdate: 2015-06-08
+
+
+  - textid: TestTexts_009_013
+    textdate: 2000-01-01
+    textpublisher: Agence France Presse
+    textpubid: AFPR
+    textbiblio:  AFPR000020150416eb4g001p7
+    textgeogloc: 
+    textlang: English
+    textlicense: Copyright Agence France-Presse, 2015 All reproduction and presentation rights reserved.   
+    textlede: Forest killings put <b>India</b>'s 'fake encounters' in spotlight
+    textcmt: 
+    textoriginal: |
+        Kanagarani last saw her husband when he left their village on a mountainside in the southern Indian state of Tamil Nadu to look for work.
+        
+        She only found out he was dead when his picture appeared on the local news describing him as a dangerous criminal who had been killed by police along with 19 others accused of smuggling <b>sandalwood</b>.
+        
+        "He was only a painter," said the tearful 20-year-old, who had been married for just six months and who like many Tamils goes by only one name. "Now I only want justice."
+        
+        Indian police said last week they had acted in self defence when they fired on a group of alleged timber smugglers in the remote forests of Tirupati in the southeastern state of Andhra Pradesh, home to the rare trees that produce red sandalwood.
+        
+        But activists and relatives have challenged that version of events, and on Wednesday a case was filed with a local court charging "unknown persons" in the force with murder and abduction.
+        
+    textmkup: |
+        Kanagarani last saw her husband when he left their village on a mountainside in the southern Indian state of Tamil Nadu to look for work.
+        
+        She only found out he was dead when his picture appeared on the local news describing him as a dangerous criminal who had been killed by police along with 19 others accused of smuggling <b>sandalwood</b>.
+        
+        "He was only a painter," said the tearful 20-year-old, who had been married for just six months and who like many Tamils goes by only one name. "Now I only want justice."
+        
+        Indian police said last week they had acted in self defence when they fired on a group of alleged timber smugglers in the remote forests of Tirupati in the southeastern state of Andhra Pradesh, home to the rare trees that produce red sandalwood.
+        
+        But activists and relatives have challenged that version of events, and on Wednesday a case was filed with a local court charging "unknown persons" in the force with murder and abduction.
+        
+    textmkupdate: 2015-06-08
+

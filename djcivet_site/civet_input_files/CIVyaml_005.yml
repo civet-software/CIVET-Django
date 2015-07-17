@@ -1,0 +1,43 @@
+collid: TestTexts_004
+colldate: 2015-06-08
+colledit: 2015-06-08
+collcmt: Text file source: Apr15.OTH.stories.txt
+
+texts:
+
+  - textid: TestTexts_005_001
+    textdate: 2000-01-01
+    textpublisher: BBC Monitoring Middle East
+    textpubid: BBCMEP
+    textbiblio:  BBCMEP0020150402eb42001uq
+    textgeogloc: 
+    textlang: English
+    textlicense: (c) 2015 The British Broadcasting Corporation. All Rights Reserved. No material may be reproduced except with the express permission of The British Broadcasting Corporation.   
+    textlede: Conflicting reports about number of victims in Egypt's Sinai attacks
+    textcmt: 
+    textoriginal: |
+        The number of Egyptians killed and injured in three attacks that targeted security checkpoints in North Sinai on 2 April seems unclear with conflicting media reports.
+        
+        While Egyptian state-owned TV reported that four civilians had been injured and did not report any losses among the army and security forces, private Al-Yawm al-Sabi website said that 13 soldiers and three civilians were killed in the attacks.
+        
+        The website added that at least 20 civilians were injured.
+        
+        The uncertainty about the exact number of victims coincides with very low prominence given to the attacks by state-owned media and lack of immediate official comment or statements.
+        
+        North Sinai has been subject to repetitive attacks against security sources since the ousting of Islamist President Muhammad Morsi in July 2013.
+        
+        Source: Nile News TV, Cairo, in Arabic 1040gmt 02 Apr 15
+    textmkup: |
+        The number of Egyptians killed and injured in three attacks that targeted security checkpoints in North Sinai on 2 April seems unclear with conflicting media reports.
+        
+        While Egyptian state-owned TV reported that four civilians had been injured and did not report any losses among the army and security forces, private Al-Yawm al-Sabi website said that 13 soldiers and three civilians were killed in the attacks.
+        
+        The website added that at least 20 civilians were injured.
+        
+        The uncertainty about the exact number of victims coincides with very low prominence given to the attacks by state-owned media and lack of immediate official comment or statements.
+        
+        North Sinai has been subject to repetitive attacks against security sources since the ousting of Islamist President Muhammad Morsi in July 2013.
+        
+        Source: Nile News TV, Cairo, in Arabic 1040gmt 02 Apr 15
+    textmkupdate: 2015-06-08
+

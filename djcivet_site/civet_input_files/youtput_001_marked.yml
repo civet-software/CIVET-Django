@@ -1,0 +1,98 @@
+docid: TestTexts_000
+docdate: 2015-06-01
+docedit: 2015-06-01
+doccmt: Text file source: Apr15.OTH.stories.txt
+
+texts:
+
+  - textid: TestTexts__001_000
+    textdate: 1 April 2015
+    textpublisher: Agence France Presse
+    textpubid: Document
+    textlicense: Copyright Agence France-Presse, 2015 All reproduction and presentation rights reserved.   
+    textcmt: Let's see if this sucka works...
+    textlede: Dozens dead as dairy bombed in war-torn Yemen
+    textoriginal: |
+        Dozens of civilians were reported killed Wednesday when a dairy was bombed in Yemen, as aid groups warned of a brewing humanitarian crisis from the Saudi-led coalition's strikes on Shiite rebels.
+        
+        Yemen's foreign minister called for the coalition to send in ground troops, saying that, "at some stage, air strikes will be ineffective".
+        
+        Diplomats said meanwhile that Gulf countries were locked in tough negotiations with Russia on a UN draft resolution to impose an arms embargo and sanctions on the Huthi Shiite rebels.
+        
+        But rights groups have voiced growing alarm about civilian casualties from the nearly week-old air war aimed at preventing the fall of President Abedrabbo Mansour Hadi.
+        
+        At least 37 workers were killed and 80 wounded overnight at the dairy in the Red Sea port of Hodeida, Governor Hasan al-Hai said, without specifying whether the plant was hit by an air strike or rebel shelling.
+        
+        Health authorities said 35 people were killed and dozens wounded, and that rescuers had to search for survivors under the rubble of the partly destroyed factory.
+        
+        The circumstances of the bombing were unclear, with some witnesses saying the dairy was hit by a coalition strike and others blaming rebels loyal to former president Ali Abdullah Saleh.
+        
+        Coalition spokesman Brigadier General Ahmed Assiri accused the Huthis of targeting the site, using "mortar shells and Katyusha rockets... in a bid to create unrest among the Yemeni society".
+        
+        The Arab forces would continue to "evaluate targets" and "lower the chances of targeting civilians or aid workers," he said, urging humanitarian organisations to "contact concerned parties in order to facilitate this process".
+        
+    textmkup: |
+        Dozens of civilians were reported <span class="termst" title="whacked">killed</span> <span class="ne">Wednesday</span> when a dairy was <span class="termst" title="whacked">bombed</span> in <span class="ne">Yemen</span>, as aid groups warned of a brewing humanitarian crisis from the <span class="ne">Saudi-led</span> coalition's strikes on <span class="ne">Shiite</span> rebels.
+        
+        <span class="ne">Yemen's</span> foreign minister called for the coalition to send in ground troops, saying that, "at some stage, air strikes will be ineffective".
+        
+        Diplomats said meanwhile that <span class="ne">Gulf</span> countries were locked in tough negotiations with <span class="ne">Russia</span> on a <span class="ne">UN</span> draft resolution to impose an arms embargo and sanctions on the <span class="ne">Huthi Shiite</span> rebels.
+        
+        But rights groups have voiced growing alarm about civilian casualties from the nearly week-old air war aimed at preventing the fall of <span class="ne">President Abedrabbo Mansour Hadi.</span>
+        
+        At least <span class="num">37</span> workers were <span class="termst" title="whacked">killed</span> and <span class="num">80</span> <span class="termst" title="whacked">wounded</span> overnight at the dairy in the <span class="ne">Red Sea</span> port of <span class="ne">Hodeida</span>, <span class="ne">Governor Hasan</span> al-Hai said, without specifying whether the plant was hit by an air strike or rebel shelling.
+        
+        Health authorities said <span class="num">35</span> people were <span class="termst" title="whacked">killed</span> and dozens <span class="termst" title="whacked">wounded</span>, and that rescuers had to search for survivors under the rubble of the partly destroyed factory.
+        
+        The circumstances of the bombing were unclear, with some witnesses saying the dairy was hit by a coalition strike and others blaming rebels loyal to former president <span class="ne">Ali Abdullah Saleh.</span>
+        
+        Coalition spokesman <span class="ne">Brigadier General Ahmed Assiri</span> accused the <span class="ne">Huthis</span> of targeting the site, using "mortar shells and <span class="ne">Katyusha</span> rockets... in a bid to create unrest among the <span class="ne">Yemeni</span> society".
+        
+        The <span class="ne">Arab</span> forces would continue to "evaluate targets" and "lower the chances of targeting civilians or aid workers," he said, urging humanitarian organisations to "contact concerned parties in order to facilitate this process".
+        
+     textmkupdate: 2015-06-01
+     textmkupcoder:L3.markup.py
+
+
+  - textid: TestTexts__001_001
+    textdate: 1 April 2015
+    textpublisher: BBC Monitoring Newsfile
+    textpubid: Document
+    textlicense: (c) 2015 The British Broadcasting Corporation. All Rights Reserved. No material may be reproduced except with the express permission of The British Broadcasting Corporation.   
+    textlede: "Nineteen killed, 76 wounded" in clashes in Yemen's Aden
+    textoriginal: |
+        "Medical source to Al-Jazeera: Nineteen killed, 76 wounded in ongoing clashes in Aden, southern Yemen," Qatar-based Al-Jazeera TV reported in an "urgent" screen caption at 2024 gmt on 1 April.
+        
+        Source: Al-Jazeera TV, Doha, in Arabic 2024 gmt 1 Apr 15
+        
+    textmkup: |
+        "Medical source to <span class="ne">Al-Jazeera: Nineteen</span> <span class="termst" title="whacked">killed</span>, <span class="num">76</span> <span class="termst" title="whacked">wounded</span> in ongoing clashes in <span class="ne">Aden</span>, southern <span class="ne">Yemen,</span>" <span class="ne">Qatar-based Al-Jazeera TV</span> reported in an "urgent" screen caption at <span class="num">2024</span> gmt on <span class="num">1</span> <span class="ne">April.</span>
+        
+        Source: <span class="ne">Al-Jazeera TV</span>, <span class="ne">Doha</span>, in <span class="ne">Arabic</span> <span class="num">2024</span> gmt <span class="num">1</span> <span class="ne">Apr</span> <span class="num">15</span>        
+     textmkupdate: 2015-06-01
+    textmkupcoder:L3.markup.py
+
+
+  - textid: TestTexts__001_002
+    textdate: 1 April 2015
+    textpublisher: Agence France Presse
+    textpubid: Document
+    textlicense: Copyright Agence France-Presse, 2015 All reproduction and presentation rights reserved.   
+    textlede: 37 dead in bombing of dairy in west Yemen: provincial governor
+    textoriginal: |
+        At least 37 people were killed when a dairy in western Yemen was bombed overnight, an official said Wednesday after a seventh night of Saudi-led air strikes against Shiite rebels.
+        
+        Eighty others were wounded at the plant in Hodeida, provincial governor Hasan al-Hai said, without specifying whether the factory was hit by an air strike or rebel shelling.
+        
+        jj-mh/ak/dr/pg
+        
+    textmkup: |
+        At least <span class="num">37</span> people were <span class="termst" title="whacked">killed</span> when a dairy in western <span class="ne">Yemen</span> was <span class="termst" title="whacked">bombed</span> overnight, an official said <span class="ne">Wednesday</span> after a seventh night of <span class="ne">Saudi-led</span> air strikes against <span class="ne">Shiite</span> rebels.
+        
+        Eighty others were <span class="termst" title="whacked">wounded</span> at the plant in <span class="ne">Hodeida</span>, provincial governor <span class="ne">Hasan</span> al-Hai said, without specifying whether the factory was hit by an air strike or rebel shelling.
+        
+        jj-mh/ak/dr/pg
+        
+    textmkupdate: 2015-06-01
+    textmkupcoder:L3.markup.py
+

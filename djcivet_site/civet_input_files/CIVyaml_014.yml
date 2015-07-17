@@ -1,0 +1,109 @@
+collid: TestTexts_013
+colldate: 2015-06-08
+colledit: 2015-06-08
+collcmt: Text file source: Apr15.OTH.stories.txt
+
+texts:
+
+  - textid: TestTexts_014_001
+    textdate: 2000-01-01
+    textpublisher: Associated Press Newswires
+    textpubid: APRS
+    textbiblio:  APRS000020150414eb4e001nf
+    textgeogloc: JOHANNESBURG
+    textlang: English
+    textlicense: (c) 2015.  The Associated Press.  All Rights Reserved.   
+    textlede: South African looters target foreign-owned shops, 5 killed
+    textcmt: 
+    textoriginal: |
+        At least five people in South Africa have died in attacks on immigrant-owned shops and hundreds of people have fled their homes since last week, authorities said Tuesday as they struggled to stem one of the worst outbreaks of violence in years against foreigners, many of them from other African countries.
+        
+        Most of the recent unrest occurred in and around the coastal city of Durban, where police said two foreigners and three South Africans were killed. The dead included a 14-year-old boy who was allegedly shot during looting Monday night and died at a hospital, police Col. Jay Naicker said. Some 34 people have been arrested for possession of unlicensed firearms and other crimes in the last two days, he said.
+        
+        "Police are deployed and in high alert in most of the areas where there are foreign nationals," Naicker said in a statement emailed to The Associated Press.
+        
+        Despite the increased police presence, authorities are hard-pressed to stop unrest that recalls similar violence in South Africa in 2008 in which about 60 people died. In January this year, four people died during a week of looting of foreign-owned shops and other violence in Soweto and other areas of Johannesburg.
+        
+    textmkup: |
+        At least five people in South Africa have died in attacks on immigrant-owned shops and hundreds of people have fled their homes since last week, authorities said Tuesday as they struggled to stem one of the worst outbreaks of violence in years against foreigners, many of them from other African countries.
+        
+        Most of the recent unrest occurred in and around the coastal city of Durban, where police said two foreigners and three South Africans were killed. The dead included a 14-year-old boy who was allegedly shot during looting Monday night and died at a hospital, police Col. Jay Naicker said. Some 34 people have been arrested for possession of unlicensed firearms and other crimes in the last two days, he said.
+        
+        "Police are deployed and in high alert in most of the areas where there are foreign nationals," Naicker said in a statement emailed to The Associated Press.
+        
+        Despite the increased police presence, authorities are hard-pressed to stop unrest that recalls similar violence in South Africa in 2008 in which about 60 people died. In January this year, four people died during a week of looting of foreign-owned shops and other violence in Soweto and other areas of Johannesburg.
+        
+    textmkupdate: 2015-06-08
+
+
+  - textid: TestTexts_014_003
+    textdate: 2000-01-01
+    textpublisher: All Africa
+    textpubid: AFNWS
+    textbiblio:  AFNWS00020150415eb4f0017q
+    textgeogloc: 
+    textlang: English
+    textlicense: (c) 2015 AllAfrica, All Rights Reserved   
+    textlede: Deaths in South Africa As Mobs Target Foreigners
+    textcmt: 
+    textoriginal: |
+        Apr 15, 2015 (Al Jazeera/All Africa Global Media via COMTEX) -- Violence against immigrants in South Africa has killed at least five people since last week in one of the worst outbreak of violence in years against foreigners in years.
+        
+        Hundreds of migrants mostly from other African countries had been forced out of their homes, authorities told the Associated Press news agency on Tuesday
+        
+        Most of the recent unrest occurred in and around the coastal city of Durban, where police said two foreigners and three South Africans were killed.
+        
+        The dead included a 14-year-old boy who was allegedly shot during looting on Monday night and died at a hospital, police official, Jay Naicker said.
+        
+        Some 34 people have been arrested for possession of unlicensed firearms and other crimes in the last two days, he said.
+        
+        "Police are deployed and in high alert in most of the areas where there are foreign nationals," Naicker said in a statement.
+        
+    textmkup: |
+        Apr 15, 2015 (Al Jazeera/All Africa Global Media via COMTEX) -- Violence against immigrants in South Africa has killed at least five people since last week in one of the worst outbreak of violence in years against foreigners in years.
+        
+        Hundreds of migrants mostly from other African countries had been forced out of their homes, authorities told the Associated Press news agency on Tuesday
+        
+        Most of the recent unrest occurred in and around the coastal city of Durban, where police said two foreigners and three South Africans were killed.
+        
+        The dead included a 14-year-old boy who was allegedly shot during looting on Monday night and died at a hospital, police official, Jay Naicker said.
+        
+        Some 34 people have been arrested for possession of unlicensed firearms and other crimes in the last two days, he said.
+        
+        "Police are deployed and in high alert in most of the areas where there are foreign nationals," Naicker said in a statement.
+        
+    textmkupdate: 2015-06-08
+
+
+  - textid: TestTexts_014_005
+    textdate: 2000-01-01
+    textpublisher: CNN Wire
+    textpubid: CNNWR
+    textbiblio:  CNNWR00020150416eb4g003h1
+    textgeogloc: 
+    textlang: English
+    textlicense: Copyright 2015 Cable News Network. All Rights Reserved.   
+    textlede: South African mobs with machetes attack foreigners; 5 people killed
+    textcmt: 
+    textoriginal: |
+        (CNN) -- South African mobs armed with machetes targeted foreigners and their businesses in the port city of Durban this week, leaving at least five people dead, authorities said.
+        
+        The fatalities were two foreigners and three South Africans, including a 14-year-old boy.
+        
+        Heavily armed police tried to stop the clashes as local residents took to the streets, accusing foreigners from other African nations of taking their jobs.
+        
+        South Africa has a history of anti-foreigner tensions.
+        
+        In 2008, scores were killed in attacks on foreigners in the poorest areas of Johannesburg, the nation's capital. Most of the victims were Zimbabweans who had fled repression and dire economic circumstances. In that attack, police arrested more than 200 people for various crimes including rape, murder, robbery and theft.
+    textmkup: |
+        (CNN) -- South African mobs armed with machetes targeted foreigners and their businesses in the port city of Durban this week, leaving at least five people dead, authorities said.
+        
+        The fatalities were two foreigners and three South Africans, including a 14-year-old boy.
+        
+        Heavily armed police tried to stop the clashes as local residents took to the streets, accusing foreigners from other African nations of taking their jobs.
+        
+        South Africa has a history of anti-foreigner tensions.
+        
+        In 2008, scores were killed in attacks on foreigners in the poorest areas of Johannesburg, the nation's capital. Most of the victims were Zimbabweans who had fled repression and dire economic circumstances. In that attack, police arrested more than 200 people for various crimes including rape, murder, robbery and theft.
+    textmkupdate: 2015-06-08
+

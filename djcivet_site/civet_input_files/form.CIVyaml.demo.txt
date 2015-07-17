@@ -1,0 +1,38 @@
+# CIVET coder template demonstration file
+
+h1:Template form for CIV-yaml demo files
+
+radio: Type of incident: [typeincid]
+*Demonstration, One-sided Violent, Armed Clash
+
+p:
+
+select:Nature of incident [natincid]
+*Minor mischief, Unauthorized absence, Accident, Major infraction, Unforgivable Curses, Other
+
+p:If "Other", provide details in the report section
+
+checkbox: Did incident involve local authorities? [authreport]
+No,*Yes
+
+p:
+
+textclass: Location [location] width=40 class=nament
+Enter names here
+
+p:
+
+textclass: Maximal injuries [injuries] width=40 class=whacked
+Enter names here
+
+p:
+
+textarea:Brief description of incident [descrp] cols = 72
+Enter brief description here
+
+#p:
+
+#h3:Thank you for your assistance; we will contact you by owl should we require any additional information
+
+save: _date_, typeincid, natincid, authreport, location, injuries, descrp
+

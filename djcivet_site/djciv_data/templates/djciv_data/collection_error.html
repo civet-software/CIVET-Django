@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>CIVET collection error</title>
+    <meta name="generator" content="CIVET" />
+</head>
+<body>
+<h3>The following errors were found in the workspace file "{{workspace}}" </h3>
+{% autoescape off %}
+    {{errors}}
+{% endautoescape %}
+<h3>Please correct these and try again</h3>
+{% if docoding %}
+<h3><a href="djciv_data/select_workspace/1">Click here</a> to return to the selection page</h3>
+{% else %}
+<h3><a href="djciv_data/select_workspace/0">Click here</a> to return to the selection page</h3>
+{% endif %}
+
+</body>
+</html>

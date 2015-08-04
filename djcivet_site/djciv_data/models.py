@@ -65,23 +65,28 @@ class Text(models.Model):
         return self.textparent + ': ' + self.textid
 
     def get_markup(self):
-        return [self.textid, self.textlede, self.textmkup]
+        """ returns textmkup if it is not null, otherwise textoriginal"""
+        if len(self.textmkup) > 0:
+            return [self.textid, self.textlede, self.textmkup]
+        else:
+            return [self.textid, self.textlede, self.textoriginal]
+        
 
 
 
 class CaseManager(models.Manager):
     def create_case(self, caseparent, caseid, casedate, casecoder, casecmt,
-                    casevaluedict):
-        valst = ''  # convert dictionary to string
+                    casevalues):
+        """valst = ''  # convert dictionary to string
         for st in casevaluedict:
-            valst += '==$$==' + st + '=$$=' + casevaluedict[st]  # there's undoubtedly a more robust way to do this
+            valst += '==$$==' + st + '=$$=' + casevaluedict[st]  # there's undoubtedly a more robust way to do this"""
         caseentry = self.create(
             caseparent = caseparent,
             caseid = caseid,
             casedate = casedate,
             casecoder = casecoder,
             casecmt = casecmt,
-            casevalues = valst,
+            casevalues = casevalues,
             )
         return caseentry
 
@@ -99,7 +104,7 @@ class Case(models.Model):
     def __unicode__(self):              # __unicode__ on Python 2
         return self.caseparent + ': ' + self.caseid
 
-    def get_values(self):
+    def get_values(self):  # <15.07.30: no longer using this since we are storing as Python dicts
         valdict = {}
         fields = self.casevalues.split('==$$==')
         for st in fields:

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>CIVET Download Data from Workspace</title>
+    <meta name="generator" content="BBEdit 11.0" />
+</head>
+<body>
+<!--<form action="download_workspace_data" method = "post">{% csrf_token %} -->
+<form action="download_workspace_data" method = "post">{% csrf_token %} 
+<h1>Download cases from the workspace {{workspace}}</h1>
+<h2>Enter name of output file:</h2>
+<input type="text" name="filename" value="{{filename}}" size = "64">
+[".txt" suffix will automatically be added]
+
+<br><br><button type="submit" id="submit" name="submit" >Download data file</button>
+</form>
+<h3>To continue, use one of the following links:</h3>
+<ul>
+<li><a href="select_workspace/manage">Read a new workspace</a></li>
+<li><a href="home">Return to home page</a></li>
+</ul>
+
+</body>
+</html>

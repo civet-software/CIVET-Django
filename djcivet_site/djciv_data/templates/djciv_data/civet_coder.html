@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8" />
-	<title>Text Extraction Testbed</title>
+	<title>CIVET Coding and Text Extraction</title>
 	<meta name="generator" content="BBEdit 11.0" />
 <style>
     body {
@@ -16,147 +16,133 @@
     h4 { font-size: 16px; line-height: 1; margin: 0 0 .2em;}
     .highlight {background-color:lightgreen;}
     .nament {color:blue;}
-    <!--.num {background-color:green;} -->
     .date {color:coral;}
     .termst {color:red;}
     {{ newterm }}
 </style>
 </head>
 <!--
-Options:
-    Click in text box selects words with the given letter
-    right arrow goes through selections
-    down arrow puts current highlighted word in box
-    left arrow puts any mouse-selected text in box
-    tab goes between fields
-    return does whatever the default is
+General comment <pas, 15.07.10 >
+This is the first code I wrote for CIVET and at the time -- well, still -- I was really just getting going on Javascript and
+the DOM approach, and there are probably a number of ways that this could be improved. If the code looks awkward, that's
+because it is.
 -->
 <body onload="initglobals()">
 
 <script>
 
 // declare an assortment of globals
-var	wdindex = 0;  // location of start of search for next word in wordset
+// The constants here could be replaced by the jQuery 'event.which' at some point, since we've got jQuery in the system
+var MOVE_LEFT = 37
+var MOVE_RIGHT = 39
+var MOVE_UP = 38
+var MOVE_DOWN = 40
+
+var	wdindex = 0  // location of start of search for next word in wordset
+var extracting = false  // true when a field associated with a category is in focus
 var	curstr = ""   // text of current highlighted word
-var curhighlight = ""  // id of the words currently highlighted
-var curfield = ""  // id of the words currently highlighted
-var inputText;
-var glinner;
+var curcategory = ""  // category associated with the field currently in focus
+var curfield = ""  // field currently in focus
+var inputText  // document.getElementById("inputText")
+var glinner    // inputText without any highlighting
+var lastkey = MOVE_RIGHT  // used to identify direction reversals
 
 function initglobals()
 {
-	inputText = document.getElementById("inputText");
-	glinner = inputText.innerHTML;
-    document.onkeypress =  dokeypress;
-    document.onkeydown =  dokeydown;
+	inputText = document.getElementById("inputText")
+	glinner = inputText.innerHTML 
+    document.onkeydown =  dokeydown
 }
 
 
-function highlight(text)
+function nexthightag(thekey)
+// highlight the next/previous term in the class; called with either MOVE_RIGHT or MOVE_LEFT
 {
-    inputText = document.getElementById("inputText")
-    var innerHTML = inputText.innerHTML
-    var index = innerHTML.indexOf(text);
-    if ( index >= 0 )
-    { 
-        innerHTML = innerHTML.substring(0,index) + "<span class='highlight'>" + innerHTML.substring(index,index+text.length) + "</span>" + innerHTML.substring(index + text.length);
-        inputText.innerHTML = innerHTML 
+    var curHTML = glinner  //
+    if (curHTML.indexOf(curcategory) < 0) { return }  // this class is not in the text so do nothing
+    if (lastkey != thekey) {  // handle reversal of direction
+// <pas 15.07.24: there's still a minor bug in this that occasionally requires hitting the key twice: not a sufficient big deal to correct right now   
+        if (lastkey == MOVE_RIGHT) {wdindex = curHTML.lastIndexOf('<span ',wdindex) - 1}
+        if (lastkey == MOVE_LEFT) {wdindex = curHTML.indexOf('</span>',wdindex) + 1}
+        lastkey = thekey
+    }       
+    if (thekey == MOVE_RIGHT) {
+        wdindex = curHTML.indexOf(curcategory,wdindex)
+        if (wdindex < 0)  { wdindex = curHTML.indexOf(curcategory)} // wraps back to beginning
+    } else {
+        wdindex = curHTML.lastIndexOf(curcategory,wdindex)
+        if (wdindex < 0) { wdindex = curHTML.lastIndexOf(curcategory)} // wrap to end
     }
 
-}
-
-function nextword()
-{
-    var curHTML = glinner;
-    var endspace = curHTML.indexOf(' ',wdindex+1);
-    if (endspace < 0) { endspace = curHTML.length} // -1?
-	console.log("Indices: " + wdindex + '  ' + endspace + '  ' + curHTML.length);   
-    curHTML = curHTML.substring(0,wdindex) + "<span class='highlight'>" + curHTML.substring(wdindex,endspace) + "</span>" + curHTML.substring(endspace);
-    inputText.innerHTML = curHTML;
-    wdindex = endspace + 1
-    if (wdindex >= glinner.length) { wdindex = 0}
-
-}
-
-function nexthightag()
-{
-    var curHTML = glinner;
-    wdindex = curHTML.indexOf(curhighlight,wdindex)
-    if (wdindex < 0)  // wraps back to beginning
-    { 
-        wdindex = 0
-        wdindex = curHTML.indexOf(curhighlight,wdindex)
-    }
-
-    var endspace = curHTML.indexOf("</span>",wdindex+1) + 7;
-    var startspace = curHTML.lastIndexOf("<span ",wdindex);
-    var startcontent = curHTML.indexOf(">",wdindex)+1;
-//	console.log("Indices: " + wdindex + '  ' + endspace );   
-//	console.log("String 1: " + curHTML.substring(0,wdindex-1));   
-//	console.log("String 2: " + curHTML.substring(wdindex-13,endspace));   
-//    curstr = curHTML.substring(wdindex+curhighlight.length+2,endspace-7)
-//	console.log("curstr: " + curstr);   
+    var endspace = curHTML.indexOf("</span>",wdindex+1) + 7
+    var startspace = curHTML.lastIndexOf("<span ",wdindex)
+    var startcontent = curHTML.indexOf(">",wdindex)+1
+//	console.log("Indices: " + wdindex + '  ' + endspace )   
+//	console.log("String 1: " + curHTML.substring(0,wdindex-1))   
+//	console.log("String 2: " + curHTML.substring(wdindex-13,endspace))   
     curstr = curHTML.substring(startcontent,endspace-7) // global which has the current highlighted content
-    curHTML = curHTML.substring(0,startspace) + "<span class='highlight'>" + curHTML.substring(startspace,endspace) + "</span>" + curHTML.substring(endspace);
-//	console.log("curHTML: " + curHTML);   
-    inputText.innerHTML = curHTML;
-    wdindex = endspace + 1;
-    if (wdindex >= glinner.length) { wdindex = 0}  // should that be curHTML?
-    // not sure why I have to reset this but it works <15.06.11>: probably because I reset innerHTML
-    var list = document.getElementsByClassName(curhighlight);
+    curHTML = curHTML.substring(0,startspace) + "<span class='highlight'>" + curHTML.substring(startspace,endspace) + "</span>" + curHTML.substring(endspace)
+//	console.log("curHTML: " + curHTML)   
+    inputText.innerHTML = curHTML
+    if (thekey == MOVE_RIGHT) {
+        wdindex = endspace + 1
+        if (wdindex >= glinner.length) { wdindex = 0}  // should that be curHTML?
+    } else {
+        wdindex -= 1
+        if (wdindex >= glinner.length) { wdindex = 0}  // should that be curHTML?
+    }
+    var list = document.getElementsByClassName(curcategory)  // change color of the words in the active category
     for (var i = 0; i < list.length; i++) {
-        list[i].style.color="red";
+        list[i].style.color="red"
     }
 }
 
-function coloraclass(curclass, thisfield)
-// changes color of the words in the class and reverts existing highlighted words to black
-// <15.06.11>: basically this is just an initialization routine
+function coloraclass(category, thisfield)
+// initialization for a new category
 {
-//	var elem = document.getElementById(curclass);
-//    var theclass = "mk" + theprefix
-//    var list = document.getElementsByClassName(theclass);
-//    for (var i = 0; i < list.length; i++) {
-//        list[i].style.color="red";
-//    }
-	curfield = thisfield;  // text entry field which we are trying to fill
-    curhighlight = curclass;
-    wdindex = 0;
-//    console.log("glinner: " + glinner);   
-    var list = document.getElementsByClassName(curhighlight);
-    nexthightag();  // this actually does the coloring
+	curfield = thisfield  // text entry field which we are trying to fill
+    curcategory = category
+    wdindex = 0
+    lastkey = MOVE_RIGHT
+    nexthightag(MOVE_RIGHT)  // this actually does the coloring
+    extracting = true
     document.getElementById("inputText").focus()
 }
-function dokeypress(evt){
-    var charCode = evt.keyCode
-//    console.log('Char '+charCode );
+
+function cancelclass()
+// deactivates the category extraction; called `onblur'
+{
+    document.getElementById("inputText").blur()
+    inputText.innerHTML = glinner
+    extracting = false
 }
 
 function dokeydown(evt)
-// it would be nice to have the down key get either a selection or the highlighted
-// text, depending on whether a selection had been made, but haven't figured that one out yet
-
+// handles the arrow keys when extracting==true
 {
+    if (!extracting) {return}  
     var charCode = evt.keyCode
-    console.log('Down '+charCode );
-    if (charCode == 39) {nexthightag()}  // right arrow
-    if (charCode == 40) {  // down arrow
-    	var elem = document.getElementById(curfield);
-        console.log("curword: " + curstr + " curfield: " + curfield); 
-        elem.value = curstr;
-    }
-    if (charCode == 37) {  // down arrow
-    	var elem = document.getElementById(curfield);
-        if (document.getSelection) {
-            elem.value = document.getSelection().toString();
-	        console.log("selection2: " + elem.value);             
-        }  
+//    console.log('Down '+charCode )
+    if (charCode == MOVE_RIGHT || charCode == MOVE_LEFT) {
+        nexthightag(charCode)  // go to the next/previous term in the class
+    } else if (charCode == MOVE_DOWN) {  // set the field to the highlighted text
+    	var elem = document.getElementById(curfield)
+        if (document.getSelection().toString().length > 0) {
+            elem.value = document.getSelection().toString()
+        } else {
+            elem.value = curstr
+        }
+    } else if (charCode == MOVE_UP) {  // add the highlighted text to the current contents of the field
+    	var elem = document.getElementById(curfield)
+        if (document.getSelection().toString().length > 0) {
+            elem.value = elem.value + ' ' + document.getSelection().toString()
+        } else {
+            elem.value = elem.value + ' ' + curstr
+        }
     }
 }
 </script>
 
-<!--<button onclick="nexthightag()">Tag wordset</button>
-<button onclick="nextword()">Next word</button>-->
 
 <h2>Document: {{docidst}}</h2>
 {% if doccmtst %}
@@ -175,9 +161,10 @@ function dokeydown(evt)
 
 <div id="submitArea" style="clear:both; float:bottom; height:20px;padding:10px;border:2px dotted green;">
 <b>Options after saving:</b>
-<button type="submit">Return to this collection</button>
+<button type="submit">Continue coding this collection</button>
+<button type="submit" formaction="djciv_data/save_and_next">Code next collection</button>
 <button type="submit" formaction="djciv_data/save_and_new">Select new collection</button>
-<button type="submit" formaction="djciv_data/setup_download">Download data</button>
+<button type="submit" formaction="djciv_data/setup_workspace_download/coding">Download workspace and return to home page</button>
 </div>
 </form>
 </body>

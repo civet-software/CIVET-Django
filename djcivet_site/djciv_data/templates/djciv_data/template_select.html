@@ -6,7 +6,7 @@
     <meta name="generator" content="BBEdit 11.0" />
     <style> 
         .button {
-         width: 70px;
+         width: 120px;
         height: 30px;
         border-radius: 10px;
         background-color: aqua;
@@ -21,26 +21,20 @@
     
    </style>
 <body>
-<script>
-function cancelFile() {
-// this seems like a really screwy way to do this... pas 15.06.09
-    document.getElementById("template_name").value = "";
-}
-</script>
 <h2>CIVET: Select template file</h2>
-<form method="POST" enctype="multipart/form-data" action="djciv_data/read_template" >{% csrf_token %}
+<form method="POST" enctype="multipart/form-data" action="read_template_only" >{% csrf_token %}
 <p>
     Select a file: <input type="file" name="template_name" > <br>
 <p>
 <b>Coder [optional]:</b>
-<input type="text" name="codername" size = "64">
+<input type="text" name="codername" size = "32">
 
 <p>
 
-<button class="button" type="submit">Read file</button>
-<button class="button2" type="submit" onclick="cancelFile()">Use demo template</button> <!-- forces selection of the demo template -->
+<button class="button" type="submit">Read template file</button>
+<button class="button2" type="submit" formaction="read_template_only/demo">Use demo template</button> 
 
 </form>
-<h3>Download template demonstration file: <a href="djciv_data/download_demotemplate">click here</a></h3>
+<h3><a href="djciv_data/download_demotemplate">Download</a> template demonstration file</h3>
 </body>
 </html>

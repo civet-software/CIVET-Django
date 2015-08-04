@@ -1,5 +1,0 @@
-{% autoescape false %}
-    {%- for line in data %}
-        {{line}}<br>
-    {%- endfor %}
-{% endautoescape %}

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>CIVET: Preferences</title>
+    <meta name="generator" content="BBEdit 11.1" />
+</head>
+<body>
+<h1>CIVET Preferences</h1>
+<form method="POST" action="reset_preferences">{% csrf_token %}
+<!--    <select name="current_collection">
+        <option value="">Select a collection</option>
+    {% for option in files %}
+        <option value="{{ option }}">{{ option }}</option> 
+    {% endfor %}-->
+Code collections without annotating first: 
+{% if codingonly %}
+    On <input type="radio" name="coding-only" value="On" checked> 
+    Off <input type="radio" name="coding-only" value="Off"> 
+{% else %}
+    On <input type="radio" name="coding-only" value="On"> 
+    Off <input type="radio" name="coding-only" value="Off" checked> 
+{% endif %}
+</form>
+</body>
+</html>

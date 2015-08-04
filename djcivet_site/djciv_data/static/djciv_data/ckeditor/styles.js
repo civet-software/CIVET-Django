@@ -59,7 +59,10 @@ CKEDITOR.stylesSet.add( 'default', [
 	{ name: 'Named Entity',	element: 'span', styles: { 'class':'nament', 'color': 'blue' }  },
 	{ name: 'Number',	element: 'span', styles: { 'class':'number', 'color': 'green' }  },
 	{ name: 'Date',	element: 'span', styles: { 'class':'date', 'color': 'coral' }  },
-	{ name: 'Action',	element: 'span', styles: { 'class':'action', 'color': 'red' }  }
+	{ name: 'action', element: 'span', styles: { 'class':'action', 'color': 'Magenta' }  },
+	{ name: 'cities', element: 'span', styles: { 'class':'cities', 'color': 'cyan' }  },
+	{ name: 'woozle', element: 'span', styles: { 'class':'woozle', 'color': 'yellow' }  },
+	{ name: 'people', element: 'span', styles: { 'class':'people', 'color': 'Brown' }  },
 
 
 	/* Object Styles */

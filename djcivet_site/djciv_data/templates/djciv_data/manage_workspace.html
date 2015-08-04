@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>CIVET: Workspace Management</title>
+    <meta name="generator" content="BBEdit 11.1" />
+</head>
+<body>
+<!--<h1>CIVET: Collection Management</h1>
+<form method="POST" action="edit_collection">{% csrf_token %}
+    <select name="current_collection">
+        <option value="">Select a collection</option>
+    {% for option in files %}
+        <option value="{{ option }}">{{ option }}</option> 
+    {% endfor %}
+    </select> -->
+<h1>CIVET: Workspace Management</h1>
+<h2>Current workspace: {{workspace}} </h2>
+    <h2>Select a task from the options below:</h2>
+    <ul>
+    <li><h2>Export data in tab-delimited format</h2>
+        <ul>
+        <li> <h3><a href="setup_workspace_data_download">Use save-variable list in the template</a></h3>
+        <li><h3><a href="download_workspace_data/select">Select the variables to export</a></h3>
+        </ul>
+    <li> <h2><a href="edit_metadata">Edit text meta-data</a></h2>
+    <!--<a href="djciv_data/select_data_collections/1">Edit text meta-data</a> -->
+    <li> <h2><a href="add_workspace_comments">Add comments to workspace</a></h2>
+    </ul>
+<!--</form>-->
+</body>
+</html>

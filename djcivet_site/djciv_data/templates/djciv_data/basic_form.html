@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Basic CIVET data entry template</title>
+    <title>Basic CIVET data entry form</title>
     <meta name="generator" content="CIVET" />
 </head>
 <body>
-<form action="djciv_data/save_basic" method = "post">{% csrf_token %}
+<form action="save_basic" method = "post">{% csrf_token %}
 {% autoescape off %}
     {{form_content}}
 {% endautoescape %}
@@ -15,7 +15,7 @@
 <br>
 <b>Options after saving:</b>
 <button type="submit">Code another case</button>
-<button type="submit" formaction="djciv_data/setup_download">Download data</button>
+<button type="submit" formaction="setup_basic_data_download">Download data</button>
 </form>
 <!-- </div> -->
 </body>

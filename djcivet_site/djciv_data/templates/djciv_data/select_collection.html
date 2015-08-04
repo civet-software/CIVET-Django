@@ -8,10 +8,8 @@
 <body>
 <form method="POST" action="edit_collection">{% csrf_token %}
 
-<H1>Select a collection to edit:</H1>
-
-<b>Note 10-July-2015</b>: These collections are currently hard-coded in the system. In the operational system, these will be
-uploaded in a zipped directory.
+<H2>Select a collection to edit:</H2>
+<p>Workspace: {{workspace}}
 <p>
 <select name="current_collection">
     <option value="">Select a collection</option>
@@ -24,7 +22,5 @@ uploaded in a zipped directory.
 <input type="submit"  formaction="code_collection" value="Code the collection" ></h2>
 
 </form>
-<h3>Operating instructions for the text-extraction demonstration are <a href="djciv_data/operating_instructions">here</a></h3>
-
 </body>
 </html>

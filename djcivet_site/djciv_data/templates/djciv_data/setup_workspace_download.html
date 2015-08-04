@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>CIVET Workspace Download</title>
+    <meta name="generator" content="BBEdit 11.0" />
+</head>
+<body>
+<!--<form action="djciv_data/do_download" method = "post">{% csrf_token %} -->
+<form action="write_workspace" method = "post">{% csrf_token %} 
+<h1>Download CIVET workspace:</h1>
+<h2>Save workspace file as...</h2>
+<input type="text" name="filename" value="{{filename}}" size = "64">
+[".zip" suffix will automatically be added]
+
+<br><br><button type="submit">Download workspace</button>
+</form>
+<h3>To continue, use one of the following links:</h3>
+<ul>
+<li><a href="select_workspace">Start new workspace</a></li>
+<li><a href="home">Return to home page</a></li>
+</ul>
+
+</body>
+</html>

@@ -1,5 +1,6 @@
 from __future__ import print_function
 import datetime
+import ast
 import re
 
 from .models import Collection, Text, Case
@@ -11,32 +12,49 @@ textfields = ['textid','textdate','textpublisher','textpubid','textlicense', 'te
 casefields = ['casedate', 'casecoder', 'casecmt']
 
 thetext = ''
+StopList = []  # words that will not be marked as NEs if capitalized in isolation
+NumberDict = {} # words referring to numbers and their values
 
-def get_YAML_file(filename):
-    """ Reads a YAML file from filename; returns dictionary from Collection; lists of dictionaries for Text, Case"""
-    ## STILL NEED TO ADD CASE INPUT
+# ===== Preference globals =====
+CodingOnly = False  
+MissingValue = '*'
+AlwaysAutoAnnotate = True
+
+
+# ======== YAML I/O ========= #
+
+def read_YAML_file(fin,filename):
+    """ Reads a single collection YAML file from filename; returns dictionary from Collection; lists of dictionaries for Text, Case"""
     collinfo = {}
     collinfo['collfilename'] = filename[:-4]
     collinfo['collid'] = filename[:-4]  # default 
 
     textdicts = []
+    casedicts = []
+#    print('GYF-0:')
 
-    fin = open(filename,'r')
+#    fin = open(filename,'r')
     line = fin.readline() 
-    while not line.startswith('texts:'):  # could doc, headline, source info here
+    while len(line) > 0 and not line.startswith('texts:'):  # could doc, headline, source info here
 #        print('>>',line[:-1])
         if len(line) > 4 and line[:line.find(':')] in collfields:
-            collinfo[line[:line.find(':')]] =  line[line.find(':')+1:-1].strip()
+            thefield = line[:line.find(':')].strip()
+            collinfo[thefield] = line[line.find(':')+1:-1].strip()
+            if 'date' in thefield and ':' in collinfo[thefield]:  # temporary fix removing times from the dates
+                collinfo[thefield] = collinfo[thefield][:collinfo[thefield].find(' ')]
         line = fin.readline() 
+        
+    if len(line) == 0:
+        raise Exception('No "texts:" segment found')
                 
     """print('GYF-1:')
     for k,v in collinfo.iteritems(): 
-        print(k, v)"""      
+        print(k, v)"""     
     
     while len(line) > 0 and not line.strip().startswith('-'):  
         line = fin.readline()
     curinfo = {} # read the text blocks
-    while len(line) > 0:
+    while len(line) > 0 and not line.startswith('cases:'):
         if line.strip().startswith('-'):
 #            print('Mk2',line[:-1]) 
             if 'textparent' in curinfo: # don't write until we've got something
@@ -48,8 +66,12 @@ def get_YAML_file(filename):
                 curinfo[st] = ''
             curinfo['textparent'] = collinfo['collid']
             curinfo['textid'] = line[line.find(':')+1:-1]
+            curinfo['textmkup'] = ''  # set these to defaults
+            curinfo['textmkupdate'] = '1900-01-01'
 
-        if line.strip().startswith('textmkup:') or line.strip().startswith('textoriginal:'): 
+        if line.strip().startswith('textmkup:') and '|' not in line:  # textmkup can be null, so just use the defaults
+            line = fin.readline()             
+        elif line.strip().startswith('textmkup:') or line.strip().startswith('textoriginal:'): 
 #            print('Mk2',line[:-1]) 
             field = line[:line.find(':')].strip()
             line = fin.readline() 
@@ -61,7 +83,11 @@ def get_YAML_file(filename):
                 line = fin.readline() 
             curinfo[field] = alltext 
         elif line[:line.find(':')].strip() in textfields:
-            curinfo[line[:line.find(':')].strip()] = line[line.find(':')+1:-1].strip()
+            thefield = line[:line.find(':')].strip()
+            curinfo[thefield] = line[line.find(':')+1:-1].strip()
+            if 'date' in thefield and ':' in curinfo[thefield]:  # temporary fix removing times from the dates
+                curinfo[thefield] = curinfo[thefield][:curinfo[thefield].find(' ')]
+
     #        print('>>>',line[:-1])
             line = fin.readline()
         else:
@@ -73,12 +99,66 @@ def get_YAML_file(filename):
         print()
         for k in textfields:
             if k in dc: print(k, dc[k])
-        print('textoriginal:', dc['textoriginal'])"""
+        print('textoriginal:', dc['textoriginal'])
+        print('textmkup:', dc['textmkup'])"""
             
-    return collinfo, textdicts
+    if len(line)>0: # get the previously coded cases
+        while len(line) > 0 and not line.strip().startswith('-'):  
+            line = fin.readline()
+        curinfo = {} # read the case blocks
+        while len(line) > 0:
+            if line.strip().startswith('-'):
+    #            print('Mk2',line[:-1]) 
+                if 'caseparent' in curinfo: # don't write until we've got something
+                    curinfo['textdate'] = '2000-01-01'  # temporary                
+                    casedicts.append(curinfo) 
+                    curinfo = {}
+ 
+                for st in casefields:  # also initialize mkup and original
+                    curinfo[st] = ''
+                curinfo['caseparent'] = collinfo['collid']
+                curinfo['caseid'] = line[line.find(':')+1:-1]
+
+            if line.strip().startswith('casevalues:'): 
+    #            print('Mk2',line[:-1]) 
+                line = fin.readline() 
+                indentst = line[:len(line) - len(line.lstrip())]
+                alltext = ''
+                while line.startswith(indentst):  # add the markup
+            #        print('>>>>',line[:-1])
+                    alltext += line.strip()
+                    line = fin.readline()
+                try:
+                    caseval = ast.literal_eval(alltext)
+                except:
+                    raise Exception('The following string of variable values in caseid ' + curinfo['caseid'] + '<blockquote>' + alltext + \
+                                    '</blockquote>cannot be processed because it contains a formatting error. This case occurs ')
+                curinfo['casevalues'] = alltext 
+            
+            elif line[:line.find(':')].strip() in casefields:
+                thefield = line[:line.find(':')].strip()
+                curinfo[thefield] = line[line.find(':')+1:-1].strip()
+                if 'date' in thefield and ':' in curinfo[thefield]:  # temporary fix removing times from the dates
+                    curinfo[thefield] = curinfo[thefield][:curinfo[thefield].find(' ')]
+
+                line = fin.readline()
+            else:
+                 line = fin.readline()
+
+        casedicts.append(curinfo) 
+        
+        """print("GYF-3: Cases:\n")
+        for dc in casedicts:
+            print()
+            for k in casefields:
+                if k in dc: print(k, dc[k])
+            print('casevalues:', dc['casevalues'])"""
+
+    return collinfo, textdicts, casedicts
 
 def write_YAML_file(thecoll, filehandle):
     """ writes the Collection thecoll to filehandle in YAML format"""
+    # TO DO: standardize the indentations with a string?
 #    print('WYF-1:', collid)
 #    thecoll = Collection.objects.get(collid__exact=collid)
     colldict = thecoll.__dict__
@@ -88,13 +168,13 @@ def write_YAML_file(thecoll, filehandle):
         else:
             filehandle.write(flst+ ': ' + colldict[flst] + '\n')
 #    print('WYF-2:', colldict)
-    filehandle.write('\ntexts\n')
+    filehandle.write('\ntexts:\n')
     
     curtexts = Text.objects.filter(textparent__exact=thecoll.collid)  # write the texts
     for ct in curtexts:
         textdict = ct.__dict__
         filehandle.write('\n  - textid: ' + textdict['textid'] + '\n')
-        print('WYF-3:', textdict)
+#        print('WYF-3:', textdict)
         for flst in textfields[1:-2]:
             if flst in textdict:
                 if flst == 'textdate':
@@ -116,12 +196,12 @@ def write_YAML_file(thecoll, filehandle):
                 else:
                     filehandle.write('    ' + flst+ ': ' + textdict[flst] + '\n')
     
-    curcases = Case.objects.filter(caseparent__exact=thecoll.collid)  # write the texts
+    curcases = Case.objects.filter(caseparent__exact=thecoll.collid)  # write the cases
     if len(curcases) > 0:
-        filehandle.write('\ncases\n')   
+        filehandle.write('\ncases:\n')   
         for ct in curcases:
             casedict = ct.__dict__
-            print('WYF-4:', casedict)
+#            print('WYF-4:', casedict)
             filehandle.write('\n  - caseid: ' + casedict['caseid'] + '\n')
             for flst in casefields:
                 if flst in casedict:
@@ -131,115 +211,283 @@ def write_YAML_file(thecoll, filehandle):
                     else:
                         filehandle.write('    ' + flst + ': ' + casedict[flst] + '\n')
         
-            filehandle.write('    casevalues: \n')
-            caseval = ct.get_values()
-            CIV_template.set_SaveList()  # DEBUG
-            print('WYF-5:', CIV_template.SaveList)
-            for st in CIV_template.SaveList:
-                filehandle.write('        ' + st + ': ' + caseval[st] + '\n')
+            filehandle.write('    casevalues: >\n        {\n')
+            print(casedict['casevalues'])
+            caseval = ast.literal_eval(casedict['casevalues'])  # this was checked for errors at the input level
+            print('WYF-5:', caseval)
+            for avar in CIV_template.SaveList:  # this does the output in the order given in the template
+                st = caseval[avar].replace("'","\\'")
+                filehandle.write("        '" + avar + "': '" + st + "',\n")
+            filehandle.write("        }\n")
 
 
-def hello():
-    print('Hey, I\'m here!')
+'''def hello():
+    print('Hey, I\'m here!')'''
     
     
 # ============ apply_markup functions ================ #
 
-def add_span_tag(telltale,classt, colorst):
-    """ Replaces telltale with a span tag with classt: colorst""" 
-    global thetext
-    idx = thetext.find(telltale)
+def read_stoplist():
+    """ read standard stoplist from the static directory """
+    fin = open('djciv_data/static/djciv_data/CIVET.stopwords.txt','r')
+    line = fin.readline() 
+    while len(line) > 0:  # loop through the file
+        if len(line) > 1:
+            if line[0] != '#':
+                if '#' in line:   # deal with possible comments
+                    word = line.partition('#')[0].strip()
+                else:
+                    word = line.strip()                
+                if len(word) > 1:  # or we could just put 'A' and 'I' in there and save a conditional...
+                    StopList.append(word[0].upper() + word[1:])
+                else:
+                    StopList.append(word.upper())            
+        line = fin.readline()
+    fin.close() 
+  
+def read_numberlist():
+    """ read standard number list from the static directory """
+    # 15.07.24 still need to throw errors here for missing []. May or may not be appropriate to make sure these are actually numbers, or at least warn when they aren't
+    # because a terminal blank is added, this won't match before punctuation, though that is unusual for number-words
+    fin = open('djciv_data/static/djciv_data/CIVET.numberwords.txt','r')
+    line = fin.readline() 
+    while len(line) > 0:  # loop through the file
+        if len(line) > 1:
+            if line[0] != '#':
+                if '#' in line:   # deal with possible comments
+                    phrase = line.partition('#')[0].strip()
+                else:
+                    phrase = line.strip()
+                if '[' in phrase:
+                    part = line.partition('[')
+                    word = part[0].strip() + ' '
+                    value = part[2][:part[2].find(']')].strip()
+                    NumberDict[word[0].upper() + word[1:]] = value
+                    NumberDict[word] = value                
+                else:
+                    pass
+                    # put some sort of error message here               
+        line = fin.readline()
+    fin.close()
+    print(NumberDict) 
+  
+
+
+def make_oktext():
+    """ splits thetext into a list that separates out <span></span> blocks and returns same """
+    # pas 15.07.23: This is used to avoid marking text that has already been marked, thus prevented, e.g. "killed" being marked 
+    # in "shot and killed", assuming the longer phrase had been coded first (and conversely, if "killed" had precedence, 
+    # "shot and killed" would not be matched, which could also be a useful feature. There is probably some more elegant
+    # way to do this but this works. 
+    global thetext 
+    oktext = []
+    indc = 0
+    idx = thetext.find('<span')
     while idx > 0:
-        indb = thetext.find(telltale,idx+3)
-        thetext = thetext[:idx] + '<span style="class:' + classt +'; color:' + colorst + '">' + thetext[idx+3:indb] + "</span>" + thetext[indb+3:]  
-#                    print(line)                                        
-        idx = thetext.find(telltale,indb+3)
+        oktext.append(thetext[indc:idx])
+        indc = thetext.find('</span>',idx)
+        oktext.append(thetext[idx:indc+7])
+        indc += 7
+        idx = thetext.find('<span',indc)
+    oktext.append(thetext[indc:])
+    """print('\n-------------')
+    for st in oktext:
+        print(st)"""
+    return oktext
+
+
+def add_span_tag(curtext,telltale,classt, colorst):
+    """ Replaces telltale in curtext with a span tag with classt: colorst""" 
+    idx = curtext.find(telltale)
+    while idx > 0:
+        indb = curtext.find(telltale,idx+3)
+        curtext = curtext[:idx] + '<span style="class:' + classt +';color:' + colorst + '">' + curtext[idx+3:indb] + "</span>" + curtext[indb+3:]  
+        idx = curtext.find(telltale,indb+3)
+    return curtext
 
 def do_NE_markup():
-# this does an initial search for words that are not at the beginning of the sentences, which for ADS is preceded by two 
-# blanks: this will need to be generalized. Saves these and then does a second search to catch proper nouns that could be
-# at the beginning.
-# also this is assuming the 4-char indent 
+    """ Mark named-entities based on capitalization """
     global thetext
-    newords = []
-    pat1 = re.compile(r' [A-Z]')    
-    idx = 0
-    curmatch = pat1.search(thetext, idx)
-    while curmatch:
-#        print(thetext[curmatch.start()-1:curmatch.start()+8])
-        if thetext[curmatch.start()-1] != ' ': # only look at words not at beginning of sentence
-#            print('Mk1')
-            endx = thetext.find(' ',curmatch.start()+1)
-            if thetext[endx-1] in [',','.','?','"','\'','!','\n','\t']:
+#    newords = []
+    if len(StopList) == 0:
+        read_stoplist()
+    pat1 = re.compile(r' (al-|bin-|ibn-|)?[A-Z]')    
+    oktext = make_oktext()
+    for ka in range(len(oktext)):
+        curtext = oktext[ka]
+        if curtext.startswith('<span'):  # do not try to code anything that has already been marked
+            continue
+        idx = 0
+        curmatch = pat1.search(curtext, idx)
+        while curmatch:
+    #        print(curtext[curmatch.start()-1:curmatch.start()+8])
+            endx = curtext.find(' ',curmatch.start()+1)
+            if curtext[endx-1] in [',','.','?','"','\'','!','\n','\t']:
                 endx -= 1
-            if endx - curmatch.start() > 4:
-                stem = ' ' + thetext[curmatch.start()+1:curmatch.start()+5] 
-                if stem not in newords: # shorter strings are probably abbreviations
-                    newords.append(stem)
-            thetext = thetext[:curmatch.start()+1] + '=~=' + thetext[curmatch.start()+1:endx]  + '=~=' + thetext[endx:]
+            curtext = curtext[:curmatch.start()+1] + '=~=' + curtext[curmatch.start()+1:endx]  + '=~=' + curtext[endx:]
             idx = endx
-        else:
-            idx = curmatch.end()
-#            print('Mk2', curmatch.start(),curmatch.end(),idx, thetext[idx:idx+8])
-        curmatch = pat1.search(thetext, idx)
-    for st in newords:
-#        print(st)
-        idx = thetext.find(st)
-        while idx > 0:
-            endx = thetext.find(' ',idx+1)
-            thetext = thetext[:idx+1] + '=~=' + thetext[idx+1:endx]  + '=~=' + thetext[endx:]
-            idx = thetext.find(st,endx)
+            """else:
+                idx = curmatch.end()
+    #            print('Mk2', curmatch.start(),curmatch.end(),idx, curtext[idx:idx+8])"""
+            curmatch = pat1.search(curtext, idx)
     
-    thetext = thetext.replace('=~= =~=',' ')
-    add_span_tag('=~=','nament', 'blue')
+        curtext = curtext.replace('=~= =~=',' ')
+ #       print('DNM1:',curtext)
+        idx = curtext.find('=~=')
+        while idx >= 0:
+            idend = curtext.find('=~=',idx+1)+3
+#            print('   ',curtext[idx:idend],':',curtext[idx+3:idend-3])
+            if ' ' not in curtext[idx+3:idend] and curtext[idx+3:idend-3] in StopList: # remove markup from single-word stopwords
+                curtext = curtext[:idx] + curtext[idx+3:idend-3] + curtext[idend:]
+#                print('  ==>',curtext[idx:idend])
+            idx = curtext.find('=~=',idend+1)            
+
+        oktext[ka] = add_span_tag(curtext,'=~=','nament', 'blue')
+
+    thetext = ''.join(oktext) 
+
+def do_numberword_markup():
+    """ Annotate number words with their values in brackets """
+    global thetext
+#    newords = []
+    if len(NumberDict) == 0:
+        read_numberlist()
+    oktext = make_oktext()
+    for ka in range(len(oktext)):
+        curtext = oktext[ka]
+        if curtext.startswith('<span'):  # do not try to code anything that has already been marked
+            continue
+        endx = 0
+        for tar in NumberDict:
+            curmatch = curtext.find(tar)
+            if curmatch >= 0:
+                endx = curmatch + len(tar)
+                phrase = tar
+                break
+        while curmatch >=0:       
+            if curmatch == 0 or curtext[curmatch-1] == ' ':  # space is the initial boundary condition
+                curtext = curtext[:curmatch] + '=~=' + phrase + ' [' + NumberDict[phrase]  + '] =~=' + curtext[endx:]
+                endx = curtext.find('=~=',endx+6) # this should get us to a point where we catch the second =~=
+            for tar in NumberDict:
+                curmatch = curtext.find(tar,endx)
+                if curmatch >= 0:
+                    endx = curmatch + len(tar) + 1
+                    phrase = tar
+                    break
+            if len(curtext) > 256:
+                curmatch = -1
+        oktext[ka] = add_span_tag(curtext,'=~=','num', 'green')
+
+    thetext = ''.join(oktext) 
+
 
 def do_number_markup():
+    """ annotate numbers """
     global thetext
     pat1 = re.compile(r' [1-9]')    
-    idx = 0
-    curmatch = pat1.search(thetext, idx)
-    while curmatch:
-        endx = thetext.find(' ',curmatch.start()+1)
-        if thetext[endx-1] in [',','.','?','"','\'','!']:
-            endx -= 1
-        thetext = thetext[:curmatch.start()+1] + '=+=' + thetext[curmatch.start()+1:endx]  + '=+=' + thetext[endx:]
-        idx = endx
-        curmatch = pat1.search(thetext, idx)
-    add_span_tag('=+=','num', 'green')
+    oktext = make_oktext()
+    for ka in range(len(oktext)):
+        curtext = oktext[ka]
+        idx = 0
+        curmatch = pat1.search(curtext, idx)
+        while curmatch:
+            endx = curtext.find(' ',curmatch.start()+1)
+            if curtext[endx-1] in [',','.','?','"','\'','!']:
+                endx -= 1
+            curtext = curtext[:curmatch.start()+1] + '=+=' + curtext[curmatch.start()+1:endx]  + '=+=' + curtext[endx:]
+            idx = endx
+            curmatch = pat1.search(curtext, idx)
+        oktext[ka] = add_span_tag(curtext,'=+=','num', 'green')
+
+    thetext = ''.join(oktext) 
+
     
-def do_string_markup(category,termlist, termcolor):
+def do_string_markup(category):
+    """ annotate the user-specified categories """ 
+    # pas 15.07.23: The two-step process of using tell-tales '=$=' probably isn't needed -- one could go directly to the 
+    # eventual <span></span> version -- but it keeps the first loop a bit simpler  
     global thetext
     marklist = []
-    for st in termlist:
+    for st in CIV_template.UserCategories[category][2:]:
         marklist.append(' ' + st)
-        marklist.append(' ' + st[0].upper() + st[1:])
     for st in marklist:
-#        print(st)
-        idx = thetext.find(st)
-        while idx > 0:
-            endx = thetext.find(' ',idx+1)
-            if thetext[endx-1] in [',','.','?','"','\'','!','\n','\t']:
-                endx -= 1
-            thetext = thetext[:idx+1] + '=$=' + category + '=$=' + thetext[idx+1:endx]  + '=$=' + thetext[endx:]
-            idx = thetext.find(st,endx+len(category)+6)
+#        print('DSM1:',st)
+        oktext = make_oktext()
+        for ka in range(len(oktext)):
+            curtext = oktext[ka]
+            if curtext.startswith('<span'):  # do not try to code anything that has already been marked
+                continue
+            idx = curtext.find(st)
+            while idx > 0:
+                endx = curtext.find(' ',idx+len(st))
+                if curtext[endx-1] in [',','.','?','"','\'','!','\n','\t']:
+                    endx -= 1
+                if endx == idx+len(st):  # only use complete matches except for punctuation: dropping this would allow stemming and that could be added as a option at some point
+                    if category in CIV_template.CategoryCodes:
+                        code = ' [' + CIV_template.CategoryCodes[category][st.strip()] + ']'
+                    else:
+                        code = ''
+                    curtext = curtext[:idx+1] + '=$=' + category + '=$=' + st[1:] + code  + '=$=' + curtext[endx:]
+    #                print('DSM2:',curtext)
+                    idx = curtext.find(st,endx+len(category+code)+6)
+                else:
+                    idx = endx
 
-    idx = thetext.find('=$=')
-    while idx > 0:
-        indb = thetext.find('=$=',idx+3)
-        indc = thetext.find('=$=',indb+3)
-        thetext = thetext[:idx] + '<span style="class:termst; color:' + termcolor + '" title="' + thetext[idx+3:indb] + '">'  + thetext[indb+3:indc] + "</span>" + thetext[indc+3:] 
-        idx = thetext.find('</span>',idx+3)
-        idx = thetext.find('=$=',idx+3)
+            idx = curtext.find('=$=')
+            while idx > 0:
+                indb = curtext.find('=$=',idx+3)
+                indc = curtext.find('=$=',indb+3)
+                curtext = curtext[:idx] + '<span style="class:' + CIV_template.UserCategories[category][1] + ';color:' + \
+                        CIV_template.UserCategories[category][0] +  '">'  + curtext[indb+3:indc] + "</span>" + curtext[indc+3:] 
+                idx = curtext.find('</span>',idx+3)
+                idx = curtext.find('=$=',idx+3)
+                
+            oktext[ka] = curtext
+                
+        thetext = ''.join(oktext) 
 
 
 def do_markup(oldtext):
     global thetext
-    actionterms = ['killed','wounded','bombed', 'clashed','injured','attacked','assaulted']
-    peopleterms = ['civilians','workers','authorities', 'groups','troops','soldiers','rebels']
     thetext = oldtext + ' '
+    for cat in CIV_template.UserCategories:
+        do_string_markup(cat)
+    do_numberword_markup()    
     do_NE_markup()
     do_number_markup()
-    do_string_markup('whacked',actionterms,'red')
-    do_string_markup('people',peopleterms, 'cyan')
-    print(thetext)
+#    print('DM1:',thetext)
     return thetext
+    
+def write_styles():
+    """ modifies the style.js file used by ckeditor to add the new categories """
+    path = 'djciv_data/static/djciv_data/ckeditor/'
+    fin = open(path + 'styles.template.js','r')    
+    fout = open(path + 'styles.js','w') # this overwrites any existing styles.js file
+    line = fin.readline() 
+    while len(line) > 0:
+        if '{{' not in line:
+            fout.write(line)
+        else:
+            for cat in CIV_template.UserCategories:
+                fout.write("\t{ name: '" + cat + "', element: 'span', styles: { 'class':'" + cat + "', 'color': '" + CIV_template.UserCategories[cat][0] + "' }  },\n")
+        line = fin.readline() 
+    fout.close()
+    fin.close()
+    
+
+# ======== Miscellaneous utilities ========= #
+
+def get_preferences():
+    """ get context for preferences.html based on globals """
+    # <15.07.28> apparently this is better done in the DB but this will work for the time being until I've got a better idea of what is involved
+    curpref = {}
+    curpref['coding-only'] = CodingOnly
+    return curpref
+    
+def set_preferences(request):
+    """ get context for preferences.html based on globals """
+    CodingOnly = request.POST['coding-only']
+    
+def unimplemented_feature(st):
+    return '<h2>The option "' + st + '" has yet to be implemented.</h2><p><h3>Use the back arrow in your browser to return to the previous screen.</h3>'
+    

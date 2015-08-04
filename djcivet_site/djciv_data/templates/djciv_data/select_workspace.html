@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>CIVET template selection</title>
+    <meta name="generator" content="BBEdit 11.0" />
+    <style> 
+        .button {
+         width: 200px;
+        height: 30px;
+        border-radius: 10px;
+        background-color: aqua;
+        }
+        
+        .button2 {
+         width: 200px;
+        height: 30px;
+        background-color: lightpink;
+        border-radius: 10px;
+        }
+    
+   </style>
+<body>
+<h2>CIVET: Select workspace file</h2>
+<p>
+{% if docoding %}
+    <form method="POST" enctype="multipart/form-data" action="read_workspace" >{% csrf_token %}
+{% else %}
+    <form method="POST" enctype="multipart/form-data" action="read_workspace/manage" >{% csrf_token %}
+{% endif %}
+    Select a workspace file: <input type="file" name="filename" > <br>
+<p>
+<p>
+<b>Coder [optional]:</b>
+<input type="text" name="codername" size = "32">
+
+<p>
+
+<button class="button" type="submit">Read workspace</button>
+{% if docoding %}
+    <button class="button2" type="submit" formaction="read_workspace/demo">Use demonstration workspace</button> 
+{% else %}
+    <button class="button2" type="submit" formaction="read_workspace/demo-manage">Use demonstration workspace</button> 
+{% endif %}
+</form>
+<h3><a href="download_demo_workspace">Download</a> workspace demonstration file</h3>
+</body>
+</html>

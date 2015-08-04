@@ -37,9 +37,6 @@ from .models import Collection, Text, Case
 
 # ======== global initializations ========= #
 
-#class DupError(Exception):
-#	pass
-
 _html_escapes = { #'&': '&amp;',   # this allows entities
             '<': '&lt;',
             '>': '&gt;',
@@ -53,25 +50,34 @@ HTML_OK = True   # allow html: command?
 #HTML_OK = False
 
 SaveList = []   # variables to write 
+SaveTypes = []   # full variable string with optional label for values 
 SpecialVarList = ['_coder_', '_date_', '_time_']
 VarList = []    # variables which have entry boxes
-TempData = ''   # output string for BasicMode
+TempData = ''   # output string for form-only mode
 UncheckedValues = {}  # values to output for unchecked checkboxes
-codername = '---' 
+CoderName = '---' 
 ConstVarDict = {}  # holds the variables set by constant:
 DefaultFileName = 'civet.output.txt'  # holds the value set by filename:
+UserCategories = {} # holds user categories as list [color, vocabulary...]
+CategoryCodes = {} # dictionary of dictionaries for category codes, if these are present
+FormContent = ''  # html for the coding form
 
-BasicMode = True   # system is working with a simple template rather than CMS and annotation: this invokes a simpler download routine
+CatColorList = ['Magenta', 'SeaGreen',  'Orchid', 'Brown', 'Purple', 'Gold', 'Olive', 'Slateblue', 'Cyan', 'Thistle',
+                'CornflowerBlue', 'DarkGray', 'Lime', 'Turquoise', 'SlateGray', 'Tan']
+CurColor = 0
+""" this might be a better palette:
+tableau20 = [(31, 119, 180), (174, 199, 232), (255, 127, 14), (255, 187, 120),  
+             (44, 160, 44), (152, 223, 138), (214, 39, 40), (255, 152, 150),  
+             (148, 103, 189), (197, 176, 213), (140, 86, 75), (196, 156, 148),  
+             (227, 119, 194), (247, 182, 210), (127, 127, 127), (199, 199, 199),  
+             (188, 189, 34), (219, 219, 141), (23, 190, 207), (158, 218, 229)]  
+http://www.randalolson.com/2014/06/28/how-to-make-beautiful-data-visualizations-in-python-with-matplotlib/"""
+
 
 # ============ function definitions ================ #
 
-def set_SaveList():
-# debugging function
-    global SaveList
-    SaveList = "_date_, typeincid, natincid, authreport, location, injuries, descrp".split(', ')
-
-def imalive(): # debugging
-    print('Hello from CIV_template')
+"""def imalive(): # debugging
+    print('Hello from CIV_template')"""
     
 def escapehtml_filter(value):
     """ Nice little filter I modified slightly from the code in 
@@ -96,14 +102,98 @@ def split_options(commst):
 def get_special_var(avar):
     """ returns values of the _*_ variables """
     if avar == '_coder_':
-        return codername
+        return CoderName
     elif avar == '_date_':
         return time.strftime("%d-%b-%Y")
     elif avar == '_time_':
         return time.strftime("%H:%M:%S")
     else: # shouldn't hit this
         return '---'
+
+def parse_codes(st):
+    """ parse a word[ ] code string and returns [word, Word, code] """
+    parts = st.partition('[')
+    vocab = parts[0].strip()
+    if vocab[0].islower():  # create capitalized version if needed
+        capvocab = vocab[0].upper() + vocab[1:]
+    else:
+        capvocab = ''
+    if ']' in parts[2]:
+        code = parts[2][:parts[2].index(']')]
+    else:
+        code = parts[2]
+    return [vocab, capvocab, code]
     
+    
+def read_codes_file(fin, filename):
+    """ reads the codes.file fin and stores results in CategoryCodes """ 
+    global CategoryCodes           
+    newcat = filename[filename.index('codes.')+6:].partition('.')[0]  # category name follows 'codes.' in filename
+    CategoryCodes[newcat] = {}
+    line = fin.readline() 
+    while len(line) > 0:
+#        print('GC1:',line)
+        if not line.startswith('#'):
+            [vocab, capvocab, code] = parse_codes(line)
+            CategoryCodes[newcat][vocab] = code
+            if len(capvocab) > 0:
+                CategoryCodes[newcat][capvocab] = code               
+        line = fin.readline()
+#    print('RCF:',newcat, CategoryCodes[newcat])
+        
+
+def make_category(commlines):
+    """ adds an annotation category to UserCategories, handling various contingencies in the [color] field  """
+    """ UserCategories is indexed by category name and consists of lists containing
+        color
+        internal name of the form termstNN
+        list of vocabulary for the category"""
+    global UserCategories, CurColor, CategoryCodes
+#    print('MC-entry:',commlines)
+    newcat = commlines[1]
+    if newcat in UserCategories:
+        raise Exception('Category "' + newcat + '" is already defined; use a different name.')  # this is caught in do_command
+    if len(commlines[2]) < 3:  # handle numbered color from the palette
+        try:
+            colindex = int(commlines[2]) - 1
+        except Exception as e:
+#            print('MC01:',e)
+            colindex = -1  # force use of default color
+        if colindex < 0 or colindex >= len(CatColorList):
+            commlines[2] = ''  # force use of default color
+        if len(commlines[2]) == 0:
+            UserCategories[newcat] = [CatColorList[CurColor]]  # get the next color from the list
+            if CurColor < len(CatColorList):
+                CurColor += 1
+        else:
+            UserCategories[newcat] = [CatColorList[colindex]]      
+    else:
+        UserCategories[newcat] = [commlines[2]]  # this handles named and hex colors
+    UserCategories[newcat].append('termst{:02d}'.format(len(UserCategories)))  # internal class name for category
+
+    if commlines[4].startswith('codes.'):       # make sure we read this earlier, then copy vocabulary to UserCategories
+        if newcat in CategoryCodes:
+            for vocab in CategoryCodes[newcat]:
+                UserCategories[newcat].append(vocab)
+        else:
+            raise Exception('The file "' + commlines[4] + '" was not found in the zipped collections file containing the form')  # this is caught in do_command
+
+    elif '[' in commlines[4]:                       # read values and codes from commlines[4]
+        CategoryCodes[newcat] = {}
+        for st in split_options(commlines[4]):
+            [vocab, capvocab, code] = parse_codes(st)
+            CategoryCodes[newcat][vocab] = code
+            UserCategories[newcat].append(vocab)
+            if len(capvocab) > 0:
+                UserCategories[newcat].append(capvocab)
+#        print('MC-codes:',newcat, vocab, CategoryCodes[newcat])
+    else:                                           # no codes, just save the vocabulary
+        for st in split_options(commlines[4]):
+            UserCategories[newcat].append(st)
+            if st[0].islower():  # create capitalized version if needed
+                UserCategories[newcat].append(st[0].upper() + st[1:])
+#    print('MC1:',newcat, UserCategories[commlines[1]])
+
 
 def make_checkbox(commlines):
     """ creates a checkbox entry: """
@@ -129,7 +219,7 @@ def make_textline(commlines, widthstr='24'):
     return '\n' + commlines[1] + '<input name = "' + commlines[2] + '" type="text" value="' + commlines[4] + '" size = ' + widthstr + '>\n'
 
 def make_textclass(commlines, widthstr='24'):
-    """ creates a text input entry """
+    """ creates a text input entry attached to a category """
     widthstr = '24'  # not needed, right?
 #    print('MTc-1:',commlines)
     optstr = commlines[3] + ' '
@@ -137,16 +227,16 @@ def make_textclass(commlines, widthstr='24'):
         tarsta = optstr[optstr.index('width'):]
         tarst = tarsta[tarsta.index('=')+1:].lstrip()  # need to catch error here; also if no embedded blanks we don't need the lstrip
         widthstr = tarst[:tarst.index(' ')]  # check if this is an integer
-    if 'class' in optstr:  # this is required, so throw an error if it isn't here
-        tarsta = optstr[optstr.index('class'):]
+    if 'category' in optstr:  # this is required, so throw an error if it isn't here
+        tarsta = optstr[optstr.index('category'):]
         tarst = tarsta[tarsta.index('=')+1:].lstrip()  # need to catch error here
         classstr = tarst[:tarst.index(' ')] 
         if classstr not in ['nament','date','num']:
             classstr = '=^=' + classstr + '=^='   # these will be replaced by termstNN
 #        print('MTc-2:',classstr)
     return '\n' + commlines[1] + '<input name = "' + commlines[2] + '" id = "' + commlines[2] + '" type="text" value="' + commlines[4] + \
-           '" size = ' + widthstr + ' onfocus="coloraclass(\'' + classstr + '\', \'' + commlines[2] + '\')">\n'
-#<input type="text" name="NE1" id="NE1" value="" onfocus="coloraclass('nament', 'NE1')">
+           '" size = ' + widthstr + ' onfocus="coloraclass(\'' + classstr + '\', \'' + commlines[2] + '\')" ' +\
+           ' onblur="cancelclass()">\n'
 
 def make_textarea(commlines):
     """ creates a text area entry """
@@ -222,7 +312,7 @@ def get_commlines(fin):
     """ reads a command; filters out comments and initial '+'; skips command on '-', returns list in commlines. 
         Standard content of commlines:
             0: name of the command
-            1: text that precedes the command and 
+            1: title text for this command
             2: name of the variable
             3: options (often empty) 
         the remaining content is specific to each command and will be interpreted by those functions
@@ -264,6 +354,12 @@ def parse_command(commline):
     if theline.find(':') < 0:  
         return ['Error 1', theline]
     retlist = [theline[:theline.index(':')]]
+    if retlist[0] == 'save':
+        if len(commline) > 1:
+            retlist.append(commline[1])
+            return retlist
+        else:
+            return []   # this triggers an error
     theline = theline[theline.index(':')+1:]
     theline = theline.replace('\[','~1~')
     theline = theline.replace('\]','~2~')
@@ -286,9 +382,13 @@ def parse_command(commline):
     
 def do_command(commln):
     """ Calls various `make_*' routines, adds variables to VarList, forwards any errors from parse_command() """
-    global VarList, SaveList, DefaultFileName
+    global VarList, SaveList, SaveTypes, DefaultFileName
+    if commln[0] == '-':
+        return ''
     commlines = parse_command(commln)
 #    print('DC1:',commlines)
+    if len(commlines) == 0:
+        return ''
     commst = commlines[0]
     if 'Error 1' in commst:
         outline = '~Error~<p>No ":" in command line:<br>'+escapehtml_filter(commlines[1])+'<br>\n'
@@ -304,8 +404,25 @@ def do_command(commln):
     elif commst == 'newline':
             outline = make_newline()   # just make this in-line....
     elif commst == 'save':
-        SaveList = split_options(commlines[1])
-        outline = ' '  # show something was processed
+        varlist = split_options(commlines[1])
+        if len(varlist) > 0:
+    #        print('DC2.1:',varlist)
+            SaveList = []
+            SaveTypes = [] 
+            for st in varlist:
+                if '[' in st:
+                    parts = st.partition('[')
+                    SaveList.append(parts[0].strip())
+                    try:
+                        parts[2].index(']')
+                    except:
+                        outline += '~Error~<p>Missing closing bracket in save: ' + commlines[1] + '<br>\n'
+                else:
+                    SaveList.append(st)
+                SaveTypes.append(st)
+        else:            
+            outline += '~Error~<p>Missing variable list on the line following ' + commlines[0] + '<br>\n'
+        outline += ' '  # show something was processed
 #        print('SV:',SaveList)
     elif commst == 'constant':
         ConstVarDict[commlines[2]] = commlines[1]
@@ -314,6 +431,13 @@ def do_command(commln):
     elif commst == 'filename':
         DefaultFileName = commlines[1]
         outline = ' ' 
+    elif commst == 'category':
+        try:
+            make_category(commlines)
+            outline = ' ' 
+        except Exception, e:
+            outline = '~Error~<p>' + str(e) + '<br>\n'
+
     if len(outline) == 0:   # remaining commands specify variables 
         if commst == 'radio':
             outline = make_radio(commlines)
@@ -334,18 +458,21 @@ def do_command(commln):
     return outline
 
 def init_template():
-    global VarList, SaveList
+    global VarList, SaveList, UserCategories, codename, FormContent
     VarList = []
     VarList.extend(SpecialVarList) 
     SaveList = []  
-    codername = '---'        
+    SaveTypes = []  
+    CoderName = '---' 
+    UserCategories = {}
+    FormContent = ''       
 
 #  ================  Data saving  ================
 
 def save_case(request, active_collection, case_id = ''):
     """ saves (case_id empty) or replaces case for active_collection """
     valdict = {}
-    print('SC-1',SaveList, active_collection)
+#    print('SC-1',SaveList, active_collection)
     for avar in SaveList: 
 #        print('STT2:',avar)
         if avar in SpecialVarList: 
@@ -366,16 +493,21 @@ def save_case(request, active_collection, case_id = ''):
     else:
         theser = case_id
         
+    # convert valdict to a string: in fact we could probably skip making the dictionary first but at one point it was stored as such
+    valst = "{"
+    for key in valdict:
+        st = valdict[key].replace("'","\\'")
+        valst += "'" + key + "': '" + st + "', "
+    valst += '}'
     newcase = Case.objects.create_case(
-            caseparent = active_collection,
-            caseid = theser,
-            casedate = datetime.datetime.now(),
-            casecoder = '',  # fill this in later
-            casecmt = '',
-            casevaluedict = valdict,
-            )
+        caseparent = active_collection,
+        caseid = theser,
+        casedate = datetime.datetime.now(),
+        casecoder = CoderName,  
+        casecmt = '',
+        casevalues = valst,
+        )
     newcase.save()
-    print('SC-2: ' + theser + '\n',valdict)
 
 def save_to_TempData(request):
     """ adds the variables from the basic.html form to the TempData string  """

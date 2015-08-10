@@ -1,0 +1,495 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>CIVET Coding Form Templates &mdash; CIVET documentation</title>
+    
+    <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'beta-0.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="CIVET documentation" href="index.html" />
+    <link rel="next" title="CIVET Workspaces" href="workspaces.html" />
+    <link rel="prev" title="Home Page Options" href="homepage.html" /> 
+  </head>
+  <body role="document">
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+          <p class="logo"><a href="index.html">
+            <img class="logo" src="_static/civet200.png" alt="Logo"/>
+          </a></p>
+        <div class="headertitle"><a
+          href="index.html">CIVET beta-0.7 documentation</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
+          <a href="homepage.html" title="Home Page Options"
+             accesskey="P">previous</a> |
+          <a href="workspaces.html" title="CIVET Workspaces"
+             accesskey="N">next</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="civet-coding-form-templates">
+<span id="sec-forms"></span><h1>CIVET Coding Form Templates<a class="headerlink" href="#civet-coding-form-templates" title="Permalink to this headline">¶</a></h1>
+<p>A CIVET template file specifies the individual components of the form:
+these are the familiar components from web forms but the syntax used to
+specify them is simpler than what you will find in HTML.</p>
+<p>CIVET is simply adding these controls to an HTML <code class="docutils literal"><span class="pre">&lt;form&gt;</span></code> and, as with
+all things HTML, most of the placement of the fields is handled by the
+browser. <a class="footnote-reference" href="#f1" id="id1">[1]</a> CIVET provides some limited formatting through the
+insertion of text and line breaks, and with some experimenting you
+should be able to keep the form from being too ugly.</p>
+<p>The template file should be a simple text file—most systems are happier
+if this ends in the suffix <code class="docutils literal"><span class="pre">.txt</span></code>—similar to that used in an <em>R</em>
+or <em>Stata</em> script (that is, not a formatted file such as that
+produced by <em>MS-Word</em>). Appendix 1 gives an example of a template
+file, and the code for this can also be downloaded from a link in the
+program.</p>
+<p>At present the program does only a very limited amount of error
+checking; more of this will be added in the future. If the template does
+contain one or more errors, the system will display this on a web page.</p>
+<div class="section" id="simple-template-based-data-entry-form">
+<h2>Simple Template-Based Data Entry Form<a class="headerlink" href="#simple-template-based-data-entry-form" title="Permalink to this headline">¶</a></h2>
+<p>The basic data entry form just uses the presumably familiar standard
+HTML data entry fields and should be self-explanatory.</p>
+<p>To save a set of coded fields, click one of the buttons which follow the
+title <code class="docutils literal"><span class="pre">Options</span> <span class="pre">after</span> <span class="pre">saving:</span></code></p>
+<dl class="docutils">
+<dt>Code another case:</dt>
+<dd>Save, then return to the same form</dd>
+<dt>Download data:</dt>
+<dd>Save, then download data as a tab-delimited text file</dd>
+</dl>
+<p>The <code class="docutils literal"><span class="pre">Download</span> <span class="pre">CIVET</span> <span class="pre">data</span></code> page  provides a
+text box for a file name, and the <code class="docutils literal"><span class="pre">Download</span> <span class="pre">file</span></code> button downloads the
+coded data. Use the <em>Start new data file</em> link to re-start the coding
+and the <em>Continue coding with this file</em> link to continue adding to the
+existing records.</p>
+<ul class="simple">
+<li>The .txt file is tab-delimited and contains the variable names in the
+first line.</li>
+<li>If the file name does not end in “.txt,” this suffix will be added.</li>
+</ul>
+<div class="figure">
+<img alt="CIVET Data download page" src="_images/download.png" />
+</div>
+</div>
+<div class="section" id="command-formats">
+<h2>Command formats<a class="headerlink" href="#command-formats" title="Permalink to this headline">¶</a></h2>
+<p>Commands generally have the following format</p>
+<div class="highlight-python"><div class="highlight"><pre>command: entry-title [var-name] options
+comma-delimited list
+</pre></div>
+</div>
+<p>Commands vary in how many of these components they have, but all follow
+this general pattern.</p>
+<p>Each command ends with a blank line (or, if you prefer, the commands are
+separated by blank lines.)</p>
+<p>Commands can also be cancelled by adding a “-” in front of the command:
+this will cancel the entire command, that is, all of the lines
+associated with the command, not just the first line. For visual
+symmetry, a “+” in front of the command “activates” it, though the
+command will also be active without the plus.</p>
+<p>“#” denotes a comment: anything following a “#” is ignored, so lines
+beginning with “#” are completely ignored.</p>
+<div class="section" id="items-in-template-specification">
+<h3>Items in template specification<a class="headerlink" href="#items-in-template-specification" title="Permalink to this headline">¶</a></h3>
+<p>The commands involve one or more of the following items:</p>
+<dl class="docutils">
+<dt>entry-title</dt>
+<dd>This is the title of data entry field. If this ends with <code class="docutils literal"><span class="pre">/</span></code> a
+line-break (<code class="docutils literal"><span class="pre">&lt;br&gt;</span></code>) is inserted after the text. The titles are
+escaped: at present the characters &lt;, &gt;and the single and double
+quotes are replaced with the equivalent HTML entities
+<code class="docutils literal"><span class="pre">&amp;lt;,</span> <span class="pre">&amp;gt;</span> <span class="pre">&amp;quot;</span></code> and <code class="docutils literal"><span class="pre">&amp;rsquo;</span></code>. <a class="footnote-reference" href="#f2" id="id2">[2]</a> The <strong>entry-title</strong>
+field cannot contain the characters “[” or “]”—if these are present
+they will be interpreted as bounding the <strong>var-name</strong> field—but the
+escaped versions “\[” and “\]” are allowed.</dd>
+<dt>var-name</dt>
+<dd>The text of the variable name for this field; this will be used in
+the first line of the <code class="docutils literal"><span class="pre">.csv</span></code> output file</dd>
+<dt>comma-delimited-option-list</dt>
+<dd>A list of the items that can be selected, separated by commas. A
+‘*’ at the beginning of the item means that it will be initially
+selected.</dd>
+<dt>comma-delimited-var-name-list</dt>
+<dd>A list of items which appear in <strong>var-name</strong> fields, separated by
+commas.</dd>
+<dt>page-text</dt>
+<dd>Any text</dd>
+<dt>number</dt>
+<dd>An integer</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="templates-specifying-variables">
+<h2>Templates: Specifying variables<a class="headerlink" href="#templates-specifying-variables" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="specifying-variables-to-save">
+<h3>Specifying variables to save<a class="headerlink" href="#specifying-variables-to-save" title="Permalink to this headline">¶</a></h3>
+<p>This command gives the variables that will be saved; these can be in any
+order but each of these must correspond to a <code class="docutils literal"><span class="pre">var-name</span></code> somewhere in
+the form, or are one of the special variables discussed below. A
+tab-delimited version of this list will be the first line of the output
+file. The command can occur anywhere in the file.</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line"><strong>save:</strong></div>
+<div class="line">comma-delimited-var-name-list</div>
+</div>
+</div></blockquote>
+<p>If the variable name has brackets following it, the <em>value</em> of the
+variable rather than the literal text will be written when the data are
+written to a tab-delimited file: the value is the string in brackets
+<code class="docutils literal"><span class="pre">[…]</span></code> in the annotated coding mode. If there is a variable name inside
+the brackets, that will be used as the column name for the values;
+otherwise the regular name will be used: this allows both the literal
+text and the value to be saved, as in the third example below. If
+<code class="docutils literal"><span class="pre">save</span></code> specifies a value output and not is found, a missing value will
+be used.</p>
+<p><strong>Example:</strong></p>
+<blockquote>
+<div><div class="line-block">
+<div class="line"><code class="docutils literal"><span class="pre">save:</span> <span class="pre">worldregion,</span> <span class="pre">eyewit,</span> <span class="pre">groupname,</span> <span class="pre">comments</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">save:</span> <span class="pre">worldregion</span> <span class="pre">[regioncode],</span> <span class="pre">eyewit,</span> <span class="pre">groupname[],</span> <span class="pre">comments</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">save:</span> <span class="pre">worldregion,</span> <span class="pre">eyewit,</span> <span class="pre">groupname,</span> <span class="pre">groupname</span> <span class="pre">[groupcode],</span> <span class="pre">comments</span></code></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="constant">
+<h3>constant<a class="headerlink" href="#constant" title="Permalink to this headline">¶</a></h3>
+<p>Sets the value of a variable to a constant; this can be used in a
+<code class="docutils literal"><span class="pre">save:</span></code></p>
+<blockquote>
+<div><div class="line-block">
+<div class="line"><strong>constant:</strong> page-text [varname]</div>
+</div>
+</div></blockquote>
+<p><strong>Example:</strong></p>
+<blockquote>
+<div><code class="docutils literal"><span class="pre">constant:</span> <span class="pre">Data</span> <span class="pre">set</span> <span class="pre">0.2</span> <span class="pre">[data_id]</span></code></div></blockquote>
+</div>
+<div class="section" id="filename">
+<h3>filename<a class="headerlink" href="#filename" title="Permalink to this headline">¶</a></h3>
+<p>Sets the default file name for the downloads: this can be changed before
+downloading. [Beta 0.7: Not yet implemented]</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line"><strong>filename:</strong> page-text</div>
+</div>
+</div></blockquote>
+<p><strong>Example:</strong></p>
+<blockquote>
+<div><code class="docutils literal"><span class="pre">filename:</span> <span class="pre">our_wonderful_data.csv</span></code></div></blockquote>
+</div>
+<div class="section" id="special-variables">
+<h3>Special variables<a class="headerlink" href="#special-variables" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt>_coder_</dt>
+<dd>: Text entered in the <em>CIVET template selection</em> page</dd>
+<dt>_date_</dt>
+<dd>: Current date. this is currently in the form DD-mmm-YYYY but later
+versions of the system will allow other formats</dd>
+<dt>_time_</dt>
+<dd>: Current time in hh:mm:ss format</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="templates-data-entry-fields">
+<h2>Templates: Data Entry Fields<a class="headerlink" href="#templates-data-entry-fields" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="checkbox">
+<h3>Checkbox<a class="headerlink" href="#checkbox" title="Permalink to this headline">¶</a></h3>
+<p>A simple binary check-box. The value of the variable will be first item
+in the list when the box is not checked; the second item when the box is
+checked. The * notation on the second item can be used to specify
+whether or not the box is initially checked.</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line"><strong>select:</strong> entry-title [var-name]</div>
+<div class="line">comma-delimited-option-list</div>
+</div>
+</div></blockquote>
+<p><strong>Example:</strong></p>
+<blockquote>
+<div><code class="docutils literal"><span class="pre">select:</span> <span class="pre">Eyewitness</span> <span class="pre">report?</span> <span class="pre">[eyewit]</span> <span class="pre">no,*yes</span></code></div></blockquote>
+</div>
+<div class="section" id="select-from-pull-down-menu">
+<h3>Select from pull-down menu<a class="headerlink" href="#select-from-pull-down-menu" title="Permalink to this headline">¶</a></h3>
+<p>Pull-down menus—which are called a “select” in HTML—are specified with
+the syntax</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line"><strong>select:</strong> entry-title [var-name]</div>
+<div class="line">comma-delimited-option-list</div>
+</div>
+</div></blockquote>
+<p><strong>Example:</strong></p>
+<blockquote>
+<div><code class="docutils literal"><span class="pre">select:</span> <span class="pre">Region</span> <span class="pre">[worldregion]</span> <span class="pre">North</span> <span class="pre">America,</span> <span class="pre">South</span> <span class="pre">America,</span> <span class="pre">Europe,</span> <span class="pre">*Africa,</span> <span class="pre">Middle</span> <span class="pre">East,</span> <span class="pre">Asia</span></code></div></blockquote>
+</div>
+<div class="section" id="radio-buttons">
+<h3>Radio buttons<a class="headerlink" href="#radio-buttons" title="Permalink to this headline">¶</a></h3>
+<p>A series of radio buttons are specified with the syntax</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line"><strong>radio:</strong> entry-title [var-name]</div>
+<div class="line">comma-delimited-option-list</div>
+</div>
+</div></blockquote>
+<p>The entry <code class="docutils literal"><span class="pre">/</span></code> in the option list causes a line-break (<code class="docutils literal"><span class="pre">&lt;br&gt;</span></code>) to be
+inserted</p>
+<p><strong>Example:</strong></p>
+<blockquote>
+<div><code class="docutils literal"><span class="pre">radio:</span> <span class="pre">Region/</span> <span class="pre">[worldregion]</span> <span class="pre">North</span> <span class="pre">America,</span> <span class="pre">South</span> <span class="pre">America,</span> <span class="pre">Europe,</span> <span class="pre">*Africa,</span> <span class="pre">/,Middle</span> <span class="pre">East,</span> <span class="pre">Asia</span></code></div></blockquote>
+</div>
+<div class="section" id="enter-single-line-of-text">
+<h3>Enter single line of text<a class="headerlink" href="#enter-single-line-of-text" title="Permalink to this headline">¶</a></h3>
+<p>This creates a box for a single line of text (HTML `` type=text``). The
+<code class="docutils literal"><span class="pre">width</span> <span class="pre">=</span> <span class="pre">number</span></code> is optional and specifies the size of the text entry
+box in characters: the default is <code class="docutils literal"><span class="pre">width</span> <span class="pre">=</span> <span class="pre">32</span></code></p>
+<blockquote>
+<div><div class="line-block">
+<div class="line"><strong>textline:</strong> entry-title [var-name] width = number</div>
+<div class="line">initial-text</div>
+</div>
+</div></blockquote>
+<p><strong>Example:</strong></p>
+<blockquote>
+<div><code class="docutils literal"><span class="pre">textline:</span> <span class="pre">Name</span> <span class="pre">of</span> <span class="pre">group</span> <span class="pre">[groupname]</span> <span class="pre">&lt;enter</span> <span class="pre">name&gt;</span></code></div></blockquote>
+</div>
+<div class="section" id="extract-single-line-from-annotated-text">
+<h3>Extract single line from annotated text<a class="headerlink" href="#extract-single-line-from-annotated-text" title="Permalink to this headline">¶</a></h3>
+<p>This creates a box for a single line of text (HTML `` type=text``) that
+will interact with annotated text; in addition information can be
+manually entered or cut-and-pasted into this box. If this command is
+used in a form that does not have associated annotated text, it behaves
+the same as <code class="docutils literal"><span class="pre">textline</span></code> and the <code class="docutils literal"><span class="pre">class</span></code> information is ignored.</p>
+<p>The <code class="docutils literal"><span class="pre">class=class-name</span></code> is required and specifies the name of the
+annotation class that the text-entry box is connected with; a class can
+be associated with multiple text-entry boxes. There are three standard
+classes:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">nament</span></code>: named-enties, which are determined by capitalization</li>
+<li><code class="docutils literal"><span class="pre">num</span></code>: numbers</li>
+<li><code class="docutils literal"><span class="pre">date</span></code>: dates</li>
+</ul>
+<p>The <code class="docutils literal"><span class="pre">width</span> <span class="pre">=</span> <span class="pre">number</span></code> is optional and specifies the size of the text
+entry box in characters: the default is <code class="docutils literal"><span class="pre">width</span> <span class="pre">=</span> <span class="pre">32</span></code></p>
+<blockquote>
+<div><div class="line-block">
+<div class="line"><strong>textclass:</strong> entry-title [var-name] class=class-name
+width=number</div>
+<div class="line">initial-text</div>
+</div>
+</div></blockquote>
+<p><strong>Example:</strong></p>
+<blockquote>
+<div><code class="docutils literal"><span class="pre">textclass:</span> <span class="pre">Name</span> <span class="pre">of</span> <span class="pre">city</span> <span class="pre">[cityname]</span> <span class="pre">class=nament</span> <span class="pre">&lt;enter</span> <span class="pre">city&gt;</span></code></div></blockquote>
+</div>
+<div class="section" id="enter-multiple-lines-of-text">
+<h3>Enter multiple lines of text<a class="headerlink" href="#enter-multiple-lines-of-text" title="Permalink to this headline">¶</a></h3>
+<p>This corresponds to an HTML “TEXTAREA” object. The
+<code class="docutils literal"><span class="pre">rows</span> <span class="pre">=</span> <span class="pre">number</span> <span class="pre">cols</span> <span class="pre">=</span> <span class="pre">number</span></code> is optional and specifies the size of
+the text entry box in characters: the default is <code class="docutils literal"><span class="pre">rows</span> <span class="pre">=</span> <span class="pre">4</span> <span class="pre">cols</span> <span class="pre">=</span> <span class="pre">80</span></code></p>
+<blockquote>
+<div><div class="line-block">
+<div class="line"><strong>textarea:</strong> entry-title [var-name] rows = number cols = number</div>
+<div class="line">initial-text</div>
+</div>
+</div></blockquote>
+<p><strong>Example:</strong></p>
+<blockquote>
+<div><code class="docutils literal"><span class="pre">textarea:</span> <span class="pre">Comments</span> <span class="pre">[comments]</span> <span class="pre">rows</span> <span class="pre">=</span> <span class="pre">2</span> <span class="pre">cols</span> <span class="pre">=</span> <span class="pre">64</span> <span class="pre">–</span> <span class="pre">put</span> <span class="pre">any</span> <span class="pre">additional</span> <span class="pre">comments</span> <span class="pre">here</span> <span class="pre">–</span></code></div></blockquote>
+</div>
+</div>
+<div class="section" id="templates-additional-web-page-formatting">
+<h2>Templates: Additional Web Page Formatting<a class="headerlink" href="#templates-additional-web-page-formatting" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="set-page-title">
+<h3>Set page title<a class="headerlink" href="#set-page-title" title="Permalink to this headline">¶</a></h3>
+<p>Sets the title of the web page: that is, the HTML
+<code class="docutils literal"><span class="pre">&lt;title&gt;...&lt;/title&gt;</span></code> section of the header. [Beta 0.7: Not yet
+implemented]</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line"><strong>title:</strong> page-text</div>
+</div>
+</div></blockquote>
+<p><strong>Example:</strong></p>
+<blockquote>
+<div><code class="docutils literal"><span class="pre">title:</span> <span class="pre">CIVET-based</span> <span class="pre">coding</span> <span class="pre">form</span></code></div></blockquote>
+</div>
+<div class="section" id="insert-text">
+<h3>Insert text<a class="headerlink" href="#insert-text" title="Permalink to this headline">¶</a></h3>
+<p>Adds text to the form: the various options follow the usual HTML
+formats. In interests of simplicity, text is “escaped” so that special
+characters are not interpreted as HTML: note that this means that
+in-line mark-up such as <code class="docutils literal"><span class="pre">&lt;i&gt;</span></code>, <code class="docutils literal"><span class="pre">&lt;b&gt;</span></code> and <code class="docutils literal"><span class="pre">&lt;tt&gt;</span></code> will not work,
+so if you need this activate and use the <code class="docutils literal"><span class="pre">html:</span></code> command. Also keep in
+mind that these commands need to be separated by a blank line.</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line"><strong>h1:</strong> page-text</div>
+<div class="line"><strong>h2:</strong> page-text</div>
+<div class="line"><strong>h3:</strong> page-text</div>
+<div class="line"><strong>h4:</strong> page-text</div>
+<div class="line"><strong>p:</strong> page-text</div>
+</div>
+</div></blockquote>
+<p><strong>Example:</strong></p>
+<div class="highlight-python"><div class="highlight"><pre>h1: Primary data set coding form
+
+p:Please enter data in the fields below, and be really, really careful!
+</pre></div>
+</div>
+<p>The simple command</p>
+<div class="highlight-python"><div class="highlight"><pre>p:
+</pre></div>
+</div>
+<p>is useful for putting some space between form elements.</p>
+</div>
+<div class="section" id="insert-html">
+<h3>Insert HTML<a class="headerlink" href="#insert-html" title="Permalink to this headline">¶</a></h3>
+<p>[This command may or may not be included in the operational version of
+the system, as it provides some opportunities for mischief. Stay tuned.
+It is in the code but currently deactivated; if you are installing your
+own version of the system, it can be activated by changing a single
+character in the source code.]</p>
+<p>Adds arbitrary HTML code without escaping.</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line"><strong>html:</strong> page-text</div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="insert-a-line-break">
+<h3>Insert a line break<a class="headerlink" href="#insert-a-line-break" title="Permalink to this headline">¶</a></h3>
+<p>Adds a new line in the form</p>
+<blockquote>
+<div><strong>newline:</strong></div></blockquote>
+<table class="docutils footnote" frame="void" id="f1" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>Writing in HTML5 and CSS, one can actually exercise a very fine
+degree of control over the placement, but if you are comfortable with
+that sort of code, you presumably aren’t using CIVET in the first
+place. That said, you can see the HTML generated by CIVET by using
+the <em>View source</em> option in your browser, then save it as a file
+using <em>Save Page As...</em> and that could provide a starting point for
+creating prettier code.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td>In the current implementation, named HTML entities such as <code class="docutils literal"><span class="pre">&amp;copy;</span></code>
+and <code class="docutils literal"><span class="pre">&amp;euro;</span></code> can be included and should produce the correct
+character. At present numbered entities such as <code class="docutils literal"><span class="pre">&amp;#91;</span></code>—the HTML
+equivalent of ’]’—do not work since the # is interpreted as a comment
+delimiter: depending on whether there is demand for this feature, the
+system could provide a way around this.</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="footnotes">
+<h3>Footnotes<a class="headerlink" href="#footnotes" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          <h3>Table Of Contents</h3>
+          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installing.html">Installing CIVET</a></li>
+<li class="toctree-l1"><a class="reference internal" href="homepage.html">Home Page Options</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">CIVET Coding Form Templates</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#simple-template-based-data-entry-form">Simple Template-Based Data Entry Form</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#command-formats">Command formats</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#templates-specifying-variables">Templates: Specifying variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#templates-data-entry-fields">Templates: Data Entry Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#templates-additional-web-page-formatting">Templates: Additional Web Page Formatting</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="workspaces.html">CIVET Workspaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="annotation.html">Annotation and Editing Collections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extraction.html">Coding and Text Extraction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="future.html">Projected Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix1.html">Appendix 1: Sample Template File</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix2.html">Appendix 2: Input Format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix3.html">Appendix 3: Supporting Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix4.html">Appendix 4: Prototype on Google Application Engine</a></li>
+</ul>
+
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+            </form>
+            <p class="searchtip" style="font-size: 90%">
+                Enter search terms or a module, class or function name.
+            </p>
+          </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <div role="navigation" aria-label="related navigaton">
+            <a href="homepage.html" title="Home Page Options"
+              >previous</a> |
+            <a href="workspaces.html" title="CIVET Workspaces"
+              >next</a>
+          </div>
+          <div role="note" aria-label="source link">
+              <br/>
+              <a href="_sources/forms.txt"
+                rel="nofollow">Show Source</a>
+          </div>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+      Last updated on 2015-08-10.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

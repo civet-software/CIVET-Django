@@ -1,0 +1,208 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Projected Features &mdash; CIVET documentation</title>
+    
+    <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'beta-0.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="CIVET documentation" href="index.html" />
+    <link rel="next" title="Appendix 1: Sample Template File" href="appendix1.html" />
+    <link rel="prev" title="Coding and Text Extraction" href="extraction.html" /> 
+  </head>
+  <body role="document">
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+          <p class="logo"><a href="index.html">
+            <img class="logo" src="_static/civet200.png" alt="Logo"/>
+          </a></p>
+        <div class="headertitle"><a
+          href="index.html">CIVET beta-0.7 documentation</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
+          <a href="extraction.html" title="Coding and Text Extraction"
+             accesskey="P">previous</a> |
+          <a href="appendix1.html" title="Appendix 1: Sample Template File"
+             accesskey="N">next</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="projected-features">
+<h1>Projected Features<a class="headerlink" href="#projected-features" title="Permalink to this headline">¶</a></h1>
+<p>CIVET is part of a projected system designed for managing
+tens-of-thousands, or even millions, of small text files. The transition
+in the past three decades from paper-based to electronic sources has
+dramatically increased the amount of information that can potentially be
+coded, but results in a “drinking from a fire hose” problem where a huge
+number of false positives must be managed because typically only a very
+small percentage of the texts obtained for a project actually contain
+unique codeable events: yields of 1% to 3% are not uncommon. There is
+very little existing software designed to deal with this situation,
+since the texts are too large to be treated as nominal variables in a
+statistical package and too numerous to be treated as documents in a
+word processor. Consequently large projects typically write customized
+systems in a language such as perl or Python, but these require
+programming skills which are not always easily available in the social
+science community.</p>
+<p>We are planning to extend the CIVET workspace format to become the basis
+of an integrated series of well-documented and user-friendly utilities
+for dealing with this situation. All of the software will be open-source
+under the MIT license, and made available to the community on GitHub.
+These utilities will provide at least the following capabilities:</p>
+<ul>
+<li><p class="first">Near-duplicate detection which will collect articles which appear to
+be dealing with the same incident</p>
+</li>
+<li><p class="first">Extraction programs for converting common formats such as
+Lexis-Nexis, Factiva and GigaWord to the CIVET document format.</p>
+</li>
+<li><p class="first">Filtering and classification of texts based on one or more of the
+following methods</p>
+<dl class="docutils">
+<dt>Pattern-based:</dt>
+<dd><p class="first last">These will include regular expressions and boolean phrases with
+proximity measures</p>
+</dd>
+<dt>Semi-supervised learning:</dt>
+<dd><p class="first last">The system will construct one or more machine-learning models
+(for example support vector machines) to determine whether an
+article is relevant based on a set of positive and negative
+examples provided by the user</p>
+</dd>
+<dt>Action-based:</dt>
+<dd><p class="first last">These will use either the open source TABARI or PETRARCH
+political event coders to determine the type of activity being
+described</p>
+</dd>
+<dt>Actor-based:</dt>
+<dd><p class="first last">These will use a set of standard lists maintained on a common
+server of political actors such as nation-states, international
+organizations and militarized non-state actors</p>
+</dd>
+<dt>Geographical:</dt>
+<dd><p class="first last">These will use systems such as the open-source Mordecai location
+resolution system developed by Caerus Analytics.</p>
+</dd>
+</dl>
+</li>
+<li><p class="first">Workflow management software for allocating and tracking the coding
+of incidents in large coding teams; these will use web-based tools so
+that coders can work from any location and across institutions. We
+will also provide scripts for interfacing to mySQL installations,
+GitHub and Dataverse as remote servers.</p>
+</li>
+<li><p class="first">Extension of CIVET to allow the various classification tools
+(actions, actors, and location) to automatically be used in coding
+forms.</p>
+</li>
+<li><p class="first">Semi-automatic conversion of the resulting coded data to the
+Dataverse format, and more generally integrate the CIVET tools with
+the Dataverse metadata, APIs and other tools as well as providing an
+access and authorization protocol modeled on the categories used in
+Dataverse.</p>
+</li>
+<li><p class="first">Development of training materials, both text and video, for the
+system</p>
+</li>
+<li><p class="first">We are currently developing this based on a fixed frame that is 960
+pixels wide and 700 pixels high: this will fit easily on a 1024x768
+screen. For contemporary equipment this is probably quite
+conservative but it is not unheard of for data labs to have older
+equipment so we’re going with this at the moment</p>
+</li>
+</ul>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          <h3>Table Of Contents</h3>
+          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installing.html">Installing CIVET</a></li>
+<li class="toctree-l1"><a class="reference internal" href="homepage.html">Home Page Options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="forms.html">CIVET Coding Form Templates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workspaces.html">CIVET Workspaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="annotation.html">Annotation and Editing Collections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extraction.html">Coding and Text Extraction</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Projected Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix1.html">Appendix 1: Sample Template File</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix2.html">Appendix 2: Input Format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix3.html">Appendix 3: Supporting Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix4.html">Appendix 4: Prototype on Google Application Engine</a></li>
+</ul>
+
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+            </form>
+            <p class="searchtip" style="font-size: 90%">
+                Enter search terms or a module, class or function name.
+            </p>
+          </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <div role="navigation" aria-label="related navigaton">
+            <a href="extraction.html" title="Coding and Text Extraction"
+              >previous</a> |
+            <a href="appendix1.html" title="Appendix 1: Sample Template File"
+              >next</a>
+          </div>
+          <div role="note" aria-label="source link">
+              <br/>
+              <a href="_sources/future.txt"
+                rel="nofollow">Show Source</a>
+          </div>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+      Last updated on 2015-08-10.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

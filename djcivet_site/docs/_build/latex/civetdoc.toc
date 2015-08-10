@@ -1,0 +1,49 @@
+\select@language {english}
+\contentsline {part}{I\hspace {1em}Acknowledgements}{3}{part.1}
+\contentsline {part}{II\hspace {1em}Contents}{7}{part.2}
+\contentsline {chapter}{\numberline {1}Introduction}{9}{chapter.1}
+\contentsline {chapter}{\numberline {2}Installing CIVET}{11}{chapter.2}
+\contentsline {chapter}{\numberline {3}Home Page Options}{13}{chapter.3}
+\contentsline {section}{\numberline {3.1}Program Navigation Placeholders}{14}{section.3.1}
+\contentsline {chapter}{\numberline {4}CIVET Coding Form Templates}{15}{chapter.4}
+\contentsline {section}{\numberline {4.1}Simple Template-Based Data Entry Form}{15}{section.4.1}
+\contentsline {section}{\numberline {4.2}Command formats}{15}{section.4.2}
+\contentsline {subsection}{\numberline {4.2.1}Items in template specification}{16}{subsection.4.2.1}
+\contentsline {section}{\numberline {4.3}Templates: Specifying variables}{17}{section.4.3}
+\contentsline {subsection}{\numberline {4.3.1}Specifying variables to save}{17}{subsection.4.3.1}
+\contentsline {subsection}{\numberline {4.3.2}constant}{17}{subsection.4.3.2}
+\contentsline {subsection}{\numberline {4.3.3}filename}{17}{subsection.4.3.3}
+\contentsline {subsection}{\numberline {4.3.4}Special variables}{17}{subsection.4.3.4}
+\contentsline {section}{\numberline {4.4}Templates: Data Entry Fields}{18}{section.4.4}
+\contentsline {subsection}{\numberline {4.4.1}Checkbox}{18}{subsection.4.4.1}
+\contentsline {subsection}{\numberline {4.4.2}Select from pull-down menu}{18}{subsection.4.4.2}
+\contentsline {subsection}{\numberline {4.4.3}Radio buttons}{18}{subsection.4.4.3}
+\contentsline {subsection}{\numberline {4.4.4}Enter single line of text}{18}{subsection.4.4.4}
+\contentsline {subsection}{\numberline {4.4.5}Extract single line from annotated text}{19}{subsection.4.4.5}
+\contentsline {subsection}{\numberline {4.4.6}Enter multiple lines of text}{19}{subsection.4.4.6}
+\contentsline {section}{\numberline {4.5}Templates: Additional Web Page Formatting}{19}{section.4.5}
+\contentsline {subsection}{\numberline {4.5.1}Set page title}{19}{subsection.4.5.1}
+\contentsline {subsection}{\numberline {4.5.2}Insert text}{19}{subsection.4.5.2}
+\contentsline {subsection}{\numberline {4.5.3}Insert HTML}{20}{subsection.4.5.3}
+\contentsline {subsection}{\numberline {4.5.4}Insert a line break}{20}{subsection.4.5.4}
+\contentsline {chapter}{\numberline {5}CIVET Workspaces}{21}{chapter.5}
+\contentsline {section}{\numberline {5.1}Workspace Management}{22}{section.5.1}
+\contentsline {section}{\numberline {5.2}User-specified annotation vocabulary using \textbf {category}}{24}{section.5.2}
+\contentsline {chapter}{\numberline {6}Annotation and Editing Collections}{27}{chapter.6}
+\contentsline {section}{\numberline {6.1}Comments on annotation and editing}{28}{section.6.1}
+\contentsline {chapter}{\numberline {7}Coding and Text Extraction}{31}{chapter.7}
+\contentsline {chapter}{\numberline {8}Projected Features}{33}{chapter.8}
+\contentsline {chapter}{\numberline {9}Appendix 1: Sample Template File}{35}{chapter.9}
+\contentsline {chapter}{\numberline {10}Appendix 2: Input Format}{37}{chapter.10}
+\contentsline {section}{\numberline {10.1}Collection fields}{37}{section.10.1}
+\contentsline {section}{\numberline {10.2}Text fields}{37}{section.10.2}
+\contentsline {section}{\numberline {10.3}Case fields}{38}{section.10.3}
+\contentsline {section}{\numberline {10.4}Date formats}{38}{section.10.4}
+\contentsline {section}{\numberline {10.5}Sample File}{38}{section.10.5}
+\contentsline {chapter}{\numberline {11}Appendix 3: Supporting Files}{41}{chapter.11}
+\contentsline {section}{\numberline {11.1}Files in \texttt {/static/djciv\_data}}{41}{section.11.1}
+\contentsline {subsection}{\numberline {11.1.1}Files that can be modified using a text editor}{41}{subsection.11.1.1}
+\contentsline {subsection}{\numberline {11.1.2}Modify at your own risk}{41}{subsection.11.1.2}
+\contentsline {subsection}{\numberline {11.1.3}CIVET Logo}{41}{subsection.11.1.3}
+\contentsline {section}{\numberline {11.2}Documentation}{41}{section.11.2}
+\contentsline {chapter}{\numberline {12}Appendix 4: Prototype on Google Application Engine}{43}{chapter.12}

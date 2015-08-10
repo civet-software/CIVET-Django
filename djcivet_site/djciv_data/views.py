@@ -1,6 +1,7 @@
 from __future__ import print_function
 
 from django.core.servers.basehttp import FileWrapper
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.core.files import File
@@ -40,14 +41,22 @@ SaveFiles = {}  # contents of files other than .yml indexed by the file name
 def index(request):
     return render(request, 'djciv_data/index.html',{})
 
+def online_manual(request):
+    """ Goes to index.html of on-line docs """
+    # 15.08.10 pas: okay folks, give me a hand here: there's got to be a way of accessing these at 
+    # djcivet_site/docs/_build/html/ in a manner that has them are correctly rendered, but I haven't figured it out yet. 
+#    print ("Current working dir:", os.getcwd())
+    return HttpResponseRedirect('http://civet.parusanalytics.com/civetdocs/index.html')
+        
 def download_pdfdocs(request):
     """ downloads the main documentation """
-    f = open('djciv_data/static/djciv_data/CIVET.Documentation.pdf', "r")
+#   f = open('djciv_data/static/djciv_data/CIVET.Documentation.pdf', "r")  # pre-Sphinx version
+    f = open('docs/_build/latex/civetdoc.pdf', "r")
     response = HttpResponse(FileWrapper(f), content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename=CIVET.Documentation.pdf'
     f.close()
     return response
-    
+
 def download_demotemplate(request):
     """ downloads the demo template """
     f = open('djciv_data/static/djciv_data/CIVET.demo.template.txt', "r")

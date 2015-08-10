@@ -11,6 +11,7 @@ urlpatterns = [
     url(r'reset_preferences', views.reset_preferences),
 
     url(r'download_pdfdocs', views.download_pdfdocs),
+    url(r'online_manual', views.online_manual),
     url(r'download_demotemplate', views.download_demotemplate),
     url(r'download_demo_workspace', views.download_demo_workspace),
 

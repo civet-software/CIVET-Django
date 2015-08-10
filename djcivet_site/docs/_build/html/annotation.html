@@ -1,0 +1,300 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Annotation and Editing Collections &mdash; CIVET documentation</title>
+    
+    <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'beta-0.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="CIVET documentation" href="index.html" />
+    <link rel="next" title="Coding and Text Extraction" href="extraction.html" />
+    <link rel="prev" title="CIVET Workspaces" href="workspaces.html" /> 
+  </head>
+  <body role="document">
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+          <p class="logo"><a href="index.html">
+            <img class="logo" src="_static/civet200.png" alt="Logo"/>
+          </a></p>
+        <div class="headertitle"><a
+          href="index.html">CIVET beta-0.7 documentation</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
+          <a href="workspaces.html" title="CIVET Workspaces"
+             accesskey="P">previous</a> |
+          <a href="extraction.html" title="Coding and Text Extraction"
+             accesskey="N">next</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="annotation-and-editing-collections">
+<h1>Annotation and Editing Collections<a class="headerlink" href="#annotation-and-editing-collections" title="Permalink to this headline">¶</a></h1>
+<p>The annotation and editing page for workspace collections implements a
+minimal version <a class="footnote-reference" href="#f1" id="id1">[1]</a> of the Javascript <code class="docutils literal"><span class="pre">ckeditor</span></code> which allows the
+texts to be edited and annotated. Editing works as you would expect,
+including cut/copy/paste options.</p>
+<p>Annotation is handled with the <code class="docutils literal"><span class="pre">Styles</span></code> drop-down menu in the window
+toolbar which should show both
+the standard CIVET categories—named-entity, number and date— and any
+user-specified categories. To annotate, just select the text you want to
+annotate and then select the annotation to apply.</p>
+<div class="figure">
+<img alt="CIVET Editor" src="_images/ckedit_menu.png" />
+</div>
+<div class="figure">
+<img alt="CIVET Editor" src="_images/style_options.png" />
+</div>
+<p>The following options are available on this screen</p>
+<p>Annotate the collection:</p>
+<blockquote>
+<div><p>This applies the automated markup system which currently annotates the following
+categories of words and phrases:</p>
+<dl class="docutils">
+<dt>Named-entities:</dt>
+<dd>This is based on capitalization; consecutive capitalized words
+are combined.</dd>
+<dt>Numbers:</dt>
+<dd>Digits and numerical words and phrases such as “one” and
+“two-hundred.”</dd>
+<dt>User-specified categories:</dt>
+<dd>See the discussion of <a class="reference internal" href="workspaces.html#sec-categories"><span>categories</span></a></dd>
+</dl>
+</div></blockquote>
+<p>Save edits and select new collection:</p>
+<blockquote>
+<div>This saves whatever annotation has been done to the internal
+database <a class="footnote-reference" href="#f2" id="id2">[2]</a> and returns to the collection selection screen :
+this option would be used if you are only annotating text rather
+than coding them. Annotations are saved in the <code class="docutils literal"><span class="pre">textmkup</span></code> field
+of the YAML file along with the date of the annotating and the
+coder ID.</div></blockquote>
+<p>Save edits and code the collection:</p>
+<blockquote>
+<div>This saves whatever annotation has been done to the internal
+database and goes to the coding and text extraction page</div></blockquote>
+<p>Discard edits and select new collection:</p>
+<blockquote>
+<div>This discards the edits and returns to the collection selection screen.</div></blockquote>
+<p>Download workspace and return to home screen:</p>
+<blockquote>
+<div>This downloads the current workspace without doing any coding.</div></blockquote>
+<div class="section" id="comments-on-annotation-and-editing">
+<h2>Comments on annotation and editing<a class="headerlink" href="#comments-on-annotation-and-editing" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Associated codes in brackets following a term can be edited: when
+writing variable values, the system will simply be looking for a
+value in a bracket.</p>
+</li>
+<li><p class="first">A word or phrase can be annotated only once. <a class="footnote-reference" href="#f3" id="id3">[3]</a> The user-specified
+<code class="docutils literal"><span class="pre">category</span></code> words are annotated before the general named-entity, so
+if a named entity occurs in a <code class="docutils literal"><span class="pre">category</span></code>, that will take
+precedence. Similarly, any numbers that occur in a <code class="docutils literal"><span class="pre">category</span></code>
+phrase will be part of the phrase, not separately marked as numbers.</p>
+</li>
+<li><p class="first">Words and phrases in <code class="docutils literal"><span class="pre">category</span></code> lists are evaluated in the order
+they are listed, which can be used to establish precedence.</p>
+<p>Consider the sentence</p>
+</li>
+</ol>
+<div class="figure" id="id6">
+<img alt="_images/annotation0.png" src="_images/annotation0.png" />
+<p class="caption"><span class="caption-text">The category listing:</span></p>
+<div class="legend">
+<div class="highlight-python"><div class="highlight"><pre>category:action [red]
+shot and killed [4], killed [1], wounded [2], bombed [3]
+</pre></div>
+</div>
+<p>would result in the annotation</p>
+</div>
+</div>
+<div class="figure" id="id7">
+<img alt="_images/annotation1.png" src="_images/annotation1.png" />
+<p class="caption"><span class="caption-text">whereas category listing:</span></p>
+<div class="legend">
+<div class="highlight-python"><div class="highlight"><pre>category:action [red]
+killed [1], shot and killed [4], wounded [2], bombed [3]]
+</pre></div>
+</div>
+<p>would result in the annotation</p>
+</div>
+</div>
+<div class="figure" id="id8">
+<img alt="_images/annotation2.png" src="_images/annotation2.png" />
+<p class="caption"><span class="caption-text">because the “killed” part of the phrase “shot and killed” has
+already been annotated, and the remainder does not fit any of the
+patterns.</span></p>
+</div>
+<ol class="arabic" start="4">
+<li><p class="first">CIVET does not identify a capitalized word as a named-entity if it occurs as a single
+word and is in the list of common “stop words” in the file</p>
+<blockquote>
+<div><p><code class="docutils literal"><span class="pre">djcivet_site/djciv_data/static/djciv_data/CIVET.stopwords.txt</span></code></p>
+</div></blockquote>
+<p>In other words, “The” will be included as part of a named-entity in the phrase
+“The New York Times” but not in the phrase “The village was…”</p>
+</li>
+<li><p class="first">Words referring to numbers such as “one”, “ten” and “fifty” have the corresponding
+numerical value added in brackets following the number; these phrase and their
+associated values are obtained from the file</p>
+<p><code class="docutils literal"><span class="pre">djcivet_site/djciv_data/static/djciv_data/CIVET.numberwords.txt</span></code> <a class="footnote-reference" href="#f4" id="id4">[4]</a></p>
+<p>This file only contains the most commonly-encountered phrases; bracketed values can be added manually as well.</p>
+</li>
+</ol>
+<ol class="arabic simple" start="5">
+<li>At present, CIVET does not recognize leading punctuation—typically
+quotes—and will not automatically mark named entities or numbers
+beginning with this: this is on the list of changes for the future.
+It does handle most trailing punctuation. In named entities, the
+lower-case prefixes “al-”, “bin-” and “ibn-” are recognized as
+part of a name. <a class="footnote-reference" href="#f5" id="id5">[5]</a></li>
+</ol>
+<div class="section" id="footnotes">
+<h3>Footnotes<a class="headerlink" href="#footnotes" title="Permalink to this headline">¶</a></h3>
+</div>
+<table class="docutils footnote" frame="void" id="f1" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>that is, the version of <code class="docutils literal"><span class="pre">ckeditor</span></code> deliberately uses only a very
+small set of the features that are available for the editor: if you
+want to customize this, additional features can easily be added.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td>That is, the data is saved on the machine where CIVET is running; it
+is not saved on your local machine until the workspace is downloaded.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f3" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[3]</a></td><td>It would be possible to modify the system to allow for phrases to be
+in multiple categories, but at present this seems like a low
+priority; such a feature may or may not be included in future
+versions.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f4" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id4">[4]</a></td><td>Looking for a little programming exercise?: This needs more
+development in at least three ways. First, generate all of the
+standard English equivalents, e.g. “eighty-five”, since these follow
+a simple set of rules. Second, and perhaps more important, allow the
+user to specify the values for common approximations such as
+“several,”, “many” and “dozens.” The second can be done by just
+editing the file <code class="docutils literal"><span class="pre">CIVET.numberwords.txt</span></code>, though generally we don’t
+want the user to have to figure out how to do that. Finally, there
+should probably be some error checking to make sure the value in
+brackets is actually a number: CIVET will just copy the value in
+brackets without trying to convert it, but non-numbers will
+presumably create issues further down the processing pipeline.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f5" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id5">[5]</a></td><td>This list can be extended in the regular expression <code class="docutils literal"><span class="pre">pat1</span></code> in
+<code class="docutils literal"><span class="pre">civet_utilities.do_NE_markup()</span></code>.</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          <h3>Table Of Contents</h3>
+          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installing.html">Installing CIVET</a></li>
+<li class="toctree-l1"><a class="reference internal" href="homepage.html">Home Page Options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="forms.html">CIVET Coding Form Templates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workspaces.html">CIVET Workspaces</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Annotation and Editing Collections</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#comments-on-annotation-and-editing">Comments on annotation and editing</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="extraction.html">Coding and Text Extraction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="future.html">Projected Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix1.html">Appendix 1: Sample Template File</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix2.html">Appendix 2: Input Format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix3.html">Appendix 3: Supporting Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix4.html">Appendix 4: Prototype on Google Application Engine</a></li>
+</ul>
+
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+            </form>
+            <p class="searchtip" style="font-size: 90%">
+                Enter search terms or a module, class or function name.
+            </p>
+          </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <div role="navigation" aria-label="related navigaton">
+            <a href="workspaces.html" title="CIVET Workspaces"
+              >previous</a> |
+            <a href="extraction.html" title="Coding and Text Extraction"
+              >next</a>
+          </div>
+          <div role="note" aria-label="source link">
+              <br/>
+              <a href="_sources/annotation.txt"
+                rel="nofollow">Show Source</a>
+          </div>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+      Last updated on 2015-08-10.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

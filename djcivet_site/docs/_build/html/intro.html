@@ -1,0 +1,209 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Introduction &mdash; CIVET documentation</title>
+    
+    <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'beta-0.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="CIVET documentation" href="index.html" />
+    <link rel="next" title="Installing CIVET" href="installing.html" />
+    <link rel="prev" title="Welcome" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+          <p class="logo"><a href="index.html">
+            <img class="logo" src="_static/civet200.png" alt="Logo"/>
+          </a></p>
+        <div class="headertitle"><a
+          href="index.html">CIVET beta-0.7 documentation</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
+          <a href="index.html" title="Welcome"
+             accesskey="P">previous</a> |
+          <a href="installing.html" title="Installing CIVET"
+             accesskey="N">next</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<p>This is the documentation for the beta version of the
+Civet <a class="footnote-reference" href="#f1" id="id1">[1]</a>—Contentious Incident Variable Entry Template—customizable
+data entry system. Civet is being developed by the NSF-sponsored project
+titled “A Method for Leveraging Public Information Sources for Social
+Science Research” which is creating tools to improve the efficiency of
+data generation in the social sciences. The project has an initial focus
+on coding event data in the domain of contentious politics, but we
+expect that these tools will be relevant in a number of data-generation
+domains.</p>
+<p>The core objective of Civet is to provide a reasonably simple—yes,
+simple—set of commands that will allow a user to set up a web-based
+coding environment without the need to master the likes of HTML, CSS and
+Javascript. As currently implemented, the system is a rather ugly
+prototype; it will also be evolving as we add additional elements.
+Nonetheless, the system should now be useable for coding.</p>
+<p>Civet is implemented in the widely-used and well documented
+Python-based Django system <a class="footnote-reference" href="#f2" id="id2">[2]</a> which is widely available on various
+cloud platforms: a rather extended list of “Django-friendly” hosting
+services can be found at</p>
+<blockquote>
+<div><a class="reference external" href="https://code.djangoproject.com/wiki/DjangoFriendlyWebHosts">https://code.djangoproject.com/wiki/DjangoFriendlyWebHosts</a></div></blockquote>
+<p>The complete Civet code is licensed as open source under the MIT
+license and provided on GitHub at <a class="reference external" href="https://github.com/civet-software">https://github.com/civet-software</a> .</p>
+<p>Civet currently has two modes:</p>
+<dl class="docutils">
+<dt><strong>Coding form template:</strong></dt>
+<dd>This is a template-based for setting up a web-based coding form
+which implements several of the common HTML data entry formats and
+exports the resulting data as a tab-delimited text file. This is
+fully functional and should be useable for small projects.</dd>
+<dt><strong>Text annotation/extraction:</strong></dt>
+<dd>This uses Civet “workspaces” which combine related texts, their
+metadata, and the coding form. Workspaces allow for manual and
+automated text annotation, then the ability to extract various types
+of information into the fields of a coding form.</dd>
+</dl>
+<div class="section" id="program-navigation-placeholders">
+<h2>Program Navigation Placeholders<a class="headerlink" href="#program-navigation-placeholders" title="Permalink to this headline">¶</a></h2>
+<p>Civet is currently under development and not all of the options have
+been fully implemented. If you see a page with a message of the form</p>
+<blockquote>
+<div><code class="docutils literal"><span class="pre">The</span> <span class="pre">option</span> <span class="pre">[something]</span> <span class="pre">has</span> <span class="pre">yet</span> <span class="pre">to</span> <span class="pre">be</span> <span class="pre">implemented.</span> <span class="pre">Use</span> <span class="pre">the</span> <span class="pre">back</span> <span class="pre">arrow</span> <span class="pre">in</span> <span class="pre">your</span> <span class="pre">browser</span> <span class="pre">to</span> <span class="pre">return</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">previous</span> <span class="pre">screen.</span></code></div></blockquote>
+<p>you have encountered one of those options: as noted, just use the “Back”
+option in your browser to return to the previous screen.</p>
+</div>
+<div class="section" id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
+<p>Documentation is maintained using the <a class="reference external" href="http://http://sphinx-doc.org/">Sphinx</a> system, which provides both an
+<a class="reference external" href="http://civet.parusanalytics.com/civetdocs/index.html">on-line version</a> and a reasonably-well-formatted PDF version. There
+are links to both of these compiled versions on the home page; the <code class="docutils literal"><span class="pre">.rst</span></code> source texts for the documentation are in the
+directory <em>djcivet_site/docs</em>. That directory contains a Sphinx <em>Makefile</em> so revisions can be compiled using the standard
+commands <code class="docutils literal"><span class="pre">make</span> <span class="pre">html</span></code> and <code class="docutils literal"><span class="pre">make</span> <span class="pre">latexpdf</span></code>.</p>
+<p>The on-line documentation currently resides at the site <a class="reference external" href="http://civet.parusanalytics.com/civetdocs/">http://civet.parusanalytics.com/civetdocs/</a>; <a class="footnote-reference" href="#f3" id="id3">[3]</a> the PDF version is
+accessed at <em>docs/_build/latex/civetdoc.pdf</em></p>
+<div class="section" id="footnotes">
+<h3>Footnotes<a class="headerlink" href="#footnotes" title="Permalink to this headline">¶</a></h3>
+</div>
+<table class="docutils footnote" frame="void" id="f1" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td><a class="reference external" href="http://en.wikipedia.org/wiki/Civet">http://en.wikipedia.org/wiki/Civet</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td>An earlier prototype was implemented in the <code class="docutils literal"><span class="pre">Flask</span></code> framework: see
+Appendix 4</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f3" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[3]</a></td><td>This is a bug, not a feature: there is presumably a way of accessing these at <em>djcivet_site/docs/_build/html/</em>, or
+somewhere else within the <em>djcivet_site/</em> directory
+in a manner that has them correctly rendered, but I haven&#8217;t figured it out yet. Fixes are welcome.</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          <h3>Table Of Contents</h3>
+          <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="">Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#program-navigation-placeholders">Program Navigation Placeholders</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#documentation">Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="installing.html">Installing CIVET</a></li>
+<li class="toctree-l1"><a class="reference internal" href="homepage.html">Home Page Options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="forms.html">CIVET Coding Form Templates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workspaces.html">CIVET Workspaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="annotation.html">Annotation and Editing Collections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extraction.html">Coding and Text Extraction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="future.html">Projected Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix1.html">Appendix 1: Sample Template File</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix2.html">Appendix 2: Input Format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix3.html">Appendix 3: Supporting Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix4.html">Appendix 4: Prototype on Google Application Engine</a></li>
+</ul>
+
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+            </form>
+            <p class="searchtip" style="font-size: 90%">
+                Enter search terms or a module, class or function name.
+            </p>
+          </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <div role="navigation" aria-label="related navigaton">
+            <a href="index.html" title="Welcome"
+              >previous</a> |
+            <a href="installing.html" title="Installing CIVET"
+              >next</a>
+          </div>
+          <div role="note" aria-label="source link">
+              <br/>
+              <a href="_sources/intro.txt"
+                rel="nofollow">Show Source</a>
+          </div>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+      Last updated on 2015-08-10.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,370 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>CIVET Workspaces &mdash; CIVET documentation</title>
+    
+    <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'beta-0.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="CIVET documentation" href="index.html" />
+    <link rel="next" title="Annotation and Editing Collections" href="annotation.html" />
+    <link rel="prev" title="CIVET Coding Form Templates" href="forms.html" /> 
+  </head>
+  <body role="document">
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+          <p class="logo"><a href="index.html">
+            <img class="logo" src="_static/civet200.png" alt="Logo"/>
+          </a></p>
+        <div class="headertitle"><a
+          href="index.html">CIVET beta-0.7 documentation</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
+          <a href="forms.html" title="CIVET Coding Form Templates"
+             accesskey="P">previous</a> |
+          <a href="annotation.html" title="Annotation and Editing Collections"
+             accesskey="N">next</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="civet-workspaces">
+<h1>CIVET Workspaces<a class="headerlink" href="#civet-workspaces" title="Permalink to this headline">¶</a></h1>
+<hr class="docutils" />
+<p>CIVET is part of a projected collection of open-source programs designed
+to work with very large sets of small text files: in the domain of
+contentious politics these are usually news articles but the issue of
+managing very large databases of small texts extends well beyond this
+application. For example, projects analyzing texts from legislative
+debates, legislation, campaign web sites and blogs all have much the
+same character when they are studied at a large scale.</p>
+<p>In the CIVET system, files containing sets of individual stories are
+called “collections”: these are typically multiple related news
+stories—“texts”—from which one or more data records—“cases”—are coded.
+These are stored in a YAML format <a class="footnote-reference" href="#f1" id="id1">[1]</a> which is a structured
+human-readable text file containing a number of data fields; the details
+of this are given in Appendix 2.</p>
+<p>Sets of text collections are grouped into “workspaces” that also contain
+an associated coding form and, optionally, other information such as
+user-specified categories that will be used in automatic annotation. The
+template file begins with the string “<code class="docutils literal"><span class="pre">form.</span></code>” and uses the category
+and template commands described in Section [sec:form]. Workspaces are
+compressed (<code class="docutils literal"><span class="pre">.zip</span></code>) directories (folders).</p>
+<p>In the current configuration of the system, workspace files are uploaded
+to the system, annotated and/or coded, then downloaded when a session is
+completed: no data remain on the machine where the CIVET system is
+running. In a future version, we expect to have an option for persistent
+data that could be used on a secure server, as well as options for
+reading these files from a server.</p>
+<p>The workspace will generally <em>not</em> be downloaded to the same place it
+was originally: as a standard HTML security feature, the system does not
+retain any information about where it obtained a file. Instead, it will
+be downloaded to wherever your system downloads file: for example on the
+Macintosh this is a folder named <code class="docutils literal"><span class="pre">Downloads</span></code>. <a class="footnote-reference" href="#f2" id="id2">[2]</a> If you wish to
+replace the original workspace file, this will need to be done manually
+or with a script operating locally.</p>
+<p>There is some limited error checking as the workspace is processed. If
+errors are found you will get a screen similar to the figure
+below listing the errors, which must be corrected before the
+workspace can be used.</p>
+<div class="figure">
+<img alt="Screen reporting errors found in a workspace" src="_images/workspace_errors.png" />
+</div>
+<p>Like error messages in all programs, these are self-explanatory <a class="footnote-reference" href="#f3" id="id3">[3]</a>
+though in general errors will occur either when you are processing a
+workspace for the first time or if you have manually edited it outside
+of the CIVET system: once a workspace has been successfully read by
+CIVET the program should not introduce any errors that would be caught
+at this point. <a class="footnote-reference" href="#f4" id="id4">[4]</a></p>
+<p>The program is sensitive to file names:</p>
+<ul class="simple">
+<li>Any file ending with <code class="docutils literal"><span class="pre">.yml</span></code> is assumed to be a CIVET -formatted
+collections file</li>
+<li>There should be one and only file beginning with the string
+<code class="docutils literal"><span class="pre">form.</span></code>: this specifies the coding form for the workspace</li>
+<li>Any file beginning with <code class="docutils literal"><span class="pre">codes.</span></code> is assumed to be a
+<a class="reference internal" href="#sec-categories"><span>category vocabulary list</span></a>. In the file name,
+&#8220;codes.&#8221; must be followed by a
+<code class="docutils literal"><span class="pre">category</span></code> name then a period; the remainder of a &#8220;codes&#8221; file
+name can be anything, though typically it will end in <code class="docutils literal"><span class="pre">.txt</span></code>.</li>
+<li>Any file ending with <code class="docutils literal"><span class="pre">.ini</span></code> is assumed to be a configuration file
+[Beta 0.7: Not yet implemented]</li>
+</ul>
+<p>Except for these restrictions, the directory can contain additional
+files of any kind: these will be preserved when the file is downloaded.
+A workspace file cannot contain subdirectories.</p>
+<p>Additional notes on workspaces:</p>
+<ul class="simple">
+<li>So long as the YAML formatting is preserved—which should be fairly
+straightforward—the system is indifferent as to whether editing is
+done inside or outside of CIVET .</li>
+<li>If the <code class="docutils literal"><span class="pre">form</span></code> file is missing or contains errors, the system will
+display the errors it found, then return to the data selection page.</li>
+<li>If you are manually editing the variable values in the <code class="docutils literal"><span class="pre">cases</span></code>
+section, any single quotes (<code class="docutils literal"><span class="pre">’</span></code>) must be “escaped”; that is,
+replaced with <code class="docutils literal"><span class="pre">\’</span></code>. This will be done automatically when cases are
+generated from inside the program.</li>
+</ul>
+<div class="section" id="workspace-management">
+<span id="sec-management"></span><h2>Workspace Management<a class="headerlink" href="#workspace-management" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal"><span class="pre">Manage</span> <span class="pre">workspace</span></code> link on the home page will take you first to a
+workspace selection page, and then to the page shown below. In Beta 0.7, only the
+<code class="docutils literal"><span class="pre">Export</span> <span class="pre">data</span> <span class="pre">in</span> <span class="pre">tab-delimited</span> <span class="pre">format/Use</span> <span class="pre">save-variable</span> <span class="pre">list</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">template</span></code>
+is implemented: this will download any coded cases found in the
+workspace.</p>
+<div class="figure">
+<img alt="CIVET workspace management page" src="_images/manage.png" />
+</div>
+</div>
+<div class="section" id="user-specified-annotation-vocabulary-using-category">
+<span id="sec-categories"></span><h2>User-specified annotation vocabulary using <strong>category</strong><a class="headerlink" href="#user-specified-annotation-vocabulary-using-category" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal"><span class="pre">category</span></code> command is used to set up special categories of words
+that will be color-coded and can be associated with text-extraction
+fields. The annotation can either be done automatically or by manually
+selecting the text and using the <code class="docutils literal"><span class="pre">Style</span></code> pull-down menu in the
+annotation editor.</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line"><strong>category:</strong> category-name [color]</div>
+<div class="line">comma-delimited-phrase/code-list or file-name</div>
+</div>
+</div></blockquote>
+<p>The <code class="docutils literal"><span class="pre">category-name</span></code> must be unique and cannot be one of the standard
+categories <code class="docutils literal"><span class="pre">nament,</span> <span class="pre">num</span></code> or <code class="docutils literal"><span class="pre">date</span></code>. The program currently
+accommodates up to 99 categories. <a class="footnote-reference" href="#f5" id="id5">[5]</a></p>
+<div class="line-block">
+<div class="line"><code class="docutils literal"><span class="pre">color</span></code> can be any of the 140 named HTML5 colors, <a class="footnote-reference" href="#f6" id="id6">[6]</a> a six-digit
+hexadecimal RGB color (e.g. <code class="docutils literal"><span class="pre">6A5ACD</span></code> corresponds to the named color
+“SlateBlue”; the hex notation provides a presumably sufficient choice
+of 16,777,216 colors), or a two-digit color from the CIVET
+palette. <a class="footnote-reference" href="#f7" id="id7">[7]</a> The palette, shown below, can be
+accessed by entering the address</div>
+</div>
+<blockquote>
+<div><a class="reference external" href="http://127.0.0.1:8000/djciv_data/make_color_list">http://127.0.0.1:8000/djciv_data/make_color_list</a></div></blockquote>
+<div class="line-block">
+<div class="line">while the program is running on a dedicated machine. If <code class="docutils literal"><span class="pre">[color]</span></code> is
+empty—that is, <code class="docutils literal"><span class="pre">[]</span></code>—the system uses a color from the standard list
+in the listed order.</div>
+</div>
+<div class="figure">
+<img alt="CIVET Default Category Colors" src="_images/defaultcolors.png" />
+</div>
+<p>The program will find capitalized versions of the words in the list—in
+the example below, both &#8220;killed&#8221; and &#8220;Killed&#8221; will match—but not
+all-capitalized versions: &#8220;KILLED&#8221; would not be matched. A word or
+phrase can only be in a a single category: putting one in multiple
+categories will not cause an error, but only the first category
+evaluated—generally this will occur in the order the categories were
+entered—will be marked. Words and phrases within a category are
+evaluated in the order they are listed—see the example in the chapter on annotation—
+which can be used to establish precedent when words or
+phrases overlap. At present the program does not allow partial matches,
+though a facility for this may be added in the future. <a class="footnote-reference" href="#f8" id="id8">[8]</a></p>
+<p>The comma-delimited-phrase/code-list can have codes assigned to each of
+the phrases: these occur in brackets following the phrase and are added
+to the text during automated markup. The codes can be any character
+string. Either the phrase or the code or both can be specified in the
+output. If some of the phrases in the list have codes and others do not,
+the blank codes will be assigned a null (or, optionally, missing)
+string.</p>
+<p>The vocabulary list can also be read from a file in the workspace. The
+file name must begin with <code class="docutils literal"><span class="pre">codes.+category-name.</span></code>; the remainder of
+the file name can be anything. <a class="footnote-reference" href="#f9" id="id9">[9]</a> This be a text file with one phrase
+per line and the code in brackets; a line beginning with # is treated as
+a comment.</p>
+<p><strong>Example:</strong></p>
+<blockquote>
+<div><p><code class="docutils literal"><span class="pre">category:action</span> <span class="pre">[red]</span> <span class="pre">killed</span> <span class="pre">[1],</span> <span class="pre">wounded</span> <span class="pre">[2],</span> <span class="pre">shot</span> <span class="pre">and</span> <span class="pre">killed</span> <span class="pre">[1],</span> <span class="pre">bombed</span> <span class="pre">[3],</span> <span class="pre">clashed</span> <span class="pre">[3]</span></code></p>
+<p><code class="docutils literal"><span class="pre">category:people</span> <span class="pre">[Brown]</span> <span class="pre">civilians,</span> <span class="pre">workers,</span> <span class="pre">authorities,</span> <span class="pre">troops,</span> <span class="pre">soldiers,</span> <span class="pre">rebels,</span> <span class="pre">people,</span> <span class="pre">group</span></code></p>
+<p><code class="docutils literal"><span class="pre">category:nationstate</span> <span class="pre">[Gold]</span> <span class="pre">codes.nationstate.txt</span></code></p>
+<p><code class="docutils literal"><span class="pre">category:weapons</span> <span class="pre">[Olive]</span> <span class="pre">codes.weapons.mnsa.weaponslist_150724.txt</span></code></p>
+</div></blockquote>
+<table class="docutils footnote" frame="void" id="f1" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td><a class="reference external" href="https://en.wikipedia.org/wiki/YAML">https://en.wikipedia.org/wiki/YAML</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td>If you read the workspace from the same directory where it will
+eventually be downloaded, the behavior presumably depends on the
+operating system: in the case of the Macintosh both the downloaded
+file and the decompressed versions get a suffix added. E.g. if the
+original workspace folder is named <code class="docutils literal"><span class="pre">test123</span></code> with the compressed
+version <code class="docutils literal"><span class="pre">test123.zip</span></code>, the system assigns the downloaded version
+the name <code class="docutils literal"><span class="pre">test123</span> <span class="pre">(1).zip</span></code> which decompressed to a folder named
+<code class="docutils literal"><span class="pre">test123</span> <span class="pre">(1)</span></code>. We are leaving the task of insuring that the
+original file is not over-written to the operating system and
+whatever other utilities you might be using to manage workspaces.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f3" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[3]</a></td><td>Hahaha…just a little programmer joke…</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f4" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id4">[4]</a></td><td>For example, the error in the variable values string in Figure
+[fig:workerrors] occurs because of the substring
+<code class="docutils literal"><span class="pre">’whois’=’Case1-whois’,</span></code> which should actually be
+<code class="docutils literal"><span class="pre">’whois’:’Case1-whois’,</span></code> but that ‘<code class="docutils literal"><span class="pre">=</span></code>’ could only have been
+introduced through external editing.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f5" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id5">[5]</a></td><td><dl class="first docutils">
+<dt>If you need more, this can be changed by allowing more digits in</dt>
+<dd><p class="first">the <code class="docutils literal"><span class="pre">{:02d}</span></code> format in the code</p>
+<blockquote class="last">
+<div>`` UserCategories[newcat].append(’termst{:02d}’.format(len(UserCategories)))``</div></blockquote>
+</dd>
+</dl>
+<p class="last">in <code class="docutils literal"><span class="pre">CIVET_template.make_category()</span></code></p>
+</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f6" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id6">[6]</a></td><td>See <a class="reference external" href="http://www.w3schools.com/html/html">http://www.w3schools.com/html/html</a> colornames.asp</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f7" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id7">[7]</a></td><td>This palette was assembled in a very ad hoc manner, is not
+color-blind-friendly, and we would be delighted to substitute
+something better. The list is set as <code class="docutils literal"><span class="pre">CIV_template.CatColorList</span></code></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f8" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id8">[8]</a></td><td><div class="first last line-block">
+<div class="line">If you want it now, delete the test</div>
+<div class="line">“<code class="docutils literal"><span class="pre">if</span> <span class="pre">endx</span> <span class="pre">==</span> <span class="pre">idx+len(st):</span></code>” in
+<code class="docutils literal"><span class="pre">CIVET_utilities.do_string_markup()</span></code>.</div>
+</div>
+</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f9" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id9">[9]</a></td><td>The period following the category-name is required!: the file name
+<code class="docutils literal"><span class="pre">codes.weapons_mnsa_list.txt</span></code> would not be recognized as a valid
+<code class="docutils literal"><span class="pre">codes.</span></code> file. Or rather it would be interpreted as applying to a
+category <code class="docutils literal"><span class="pre">weapons_mnsa_list</span></code>, not the category <code class="docutils literal"><span class="pre">weapons</span></code>.</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="footnotes">
+<h2>Footnotes<a class="headerlink" href="#footnotes" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          <h3>Table Of Contents</h3>
+          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installing.html">Installing CIVET</a></li>
+<li class="toctree-l1"><a class="reference internal" href="homepage.html">Home Page Options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="forms.html">CIVET Coding Form Templates</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">CIVET Workspaces</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#workspace-management">Workspace Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#user-specified-annotation-vocabulary-using-category">User-specified annotation vocabulary using <strong>category</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#footnotes">Footnotes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="annotation.html">Annotation and Editing Collections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extraction.html">Coding and Text Extraction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="future.html">Projected Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix1.html">Appendix 1: Sample Template File</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix2.html">Appendix 2: Input Format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix3.html">Appendix 3: Supporting Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix4.html">Appendix 4: Prototype on Google Application Engine</a></li>
+</ul>
+
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+            </form>
+            <p class="searchtip" style="font-size: 90%">
+                Enter search terms or a module, class or function name.
+            </p>
+          </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <div role="navigation" aria-label="related navigaton">
+            <a href="forms.html" title="CIVET Coding Form Templates"
+              >previous</a> |
+            <a href="annotation.html" title="Annotation and Editing Collections"
+              >next</a>
+          </div>
+          <div role="note" aria-label="source link">
+              <br/>
+              <a href="_sources/workspaces.txt"
+                rel="nofollow">Show Source</a>
+          </div>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+      Last updated on 2015-08-10.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

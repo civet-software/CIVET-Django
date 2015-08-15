@@ -21,9 +21,6 @@ produced by *MS-Word*). Appendix 1 gives an example of a template
 file, and the code for this can also be downloaded from a link in the
 program.
 
-At present the program does only a very limited amount of error
-checking; more of this will be added in the future. If the template does
-contain one or more errors, the system will display this on a web page.
 
 ======================================
 Simple Template-Based Data Entry Form
@@ -116,6 +113,14 @@ page-text
 
 number
     An integer
+    
+Errors in template commands
+---------------------------
+
+There is a fair amount of error trapping as the commands are processed;
+any problems will reported on a web page. Generally the system will 
+stop after it has encountered the first error rather than reporting
+all of the errors in the file.
 
 ===============================
 Templates: Specifying variables
@@ -300,9 +305,8 @@ Templates: Additional Web Page Formatting
 Set page title
 --------------
 
-Sets the title of the web page: that is, the HTML
-``<title>...</title>`` section of the header. [Beta 0.7: Not yet
-implemented]
+Sets the title of the web page: that is, the HTML``<title>...</title>`` 
+section of the header.
 
     | **title:** page-text
 

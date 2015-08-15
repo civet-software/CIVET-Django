@@ -51,27 +51,24 @@
             
   <div class="section" id="welcome">
 <h1>Welcome<a class="headerlink" href="#welcome" title="Permalink to this headline">¶</a></h1>
-<p>This is the documentation for the CIVET—Contentious Incident Variable Entry Template—data entry system. CIVET is being
-developed by the NSF-sponsored project titled “A Method for Leveraging Public Information Sources for Social Science Research”
-which is creating tools to improve the efficiency of data generation in the social sciences, with an initial focus on coding
-event data in the domain of contentious politics.</p>
-<p>The system is deployed as a <a class="reference external" href="https://www.djangoproject.com/start/overview/">Django</a> application; it should be possible to
-get this working by installing Django on a local machine and copying the directory <code class="docutils literal"><span class="pre">djcivet_site</span></code>.</p>
-<p>We are very interested in feedback on this system, including any bugs you encounter (please let us know what operating system
-(e.g. Windows, OS-X) and browser (e.g. FireFox, Explorer, Chrome) you were using), aspects of the manual that are unclear
-(and features that appear too complex), and additional features that would be useful. Please send any suggestions to
-<a class="reference external" href="mailto:schrodt735&#37;&#52;&#48;gmail&#46;com">schrodt735<span>&#64;</span>gmail<span>&#46;</span>com</a>.</p>
+</div>
+<p>This is the documentation for the CIVET—Contentious Incident Variable Entry Template—data entry system. CIVET is being developed by the NSF-sponsored project titled “A Method for Leveraging Public Information Sources for Social Science Research” which is creating tools to improve the efficiency of data generation in the social sciences, with an initial focus on coding event data in the domain of contentious politics.</p>
+<p>The system is deployed as a <a class="reference external" href="https://www.djangoproject.com/start/overview/">Django</a> application; it should be possible to get this working by installing Django on a local machine and copying the directory <code class="docutils literal"><span class="pre">djcivet_site</span></code>.</p>
+<p>We are very interested in feedback on this system, including any bugs
+you encounter (please let us know what operating system (e.g. Windows,
+OS-X) and browser (e.g. FireFox, Explorer, Chrome) you were using),
+aspects of the manual that are unclear (and features that appear too
+complex), and additional features that would be useful. Please send any
+suggestions to <a class="reference external" href="mailto:schrodt735&#37;&#52;&#48;gmail&#46;com">schrodt735<span>&#64;</span>gmail<span>&#46;</span>com</a>.</p>
 <p><a class="reference external" href="https://github.com/civet-software">Link to</a> the software on GitHub</p>
 <div class="section" id="acknowledgements">
-<h2>Acknowledgements<a class="headerlink" href="#acknowledgements" title="Permalink to this headline">¶</a></h2>
-<p>The development of CIVET is funded by the U.S. National Science Foundation Office of Multidisciplinary Activities
-in the Directorate for Social, Behavioral &amp; Economic Sciences, Award 1338470 and the <a class="reference external" href="http://www.odum.unc.edu/odum/home2.jsp">Odum Institute</a> at the University of North Carolina at Chapel Hill with additional assistance from
-<a class="reference external" href="http://parusanalytics.com/">Parus Analytics</a>.
-This documentation is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License;
-CIVET is open source and under the MIT license.</p>
+<h1>Acknowledgements<a class="headerlink" href="#acknowledgements" title="Permalink to this headline">¶</a></h1>
 </div>
+<p>The development of CIVET is funded by the U.S. National Science Foundation Office of Multidisciplinary Activities
+in the Directorate for Social, Behavioral &amp; Economic Sciences, Award 1338470 and the <a class="reference external" href="http://www.odum.unc.edu/odum/home2.jsp">Odum Institute</a> at the University of North Carolina at Chapel Hill with additional assistance from <a class="reference external" href="http://parusanalytics.com/">Parus Analytics</a>. This documentation is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License; CIVET is open source and under the MIT license.</p>
 <div class="section" id="contents">
-<h2>Contents<a class="headerlink" href="#contents" title="Permalink to this headline">¶</a></h2>
+<h1>Contents<a class="headerlink" href="#contents" title="Permalink to this headline">¶</a></h1>
+</div>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a><ul>
@@ -79,9 +76,12 @@ CIVET is open source and under the MIT license.</p>
 <li class="toctree-l2"><a class="reference internal" href="intro.html#documentation">Documentation</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="installing.html">Installing CIVET</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installing.html">Installing CIVET</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installing.html#modifying-the-default-installation">Modifying the default installation</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="homepage.html">Home Page Options</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="homepage.html#footnotes">Footnotes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="homepage.html#file-selection">File selection</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="forms.html">CIVET Coding Form Templates</a><ul>
@@ -122,13 +122,15 @@ CIVET is open source and under the MIT license.</p>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="appendix4.html">Appendix 4: Prototype on Google Application Engine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix5.html">Appendix 5: Installing in AWS-EB and Docker</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="appendix5.html#amazon-web-services-elastic-beanstalk">Amazon Web Services Elastic Beanstalk</a></li>
+<li class="toctree-l2"><a class="reference internal" href="appendix5.html#docker">Docker</a></li>
+</ul>
+</li>
 </ul>
 </div>
-<p>..Indices and tables
-..==================</p>
+<p>..Indices and tables</p>
 <p>..* <a class="reference internal" href="genindex.html"><span>Index</span></a></p>
-</div>
-</div>
 
 
           </div>
@@ -150,6 +152,7 @@ CIVET is open source and under the MIT license.</p>
 <li class="toctree-l1"><a class="reference internal" href="appendix2.html">Appendix 2: Input Format</a></li>
 <li class="toctree-l1"><a class="reference internal" href="appendix3.html">Appendix 3: Supporting Files</a></li>
 <li class="toctree-l1"><a class="reference internal" href="appendix4.html">Appendix 4: Prototype on Google Application Engine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix5.html">Appendix 5: Installing in AWS-EB and Docker</a></li>
 </ul>
 
           <div role="search">
@@ -186,7 +189,7 @@ CIVET is open source and under the MIT license.</p>
         <div class="right">
           
     <div class="footer" role="contentinfo">
-      Last updated on 2015-08-10.
+      Last updated on 2015-08-15.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
         </div>

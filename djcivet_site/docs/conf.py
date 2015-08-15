@@ -235,10 +235,7 @@ latex_logo = 'civet200.png'
 
 # For "manual" documents, if this is true, then toplevel headings are parts,
 # not chapters.
-# 15.08.09 pas: This leads to slightly sucky formatting, but it is the only way I could figure
-# out to get the files to render as chapters rather than sections. Any suggestions would
-# by appreciated
-latex_use_parts = True
+#latex_use_parts = False
 
 # If true, show page references after internal links.
 #latex_show_pagerefs = False

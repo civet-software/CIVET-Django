@@ -68,9 +68,6 @@ or <em>Stata</em> script (that is, not a formatted file such as that
 produced by <em>MS-Word</em>). Appendix 1 gives an example of a template
 file, and the code for this can also be downloaded from a link in the
 program.</p>
-<p>At present the program does only a very limited amount of error
-checking; more of this will be added in the future. If the template does
-contain one or more errors, the system will display this on a web page.</p>
 <div class="section" id="simple-template-based-data-entry-form">
 <h2>Simple Template-Based Data Entry Form<a class="headerlink" href="#simple-template-based-data-entry-form" title="Permalink to this headline">¶</a></h2>
 <p>The basic data entry form just uses the presumably familiar standard
@@ -143,6 +140,13 @@ commas.</dd>
 <dt>number</dt>
 <dd>An integer</dd>
 </dl>
+</div>
+<div class="section" id="errors-in-template-commands">
+<h3>Errors in template commands<a class="headerlink" href="#errors-in-template-commands" title="Permalink to this headline">¶</a></h3>
+<p>There is a fair amount of error trapping as the commands are processed;
+any problems will reported on a web page. Generally the system will
+stop after it has encountered the first error rather than reporting
+all of the errors in the file.</p>
 </div>
 </div>
 <div class="section" id="templates-specifying-variables">
@@ -328,9 +332,8 @@ the text entry box in characters: the default is <code class="docutils literal">
 <h2>Templates: Additional Web Page Formatting<a class="headerlink" href="#templates-additional-web-page-formatting" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="set-page-title">
 <h3>Set page title<a class="headerlink" href="#set-page-title" title="Permalink to this headline">¶</a></h3>
-<p>Sets the title of the web page: that is, the HTML
-<code class="docutils literal"><span class="pre">&lt;title&gt;...&lt;/title&gt;</span></code> section of the header. [Beta 0.7: Not yet
-implemented]</p>
+<p>Sets the title of the web page: that is, the HTML``&lt;title&gt;...&lt;/title&gt;``
+section of the header.</p>
 <blockquote>
 <div><div class="line-block">
 <div class="line"><strong>title:</strong> page-text</div>
@@ -483,7 +486,7 @@ system could provide a way around this.</td></tr>
         <div class="right">
           
     <div class="footer" role="contentinfo">
-      Last updated on 2015-08-10.
+      Last updated on 2015-08-11.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
         </div>

@@ -1,4 +1,4 @@
-##	CIVET.templates.py
+##	civet_form.py
 ##
 ##  Code for handling the CIVET template files
 ##
@@ -10,7 +10,7 @@
 ##	Programmer: Philip A. Schrodt
 ##				Parus Analytics
 ##				Charlottesville, VA, 22901 U.S.A.
-##				http://eventdata.parusanalytics.com
+##				http://parusanalytics.com
 ##
 ##	Copyright (c) 2015	Philip A. Schrodt.	All rights reserved.
 ##
@@ -58,6 +58,7 @@ UncheckedValues = {}  # values to output for unchecked checkboxes
 CoderName = '---' 
 ConstVarDict = {}  # holds the variables set by constant:
 DefaultFileName = 'civet.output.txt'  # holds the value set by filename:
+FormPageTitle = 'CIVET Data Entry Form'   # holds the value set by title:
 UserCategories = {} # holds user categories as list [color, vocabulary...]
 CategoryCodes = {} # dictionary of dictionaries for category codes, if these are present
 FormContent = ''  # html for the coding form
@@ -124,6 +125,18 @@ def parse_codes(st):
         code = parts[2]
     return [vocab, capvocab, code]
     
+def check_integer(numst, labelst):
+    """ checks if numst is a valid integer. ValueError will be caught in do_commands."""
+    try:
+        int(numst)
+    except ValueError as e:
+        e.args += (labelst + ' is not a valid integer in ',) 
+        raise
+
+def check_for_equalchar(targst, labelst):
+    """ checks if '=' is in targst. Exception will be caught in do_commands."""
+    if '=' not in targst:
+        raise Exception('','No "' + labelst + '=" was found in ',)
     
 def read_codes_file(fin, filename):
     """ reads the codes.file fin and stores results in CategoryCodes """ 
@@ -216,24 +229,30 @@ def make_textline(commlines, widthstr='24'):
         tarsta = optstr[optstr.index('width'):]
         tarst = tarsta[tarsta.index('=')+1:].lstrip()  # need to catch error here
         widthstr = tarst[:tarst.index(' ')]  # check if this is an integer
+        check_integer(widthstr,'Width')
     return '\n' + commlines[1] + '<input name = "' + commlines[2] + '" type="text" value="' + commlines[4] + '" size = ' + widthstr + '>\n'
 
 def make_textclass(commlines, widthstr='24'):
-    """ creates a text input entry attached to a category """
-    widthstr = '24'  # not needed, right?
+    """ creates a text input entry attached to a category. The various errors are caught in do_command """
+#    widthstr = '24'  # not needed, right?
 #    print('MTc-1:',commlines)
     optstr = commlines[3] + ' '
     if 'width' in optstr:
         tarsta = optstr[optstr.index('width'):]
-        tarst = tarsta[tarsta.index('=')+1:].lstrip()  # need to catch error here; also if no embedded blanks we don't need the lstrip
-        widthstr = tarst[:tarst.index(' ')]  # check if this is an integer
+        check_for_equalchar(tarsta,'width')
+        tarst = tarsta[tarsta.index('=')+1:].lstrip()  
+        widthstr = tarst[:tarst.index(' ')]
+        check_integer(widthstr,'Width')
     if 'category' in optstr:  # this is required, so throw an error if it isn't here
         tarsta = optstr[optstr.index('category'):]
+        check_for_equalchar(tarsta,'category')
         tarst = tarsta[tarsta.index('=')+1:].lstrip()  # need to catch error here
-        classstr = tarst[:tarst.index(' ')] 
+        classstr = tarst[:tarst.index(' ')]  # we added a terminal blank so this will always be okay
         if classstr not in ['nament','date','num']:
             classstr = '=^=' + classstr + '=^='   # these will be replaced by termstNN
 #        print('MTc-2:',classstr)
+    else:
+        raise Exception('','No "category" in ')
     return '\n' + commlines[1] + '<input name = "' + commlines[2] + '" id = "' + commlines[2] + '" type="text" value="' + commlines[4] + \
            '" size = ' + widthstr + ' onfocus="coloraclass(\'' + classstr + '\', \'' + commlines[2] + '\')" ' +\
            ' onblur="cancelclass()">\n'
@@ -245,15 +264,17 @@ def make_textarea(commlines):
     optstr = commlines[3] + ' '
     if 'rows' in optstr:
         tarsta = optstr[optstr.index('rows'):]
-        tarst = tarsta[tarsta.index('=')+1:].lstrip()  # need to catch error here
-#        print('MT1',tarst)
-        rowstr = tarst[:tarst.index(' ')]  # check if this is an integer
+        check_for_equalchar(tarsta,'rows')
+        tarst = tarsta[tarsta.index('=')+1:].lstrip()
+        rowstr = tarst[:tarst.index(' ')] 
+        check_integer(rowstr,'Rows')
+        
     if 'cols' in optstr:
         tarsta = optstr[optstr.index('cols'):]
-        tarst = tarsta[tarsta.index('=')+1:].lstrip()  # need to catch error here
-#        print('MT2',optstr[optstr.index('cols'):])
-#        print('MT4',tarst)
-        colstr = tarst[:tarst.index(' ')]  # check if this is an integer
+        check_for_equalchar(tarsta,'cols')
+        tarst = tarsta[tarsta.index('=')+1:].lstrip()
+        colstr = tarst[:tarst.index(' ')]
+        check_integer(colstr,'Cols')
         
     return '\n' + commlines[1] + '<BR><TEXTAREA name = "' + commlines[2] + '" rows ="' + rowstr + '" cols = ' + colstr + '>' + commlines[4] + '</TEXTAREA>\n'
 
@@ -291,7 +312,7 @@ def make_radio(commlines):
     return contrstr 
 
 def make_text(commst, content):
-    """ processes the h*, p commands. In a Flask implementation, there is probably a better way to escape the html  """
+    """ processes the h*, p commands. In a Django implementation, there is probably a better way to escape the html  """
     if commst[0] == 'h':
         return '<'+ commst + '>' + escapehtml_filter(content) + '</'+ commst + '>\n'
     else:
@@ -382,7 +403,7 @@ def parse_command(commline):
     
 def do_command(commln):
     """ Calls various `make_*' routines, adds variables to VarList, forwards any errors from parse_command() """
-    global VarList, SaveList, SaveTypes, DefaultFileName
+    global VarList, SaveList, SaveTypes, DefaultFileName, FormPageTitle
     if commln[0] == '-':
         return ''
     commlines = parse_command(commln)
@@ -428,6 +449,9 @@ def do_command(commln):
         ConstVarDict[commlines[2]] = commlines[1]
         VarList.append(commlines[2])
         outline = ' ' 
+    elif commst == 'title':
+        FormPageTitle  = commlines[1]
+        outline = ' ' 
     elif commst == 'filename':
         DefaultFileName = commlines[1]
         outline = ' ' 
@@ -439,18 +463,22 @@ def do_command(commln):
             outline = '~Error~<p>' + str(e) + '<br>\n'
 
     if len(outline) == 0:   # remaining commands specify variables 
-        if commst == 'radio':
-            outline = make_radio(commlines)
-        elif commst == 'select':
-            outline = make_select(commlines)
-        elif commst == 'checkbox':
-            outline = make_checkbox(commlines)
-        elif commst == 'textline':
-            outline = make_textline(commlines)
-        elif commst == 'textclass':
-            outline = make_textclass(commlines)
-        elif commst == 'textarea':
-            outline = make_textarea(commlines)
+        try:
+            if commst == 'radio':
+                outline = make_radio(commlines)
+            elif commst == 'select':
+                outline = make_select(commlines)
+            elif commst == 'checkbox':
+                outline = make_checkbox(commlines)
+            elif commst == 'textline':
+                outline = make_textline(commlines)
+            elif commst == 'textclass':
+                outline = make_textclass(commlines)
+            elif commst == 'textarea':
+                outline = make_textarea(commlines)
+        except Exception as e:
+            outline = '~Error~<p>' + str(e[1]) + '"' + commln[0] + '"<br>\n'
+
         if len(outline) > 0:  # record variable name
             VarList.append(commlines[2])
         else:

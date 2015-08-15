@@ -26,7 +26,7 @@ urlpatterns = [
 
     url(r'collection_options', views.collection_options),
     url(r'select_collection', views.select_collection),
-    url(r'operating_instructions', views.operating_instructions),
+#    url(r'operating_instructions', views.operating_instructions), # no longer used
 
     url(r'edit_collection', views.edit_collection),
     url(r'apply_markup', views.apply_markup),

@@ -31,3 +31,25 @@ At this point you should see the Civet home screen
 .. figure:: civethome.png
    :width: 100%
    :alt: Civet home screen
+
+Modifying the default installation
+==================================
+
+Because CIVET is still in beta, the version on GitHub is the one being used for 
+development. To deploy the system for active coding, you will probably want
+to make the following changes:
+
+#. In the file *djcivet_site/djcivet_site/settings.py*, set ``DEBUG = False``.
+    This will 
+    
+    It is appropriate to note the `Django documentation advice <https://docs.djangoproject.com/en/1.8/ref/settings/>`_ 
+    on this::
+    
+        Never deploy a site into production with DEBUG turned on.
+        
+        Did you catch that? NEVER deploy a site into production with DEBUG turned on.
+    
+    As the Django documentation discusses in detail, with ``DEBUG = True`` any
+    errors will generate an error page containing extensive internal detail 
+    about your site. With ``DEBUG = False``, the user just sees a ``Page not found``
+    error.

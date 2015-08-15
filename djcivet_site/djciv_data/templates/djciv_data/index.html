@@ -4,15 +4,16 @@
     <meta charset="utf-8" />
     <title>CIVET Home Page</title>
     <meta name="generator" content="BBEdit 11.0" />
-    <link rel="stylesheet" type="text/css" href="/static/djciv_data/civetstyle.css" /></head>
-<style>
-td {
-    width:350px;
-    height: 30px;
-    font-weight: bold;
-    font-size: larger;
-}
-</style>
+
+    <link rel="stylesheet" type="text/css" href="{{ staticpath }}civetstyle.css" />  
+    <style>
+    td {
+        width:350px;
+        height: 30px;
+        font-weight: bold;
+        font-size: larger;
+    }
+    </style>
 </head>
 <body>
 <div style="float:left; width:350px">
@@ -20,19 +21,16 @@ td {
 <h2>Contentious Incident Variable Entry Template<h2>
 </div>
 <div style="float:left">
-<img alt="civet_logo" src="/static/djciv_data/civet_logo.png" width="150" height="150">
+<img alt="civet_logo" src="{{ staticpath }}civet_logo.png" width="150" height="150">
 </div>
 <div style="clear:both">
-<br>
+
 <p>This is the home page for a prototype of the CIVET&mdash;Contentious Incident Variable Entry Template&mdash;data entry system. CIVET is being developed by the NSF-sponsored project titled &ldquo;A Method for Leveraging Public Information Sources for Social Science Research&rdquo; which is creating tools to improve the efficiency of data generation in the social sciences, with an initial focus on coding event data in the domain of contentious politics.
 
-<p> The system you are looking at is a rather ugly <em>prototype</em> and provides a testbed of testing the functionality of some of various elements we expect to have in the final system. It will also be evolving as we add additional elements.
+<p> The system you are looking at is a somewhat ugly <em>prototype</em> and provides a testbed of testing the functionality of some of various elements we expect to have in the final system. It will also be evolving as we add additional elements.
 
-<!--<p>The prototype is currently deployed in the cloud on the &ldquo;Google App Engine&rdquo;; we currently expect the operational version will be deployed on a UNC server though the code will be available if you wish to create your own local or cloud versions. -->
-
-<p>The prototype is currently deployed as a &ldquo;Django&rdquo; (<tt>https://www.djangoproject.com/start/overview/</tt>) application; it should be possible to get this working by installing Django on a local machine and copying the directory <tt>djcivet_site</tt>. We currently expect the operational version will be deployed on a UNC server though the code will be available if you wish to create your own local or cloud versions. 
-
-<!--<h3>A description of some of the features is <a href="/features">here</a></h3>-->
+<p>CIVET is a standard <a href="https://www.djangoproject.com/start/overview/">Django</a> application; the documentation below includes instructions for installing the system either locally or in the Amazon Web Services cloud environment. Django is very widely used and has extensive documentation, so your installation requirements are not covered in the CIVET
+documentation, it should be relatively easy alternative instructions.
 
 <h3>Click one of the following links to use the system</h3>
 <table>
@@ -45,7 +43,11 @@ td {
 	<td> <a href="djciv_data/set_preferences">Set preferences</a></td>
 </tr>
 <tr>
-    <td> <a href="djciv_data/download_pdfdocs">Download documentation (PDF)</a></td>
+    <td> Documentation: </td>
+</tr>
+<tr>
+	<td> <a href="online_manual">On-line manual</a></td>
+	<td> <a href="djciv_data/download_pdfdocs">Download PDF</a></td>
 </tr>
 </table>
 
@@ -57,7 +59,7 @@ td {
  in the Directorate for Social, Behavioral & Economic Sciences, Award 1338470 and the <a href="http://www.odum.unc.edu/odum/home2.jsp">Odum Institute</a> at the University of North Carolina at Chapel Hill with additional assistance from <a href="http://parusanalytics.com/">Parus Analytics</a>.
 </div>
 <div style="float:bottom; text-align:center;margin: 12px 0 3px 0;">
-Last update: 28 July 2015
+Last update: 14 August 2015
 </div>
 </body>
 </html>

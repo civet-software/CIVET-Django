@@ -1,5 +1,7 @@
 # CIVET template demonstration file
 
+title: CIVET basic form demonstration
+
 h1:Ministry of Magic Hogwarts Incident Report
 
 radio: House where incident occurred: [house]

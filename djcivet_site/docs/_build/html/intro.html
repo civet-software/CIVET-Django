@@ -105,9 +105,9 @@ option in your browser to return to the previous screen.</p>
 <a class="reference external" href="http://civet.parusanalytics.com/civetdocs/index.html">on-line version</a> and a reasonably-well-formatted PDF version. There
 are links to both of these compiled versions on the home page; the <code class="docutils literal"><span class="pre">.rst</span></code> source texts for the documentation are in the
 directory <em>djcivet_site/docs</em>. That directory contains a Sphinx <em>Makefile</em> so revisions can be compiled using the standard
-commands <code class="docutils literal"><span class="pre">make</span> <span class="pre">html</span></code> and <code class="docutils literal"><span class="pre">make</span> <span class="pre">latexpdf</span></code>.</p>
-<p>The on-line documentation currently resides at the site <a class="reference external" href="http://civet.parusanalytics.com/civetdocs/">http://civet.parusanalytics.com/civetdocs/</a>; <a class="footnote-reference" href="#f3" id="id3">[3]</a> the PDF version is
-accessed at <em>docs/_build/latex/civetdoc.pdf</em></p>
+command <code class="docutils literal"><span class="pre">make</span> <span class="pre">html</span> <span class="pre">latexpdf</span></code>.</p>
+<p>The on-line documentation currently resides at the site <a class="reference external" href="http://civet.parusanalytics.com/civetdocs/">http://civet.parusanalytics.com/civetdocs/</a>; <a class="footnote-reference" href="#f3" id="id3">[3]</a> a PDF version can
+be downloaded by clicking the <code class="docutils literal"><span class="pre">Download</span> <span class="pre">PDF</span></code> link on the home page. <a class="footnote-reference" href="#f4" id="id4">[4]</a></p>
 <div class="section" id="footnotes">
 <h3>Footnotes<a class="headerlink" href="#footnotes" title="Permalink to this headline">¶</a></h3>
 </div>
@@ -130,6 +130,18 @@ Appendix 4</td></tr>
 <tr><td class="label"><a class="fn-backref" href="#id3">[3]</a></td><td>This is a bug, not a feature: there is presumably a way of accessing these at <em>djcivet_site/docs/_build/html/</em>, or
 somewhere else within the <em>djcivet_site/</em> directory
 in a manner that has them correctly rendered, but I haven&#8217;t figured it out yet. Fixes are welcome.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f4" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id4">[4]</a></td><td>This is handled in <code class="docutils literal"><span class="pre">views.download_pdfdocs()</span></code>: it first looks for the PDF version of the documentation in
+<em>docs/_build/latex/civetdoc.pdf</em>, which is where the most current version is likely to be located when the
+documentation was produced using the <code class="docutils literal"><span class="pre">make</span> <span class="pre">latexpdf</span></code> command in the <em>docs/</em> directory. If that isn&#8217;t present,
+it checks the <em>/static/</em> directory: this can be used in deployments in order to avoid uploading  <em>docs/</em>. If neither
+is available, it gets the copy posted at <a class="reference external" href="http://civet.parusanalytics.com/">http://civet.parusanalytics.com/</a>, which may or may not correspond exactly to the
+version being used depending on what modifications have been made. The command <code class="docutils literal"><span class="pre">make</span> <span class="pre">movepdf</span></code> will copy <em>civetdoc.pdf</em> from
+<em>_build/latex</em> to <em>/static/</em></td></tr>
 </tbody>
 </table>
 </div>
@@ -197,7 +209,7 @@ in a manner that has them correctly rendered, but I haven&#8217;t figured it out
         <div class="right">
           
     <div class="footer" role="contentinfo">
-      Last updated on 2015-08-10.
+      Last updated on 2015-08-13.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
         </div>

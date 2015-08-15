@@ -5,7 +5,8 @@ import re
 
 from .models import Collection, Text, Case
 
-import CIV_template
+import civet_settings
+import civet_form
 
 collfields = ['collid','colldate','colledit', 'collcmt']
 textfields = ['textid','textdate','textpublisher','textpubid','textlicense', 'textlede', 'textcmt','textmkupdate','textmkupcoder']
@@ -215,7 +216,7 @@ def write_YAML_file(thecoll, filehandle):
             print(casedict['casevalues'])
             caseval = ast.literal_eval(casedict['casevalues'])  # this was checked for errors at the input level
             print('WYF-5:', caseval)
-            for avar in CIV_template.SaveList:  # this does the output in the order given in the template
+            for avar in civet_form.SaveList:  # this does the output in the order given in the template
                 st = caseval[avar].replace("'","\\'")
                 filehandle.write("        '" + avar + "': '" + st + "',\n")
             filehandle.write("        }\n")
@@ -229,56 +230,58 @@ def write_YAML_file(thecoll, filehandle):
 
 def read_stoplist():
     """ read standard stoplist from the static directory """
-    fin = open('djciv_data/static/djciv_data/CIVET.stopwords.txt','r')
-    line = fin.readline() 
-    while len(line) > 0:  # loop through the file
-        if len(line) > 1:
-            if line[0] != '#':
-                if '#' in line:   # deal with possible comments
-                    word = line.partition('#')[0].strip()
-                else:
-                    word = line.strip()                
-                if len(word) > 1:  # or we could just put 'A' and 'I' in there and save a conditional...
-                    StopList.append(word[0].upper() + word[1:])
-                else:
-                    StopList.append(word.upper())            
-        line = fin.readline()
-    fin.close() 
+    with open(civet_settings.STATIC_FILE_PATH + 'CIVET.stopwords.txt','r') as fin:
+        for line in fin:
+            if len(line) > 1:
+                if line[0] != '#':
+                    if '#' in line:   # deal with possible comments
+                        word = line.partition('#')[0].strip()
+                    else:
+                        word = line.strip()                
+                    if len(word) > 1:  # or we could just put 'A' and 'I' in there and save a conditional...
+                        StopList.append(word[0].upper() + word[1:])
+                    else:
+                        StopList.append(word.upper())            
   
 def read_numberlist():
     """ read standard number list from the static directory """
-    # 15.07.24 still need to throw errors here for missing []. May or may not be appropriate to make sure these are actually numbers, or at least warn when they aren't
-    # because a terminal blank is added, this won't match before punctuation, though that is unusual for number-words
-    fin = open('djciv_data/static/djciv_data/CIVET.numberwords.txt','r')
-    line = fin.readline() 
-    while len(line) > 0:  # loop through the file
-        if len(line) > 1:
-            if line[0] != '#':
-                if '#' in line:   # deal with possible comments
-                    phrase = line.partition('#')[0].strip()
-                else:
-                    phrase = line.strip()
-                if '[' in phrase:
-                    part = line.partition('[')
-                    word = part[0].strip() + ' '
-                    value = part[2][:part[2].find(']')].strip()
-                    NumberDict[word[0].upper() + word[1:]] = value
-                    NumberDict[word] = value                
-                else:
-                    pass
-                    # put some sort of error message here               
-        line = fin.readline()
-    fin.close()
+    """ 15.08.11 p.a.s. Various notes on this:
+    1. Since this is an internal file, I'm just ignoring lines with missing [] rather than reporting an error, though at some 
+    point that might be a good idea. 
+    2. It may or may not be appropriate to make sure these are actually numbers, or at least warn when they aren't.
+    3. Because a terminal space is added to the word (in order to avoid partial matches), these  words won't match before 
+    punctuation, though that is unusual for number-words.
+    """
+    with open(civet_settings.STATIC_FILE_PATH + 'CIVET.numberwords.txt','r') as fin:
+        for line in fin:
+            if len(line) > 1:
+                if line[0] != '#':
+                    if '#' in line:   # deal with possible comments
+                        phrase = line.partition('#')[0].strip()
+                    else:
+                        phrase = line.strip()
+                    if '[' in phrase:
+                        part = line.partition('[')
+                        if ']' in part[2]:
+                            word = part[0].strip() + ' '
+                            value = part[2][:part[2].find(']')].strip()
+                            NumberDict[word[0].upper() + word[1:]] = value
+                            NumberDict[word] = value                
+                        else:
+                            pass # error messages could eventually go here               
+                    else:
+                        pass
+                        # put some sort of error message here               
     print(NumberDict) 
   
 
-
 def make_oktext():
     """ splits thetext into a list that separates out <span></span> blocks and returns same """
-    # pas 15.07.23: This is used to avoid marking text that has already been marked, thus prevented, e.g. "killed" being marked 
-    # in "shot and killed", assuming the longer phrase had been coded first (and conversely, if "killed" had precedence, 
-    # "shot and killed" would not be matched, which could also be a useful feature. There is probably some more elegant
-    # way to do this but this works. 
+    """ pas 15.07.23: This is used to avoid marking text that has already been marked, thus prevented, e.g. "killed" being marked 
+    in "shot and killed", assuming the longer phrase had been coded first (and conversely, if "killed" had precedence, 
+    "shot and killed" would not be matched, which could also be a useful feature. There is probably some more elegant
+    way to do this but this works.
+    """ 
     global thetext 
     oktext = []
     indc = 0
@@ -313,8 +316,7 @@ def do_NE_markup():
         read_stoplist()
     pat1 = re.compile(r' (al-|bin-|ibn-|)?[A-Z]')    
     oktext = make_oktext()
-    for ka in range(len(oktext)):
-        curtext = oktext[ka]
+    for ka, curtext in enumerate(oktext):
         if curtext.startswith('<span'):  # do not try to code anything that has already been marked
             continue
         idx = 0
@@ -349,12 +351,10 @@ def do_NE_markup():
 def do_numberword_markup():
     """ Annotate number words with their values in brackets """
     global thetext
-#    newords = []
     if len(NumberDict) == 0:
         read_numberlist()
     oktext = make_oktext()
-    for ka in range(len(oktext)):
-        curtext = oktext[ka]
+    for ka, curtext in enumerate(oktext):
         if curtext.startswith('<span'):  # do not try to code anything that has already been marked
             continue
         endx = 0
@@ -380,14 +380,12 @@ def do_numberword_markup():
 
     thetext = ''.join(oktext) 
 
-
 def do_number_markup():
     """ annotate numbers """
     global thetext
     pat1 = re.compile(r' [1-9]')    
     oktext = make_oktext()
-    for ka in range(len(oktext)):
-        curtext = oktext[ka]
+    for ka, curtext in enumerate(oktext):
         idx = 0
         curmatch = pat1.search(curtext, idx)
         while curmatch:
@@ -408,13 +406,12 @@ def do_string_markup(category):
     # eventual <span></span> version -- but it keeps the first loop a bit simpler  
     global thetext
     marklist = []
-    for st in CIV_template.UserCategories[category][2:]:
+    for st in civet_form.UserCategories[category][2:]:
         marklist.append(' ' + st)
     for st in marklist:
 #        print('DSM1:',st)
         oktext = make_oktext()
-        for ka in range(len(oktext)):
-            curtext = oktext[ka]
+        for ka, curtext in enumerate(oktext):
             if curtext.startswith('<span'):  # do not try to code anything that has already been marked
                 continue
             idx = curtext.find(st)
@@ -423,8 +420,8 @@ def do_string_markup(category):
                 if curtext[endx-1] in [',','.','?','"','\'','!','\n','\t']:
                     endx -= 1
                 if endx == idx+len(st):  # only use complete matches except for punctuation: dropping this would allow stemming and that could be added as a option at some point
-                    if category in CIV_template.CategoryCodes:
-                        code = ' [' + CIV_template.CategoryCodes[category][st.strip()] + ']'
+                    if category in civet_form.CategoryCodes:
+                        code = ' [' + civet_form.CategoryCodes[category][st.strip()] + ']'
                     else:
                         code = ''
                     curtext = curtext[:idx+1] + '=$=' + category + '=$=' + st[1:] + code  + '=$=' + curtext[endx:]
@@ -437,8 +434,8 @@ def do_string_markup(category):
             while idx > 0:
                 indb = curtext.find('=$=',idx+3)
                 indc = curtext.find('=$=',indb+3)
-                curtext = curtext[:idx] + '<span style="class:' + CIV_template.UserCategories[category][1] + ';color:' + \
-                        CIV_template.UserCategories[category][0] +  '">'  + curtext[indb+3:indc] + "</span>" + curtext[indc+3:] 
+                curtext = curtext[:idx] + '<span style="class:' + civet_form.UserCategories[category][1] + ';color:' + \
+                        civet_form.UserCategories[category][0] +  '">'  + curtext[indb+3:indc] + "</span>" + curtext[indc+3:] 
                 idx = curtext.find('</span>',idx+3)
                 idx = curtext.find('=$=',idx+3)
                 
@@ -450,7 +447,7 @@ def do_string_markup(category):
 def do_markup(oldtext):
     global thetext
     thetext = oldtext + ' '
-    for cat in CIV_template.UserCategories:
+    for cat in civet_form.UserCategories:
         do_string_markup(cat)
     do_numberword_markup()    
     do_NE_markup()
@@ -458,22 +455,13 @@ def do_markup(oldtext):
 #    print('DM1:',thetext)
     return thetext
     
-def write_styles():
-    """ modifies the style.js file used by ckeditor to add the new categories """
-    path = 'djciv_data/static/djciv_data/ckeditor/'
-    fin = open(path + 'styles.template.js','r')    
-    fout = open(path + 'styles.js','w') # this overwrites any existing styles.js file
-    line = fin.readline() 
-    while len(line) > 0:
-        if '{{' not in line:
-            fout.write(line)
-        else:
-            for cat in CIV_template.UserCategories:
-                fout.write("\t{ name: '" + cat + "', element: 'span', styles: { 'class':'" + cat + "', 'color': '" + CIV_template.UserCategories[cat][0] + "' }  },\n")
-        line = fin.readline() 
-    fout.close()
-    fin.close()
-    
+def get_styles():
+    """ creates the civet_styles for ckeditor """
+    thestyles = civet_settings.DEFAULT_CKEDITOR_STYLES
+    for cat in civet_form.UserCategories:
+        thestyles += "\n{ name: '" + cat + "', element: 'span', styles: { 'class':'" + cat + \
+         "', 'color': '" + civet_form.UserCategories[cat][0] + "' }  },"
+    return thestyles
 
 # ======== Miscellaneous utilities ========= #
 

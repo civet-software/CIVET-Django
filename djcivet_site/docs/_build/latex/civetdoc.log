@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.5.25)  10 AUG 2015 10:29
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.5.25)  15 AUG 2015 16:30
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -892,7 +892,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 128--128
 
  []
 
-<civet200.png, id=125, 200.75pt x 200.75pt>
+<civet200.png, id=141, 200.75pt x 200.75pt>
 File: civet200.png Graphic file (type png)
  <use civet200.png>
 Package pdftex.def Info: civet200.png used on input line 128.
@@ -923,17 +923,15 @@ LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <17.28> not available
 200.png>] [2
 
 ] (./civetdoc.toc
-LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <12> not available
-(Font)              Font shape `T1/ptm/b/n' tried instead on input line 2.
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <10> not available
-(Font)              Font shape `T1/ptm/b/n' tried instead on input line 4.
-LaTeX Font Info:    Try loading font information for T1+pcr on input line 44.
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 2.
+LaTeX Font Info:    Try loading font information for T1+pcr on input line 46.
 
 (/usr/local/texlive/2014/texmf-dist/tex/latex/psnfss/t1pcr.fd
 File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
 )
 LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <10> not available
-(Font)              Font shape `T1/phv/b/n' tried instead on input line 49.
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 52.
  [1
 
 ])
@@ -941,324 +939,343 @@ LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <10> not available
 \openout7 = `civetdoc.toc'.
 
  [2]
-LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <12> not available
-(Font)              Font shape `T1/phv/b/n' tried instead on input line 144.
+LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <14.4> not available
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 129.
 
 [1
 
 ] [2
 
 ]
-LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <20.74> not available
-(Font)              Font shape `T1/ptm/b/n' tried instead on input line 158.
-LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <24.88> not available
-(Font)              Font shape `T1/ptm/b/n' tried instead on input line 158.
- [3] [4] [5] [6
-
-] [7] [8]
 Chapter 1.
-LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <14.4> not available
-(Font)              Font shape `T1/phv/b/n' tried instead on input line 167.
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <14.4> not available
-(Font)              Font shape `T1/ptm/b/n' tried instead on input line 167.
-[9
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 149.
+LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <24.88> not available
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 149.
 
-] [10
+Underfull \hbox (badness 10000) in paragraph at lines 208--209
+[]\T1/pcr/m/n/10 The option [something] has yet to be implemented. Use the back
+ arrow
+ []
 
-]
+[3] [4]
 Chapter 2.
-<civethome.png, id=243, 988.69376pt x 725.71124pt>
+<civethome.png, id=247, 988.69376pt x 725.71124pt>
 File: civethome.png Graphic file (type png)
  <use civethome.png>
-Package pdftex.def Info: civethome.png used on input line 257.
+Package pdftex.def Info: civethome.png used on input line 276.
 (pdftex.def)             Requested size: 469.755pt x 344.80501pt.
- [11]
-[12 <./civethome.png>]
+LaTeX Font Info:    Font shape `T1/ptm/bx/it' in size <10> not available
+(Font)              Font shape `T1/ptm/b/it' tried instead on input line 287.
+LaTeX Font Info:    Font shape `T1/pcr/bx/n' in size <10> not available
+(Font)              Font shape `T1/pcr/b/n' tried instead on input line 287.
+ [5
+
+]
+[6 <./civethome.png>]
 Chapter 3.
-<fileselect.png, id=259, 365.365pt x 227.85126pt>
+<fileselect.png, id=266, 365.365pt x 227.85126pt>
 File: fileselect.png Graphic file (type png)
  <use fileselect.png>
-Package pdftex.def Info: fileselect.png used on input line 299.
+Package pdftex.def Info: fileselect.png used on input line 358.
 (pdftex.def)             Requested size: 365.3641pt x 227.8507pt.
 File: fileselect.png Graphic file (type png)
 
 <use fileselect.png>
-Package pdftex.def Info: fileselect.png used on input line 299.
+Package pdftex.def Info: fileselect.png used on input line 358.
 (pdftex.def)             Requested size: 365.3641pt x 227.8507pt.
- [13
 
-pdfTeX warning (ext4): destination with the same identifier (name{figure.3.1}) 
-has been already used, duplicate ignored
-
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.307 
-       <./fileselect.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 319--319
+Underfull \hbox (badness 10000) in paragraph at lines 378--378
 [][][] \T1/ptm/m/n/8 These files are named \T1/pcr/m/n/8 CIVET.demo.template.tx
 t \T1/ptm/m/n/8 and \T1/pcr/m/n/8 CIVET.extract.demo.zip \T1/ptm/m/n/8 in the d
 i-rec-tory
  []
 
+[7
 
-Underfull \hbox (badness 10000) in paragraph at lines 334--335
-[]\T1/pcr/m/n/10 The option [something] has yet to be implemented. Use the back
- arrow
- []
+] [8pdfTeX warning (ext4): destination with the same identifier (name{figure.3.
+1}) has been already used, duplicate ignored
 
-[14]
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.387 \chapter
+              {CIVET Coding Form Templates} <./fileselect.png>]
 Chapter 4.
-LaTeX Font Info:    Try loading font information for TS1+ptm on input line 395.
+LaTeX Font Info:    Try loading font information for TS1+ptm on input line 437.
 
 (/usr/local/texlive/2014/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 )
-<download.png, id=273, 699.61375pt x 344.28625pt>
+<download.png, id=280, 699.61375pt x 344.28625pt>
 File: download.png Graphic file (type png)
  <use download.png>
-Package pdftex.def Info: download.png used on input line 406.
+Package pdftex.def Info: download.png used on input line 448.
 (pdftex.def)             Requested size: 699.61205pt x 344.2854pt.
 File: download.png Graphic file (type png)
 
 <use download.png>
-Package pdftex.def Info: download.png used on input line 406.
+Package pdftex.def Info: download.png used on input line 448.
 (pdftex.def)             Requested size: 469.755pt x 231.17491pt.
- [15
+ [9
 
-] [16 <./download.png>] [17]
-Underfull \hbox (badness 10000) in paragraph at lines 607--608
+]
+LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <12> not available
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 477.
+ [10 <./download.png>] [11]
+Underfull \hbox (badness 10000) in paragraph at lines 657--658
 []\T1/pcr/m/n/10 select: Region [worldregion] North America, South America, Eur
 ope,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 628--629
+Underfull \hbox (badness 10000) in paragraph at lines 678--679
 []\T1/pcr/m/n/10 radio: Region/ [worldregion] North America, South America, Eur
 ope,
  []
 
-[18]
-Underfull \hbox (badness 10000) in paragraph at lines 710--711
+[12]
+Underfull \hbox (badness 10000) in paragraph at lines 760--761
 []\T1/pcr/m/n/10 textarea: Comments [comments] rows = 2 cols = 64 ^^U put any
  []
 
-[19] [20]
+[13] [14]
 Chapter 5.
-<workspace_errors.png, id=322, 757.83125pt x 360.34625pt>
+<workspace_errors.png, id=330, 757.83125pt x 360.34625pt>
 File: workspace_errors.png Graphic file (type png)
 
 <use workspace_errors.png>
-Package pdftex.def Info: workspace_errors.png used on input line 861.
+Package pdftex.def Info: workspace_errors.png used on input line 910.
 (pdftex.def)             Requested size: 757.8294pt x 360.34537pt.
 File: workspace_errors.png Graphic file (type png)
  <use workspace_errors.png>
-Package pdftex.def Info: workspace_errors.png used on input line 861.
+Package pdftex.def Info: workspace_errors.png used on input line 910.
 (pdftex.def)             Requested size: 469.755pt x 223.36838pt.
- [21
+ [15
 
 ]
-<manage.png, id=335, 582.175pt x 413.545pt>
+<manage.png, id=343, 582.175pt x 413.545pt>
 File: manage.png Graphic file (type png)
  <use manage.png>
-Package pdftex.def Info: manage.png used on input line 936.
+Package pdftex.def Info: manage.png used on input line 985.
 (pdftex.def)             Requested size: 582.17358pt x 413.54398pt.
 File: manage.png Graphic file (type png)
  <use manage.png>
-Package pdftex.def Info: manage.png used on input line 936.
+Package pdftex.def Info: manage.png used on input line 985.
 (pdftex.def)             Requested size: 469.755pt x 333.69495pt.
 
-[22 <./workspace_errors.png>] [23 <./manage.png>]
+[16 <./workspace_errors.png>] [17 <./manage.png>]
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <8> not available
-(Font)              Font shape `T1/ptm/b/n' tried instead on input line 968.
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 1017.
 
-<defaultcolors.png, id=351, 488.82625pt x 343.2825pt>
+<defaultcolors.png, id=359, 488.82625pt x 343.2825pt>
 File: defaultcolors.png Graphic file (type png)
  <use defaultcolors.png>
-Package pdftex.def Info: defaultcolors.png used on input line 997.
+Package pdftex.def Info: defaultcolors.png used on input line 1046.
 (pdftex.def)             Requested size: 488.82504pt x 343.28165pt.
 File: defaultcolors.png Graphic file (type png)
 
 <use defaultcolors.png>
-Package pdftex.def Info: defaultcolors.png used on input line 997.
+Package pdftex.def Info: defaultcolors.png used on input line 1046.
 (pdftex.def)             Requested size: 469.755pt x 329.89316pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 1040--1041
+Underfull \hbox (badness 10000) in paragraph at lines 1089--1090
 []\T1/pcr/m/n/10 category:action [red] killed [1], wounded [2], shot and killed
  [1],
  []
 
-[24] [25 <./defaultcolors.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 1042--1043
+[18] [19 <./defaultcolors.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 1091--1092
 []\T1/pcr/m/n/10 category:people [Brown] civilians, workers, authorities, troop
 s,
  []
 
-[26]
+[20]
 Chapter 6.
-<ckedit_menu.png, id=373, 577.15625pt x 302.12875pt>
+<ckedit_menu.png, id=381, 577.15625pt x 302.12875pt>
 File: ckedit_menu.png Graphic file (type png)
  <use ckedit_menu.png>
-Package pdftex.def Info: ckedit_menu.png used on input line 1069.
+Package pdftex.def Info: ckedit_menu.png used on input line 1118.
 (pdftex.def)             Requested size: 577.15483pt x 302.128pt.
 File: ckedit_menu.png Graphic file (type png)
 
 <use ckedit_menu.png>
-Package pdftex.def Info: ckedit_menu.png used on input line 1069.
+Package pdftex.def Info: ckedit_menu.png used on input line 1118.
 (pdftex.def)             Requested size: 469.755pt x 245.91696pt.
- <style_options.png, id=374, 576.1525pt x 329.23pt>
+ <style_options.png, id=382, 576.1525pt x 329.23pt>
 File: style_options.png Graphic file (type png)
 
 <use style_options.png>
-Package pdftex.def Info: style_options.png used on input line 1074.
+Package pdftex.def Info: style_options.png used on input line 1123.
 (pdftex.def)             Requested size: 576.15108pt x 329.22919pt.
 File: style_options.png Graphic file (type png)
  <use style_options.png>
-Package pdftex.def Info: style_options.png used on input line 1074.
+Package pdftex.def Info: style_options.png used on input line 1123.
 (pdftex.def)             Requested size: 469.755pt x 268.44315pt.
- [27
+ [21
 
  <./ckedit_menu.png>]
-[28 <./style_options.png>] <annotation0.png, id=394, 736.7525pt x 39.14626pt>
+[22 <./style_options.png>] <annotation0.png, id=402, 736.7525pt x 39.14626pt>
 File: annotation0.png Graphic file (type png)
 
 <use annotation0.png>
-Package pdftex.def Info: annotation0.png used on input line 1163.
+Package pdftex.def Info: annotation0.png used on input line 1212.
 (pdftex.def)             Requested size: 736.7507pt x 39.14615pt.
 File: annotation0.png Graphic file (type png)
  <use annotation0.png>
-Package pdftex.def Info: annotation0.png used on input line 1163.
+Package pdftex.def Info: annotation0.png used on input line 1212.
 (pdftex.def)             Requested size: 469.755pt x 24.95972pt.
 
-<annotation1.png, id=395, 792.9625pt x 40.15pt>
+<annotation1.png, id=403, 792.9625pt x 40.15pt>
 File: annotation1.png Graphic file (type png)
  <use annotation1.png>
-Package pdftex.def Info: annotation1.png used on input line 1176.
+Package pdftex.def Info: annotation1.png used on input line 1225.
 (pdftex.def)             Requested size: 792.96056pt x 40.14989pt.
 File: annotation1.png Graphic file (type png)
 
 <use annotation1.png>
-Package pdftex.def Info: annotation1.png used on input line 1176.
+Package pdftex.def Info: annotation1.png used on input line 1225.
 (pdftex.def)             Requested size: 469.755pt x 23.78569pt.
- <annotation2.png, id=396, 778.91pt x 39.14626pt>
+ <annotation2.png, id=404, 778.91pt x 39.14626pt>
 File: annotation2.png Graphic file (type png)
 
 <use annotation2.png>
-Package pdftex.def Info: annotation2.png used on input line 1189.
+Package pdftex.def Info: annotation2.png used on input line 1238.
 (pdftex.def)             Requested size: 778.90811pt x 39.14615pt.
 File: annotation2.png Graphic file (type png)
  <use annotation2.png>
-Package pdftex.def Info: annotation2.png used on input line 1189.
+Package pdftex.def Info: annotation2.png used on input line 1238.
 (pdftex.def)             Requested size: 469.755pt x 23.60858pt.
- [29pdfTeX warning (ext4): destination with the same identifier (name{figure.6.
+ [23pdfTeX warning (ext4): destination with the same identifier (name{figure.6.
 1}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.1245 \chapter
+l.1294 \chapter
                {Coding and Text Extraction}pdfTeX warning (ext4): destination w
 ith the same identifier (name{figure.6.2}) has been already used, duplicate ign
 ored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.1245 \chapter
+l.1294 \chapter
                {Coding and Text Extraction}pdfTeX warning (ext4): destination w
 ith the same identifier (name{figure.6.3}) has been already used, duplicate ign
 ored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.1245 \chapter
+l.1294 \chapter
                {Coding and Text Extraction} <./annotation0.png> <./annotation1.
-png> <./annotation2.png>] [30
+png> <./annotation2.png>] [24
 
 ]
 Chapter 7.
-<civetcoder.png, id=420, 965.6075pt x 722.7pt>
+<civetcoder.png, id=429, 965.6075pt x 722.7pt>
 File: civetcoder.png Graphic file (type png)
  <use civetcoder.png>
-Package pdftex.def Info: civetcoder.png used on input line 1257.
+Package pdftex.def Info: civetcoder.png used on input line 1306.
 (pdftex.def)             Requested size: 375.80544pt x 281.2674pt.
- [31 <./civetcoder.png>] [32]
+ [25 <./civetcoder.png>] [26]
 Chapter 8.
-[33
+[27
 
-] [34]
+] [28]
 Chapter 9.
-<demo_template.png, id=452, 661.47125pt x 503.8825pt>
+<demo_template.png, id=460, 661.47125pt x 503.8825pt>
 File: demo_template.png Graphic file (type png)
  <use demo_template.png>
-Package pdftex.def Info: demo_template.png used on input line 1488.
+Package pdftex.def Info: demo_template.png used on input line 1537.
 (pdftex.def)             Requested size: 661.46964pt x 503.88127pt.
 File: demo_template.png Graphic file (type png)
 
 <use demo_template.png>
-Package pdftex.def Info: demo_template.png used on input line 1488.
+Package pdftex.def Info: demo_template.png used on input line 1537.
 (pdftex.def)             Requested size: 469.755pt x 357.83597pt.
- [35
+ [29
 
-] [36 <./demo_template.png>]
+] [30 <./demo_template.png>]
 Chapter 10.
-[37
+[31
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 1610--1613
+Underfull \hbox (badness 10000) in paragraph at lines 1659--1662
 []\T1/ptm/m/n/10 Dates are ISO-8601 ([][]http://en.wikipedia.org/wiki/ISO_8601[
 ][]; [][]http://www.w3.org/TR/NOTE-datetime[][];
  []
 
-<yamlexample.png, id=470, 867.24pt x 654.445pt>
+<yamlexample.png, id=478, 867.24pt x 654.445pt>
 File: yamlexample.png Graphic file (type png)
  <use yamlexample.png>
-Package pdftex.def Info: yamlexample.png used on input line 1633.
+Package pdftex.def Info: yamlexample.png used on input line 1682.
 (pdftex.def)             Requested size: 867.2379pt x 654.4434pt.
 File: yamlexample.png Graphic file (type png)
 
 <use yamlexample.png>
-Package pdftex.def Info: yamlexample.png used on input line 1633.
+Package pdftex.def Info: yamlexample.png used on input line 1682.
 (pdftex.def)             Requested size: 469.755pt x 354.4935pt.
- [38] [39 <./yamlexample.png>] [40
+ [32] [33 <./yamlexample.png>] [34
 
 ]
 Chapter 11.
 LaTeX Font Info:    Font shape `T1/pcr/bx/n' in size <14.4> not available
-(Font)              Font shape `T1/pcr/b/n' tried instead on input line 1640.
-[41] [42
+(Font)              Font shape `T1/pcr/b/n' tried instead on input line 1689.
+[35] [36
 
 ]
 Chapter 12.
-(./civetdoc.ind)
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1784.
+[37] [38
+
+]
+Chapter 13.
+LaTeX Font Info:    Try loading font information for TS1+pcr on input line 1879
+.
+(/usr/local/texlive/2014/texmf-dist/tex/latex/psnfss/ts1pcr.fd
+File: ts1pcr.fd 2001/06/04 font definitions for TS1/pcr.
+) [39]
+Underfull \hbox (badness 10000) in paragraph at lines 1894--1897
+[]\T1/ptm/m/n/10 6. In-stall the ^^Peb^^Q command-line tool per the in-struc-ti
+ons found at
+ []
+
+LaTeX Font Info:    Font shape `T1/phv/bx/it' in size <12> not available
+(Font)              Font shape `T1/phv/b/it' tried instead on input line 1959.
+LaTeX Font Info:    Font shape `T1/phv/b/it' in size <12> not available
+(Font)              Font shape `T1/phv/b/sl' tried instead on input line 1959.
+[40] [41] [42] (./civetdoc.ind)
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 2095.
  [43]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1784.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 2095.
  (./civetdoc.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1784.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1784.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 2095.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 2095.
 
 Package rerunfilecheck Info: File `civetdoc.out' has not changed.
-(rerunfilecheck)             Checksum: 2DCE9678D9ED9C81794115326C8A6552;2054.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1784.
+(rerunfilecheck)             Checksum: 69D39ED990DEA1AB08ABC838AC0146B8;2308.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 2095.
  ) 
 Here is how much of TeX's memory you used:
- 9526 strings out of 493117
- 133580 string characters out of 6135433
- 234202 words of memory out of 5000000
- 12525 multiletter control sequences out of 15000+600000
- 86352 words of font info for 96 fonts, out of 8000000 for 9000
+ 9587 strings out of 493117
+ 134671 string characters out of 6135433
+ 235832 words of memory out of 5000000
+ 12558 multiletter control sequences out of 15000+600000
+ 84533 words of font info for 97 fonts, out of 8000000 for 9000
  1142 hyphenation exceptions out of 8191
- 36i,12n,48p,476b,512s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/local/texlive/2014/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
-exlive/2014/texmf-dist/fonts/type1/urw/courier/ucrb8a.pfb></usr/local/texlive/2
-014/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2014/texm
-f-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2014/texmf-dist/
-fonts/type1/urw/helvetic/uhvbo8a.pfb></usr/local/texlive/2014/texmf-dist/fonts/
-type1/urw/times/utmb8a.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/urw/
-times/utmr8a.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/urw/times/utmr
-i8a.pfb>
-Output written on civetdoc.pdf (47 pages, 900004 bytes).
+ 36i,12n,48p,572b,510s stack positions out of 5000i,500n,10000p,200000b,80000s
+pdfTeX warning (dest): name{Hfootnote.33} has been referenced but does not ex
+ist, replaced by a fixed one
+
+{/usr/local/texlive/2014/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/tex
+live/2014/texmf-dist/fonts/type1/urw/courier/ucrb8a.pfb></usr/local/texlive/201
+4/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2014/texmf-
+dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2014/texmf-dist/fo
+nts/type1/urw/helvetic/uhvbo8a.pfb></usr/local/texlive/2014/texmf-dist/fonts/ty
+pe1/urw/times/utmb8a.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/urw/ti
+mes/utmbi8a.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/urw/times/utmr8
+a.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on civetdoc.pdf (47 pages, 946337 bytes).
 PDF statistics:
- 577 PDF objects out of 1000 (max. 8388607)
- 481 compressed objects within 5 object streams
- 149 named destinations out of 1000 (max. 500000)
- 336 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 657 PDF objects out of 1000 (max. 8388607)
+ 559 compressed objects within 6 object streams
+ 172 named destinations out of 1000 (max. 500000)
+ 368 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -63,10 +63,10 @@ Documentation is maintained using the `Sphinx <http://http://sphinx-doc.org/>`_ 
 `on-line version <http://civet.parusanalytics.com/civetdocs/index.html>`_ and a reasonably-well-formatted PDF version. There
 are links to both of these compiled versions on the home page; the ``.rst`` source texts for the documentation are in the
 directory *djcivet_site/docs*. That directory contains a Sphinx *Makefile* so revisions can be compiled using the standard 
-commands ``make html`` and ``make latexpdf``.
+command ``make html latexpdf``.
 
-The on-line documentation currently resides at the site http://civet.parusanalytics.com/civetdocs/; [#f3]_ the PDF version is
-accessed at *docs/_build/latex/civetdoc.pdf*
+The on-line documentation currently resides at the site http://civet.parusanalytics.com/civetdocs/; [#f3]_ a PDF version can 
+be downloaded by clicking the ``Download PDF`` link on the home page. [#f4]_
 
 
 .. only:: html
@@ -83,4 +83,12 @@ accessed at *docs/_build/latex/civetdoc.pdf*
    This is a bug, not a feature: there is presumably a way of accessing these at *djcivet_site/docs/_build/html/*, or 
    somewhere else within the *djcivet_site/* directory
    in a manner that has them correctly rendered, but I haven't figured it out yet. Fixes are welcome.
-
+   
+.. [#f4]
+   This is handled in ``views.download_pdfdocs()``: it first looks for the PDF version of the documentation in 
+   *docs/_build/latex/civetdoc.pdf*, which is where the most current version is likely to be located when the 
+   documentation was produced using the ``make latexpdf`` command in the *docs/* directory. If that isn't present,
+   it checks the */static/* directory: this can be used in deployments in order to avoid uploading  *docs/*. If neither
+   is available, it gets the copy posted at http://civet.parusanalytics.com/, which may or may not correspond exactly to the 
+   version being used depending on what modifications have been made. The command ``make movepdf`` will copy *civetdoc.pdf* from 
+   *_build/latex* to */static/*

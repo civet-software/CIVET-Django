@@ -12,6 +12,8 @@ woozle1 , woozle2
 category:cities [cyan]  # get the list from a file
 codes.cities.txt
 
+title: CIVET coding form demonstration
+
 h1:Demonstration of CIVET form linked to annotated texts
 
 radio: Type of incident: [typeincid]

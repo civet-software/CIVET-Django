@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.core.files import File
+from django.conf import settings
 
 from .models import Collection, Text, Case
 #import csv
@@ -15,8 +16,9 @@ import StringIO
 import os
 import ast
 
-import CIVET_utilities
-import CIV_template	
+import civet_utilities
+import civet_settings
+import civet_form	
 
 
 # ======== global initializations ========= #
@@ -26,8 +28,8 @@ import CIV_template
 DEFAULT_COLLECTION_DIR = 'civet_input_files'
 
 ActiveCollection = ''
-tempdata = ''
-CoderContext = {}
+# tempdata = '' # can be deleted?
+CoderContext = {} # this is global since we may be returning to the same page after a save
 
 CollectionList = []  # list of available collections in workspace 
 
@@ -35,23 +37,32 @@ WorkspaceName = ''
 CurCollectionIndex = 0  # CollectionList index of most recently coded collection  
 SaveFiles = {}  # contents of files other than .yml indexed by the file name
 
+CKEditor_Styles = ''  # default and category styles for CKEditor
+
 
 # ================ static file utilities ================= #
 
 def index(request):
-    return render(request, 'djciv_data/index.html',{})
+    print('BASE_DIR:',settings.BASE_DIR)
+    print('STATIC_URL:',settings.STATIC_URL)
+    return render(request, 'djciv_data/index.html',{'staticpath':civet_settings.STATIC_SOURCE})
 
 def online_manual(request):
     """ Goes to index.html of on-line docs """
     # 15.08.10 pas: okay folks, give me a hand here: there's got to be a way of accessing these at 
     # djcivet_site/docs/_build/html/ in a manner that has them are correctly rendered, but I haven't figured it out yet. 
 #    print ("Current working dir:", os.getcwd())
-    return HttpResponseRedirect('http://civet.parusanalytics.com/civetdocs/index.html')
+    return HttpResponseRedirect(civet_settings.ONLINE_DOCS_URL)
         
 def download_pdfdocs(request):
-    """ downloads the main documentation """
+    """ downloads the main documentation or redirects if it can't be found """
 #   f = open('djciv_data/static/djciv_data/CIVET.Documentation.pdf', "r")  # pre-Sphinx version
-    f = open('docs/_build/latex/civetdoc.pdf', "r")
+    if os.path.isfile('docs/_build/latex/civetdoc.pdf'):
+        f = open('docs/_build/latex/civetdoc.pdf', "r")
+    elif os.path.isfile(settings.BASE_DIR + '/djciv_data' + settings.STATIC_URL + 'djciv_data/civetdoc.pdf'):
+        f = open(settings.BASE_DIR + '/djciv_data' + settings.STATIC_URL + 'djciv_data/civetdoc.pdf', "r")
+    else:
+        return HttpResponseRedirect(civet_settings.PDF_DOC_URL)
     response = HttpResponse(FileWrapper(f), content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename=CIVET.Documentation.pdf'
     f.close()
@@ -59,7 +70,7 @@ def download_pdfdocs(request):
 
 def download_demotemplate(request):
     """ downloads the demo template """
-    f = open('djciv_data/static/djciv_data/CIVET.demo.template.txt', "r")
+    f = open(settings.BASE_DIR + '/djciv_data' + settings.STATIC_URL + 'djciv_data/CIVET.demo.template.txt', "r")
     response = HttpResponse(FileWrapper(f), content_type='text/plain')
     response ['Content-Disposition'] = 'attachment; filename=CIVET.demo.template.txt'
     f.close()
@@ -67,7 +78,7 @@ def download_demotemplate(request):
 
 def download_demo_workspace(request):
     """ downloads the demo template """
-    f = open('djciv_data/static/djciv_data/CIVET.workspace.demo.zip', "r")
+    f = open(settings.BASE_DIR + '/djciv_data' + settings.STATIC_URL + 'djciv_data/CIVET.workspace.demo.zip', "r")
     response = HttpResponse(FileWrapper(f), content_type='application/x-zip-compressed')
     response ['Content-Disposition'] = 'attachment; filename=CIVET.workspace.demo.zip'
     f.close()
@@ -75,6 +86,15 @@ def download_demo_workspace(request):
 
 
 # ================ editor system ================= #
+
+def get_CKEditor_context():
+    """ sets context for calls to civet_ckeditor.html """
+    context = {}
+    context['current_collection'] = ActiveCollection
+    context['thetext'] = get_collection_markup()
+    context['the_styles'] = CKEditor_Styles
+    context['staticpath'] = civet_settings.STATIC_SOURCE
+    return context
 
 def get_collection_markup():
     """ return a string containing all of the textmkup fields from ActiveCollection """
@@ -90,14 +110,11 @@ def get_collection_markup():
 def edit_collection(request):
     """ sets context and calls civet_ckeditor.html """
     global ActiveCollection
-    context = {}
 #    print('ED-Mk1:',request.POST['current_collection'])
-    CIVET_utilities.write_styles()  # initialize this first time through
     ActiveCollection = request.POST['current_collection']
-    context['current_collection'] = ActiveCollection
-    context['thetext'] = get_collection_markup()
+    context = get_CKEditor_context()
     if len(context['thetext']) > 0:
-#    print('EC1:',CIV_template.FormContent)
+#    print('EC1:',civet_form.FormContent)
         return render(request,'djciv_data/civet_ckeditor.html',context)
     else:
         return HttpResponse("No collection was selected: use the back key to return to the collection selection page.")
@@ -149,7 +166,7 @@ def save_edits(request):
         curtext.textlede = textblock[st][0]
         curtext.textmkup = textblock[st][1]
         curtext.textmkupdate = datetime.datetime.now()
-        curtext.textmkupcoder = CIV_template.CoderName
+        curtext.textmkupcoder = civet_form.CoderName
         curtext.save()
  
 #    return render(request,'djciv_data/select_collection.html',{'files' : CollectionList, 'workspace': WorkspaceName})   
@@ -161,16 +178,13 @@ def more_edits(request):
     return render(request,'djciv_data/select_collection.html',{'files' : CollectionList, 'workspace': WorkspaceName})
 
 def apply_markup(request):
-    """ calls CIVET_utilities.do_markup() for each text block in the collection. """
+    """ calls civet_utilities.do_markup() for each text block in the collection. """
     textblock = get_blocks(request.POST['editor1'])
     newstr = ''
     for st in textblock:
-        newstr += make_markup_string([st,textblock[st][0],CIVET_utilities.do_markup(textblock[st][1])])
-    context = {}
-    context['current_collection'] = 'marked document'
-    
+        newstr += make_markup_string([st,textblock[st][0],civet_utilities.do_markup(textblock[st][1])])
+    context = get_CKEditor_context()
     context['thetext'] = newstr
-#    context['thetext'] = 'This is <span style="class:date;color:red">some</span> text with a <span class="date">date</span> and a <span style="class:nament;color:blue">Named Entity</span>'
     return render(request,'djciv_data/civet_ckeditor.html',context)
 
 
@@ -184,30 +198,30 @@ def select_collection(request):
     """ collection selection """
     return render(request,'djciv_data/select_collection.html',{'files' : CollectionList, 'workspace': WorkspaceName})
 
-def operating_instructions(request):
+#def operating_instructions(request):  # 15.08.10 this is no longer used
     """ display page with basic instructions """
-    return HttpResponse(CIVET_utilities.unimplemented_feature("operating instructions"))
+#    return HttpResponse(civet_utilities.unimplemented_feature("operating instructions"))
         #return render(request,'djciv_data/operating_instructions.html',{})
 
 
 # ================ basic coding form system (no mark-up) ================= #
 
 def read_template(fin):
-    """ reads a template (or the error strings from same) from the file handle fin into CIV_template.FormContent """
-    CIV_template.init_template()
+    """ reads a template (or the error strings from same) from the file handle fin into civet_form.FormContent """
+    civet_form.init_template()
     thecontent = ''
-    commln = CIV_template.get_commlines(fin)
+    commln = civet_form.get_commlines(fin)
     while len(commln) > 0:
-        thecontent += CIV_template.do_command(commln)
-        commln = CIV_template.get_commlines(fin)
+        thecontent += civet_form.do_command(commln)
+        commln = civet_form.get_commlines(fin)
         
 #    print('thecontent:',thecontent)
-    if len(CIV_template.SaveList) == 0:
+    if len(civet_form.SaveList) == 0:
         thecontent += '~Error~<p>A "save:" command is required in the template<br>\n'
     else:
         misslist = []
-        for ele in CIV_template.SaveList:
-            if ele not in CIV_template.VarList:
+        for ele in civet_form.SaveList:
+            if ele not in civet_form.VarList:
                 misslist.append(ele)
         if len(misslist) > 0:
             thecontent += '~Error~<p>The following variables are in the "save:" command but were not declared in a data field<br>' + str(misslist) + '\n'
@@ -220,9 +234,9 @@ def read_template(fin):
             indy = thecontent.find('\n',indx)
             errortext += thecontent[indx+7:indy+1]
             indx = thecontent.find('~Error~',indy)
-        CIV_template.FormContent = thecontent = errortext
+        civet_form.FormContent = thecontent = errortext
     else:    
-        CIV_template.FormContent = thecontent
+        civet_form.FormContent = thecontent
 
 
 def select_template(request):
@@ -233,11 +247,11 @@ def select_template(request):
 def read_template_only(request, isdemo = False):
     """ reads a simple template (not a collection), checks for errors, and then either renders the form or lists the errors.
         if isdemo, reads the demo template """
-#    CIV_template.init_template()
+#    civet_form.init_template()
     if 'codername' in request.POST:
-        CIV_template.CoderName = request.POST['codername']        
+        civet_form.CoderName = request.POST['codername']        
     if isdemo:
-        st = open('djciv_data/static/djciv_data/CIVET.demo.template.txt','r')  
+        st = open(settings.BASE_DIR + '/djciv_data' + settings.STATIC_URL + 'djciv_data/CIVET.demo.template.txt','r')  
     else: 
         if 'template_name' in request.FILES:
 #            print('RTO2:',request.FILES['template_name'])        
@@ -246,28 +260,31 @@ def read_template_only(request, isdemo = False):
             return HttpResponse("No file was selected: please go back to the previous page and select a file")
 
     read_template(st)
-    if CIV_template.FormContent.startswith('&Errors:'):
-        return render(request,'djciv_data/template_error.html', {'form_content' :  CIV_template.FormContent[8:]})
+    if civet_form.FormContent.startswith('&Errors:'):
+        return render(request,'djciv_data/template_error.html', {'form_content' :  civet_form.FormContent[8:]})
     else:
-        CIV_template.create_TempData_header()
-        return render(request,'djciv_data/basic_form.html', {'form_content' : CIV_template.FormContent})
+        civet_form.create_TempData_header()
+        context = {}
+        context['form_content'] = civet_form.FormContent
+        context['page_title'] = civet_form.FormPageTitle       
+        return render(request,'djciv_data/basic_form.html', context)
     
 
 def save_basic(request):
     """ save data then return to template-based form """
-    CIV_template.save_to_TempData(request)
-    return render(request,'djciv_data/basic_form.html', {'form_content' : CIV_template.FormContent})
+    civet_form.save_to_TempData(request)
+    return render(request,'djciv_data/basic_form.html', {'form_content' : civet_form.FormContent})
 
 
 def get_new_case(request):
-    CIV_template.save_to_TempData(request)
+    civet_form.save_to_TempData(request)
     return render(request,'djciv_data/file_select.html')
 
 
 def setup_basic_data_download(request):
     """ add a description here """
-    CIV_template.save_to_TempData(request)
-    return render(request,'djciv_data/setup_basic_data_download.html',{'filename': CIV_template.DefaultFileName})
+    civet_form.save_to_TempData(request)
+    return render(request,'djciv_data/setup_basic_data_download.html',{'filename': civet_form.DefaultFileName})
 
 
 def download_basic_data(request):
@@ -275,18 +292,18 @@ def download_basic_data(request):
     curfilename = request.POST['filename']
     if curfilename[-4:] != ".txt":
         curfilename += '.txt'
-#    print('DBD1:',CIV_template.TempData)
+#    print('DBD1:',civet_form.TempData)
     response = HttpResponse(content_type='text/plain')
     response['Content-Disposition'] = 'attachment; filename="' + curfilename + '"'
-    response.write(CIV_template.TempData)  
+    response.write(civet_form.TempData)  
     return response
 
 def reset_basic_data(request):
-    CIV_template.create_TempData_header()
-    return render(request,'djciv_data/basic_form.html',  {'form_content' : CIV_template.FormContent})
+    civet_form.create_TempData_header()
+    return render(request,'djciv_data/basic_form.html',  {'form_content' : civet_form.FormContent})
 
 def continue_basic_coding(request):
-    return render(request,'djciv_data/basic_form.html',  {'form_content' : CIV_template.FormContent})
+    return render(request,'djciv_data/basic_form.html',  {'form_content' : civet_form.FormContent})
 
 
 # ================ coder with mark-up ================= #
@@ -294,7 +311,7 @@ def continue_basic_coding(request):
 
 def code_collection(request):
     """ Assembles content for civet_coder.html: """
-    """  theform: Replaces category class placeholders in CIV_template.FormContent with the internal termstNN classes
+    """  theform: Replaces category class placeholders in civet_form.FormContent with the internal termstNN classes
          termstyles: Creates the category style list with the appropriate colors
          cktext: Replaces the category class <span>s created by manual annotation with the internal termstNN classes and 
                  removes color field from automatic annotation, allowing color to be controlled by class css in civet_coder.html. 
@@ -304,9 +321,9 @@ def code_collection(request):
 # 2. <15.07.22>: Those long cktext.replace() statements seem a little brittle, and in particular were thrown off by ";color" vs.
 #    "; color" -- probably need something better
     global ActiveCollection, CoderContext
-    context = {}
+    """context = {}
     context['docidst'] = 'Document ID'
-    context['doccmtst'] = 'Document comments'
+    context['doccmtst'] = 'Document comments'  # this is apparently handled elsewhere now?"""
 #    context['markedtext'] = 'This is <span style="class:date;color:red">some</span> text with a <span class="date">date</span> and a <span class="nament">Named Entity</span>'
     if 'editor1' in request.POST:
         cktext =  request.POST['editor1']  # called following editing
@@ -322,19 +339,20 @@ def code_collection(request):
     cktext = cktext.replace('style="class:num;color:green"','class="num"')
 #    print('CC Incoming:\n',cktext)
     termstyles = ''  # generate the new termst styles
-    theform = CIV_template.FormContent  # also replace these in the form
+    theform = civet_form.FormContent  # also replace these in the form
 #    print('CC-1:',theform)
-    for cat in CIV_template.UserCategories:
-        termstyles += '.' + CIV_template.UserCategories[cat][1] + '  {color:' + CIV_template.UserCategories[cat][0] + ';}\n'
-        cktext = cktext.replace('style="class:' + cat + ';color:' + CIV_template.UserCategories[cat][0] + ';"',\
-                                'class="' + CIV_template.UserCategories[cat][1] + '"') #   # standardize manual annotation <span> markup 
-        cktext = cktext.replace('style="class:' + CIV_template.UserCategories[cat][1] + ';color:' + CIV_template.UserCategories[cat][0] + '"',\
-                                'class="' + CIV_template.UserCategories[cat][1] + '"') #   # remove color from automatic annotation <span> markup 
-        theform = theform.replace('=^=' + cat + '=^=',CIV_template.UserCategories[cat][1]) # replace the categories in the form with internal termstNN 
+    for cat in civet_form.UserCategories:
+        termstyles += '.' + civet_form.UserCategories[cat][1] + '  {color:' + civet_form.UserCategories[cat][0] + ';}\n'
+        cktext = cktext.replace('style="class:' + cat + ';color:' + civet_form.UserCategories[cat][0] + ';"',\
+                                'class="' + civet_form.UserCategories[cat][1] + '"') #   # standardize manual annotation <span> markup 
+        cktext = cktext.replace('style="class:' + civet_form.UserCategories[cat][1] + ';color:' + civet_form.UserCategories[cat][0] + '"',\
+                                'class="' + civet_form.UserCategories[cat][1] + '"') #   # remove color from automatic annotation <span> markup 
+        theform = theform.replace('=^=' + cat + '=^=',civet_form.UserCategories[cat][1]) # replace the categories in the form with internal termstNN 
      
     CoderContext['form_content'] = theform
     CoderContext['markedtext'] = cktext
     CoderContext['newterm'] = termstyles
+    CoderContext['page_title'] = civet_form.FormPageTitle       
 #    print('CC0 - theform:',theform)
 #    print('CC1 - cktext:',cktext)
 #    print('CC2 - termstyles',termstyles)
@@ -343,28 +361,25 @@ def code_collection(request):
 
 
 def save_and_return(request):
-    CIV_template.save_case(request, ActiveCollection)
+    civet_form.save_case(request, ActiveCollection)
     return render(request,'djciv_data/civet_coder.html',CoderContext)
 
     
 def save_and_new(request):
-    CIV_template.save_case(request, ActiveCollection)
+    civet_form.save_case(request, ActiveCollection)
     print('SaN-Mk1:',CollectionList)
     return render(request,'djciv_data/select_collection.html',{'files' : CollectionList, 'workspace': WorkspaceName})    
 
 def save_and_next(request):
     global ActiveCollection
-    CIV_template.save_case(request, ActiveCollection)
+    civet_form.save_case(request, ActiveCollection)
 #    print('SaNext-Mk1:',CollectionList)
     idx = CollectionList.index(ActiveCollection) + 1
     if idx < len(CollectionList):
         ActiveCollection = CollectionList[idx]    
-        context = {}
-        context['current_collection'] = ActiveCollection
-        context['thetext'] = get_collection_markup()
-        return render(request,'djciv_data/civet_ckeditor.html',context)
+        return render(request,'djciv_data/civet_ckeditor.html', get_CKEditor_context())
     else:
-        return HttpResponse(CIVET_utilities.unimplemented_feature("you've reached the end of the list"))
+        return HttpResponse(civet_utilities.unimplemented_feature("you've reached the end of the list"))
 
 
 # ================ workspace read/write and management system ================= #
@@ -381,13 +396,12 @@ def read_workspace(request, isdemo = False, manage = False):
         If isdemo, reads the demo collections
         If docoding, go to select_collection.html, otherwise manage_collections.html"""
     # 15.07.28 pas: Those massive blocks of code creating record should probably by methods in models.py
-    global CollectionList, SaveFiles, WorkspaceName
-        
+    global CollectionList, SaveFiles, WorkspaceName, CKEditor_Styles        
 #    print('RW0',isdemo, manage)
     if 'codername' in request.POST:
-        CIV_template.CoderName = request.POST['codername']        
+        civet_form.CoderName = request.POST['codername']        
     if isdemo:
-        zipfilename = 'djciv_data/static/djciv_data/CIVET.workspace.demo.zip' 
+        zipfilename = settings.BASE_DIR + '/djciv_data' + settings.STATIC_URL + 'djciv_data/CIVET.workspace.demo.zip'
         WorkspaceName = 'Demonstration file'         
     else: 
         if 'filename' in request.FILES:
@@ -402,7 +416,7 @@ def read_workspace(request, isdemo = False, manage = False):
     Collection.objects.all().delete()
     Text.objects.all().delete()
     Case.objects.all().delete()     # <15.07.09: Warn first on this?
-    CIV_template.FormContent = ''
+    civet_form.FormContent = ''
     error_string = ''    
     ka = 0  # DEBUG
     for file in zf.namelist():  # get the codes. files first, since read_template() will need this info
@@ -416,7 +430,7 @@ def read_workspace(request, isdemo = False, manage = False):
         if filename.find('codes.') == 0:
             SaveFiles[filename] = zf.read(file)
             fin = zf.open(file,'r')
-            CIV_template.read_codes_file(fin, file)
+            civet_form.read_codes_file(fin, file)
             fin.close()
         
     CollectionList = []  # list of available collections   
@@ -434,7 +448,7 @@ def read_workspace(request, isdemo = False, manage = False):
 #                print('RCD-1:',file)
                 fin = zf.open(file,'r')
                 try:
-                    collinfo, textlist, caselist = CIVET_utilities.read_YAML_file(fin, file)
+                    collinfo, textlist, caselist = civet_utilities.read_YAML_file(fin, file)
                 except Exception as e:
  #                   print('Error:' + str(e) + ' in ' + file)
                     error_string += '<p>' + str(e) + ' in the file "' + filename + '"'
@@ -487,18 +501,19 @@ def read_workspace(request, isdemo = False, manage = False):
 #            print('RCD-2:',file)
             read_template(fin)
             fin.close()
-#            print('RW savelists:\n',CIV_template.SaveList,'\n',CIV_template.SaveTypes)
+#            print('RW savelists:\n',civet_form.SaveList,'\n',civet_form.SaveTypes)
+            CKEditor_Styles = civet_utilities.get_styles()
         else:
             if len(filename)> 0:
                 SaveFiles[filename] = zf.read(file)
 
-    if not manage and len(CIV_template.FormContent) == 0:
+    if not manage and len(civet_form.FormContent) == 0:
         error_string += "<p>No 'form.*' file was found in the workspace: This is required for coding."
-    if CIV_template.FormContent.startswith('&Errors:'):
+    if civet_form.FormContent.startswith('&Errors:'):
         if len(error_string) > 0:
-            error_string = '<h3>Form errors:</h3>' + CIV_template.FormContent[8:] + '<h3>Collection errrors:</h3>' + error_string
+            error_string = '<h3>Form errors:</h3>' + civet_form.FormContent[8:] + '<h3>Collection errrors:</h3>' + error_string
         else:
-             error_string = '<h3>Form errors:</h3>' + CIV_template.FormContent[8:]        
+             error_string = '<h3>Form errors:</h3>' + civet_form.FormContent[8:]        
     if len(error_string) > 0:
         context = {}
         context['workspace'] = WorkspaceName
@@ -523,7 +538,7 @@ def read_workspace(request, isdemo = False, manage = False):
 def setup_workspace_download(request, iscoding = False):
     """ Get file name for workspace download."""
     if iscoding:
-        CIV_template.save_case(request, ActiveCollection)
+        civet_form.save_case(request, ActiveCollection)
     else:
         save_edits(request)
     context = {}
@@ -551,13 +566,13 @@ def write_workspace(request):
 #        print('WW1:',collst, fdir,filename)
         filename = tempdirname + '/' + filename + '.yml'
         filehandle = open(filename,'w')
-        CIVET_utilities.write_YAML_file(thecoll, filehandle)
+        civet_utilities.write_YAML_file(thecoll, filehandle)
         filehandle.close()
         filenames.append(filename)
         
     # code below shamelessly copied from:
     #http://stackoverflow.com/questions/67454/serving-dynamically-generated-zip-archives-in-django
-    # 15.07.29 pas: It sure seems like there would be a very simple way to write the results of CIVET_utilities.write_YAML_file(thecoll, filehandle)
+    # 15.07.29 pas: It sure seems like there would be a very simple way to write the results of civet_utilities.write_YAML_file(thecoll, filehandle)
     # directly into the zip file, but I'm not groking ZipFile sufficiently well to see it right now -- though writing this comment,
     # I'm now guessing it would involve some appropriate use of that StringIO object -- and the current method works. So, later...  
 
@@ -615,25 +630,25 @@ def download_workspace_data(request, select_variables = False):
     # need a time option here to just get the new cases
 #    print('DWD0-entry:')
     if select_variables: 
-        return HttpResponse(CIVET_utilities.unimplemented_feature("download selected variables"))
+        return HttpResponse(civet_utilities.unimplemented_feature("download selected variables"))
         # in final routing, this probably should go to a dialog for selecting a variable list, which will then be passed
         # here either as a global or arg: hmmm, yeah, so we will still have something like a if select but now select will contain that list
     else:
-        writelist = CIV_template.SaveList
+        writelist = civet_form.SaveList
         
 #    print('DWD0:',writelist)
     tempdata = ''
     usevalue = []
-    for ka in range(len(CIV_template.SaveList)): # write variable labels
-        if '[' in CIV_template.SaveTypes[ka]:
+    for ka, savename in enumerate(civet_form.SaveList): # write variable labels
+        if '[' in civet_form.SaveTypes[ka]:
             usevalue.append(True)
-            parts = CIV_template.SaveTypes[ka].partition('[')
+            parts = civet_form.SaveTypes[ka].partition('[')
             varname = parts[2][:parts[2].find(']')].strip()
             if len(varname) == 0:
-                varname = CIV_template.SaveList[ka]
+                varname = savename
             tempdata += varname + '\t'  # there was a check earlier that this existed
         else:
-            tempdata += CIV_template.SaveList[ka] + '\t'
+            tempdata += savename + '\t'
             usevalue.append(False)
 
     tempdata = tempdata[:-1] + '\n'     
@@ -641,26 +656,25 @@ def download_workspace_data(request, select_variables = False):
 #        print('==: ',acase.casevalues)
         values = ast.literal_eval(acase.casevalues)  # probably should be a case method
 #        print('DD-Mk-1:',values)
-#        print('DD-Mk-2:', CIV_template.SaveList)
-        for ka in range(len(writelist)):
-            avar = writelist[ka] 
+#        print('DD-Mk-2:', civet_form.SaveList)
+        for ka, avar in enumerate(writelist):
             """if avar in values:
                 print(' >> :',values[avar])
             else:
                 print(' >> : variable not found') """               
-            if avar in CIV_template.SpecialVarList: 
-                tempdata += CIV_template.get_special_var(avar) + '\t'
-            elif avar in CIV_template.ConstVarDict.keys(): 
-                tempdata += CIV_template.ConstVarDict[avar] + '\t'
+            if avar in civet_form.SpecialVarList: 
+                tempdata += civet_form.get_special_var(avar) + '\t'
+            elif avar in civet_form.ConstVarDict.keys(): 
+                tempdata += civet_form.ConstVarDict[avar] + '\t'
             elif avar in values:
                 if usevalue[ka]:
                     if '[' in values[avar]:  ##   CHECK FOR ESCAPE
                         try:
                             thevalue = values[avar][values[avar].find('[')+1:values[avar].index(']')].strip()
                         except:
-                            thevalue = CIVET_utilities.MissingValue
+                            thevalue = civet_utilities.MissingValue
                     else:
-                            thevalue = CIVET_utilities.MissingValue 
+                            thevalue = civet_utilities.MissingValue 
                     tempdata += thevalue +'\t'
                 else:
                      if '[' in values[avar]:  ##   CHECK FOR ESCAPE
@@ -668,7 +682,7 @@ def download_workspace_data(request, select_variables = False):
                      else:
                         tempdata +=  values[avar] +'\t'
             else:
- #               tempdata += CIV_template.UncheckedValues[avar] + '\t'
+ #               tempdata += civet_form.UncheckedValues[avar] + '\t'
                 tempdata += avar + ' unchecked\t'
         tempdata = tempdata[:-1] + '\n'
     curfilename = request.POST['filename']
@@ -682,11 +696,11 @@ def download_workspace_data(request, select_variables = False):
     return(response)
 
 def edit_metadata(request):
-    return HttpResponse(CIVET_utilities.unimplemented_feature("edit_metadata"))
+    return HttpResponse(civet_utilities.unimplemented_feature("edit_metadata"))
     return render(request,'djciv_data/collection_options.html',{'ActiveCollection' : ActiveCollection})
 
 def add_workspace_comments(request):
-    return HttpResponse(CIVET_utilities.unimplemented_feature("add_workspace_comments"))
+    return HttpResponse(civet_utilities.unimplemented_feature("add_workspace_comments"))
     return render(request,'djciv_data/collection_options.html',{'ActiveCollection' : ActiveCollection})
 
 
@@ -696,25 +710,25 @@ def make_color_list(request):
     defaults = [['Plain text','black'],['Named entity','blue'],['Number','green'],['Date','Coral']]
     thecontent = ''
     thecontent += '<h2>Demonstration page for CIVET text category colors</h2><br><table border="1"><caption><h3>CIVET Default Category Colors</h3></caption><tr>'
-    for ka in range(len(CIV_template.CatColorList)):
+    for ka, colorname in enumerate(civet_form.CatColorList):
         if (ka)%4 == 0:
             thecontent += '</tr><tr>'
-        thecontent += '<td><span style="color:' + CIV_template.CatColorList[ka] + '; font-size: large">' + str(ka+1) + ': ' + CIV_template.CatColorList[ka]	 + '</span></td>'
+        thecontent += '<td><span style="color:' + colorname + '; font-size: large">' + str(ka+1) + ': ' + colorname	 + '</span></td>'
     thecontent += '</tr></table><h2>Colors shown as text</h2>'        
     for lst in defaults:
         thecontent += '<span style="color:' + lst[1] + '">' + lst[0] + ' </span> '
-    for color in CIV_template.CatColorList:
+    for color in civet_form.CatColorList:
         thecontent += '<span style="color:' + color + '">' + color + ' </span> '
-        if color == 'Brown' or color == 'DarkGray' :
+        if color == 'Brown' or color == 'DarkGray' :  # magic number, or rather color, here...
             thecontent += '<br>' 
     thecontent += '<h3>Close the window to exit</h3><p>&nbsp;'        
     return render(request,'djciv_data/basic_form.html', {'form_content' : thecontent})
 
 def set_preferences(request):
-    return render(request,'djciv_data/preferences.html', CIVET_utilities.get_preferences())
+    return render(request,'djciv_data/preferences.html', civet_utilities.get_preferences())
     
 def reset_preferences(request):
-    CIVET_utilities.set_preferences()
+    civet_utilities.set_preferences()
     return render(request,'djciv_data/basic_form.html', {})
 
 def collection_options(request):

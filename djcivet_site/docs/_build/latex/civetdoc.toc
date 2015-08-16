@@ -54,5 +54,5 @@
 \contentsline {subsection}{\numberline {13.1.1}AWS-EB Configuration Files}{40}{subsection.13.1.1}
 \contentsline {subsection}{\numberline {13.1.2}Handling of \emph {static} files}{41}{subsection.13.1.2}
 \contentsline {section}{\numberline {13.2}Docker}{41}{section.13.2}
-\contentsline {subsection}{\numberline {13.2.1}Contents of \emph {docker-entrypoint.sh}}{41}{subsection.13.2.1}
+\contentsline {subsection}{\numberline {13.2.1}Contents of \emph {docker-entrypoint.sh}}{42}{subsection.13.2.1}
 \contentsline {subsection}{\numberline {13.2.2}Contents of \emph {Dockerfile}}{42}{subsection.13.2.2}

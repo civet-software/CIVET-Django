@@ -43,8 +43,9 @@ CKEditor_Styles = ''  # default and category styles for CKEditor
 # ================ static file utilities ================= #
 
 def index(request):
-    print('BASE_DIR:',settings.BASE_DIR)
+    print('BXSE_DIR:',settings.BASE_DIR)
     print('STATIC_URL:',settings.STATIC_URL)
+#    print('Hey, this is da place!')
     return render(request, 'djciv_data/index.html',{'staticpath':civet_settings.STATIC_SOURCE})
 
 def online_manual(request):
@@ -56,12 +57,15 @@ def online_manual(request):
         
 def download_pdfdocs(request):
     """ downloads the main documentation or redirects if it can't be found """
-#   f = open('djciv_data/static/djciv_data/CIVET.Documentation.pdf', "r")  # pre-Sphinx version
-    if os.path.isfile('docs/_build/latex/civetdoc.pdf'):
+    print('DPD: entry')
+    if os.path.isfile('docs/_build/latex/civetdoc.pdf'):  # leave this path hard-coded for the time being
+        print('DPD: docs download')
         f = open('docs/_build/latex/civetdoc.pdf', "r")
-    elif os.path.isfile(settings.BASE_DIR + '/djciv_data' + settings.STATIC_URL + 'djciv_data/civetdoc.pdf'):
-        f = open(settings.BASE_DIR + '/djciv_data' + settings.STATIC_URL + 'djciv_data/civetdoc.pdf', "r")
+    elif os.path.isfile(civet_settings.STATIC_FILE_PATH + 'civetdoc.pdf'):
+        print('DPD: STATIC_FILE_PATH download')
+        f = open(civet_settings.STATIC_FILE_PATH + 'civetdoc.pdf', "r")
     else:
+        print('DPD: remote download')
         return HttpResponseRedirect(civet_settings.PDF_DOC_URL)
     response = HttpResponse(FileWrapper(f), content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename=CIVET.Documentation.pdf'
@@ -70,7 +74,7 @@ def download_pdfdocs(request):
 
 def download_demotemplate(request):
     """ downloads the demo template """
-    f = open(settings.BASE_DIR + '/djciv_data' + settings.STATIC_URL + 'djciv_data/CIVET.demo.template.txt', "r")
+    f = open(civet_settings.STATIC_FILE_PATH + 'CIVET.demo.template.txt', "r")
     response = HttpResponse(FileWrapper(f), content_type='text/plain')
     response ['Content-Disposition'] = 'attachment; filename=CIVET.demo.template.txt'
     f.close()
@@ -78,7 +82,7 @@ def download_demotemplate(request):
 
 def download_demo_workspace(request):
     """ downloads the demo template """
-    f = open(settings.BASE_DIR + '/djciv_data' + settings.STATIC_URL + 'djciv_data/CIVET.workspace.demo.zip', "r")
+    f = open(civet_settings.STATIC_FILE_PATH + 'CIVET.workspace.demo.zip', "r")
     response = HttpResponse(FileWrapper(f), content_type='application/x-zip-compressed')
     response ['Content-Disposition'] = 'attachment; filename=CIVET.workspace.demo.zip'
     f.close()
@@ -251,7 +255,7 @@ def read_template_only(request, isdemo = False):
     if 'codername' in request.POST:
         civet_form.CoderName = request.POST['codername']        
     if isdemo:
-        st = open(settings.BASE_DIR + '/djciv_data' + settings.STATIC_URL + 'djciv_data/CIVET.demo.template.txt','r')  
+        st = open(civet_settings.STATIC_FILE_PATH + 'CIVET.demo.template.txt','r')  
     else: 
         if 'template_name' in request.FILES:
 #            print('RTO2:',request.FILES['template_name'])        
@@ -401,7 +405,7 @@ def read_workspace(request, isdemo = False, manage = False):
     if 'codername' in request.POST:
         civet_form.CoderName = request.POST['codername']        
     if isdemo:
-        zipfilename = settings.BASE_DIR + '/djciv_data' + settings.STATIC_URL + 'djciv_data/CIVET.workspace.demo.zip'
+        zipfilename = civet_settings.STATIC_FILE_PATH + 'CIVET.workspace.demo.zip'
         WorkspaceName = 'Demonstration file'         
     else: 
         if 'filename' in request.FILES:

@@ -125,10 +125,7 @@ Comments on annotation and editing
    lower-case prefixes “al-”, “bin-” and “ibn-” are recognized as
    part of a name. [#f5]_
 
-.. only:: html
-
-    Footnotes
-    ---------
+.. rubric:: Footnotes
 
 .. [#f1]
    that is, the version of ``ckeditor`` deliberately uses only a very

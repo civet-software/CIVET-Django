@@ -96,10 +96,9 @@ in the Directorate for Social, Behavioral & Economic Sciences, Award 1338470 and
     appendix5
 
 
-..Indices and tables
+.. Indices and tables
 
-
-..* :ref:`genindex`
+.. * :ref:`genindex`
 
 .. * :ref:`modindex`
 .. * :ref:`search`

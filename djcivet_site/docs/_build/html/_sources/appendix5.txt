@@ -39,7 +39,9 @@ step. Copy the code in the **AWS-EB Configuration Files** section below into the
         |   `-- config.yml
         |-- djcivet_site
         |   |-- db.sqlite3
-        |   |-- django_eb
+        |   |-- djcivet_data
+        |   |-- docs
+        |   |-- djcivet_site
         |   |   |-- __init__.py
         |   |   |-- settings.py
         |   |   |-- urls.py
@@ -144,8 +146,39 @@ This was not the first one I tried, and as indicated above, Docker is still evol
 so you should make certain you are using a recent set of guides (and the instructions here may break sooner rather than 
 later.)
 
-[**15.08.15:** Haven't quite got this finished but will do so before the next commit. In the meantime the contents of the 
-two required files are given below, and you can probably pretty much figure out the rest from Karzynski's instructions.]
+
+Using Karzynski as a guide, here are the steps:
+
+1. If you aren't already using Docker, get a Docker account—there is a free option—and install Docker: the instructions for
+this will vary depending on your operating system; Karzynski's instructions are just for Linux.
+
+2. Set-up a directory to hold the Docker project---I called this *Docker-CIVET*, which corresponds to Karzynski's local 
+directory *dockyard*. I'll be using Karzynski's Docker image name DOCKYARD.
+
+3. Copy the directory *djcivet_site* into *Docker-CIVET*.
+
+4. In *Docker-CIVET*, create the *docker-entrypoint.sh* and *Dockerfile* files from the code given below. Your directory 
+will now look like
+
+    .. code::
+
+        Docker-CIVET
+        |-- docker-entrypoint.sh 
+        |-- Dockerfile   
+        |-- djcivet_site
+        |   |-- db.sqlite3
+        |   |-- djcivet_data
+        |   |-- docs
+        |   |-- djcivet_site
+        |   |   |-- __init__.py
+        |   |   |-- settings.py
+        |   |   |-- urls.py
+        |   |   |-- wsgi.py
+        |   `-- manage.py
+        `-- requirements.txt
+
+5. Follow the remaining instructions to build and test the container with the ``user-name`` from your Docker account and the 
+``image-name`` of your choice (e.g. ``docker-civet``).
 
 Contents of *docker-entrypoint.sh*
 -----------------------------------
@@ -220,10 +253,8 @@ Contents of *Dockerfile*
     COPY ./docker-entrypoint.sh /
     ENTRYPOINT ["/docker-entrypoint.sh"]
 
-.. only:: html
 
-    Footnotes
-    ---------
+.. rubric:: Footnotes
 
 .. [#f7]
     In particular, Heroku (https://www.heroku.com/) appears to be another 

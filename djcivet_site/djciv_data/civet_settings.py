@@ -41,5 +41,5 @@ if PRODUCTION_MODE:
     STATIC_SOURCE = "http://civet.parusanalytics.com/civet_static/"
 else:
     STATIC_SOURCE = "/static/djciv_data/"
-    STATIC_SOURCE = "http://civet.parusanalytics.com/civet_static/"
+#    STATIC_SOURCE = "http://civet.parusanalytics.com/civet_static/"
     

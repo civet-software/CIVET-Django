@@ -68,11 +68,7 @@ command ``make html latexpdf``.
 The on-line documentation currently resides at the site http://civet.parusanalytics.com/civetdocs/; [#f3]_ a PDF version can 
 be downloaded by clicking the ``Download PDF`` link on the home page. [#f4]_
 
-
-.. only:: html
-
-    Footnotes
-    ---------
+.. rubric:: Footnotes
 
 .. [#f1] http://en.wikipedia.org/wiki/Civet
 

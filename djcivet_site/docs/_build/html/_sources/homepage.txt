@@ -64,10 +64,7 @@ Download demonstration file:
     This downloads a template or workspace demonstration file, which can
     be used as an example.
 
-.. only:: html
-
-    Footnotes
-    ---------
+.. rubric:: Footnotes
 
 .. [#f1]
    These files are named ``CIVET.demo.template.txt`` and

@@ -366,10 +366,7 @@ Adds a new line in the form
 
     **newline:**
 
-.. only:: html
-
-    Footnotes
-    ---------
+.. rubric:: Footnotes
 
 .. [#f1]
    Writing in HTML5 and CSS, one can actually exercise a very fine

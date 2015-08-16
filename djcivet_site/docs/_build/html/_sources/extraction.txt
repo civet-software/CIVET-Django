@@ -67,10 +67,7 @@ The general operation of the coder/extractor is described below:
         This downloads the workspace with the coded cases to the local
         machine. The :ref:`Manage workspace <sec-management>` facility  can then be used to download any coded cases.
 
-.. only:: html
-
-    Footnotes
-    ---------
+.. rubric:: Footnotes
 
 .. [#f1]
    The form displayed is specified in the file

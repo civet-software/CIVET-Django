@@ -25,8 +25,9 @@ SECRET_KEY = '9^#fqq^^^(0jc7g6668fzxc&v+v94b(*p$r1er=oqvbrwqg044'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'aws-civet-dev.elasticbeanstalk.com']
 
+LOGIN_REDIRECT_URL = '/djciv_data/home'
 
 # Application definition
 
@@ -56,7 +57,7 @@ ROOT_URLCONF = 'djcivet_site.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -80,8 +81,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'aws-civet-dev.elasticbeanstalk.com']
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/

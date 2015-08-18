@@ -1,7 +1,6 @@
 ****************************
 CIVET Workspaces
 ****************************
-================
 
 CIVET is part of a projected collection of open-source programs designed
 to work with very large sets of small text files: in the domain of

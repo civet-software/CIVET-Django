@@ -32,14 +32,17 @@ DEFAULT_CKEDITOR_STYLES = "{ name: 'Named Entity',	element: 'span', styles: { 'c
             { name: 'Number',	element: 'span', styles: { 'class':'number', 'color': 'green' }  },\n \
             { name: 'Date',	element: 'span', styles: { 'class':'date', 'color': 'coral' }  },"
             
+REQUIRE_LOGIN = False  
+#REQUIRE_LOGIN = True  
+
 PRODUCTION_MODE = False
 
 STATIC_FILE_PATH = settings.BASE_DIR + '/djciv_data' + settings.STATIC_URL + 'djciv_data/' # path for files referenced in views.py
 
 if PRODUCTION_MODE:
     settings.DEBUG = False
+    REQUIRE_LOGIN = True  
     STATIC_SOURCE = "http://civet.parusanalytics.com/civet_static/"
 else:
     STATIC_SOURCE = "/static/djciv_data/"
-#    STATIC_SOURCE = "http://civet.parusanalytics.com/civet_static/"
     

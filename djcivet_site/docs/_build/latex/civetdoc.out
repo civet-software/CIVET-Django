@@ -3,32 +3,35 @@
 \BOOKMARK [1][-]{section.1.2}{Documentation}{chapter.1}% 3
 \BOOKMARK [0][-]{chapter.2}{Installing CIVET}{}% 4
 \BOOKMARK [1][-]{section.2.1}{Modifying the default installation}{chapter.2}% 5
-\BOOKMARK [0][-]{chapter.3}{Home Page Options}{}% 6
-\BOOKMARK [1][-]{section.3.1}{File selection}{chapter.3}% 7
-\BOOKMARK [0][-]{chapter.4}{CIVET Coding Form Templates}{}% 8
-\BOOKMARK [1][-]{section.4.1}{Simple Template-Based Data Entry Form}{chapter.4}% 9
-\BOOKMARK [1][-]{section.4.2}{Command formats}{chapter.4}% 10
-\BOOKMARK [1][-]{section.4.3}{Templates: Specifying variables}{chapter.4}% 11
-\BOOKMARK [1][-]{section.4.4}{Templates: Data Entry Fields}{chapter.4}% 12
-\BOOKMARK [1][-]{section.4.5}{Templates: Additional Web Page Formatting}{chapter.4}% 13
-\BOOKMARK [0][-]{chapter.5}{CIVET Workspaces}{}% 14
-\BOOKMARK [1][-]{section.5.1}{Workspace Management}{chapter.5}% 15
-\BOOKMARK [1][-]{section.5.2}{User-specified annotation vocabulary using category}{chapter.5}% 16
-\BOOKMARK [0][-]{chapter.6}{Annotation and Editing Collections}{}% 17
-\BOOKMARK [1][-]{section.6.1}{Comments on annotation and editing}{chapter.6}% 18
-\BOOKMARK [0][-]{chapter.7}{Coding and Text Extraction}{}% 19
-\BOOKMARK [0][-]{chapter.8}{Projected Features}{}% 20
-\BOOKMARK [0][-]{chapter.9}{Appendix 1: Sample Template File}{}% 21
-\BOOKMARK [0][-]{chapter.10}{Appendix 2: Input Format}{}% 22
-\BOOKMARK [1][-]{section.10.1}{Collection fields}{chapter.10}% 23
-\BOOKMARK [1][-]{section.10.2}{Text fields}{chapter.10}% 24
-\BOOKMARK [1][-]{section.10.3}{Case fields}{chapter.10}% 25
-\BOOKMARK [1][-]{section.10.4}{Date formats}{chapter.10}% 26
-\BOOKMARK [1][-]{section.10.5}{Sample File}{chapter.10}% 27
-\BOOKMARK [0][-]{chapter.11}{Appendix 3: Supporting Files}{}% 28
-\BOOKMARK [1][-]{section.11.1}{Files in /static/djciv\137data}{chapter.11}% 29
-\BOOKMARK [1][-]{section.11.2}{Documentation}{chapter.11}% 30
-\BOOKMARK [0][-]{chapter.12}{Appendix 4: Prototype on Google Application Engine}{}% 31
-\BOOKMARK [0][-]{chapter.13}{Appendix 5: Installing in AWS-EB and Docker}{}% 32
-\BOOKMARK [1][-]{section.13.1}{Amazon Web Services Elastic Beanstalk}{chapter.13}% 33
-\BOOKMARK [1][-]{section.13.2}{Docker}{chapter.13}% 34
+\BOOKMARK [0][-]{chapter.3}{Authentication}{}% 6
+\BOOKMARK [1][-]{section.3.1}{Creating a superuser}{chapter.3}% 7
+\BOOKMARK [1][-]{section.3.2}{Additional notes}{chapter.3}% 8
+\BOOKMARK [0][-]{chapter.4}{Home Page Options}{}% 9
+\BOOKMARK [1][-]{section.4.1}{File selection}{chapter.4}% 10
+\BOOKMARK [0][-]{chapter.5}{CIVET Coding Form Templates}{}% 11
+\BOOKMARK [1][-]{section.5.1}{Simple Template-Based Data Entry Form}{chapter.5}% 12
+\BOOKMARK [1][-]{section.5.2}{Command formats}{chapter.5}% 13
+\BOOKMARK [1][-]{section.5.3}{Templates: Specifying variables}{chapter.5}% 14
+\BOOKMARK [1][-]{section.5.4}{Templates: Data Entry Fields}{chapter.5}% 15
+\BOOKMARK [1][-]{section.5.5}{Templates: Additional Web Page Formatting}{chapter.5}% 16
+\BOOKMARK [0][-]{chapter.6}{CIVET Workspaces}{}% 17
+\BOOKMARK [1][-]{section.6.1}{Workspace Management}{chapter.6}% 18
+\BOOKMARK [1][-]{section.6.2}{User-specified annotation vocabulary using category}{chapter.6}% 19
+\BOOKMARK [0][-]{chapter.7}{Annotation and Editing Collections}{}% 20
+\BOOKMARK [1][-]{section.7.1}{Comments on annotation and editing}{chapter.7}% 21
+\BOOKMARK [0][-]{chapter.8}{Coding and Text Extraction}{}% 22
+\BOOKMARK [0][-]{chapter.9}{Projected Features}{}% 23
+\BOOKMARK [0][-]{chapter.10}{Appendix 1: Sample Template File}{}% 24
+\BOOKMARK [0][-]{chapter.11}{Appendix 2: Input Format}{}% 25
+\BOOKMARK [1][-]{section.11.1}{Collection fields}{chapter.11}% 26
+\BOOKMARK [1][-]{section.11.2}{Text fields}{chapter.11}% 27
+\BOOKMARK [1][-]{section.11.3}{Case fields}{chapter.11}% 28
+\BOOKMARK [1][-]{section.11.4}{Date formats}{chapter.11}% 29
+\BOOKMARK [1][-]{section.11.5}{Sample File}{chapter.11}% 30
+\BOOKMARK [0][-]{chapter.12}{Appendix 3: Supporting Files}{}% 31
+\BOOKMARK [1][-]{section.12.1}{Files in /static/djciv\137data}{chapter.12}% 32
+\BOOKMARK [1][-]{section.12.2}{Documentation}{chapter.12}% 33
+\BOOKMARK [0][-]{chapter.13}{Appendix 4: Prototype on Google Application Engine}{}% 34
+\BOOKMARK [0][-]{chapter.14}{Appendix 5: Installing in AWS-EB and Docker}{}% 35
+\BOOKMARK [1][-]{section.14.1}{Amazon Web Services Elastic Beanstalk}{chapter.14}% 36
+\BOOKMARK [1][-]{section.14.2}{Docker}{chapter.14}% 37

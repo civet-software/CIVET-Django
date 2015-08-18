@@ -4,55 +4,58 @@
 \contentsline {section}{\numberline {1.2}Documentation}{4}{section.1.2}
 \contentsline {chapter}{\numberline {2}Installing CIVET}{5}{chapter.2}
 \contentsline {section}{\numberline {2.1}Modifying the default installation}{5}{section.2.1}
-\contentsline {chapter}{\numberline {3}Home Page Options}{7}{chapter.3}
-\contentsline {section}{\numberline {3.1}File selection}{7}{section.3.1}
-\contentsline {chapter}{\numberline {4}CIVET Coding Form Templates}{9}{chapter.4}
-\contentsline {section}{\numberline {4.1}Simple Template-Based Data Entry Form}{9}{section.4.1}
-\contentsline {section}{\numberline {4.2}Command formats}{9}{section.4.2}
-\contentsline {subsection}{\numberline {4.2.1}Items in template specification}{10}{subsection.4.2.1}
-\contentsline {subsection}{\numberline {4.2.2}Errors in template commands}{11}{subsection.4.2.2}
-\contentsline {section}{\numberline {4.3}Templates: Specifying variables}{11}{section.4.3}
-\contentsline {subsection}{\numberline {4.3.1}Specifying variables to save}{11}{subsection.4.3.1}
-\contentsline {subsection}{\numberline {4.3.2}constant}{11}{subsection.4.3.2}
-\contentsline {subsection}{\numberline {4.3.3}filename}{11}{subsection.4.3.3}
-\contentsline {subsection}{\numberline {4.3.4}Special variables}{11}{subsection.4.3.4}
-\contentsline {section}{\numberline {4.4}Templates: Data Entry Fields}{12}{section.4.4}
-\contentsline {subsection}{\numberline {4.4.1}Checkbox}{12}{subsection.4.4.1}
-\contentsline {subsection}{\numberline {4.4.2}Select from pull-down menu}{12}{subsection.4.4.2}
-\contentsline {subsection}{\numberline {4.4.3}Radio buttons}{12}{subsection.4.4.3}
-\contentsline {subsection}{\numberline {4.4.4}Enter single line of text}{12}{subsection.4.4.4}
-\contentsline {subsection}{\numberline {4.4.5}Extract single line from annotated text}{13}{subsection.4.4.5}
-\contentsline {subsection}{\numberline {4.4.6}Enter multiple lines of text}{13}{subsection.4.4.6}
-\contentsline {section}{\numberline {4.5}Templates: Additional Web Page Formatting}{13}{section.4.5}
-\contentsline {subsection}{\numberline {4.5.1}Set page title}{13}{subsection.4.5.1}
-\contentsline {subsection}{\numberline {4.5.2}Insert text}{14}{subsection.4.5.2}
-\contentsline {subsection}{\numberline {4.5.3}Insert HTML}{14}{subsection.4.5.3}
-\contentsline {subsection}{\numberline {4.5.4}Insert a line break}{14}{subsection.4.5.4}
-\contentsline {chapter}{\numberline {5}CIVET Workspaces}{15}{chapter.5}
-\contentsline {section}{\numberline {5.1}Workspace Management}{16}{section.5.1}
-\contentsline {section}{\numberline {5.2}User-specified annotation vocabulary using \textbf {category}}{18}{section.5.2}
-\contentsline {chapter}{\numberline {6}Annotation and Editing Collections}{21}{chapter.6}
-\contentsline {section}{\numberline {6.1}Comments on annotation and editing}{22}{section.6.1}
-\contentsline {chapter}{\numberline {7}Coding and Text Extraction}{25}{chapter.7}
-\contentsline {chapter}{\numberline {8}Projected Features}{27}{chapter.8}
-\contentsline {chapter}{\numberline {9}Appendix 1: Sample Template File}{29}{chapter.9}
-\contentsline {chapter}{\numberline {10}Appendix 2: Input Format}{31}{chapter.10}
-\contentsline {section}{\numberline {10.1}Collection fields}{31}{section.10.1}
-\contentsline {section}{\numberline {10.2}Text fields}{31}{section.10.2}
-\contentsline {section}{\numberline {10.3}Case fields}{32}{section.10.3}
-\contentsline {section}{\numberline {10.4}Date formats}{32}{section.10.4}
-\contentsline {section}{\numberline {10.5}Sample File}{32}{section.10.5}
-\contentsline {chapter}{\numberline {11}Appendix 3: Supporting Files}{35}{chapter.11}
-\contentsline {section}{\numberline {11.1}Files in \texttt {/static/djciv\_data}}{35}{section.11.1}
-\contentsline {subsection}{\numberline {11.1.1}Files that can be modified using a text editor}{35}{subsection.11.1.1}
-\contentsline {subsection}{\numberline {11.1.2}Modify at your own risk}{35}{subsection.11.1.2}
-\contentsline {subsection}{\numberline {11.1.3}CIVET Logo}{35}{subsection.11.1.3}
-\contentsline {section}{\numberline {11.2}Documentation}{35}{section.11.2}
-\contentsline {chapter}{\numberline {12}Appendix 4: Prototype on Google Application Engine}{37}{chapter.12}
-\contentsline {chapter}{\numberline {13}Appendix 5: Installing in AWS-EB and Docker}{39}{chapter.13}
-\contentsline {section}{\numberline {13.1}Amazon Web Services Elastic Beanstalk}{39}{section.13.1}
-\contentsline {subsection}{\numberline {13.1.1}AWS-EB Configuration Files}{40}{subsection.13.1.1}
-\contentsline {subsection}{\numberline {13.1.2}Handling of \emph {static} files}{41}{subsection.13.1.2}
-\contentsline {section}{\numberline {13.2}Docker}{41}{section.13.2}
-\contentsline {subsection}{\numberline {13.2.1}Contents of \emph {docker-entrypoint.sh}}{42}{subsection.13.2.1}
-\contentsline {subsection}{\numberline {13.2.2}Contents of \emph {Dockerfile}}{42}{subsection.13.2.2}
+\contentsline {chapter}{\numberline {3}Authentication}{7}{chapter.3}
+\contentsline {section}{\numberline {3.1}Creating a superuser}{7}{section.3.1}
+\contentsline {section}{\numberline {3.2}Additional notes}{7}{section.3.2}
+\contentsline {chapter}{\numberline {4}Home Page Options}{9}{chapter.4}
+\contentsline {section}{\numberline {4.1}File selection}{9}{section.4.1}
+\contentsline {chapter}{\numberline {5}CIVET Coding Form Templates}{11}{chapter.5}
+\contentsline {section}{\numberline {5.1}Simple Template-Based Data Entry Form}{11}{section.5.1}
+\contentsline {section}{\numberline {5.2}Command formats}{11}{section.5.2}
+\contentsline {subsection}{\numberline {5.2.1}Items in template specification}{12}{subsection.5.2.1}
+\contentsline {subsection}{\numberline {5.2.2}Errors in template commands}{13}{subsection.5.2.2}
+\contentsline {section}{\numberline {5.3}Templates: Specifying variables}{13}{section.5.3}
+\contentsline {subsection}{\numberline {5.3.1}Specifying variables to save}{13}{subsection.5.3.1}
+\contentsline {subsection}{\numberline {5.3.2}constant}{13}{subsection.5.3.2}
+\contentsline {subsection}{\numberline {5.3.3}filename}{13}{subsection.5.3.3}
+\contentsline {subsection}{\numberline {5.3.4}Special variables}{13}{subsection.5.3.4}
+\contentsline {section}{\numberline {5.4}Templates: Data Entry Fields}{14}{section.5.4}
+\contentsline {subsection}{\numberline {5.4.1}Checkbox}{14}{subsection.5.4.1}
+\contentsline {subsection}{\numberline {5.4.2}Select from pull-down menu}{14}{subsection.5.4.2}
+\contentsline {subsection}{\numberline {5.4.3}Radio buttons}{14}{subsection.5.4.3}
+\contentsline {subsection}{\numberline {5.4.4}Enter single line of text}{14}{subsection.5.4.4}
+\contentsline {subsection}{\numberline {5.4.5}Extract single line from annotated text}{15}{subsection.5.4.5}
+\contentsline {subsection}{\numberline {5.4.6}Enter multiple lines of text}{15}{subsection.5.4.6}
+\contentsline {section}{\numberline {5.5}Templates: Additional Web Page Formatting}{15}{section.5.5}
+\contentsline {subsection}{\numberline {5.5.1}Set page title}{15}{subsection.5.5.1}
+\contentsline {subsection}{\numberline {5.5.2}Insert text}{16}{subsection.5.5.2}
+\contentsline {subsection}{\numberline {5.5.3}Insert HTML}{16}{subsection.5.5.3}
+\contentsline {subsection}{\numberline {5.5.4}Insert a line break}{16}{subsection.5.5.4}
+\contentsline {chapter}{\numberline {6}CIVET Workspaces}{17}{chapter.6}
+\contentsline {section}{\numberline {6.1}Workspace Management}{18}{section.6.1}
+\contentsline {section}{\numberline {6.2}User-specified annotation vocabulary using \textbf {category}}{18}{section.6.2}
+\contentsline {chapter}{\numberline {7}Annotation and Editing Collections}{23}{chapter.7}
+\contentsline {section}{\numberline {7.1}Comments on annotation and editing}{24}{section.7.1}
+\contentsline {chapter}{\numberline {8}Coding and Text Extraction}{27}{chapter.8}
+\contentsline {chapter}{\numberline {9}Projected Features}{29}{chapter.9}
+\contentsline {chapter}{\numberline {10}Appendix 1: Sample Template File}{31}{chapter.10}
+\contentsline {chapter}{\numberline {11}Appendix 2: Input Format}{33}{chapter.11}
+\contentsline {section}{\numberline {11.1}Collection fields}{33}{section.11.1}
+\contentsline {section}{\numberline {11.2}Text fields}{33}{section.11.2}
+\contentsline {section}{\numberline {11.3}Case fields}{34}{section.11.3}
+\contentsline {section}{\numberline {11.4}Date formats}{34}{section.11.4}
+\contentsline {section}{\numberline {11.5}Sample File}{34}{section.11.5}
+\contentsline {chapter}{\numberline {12}Appendix 3: Supporting Files}{37}{chapter.12}
+\contentsline {section}{\numberline {12.1}Files in \texttt {/static/djciv\_data}}{37}{section.12.1}
+\contentsline {subsection}{\numberline {12.1.1}Files that can be modified using a text editor}{37}{subsection.12.1.1}
+\contentsline {subsection}{\numberline {12.1.2}Modify at your own risk}{37}{subsection.12.1.2}
+\contentsline {subsection}{\numberline {12.1.3}CIVET Logo}{37}{subsection.12.1.3}
+\contentsline {section}{\numberline {12.2}Documentation}{37}{section.12.2}
+\contentsline {chapter}{\numberline {13}Appendix 4: Prototype on Google Application Engine}{39}{chapter.13}
+\contentsline {chapter}{\numberline {14}Appendix 5: Installing in AWS-EB and Docker}{41}{chapter.14}
+\contentsline {section}{\numberline {14.1}Amazon Web Services Elastic Beanstalk}{41}{section.14.1}
+\contentsline {subsection}{\numberline {14.1.1}AWS-EB Configuration Files}{42}{subsection.14.1.1}
+\contentsline {subsection}{\numberline {14.1.2}Handling of \emph {static} files}{43}{subsection.14.1.2}
+\contentsline {section}{\numberline {14.2}Docker}{43}{section.14.2}
+\contentsline {subsection}{\numberline {14.2.1}Contents of \emph {docker-entrypoint.sh}}{44}{subsection.14.2.1}
+\contentsline {subsection}{\numberline {14.2.2}Contents of \emph {Dockerfile}}{44}{subsection.14.2.2}

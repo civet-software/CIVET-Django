@@ -20,11 +20,13 @@ locally (which is probably a good idea)
 
 3. Download the CIVET system from GitHub: https://github.com/civet-software/CIVET-Django [#f8]_
 
-4. Create a directory that you will use to deploy the system: for consistency with the remaining instructions it should be 
+4. In the file *djcivet_site/djciv_data/civet_settings.py* set ``PRODUCTION_MODE = True`` [#f9]_
+
+5. Create a directory that you will use to deploy the system: for consistency with the remaining instructions it should be 
 called *AWS-CIVET* though once you are comfortable with these instructions it could be named something different.
 
-5. In that directory, copy the directory *djcivet_site*. Following the instructions, create directories named *.elasticbeanstalk*
-and *.ebextensions* [#f9]_ 
+6. In that directory, copy the directory *djcivet_site*. Following the instructions, create directories named *.elasticbeanstalk*
+and *.ebextensions* [#f10]_ 
 and create a file named *requirements.txt* Just copy the contents from the section below; you don't need the ``pip freeze``
 step. Copy the code in the **AWS-EB Configuration Files** section below into the various files  
 
@@ -49,19 +51,20 @@ step. Copy the code in the **AWS-EB Configuration Files** section below into the
         |   `-- manage.py
         `-- requirements.txt
 
-6. Install the “eb” command-line tool per the instructions found at 
+7. Install the “eb” command-line tool per the instructions found at 
 http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3.html. Initializing this will require AWS access credentials, a 
 process described at http://docs.aws.amazon.com/general/latest/gr/getting-aws-sec-creds.html.
 
-7. Follow the instructions in the **Deploy your site using AWS Elastic Beanstalk** section to use “eb” in a terminal 
+8. Follow the instructions in the **Deploy your site using AWS Elastic Beanstalk** section to use “eb” in a terminal 
 application. It will take a minute or so for the ``eb create`` process to complete—there's plenty of feedback—and there is an
 additional lag before the URL will be recognized.
 
-8. You should now see the CIVET home page at the URL http://aws-civet-dev.elasticbeanstalk.com/djciv_data/ Be sure to include
-the final “/djciv_data/" or you will get an error. Run through the options with the demonstration files to make sure
-the site is working. If the site doesn't come up, try reloading a couple of times.
+9. You should now see the CIVET home page at the URL http://aws-civet-dev.elasticbeanstalk.com. This should take you to the 
+login page unless you've set ``REQUIRE_LOGIN = False``. Run through the options with the demonstration files to make sure
+the site is working. If the site doesn't come up at your first attempt, try reloading a couple of times until AWS 
+recognizes the URL.
 
-9. When you are finished, enter ``eb terminate`` and respond to the confirmation prompt with “AWS-CIVET-dev” in order to 
+10. When you are finished, enter ``eb terminate`` and respond to the confirmation prompt with “AWS-CIVET-dev” in order to 
 stop the program.
 
 
@@ -270,6 +273,10 @@ Contents of *Dockerfile*
     At some point I'll put a “turn-key” directory on GitHub that will have all of the appropriate files. But not yet.
 
 .. [#f9]
+    You can also leave ``PRODUCTION_MODE = False`` and set ``STATIC_SOURCE = "http://civet.parusanalytics.com/civet_static/"``:
+    key here is that AWS needs to read static files from a remote server.
+
+.. [#f10]
     The ‘.’ in front of the file name means these will probably be invisible in most standard views of the *AWS-CIVET*
     directory: this is a Unix feature, not a bug.
 

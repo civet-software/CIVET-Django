@@ -19,8 +19,8 @@
 
 
 \title{CIVET Documentation}
-\date{August 16, 2015}
-\release{beta-0.7}
+\date{August 18, 2015}
+\release{beta-0.8}
 \author{Philip A. Schrodt\\Parus Analytics LLC\\Charlottesville, VA USA\\schrodt735@gmail.com}
 \newcommand{\sphinxlogo}{\includegraphics{civet200.png}\par}
 \renewcommand{\releasename}{Release}
@@ -265,11 +265,15 @@ In the Terminal, change the directory so that you are in the folder
 In the Terminal, enter \code{python manage.py runserver}
 
 \item {} 
-In a browser, enter the URL \href{http://127.0.0.1:8000/djciv\_data/}{http://127.0.0.1:8000/djciv\_data/}
+In a browser, enter the URL \href{http://127.0.0.1:8000}{http://127.0.0.1:8000}
 
 \end{enumerate}
 
-At this point you should see the Civet home screen
+At this point you should see the Civet home screen \footnote{
+If you see a log-in page requesting a user name and password, the log-in requirement
+has been activated: see the “Authentication” chapter for details on how to use
+(or deactivate) this.
+}
 \begin{figure}[htbp]
 \centering
 
@@ -302,6 +306,95 @@ about your site. With \code{DEBUG = False}, the user just sees a \code{Page not 
 error.
 
 \end{description}
+
+\end{enumerate}
+
+
+\chapter{Authentication}
+\label{authentication:authentication}\label{authentication::doc}
+Django famously includes, ``out of the box'', a very robust system for handling user authentication and permissions. Except
+for a few minor modifications such as changing the web page headings and providing vaguely informative messages for log-in
+failures, CIVET simply implements the default version of this, so you can be guided the instructions at
+\href{https://docs.djangoproject.com/en/1.8/topics/auth/}{https://docs.djangoproject.com/en/1.8/topics/auth/}.
+
+Authentication is controlled by the \emph{civet\_settings.py} global variable \code{REQUIRE\_LOGIN}. By default, this is set to
+\code{True} when \code{PRODUCTION\_MODE = True} and \code{False} otherwise. If you enter the name of the site without any additional
+arguments, the program will go to a login page when \code{civet\_settings.REQUIRE\_LOGIN = True}; otherwise it will go
+directly to the home page.
+Attempting to access the home page when \code{REQUIRE\_LOGIN = True} without a login will redirect to the login page.
+
+
+\section{Creating a superuser}
+\label{authentication:creating-a-superuser}
+To keep things simple, CIVET handles the administration of users through the controls available to a “superuser”.
+To create a superuser, at the \emph{djciv\_site} level of the directory, use the terminal command \footnote{
+A description of the process can be found at \href{https://docs.djangoproject.com/en/1.8/intro/tutorial02/}{https://docs.djangoproject.com/en/1.8/intro/tutorial02/}
+}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+python manage.py createsuperuser
+\end{Verbatim}
+
+In development mode, start the system with the usual command
+
+\begin{Verbatim}[commandchars=\\\{\}]
+python manage.py runserver
+\end{Verbatim}
+
+and enter the URL
+
+\begin{Verbatim}[commandchars=\\\{\}]
+http://127.0.0.1:8000/admin/
+\end{Verbatim}
+
+You should see a page similar to this: \footnote{
+The options seen in the tutorial version of this screen which allow the editing of the databases have been deactivated
+since the database structure is tightly linked to various functions of the program, particularly the reading and
+writing of the workspace files. These could, of course, be modified, but this will need to be done in the program
+itself, not simply by adding fields.
+}
+\begin{figure}[htbp]
+\centering
+
+\includegraphics{adminpage.png}
+\end{figure}
+
+The \emph{Add} and \emph{Change} buttons provide access to a rich set of options for adding users and editing information about them.
+Clicking on “Users” will give a screen listing all of the users in the system, and clicking on a user name on that screen
+goes to a page with information about the user. You can delete one or more users from these screens; the “Groups” option
+allows users to be organized into groups.
+
+
+\section{Additional notes}
+\label{authentication:additional-notes}\begin{enumerate}
+\item {} 
+Accessing the page without additional arguments automatically does a logout.
+
+\end{enumerate}
+
+2. Django provides an extensive set of utilities for resetting passwords: for the sake of simplicity. as well as removing a
+possible venue for mischief, these have not been activated: it should be relatively simple to do this if you would like
+to have that capability.
+\begin{quote}
+
+At the present time, the AWS deployment does not show the pretty form, but all of the options are still there and
+function: this will be corrected at some future date.
+\end{quote}
+\begin{enumerate}
+\setcounter{enumi}{2}
+\item {} 
+The GitHub version of the program is populated with at least the following:
+\begin{quote}
+
+Superuser: civet-super  Password: je-kiffe-grenouilles \footnote{
+You were expecting “password”, “CHANGEME” or “12345678”??
+}
+
+User: ima-coder  Password: code-code-code!
+
+For the sake of security, you will probably want to delete these after you create your own environment, or at
+least change the passwords.
+\end{quote}
 
 \end{enumerate}
 
@@ -346,6 +439,12 @@ This downloads a PDF file with the documentation.
 
 \end{description}
 \end{quote}
+\begin{description}
+\item[{\textbf{Log out}}] \leavevmode
+Log out the current user. You will only see this option if log-ins
+are required: see the chapter on “Authentication.”
+
+\end{description}
 
 
 \section{File selection}
@@ -846,10 +945,6 @@ Adds a new line in the form
 
 \chapter{CIVET Workspaces}
 \label{workspaces:civet-workspaces}\label{workspaces::doc}
-
-\bigskip\hrule{}\bigskip
-
-
 CIVET is part of a projected collection of open-source programs designed
 to work with very large sets of small text files: in the domain of
 contentious politics these are usually news articles but the issue of
@@ -1857,12 +1952,18 @@ Download the CIVET system from GitHub: \href{https://github.com/civet-software/C
 At some point I'll put a “turn-key” directory on GitHub that will have all of the appropriate files. But not yet.
 }
 
+\item {} 
+In the file \emph{djcivet\_site/djciv\_data/civet\_settings.py} set \code{PRODUCTION\_MODE = True} \footnote{
+You can also leave \code{PRODUCTION\_MODE = False} and set \code{STATIC\_SOURCE = "http://civet.parusanalytics.com/civet\_static/"}:
+key here is that AWS needs to read static files from a remote server.
+}
+
 \end{enumerate}
 
-4. Create a directory that you will use to deploy the system: for consistency with the remaining instructions it should be
+5. Create a directory that you will use to deploy the system: for consistency with the remaining instructions it should be
 called \emph{AWS-CIVET} though once you are comfortable with these instructions it could be named something different.
 
-5. In that directory, copy the directory \emph{djcivet\_site}. Following the instructions, create directories named \emph{.elasticbeanstalk}
+6. In that directory, copy the directory \emph{djcivet\_site}. Following the instructions, create directories named \emph{.elasticbeanstalk}
 and \emph{.ebextensions} \footnote{
 The ‘.’ in front of the file name means these will probably be invisible in most standard views of the \emph{AWS-CIVET}
 directory: this is a Unix feature, not a bug.
@@ -1893,19 +1994,20 @@ AWS\PYGZhy{}CIVET
 \end{Verbatim}
 \end{quote}
 
-6. Install the “eb” command-line tool per the instructions found at
+7. Install the “eb” command-line tool per the instructions found at
 \href{http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3.html}{http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3.html}. Initializing this will require AWS access credentials, a
 process described at \href{http://docs.aws.amazon.com/general/latest/gr/getting-aws-sec-creds.html}{http://docs.aws.amazon.com/general/latest/gr/getting-aws-sec-creds.html}.
 
-7. Follow the instructions in the \textbf{Deploy your site using AWS Elastic Beanstalk} section to use “eb” in a terminal
+8. Follow the instructions in the \textbf{Deploy your site using AWS Elastic Beanstalk} section to use “eb” in a terminal
 application. It will take a minute or so for the \code{eb create} process to complete—there's plenty of feedback—and there is an
 additional lag before the URL will be recognized.
 
-8. You should now see the CIVET home page at the URL \href{http://aws-civet-dev.elasticbeanstalk.com/djciv\_data/}{http://aws-civet-dev.elasticbeanstalk.com/djciv\_data/} Be sure to include
-the final “/djciv\_data/'' or you will get an error. Run through the options with the demonstration files to make sure
-the site is working. If the site doesn't come up, try reloading a couple of times.
+9. You should now see the CIVET home page at the URL \href{http://aws-civet-dev.elasticbeanstalk.com}{http://aws-civet-dev.elasticbeanstalk.com}. This should take you to the
+login page unless you've set \code{REQUIRE\_LOGIN = False}. Run through the options with the demonstration files to make sure
+the site is working. If the site doesn't come up at your first attempt, try reloading a couple of times until AWS
+recognizes the URL.
 
-9. When you are finished, enter \code{eb terminate} and respond to the confirmation prompt with “AWS-CIVET-dev” in order to
+10. When you are finished, enter \code{eb terminate} and respond to the confirmation prompt with “AWS-CIVET-dev” in order to
 stop the program.
 
 

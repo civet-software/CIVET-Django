@@ -9,6 +9,7 @@ urlpatterns = [
     url(r'home', views.index),
     url(r'set_preferences', views.set_preferences),
     url(r'reset_preferences', views.reset_preferences),
+    url(r'handle_logout', views.handle_logout),
 
     url(r'download_pdfdocs', views.download_pdfdocs),
     url(r'online_manual', views.online_manual),

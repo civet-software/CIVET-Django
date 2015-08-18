@@ -1,6 +1,8 @@
 from __future__ import print_function
 
 from django.core.servers.basehttp import FileWrapper
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.http import HttpResponse
@@ -42,12 +44,6 @@ CKEditor_Styles = ''  # default and category styles for CKEditor
 
 # ================ static file utilities ================= #
 
-def index(request):
-    print('BXSE_DIR:',settings.BASE_DIR)
-    print('STATIC_URL:',settings.STATIC_URL)
-#    print('Hey, this is da place!')
-    return render(request, 'djciv_data/index.html',{'staticpath':civet_settings.STATIC_SOURCE})
-
 def online_manual(request):
     """ Goes to index.html of on-line docs """
     # 15.08.10 pas: okay folks, give me a hand here: there's got to be a way of accessing these at 
@@ -88,6 +84,35 @@ def download_demo_workspace(request):
     f.close()
     return response
 
+
+# ================ authentication ================= #
+
+def civet_gateway(request):
+    """ Goes to login or home page depending on value of civet_settings.REQUIRE_LOGIN"""
+    print("At gateway")
+    logout(request)
+    if civet_settings.REQUIRE_LOGIN:
+        return HttpResponseRedirect('/login')    
+    else:
+        return HttpResponseRedirect('/djciv_data/home')    
+
+        
+def index(request):
+    """ home page """
+    
+    if civet_settings.REQUIRE_LOGIN and not request.user.is_authenticated(): # this is used instead of a decorator to allow checking REQUIRE_LOGIN
+        return HttpResponse("You must be logged in to access this page.") 
+
+#    print('BASE_DIR:',settings.BASE_DIR)
+#    print('STATIC_URL:',settings.STATIC_URL)
+    return render(request, 'djciv_data/index.html',
+        {'staticpath':civet_settings.STATIC_SOURCE,
+         'login':civet_settings.REQUIRE_LOGIN }
+    )
+
+def handle_logout(request):
+    logout(request)
+    return render(request,'djciv_data/civet_logout.html',{})
 
 # ================ editor system ================= #
 
@@ -245,6 +270,8 @@ def read_template(fin):
 
 def select_template(request):
     """ template selection in form-only mode """
+    if civet_settings.REQUIRE_LOGIN and not request.user.is_authenticated():
+        return HttpResponse("You must be logged in to access this page.") # need to set up a page to deal with this. Also note there is a decorator for this
     return render(request,'djciv_data/template_select.html',{})
     
 

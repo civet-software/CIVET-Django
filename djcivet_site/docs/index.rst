@@ -83,6 +83,7 @@ in the Directorate for Social, Behavioral & Economic Sciences, Award 1338470 and
    
     intro
     installing
+    authentication
     homepage
     forms
     workspaces

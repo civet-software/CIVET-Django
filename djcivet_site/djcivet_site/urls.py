@@ -13,10 +13,14 @@ Including another URLconf
     1. Add an import:  from blog import urls as blog_urls
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
+from django.contrib.auth import views as auth_views
 from django.conf.urls import include, url
 from django.contrib import admin
+import djciv_data.views
 
 urlpatterns = [
+    url(r'^$', djciv_data.views.civet_gateway),
     url(r'^admin/', include(admin.site.urls)),
+    url('^login/', auth_views.login, {'redirect_field_name': '/djciv_data/home', 'template_name': 'login.html', }),
     url(r'^djciv_data/', include('djciv_data.urls')),
 ]

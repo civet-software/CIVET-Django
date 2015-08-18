@@ -24,9 +24,9 @@ install that.
 
 #. In the Terminal, enter ``python manage.py runserver``
 
-#. In a browser, enter the URL http://127.0.0.1:8000/djciv_data/
+#. In a browser, enter the URL http://127.0.0.1:8000
 
-At this point you should see the Civet home screen
+At this point you should see the Civet home screen [#f1]_
 
 .. figure:: civethome.png
    :width: 100%
@@ -53,3 +53,10 @@ to make the following changes:
     errors will generate an error page containing extensive internal detail 
     about your site. With ``DEBUG = False``, the user just sees a ``Page not found``
     error.
+
+.. rubric:: Footnotes
+
+.. [#f1]
+   If you see a log-in page requesting a user name and password, the log-in requirement 
+   has been activated: see the “Authentication” chapter for details on how to use 
+   (or deactivate) this.

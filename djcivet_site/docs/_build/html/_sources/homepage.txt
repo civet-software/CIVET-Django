@@ -34,6 +34,10 @@ The home page has the following links:
 
     **Download PDF**
         This downloads a PDF file with the documentation.
+        
+**Log out**
+    Log out the current user. You will only see this option if log-ins
+    are required: see the chapter on “Authentication.”
 
 File selection
 ==============

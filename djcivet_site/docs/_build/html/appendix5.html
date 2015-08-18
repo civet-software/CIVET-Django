@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     'beta-0.7',
+        VERSION:     'beta-0.8',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -33,7 +33,7 @@
             <img class="logo" src="_static/civet200.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">CIVET beta-0.7 documentation</a></div>
+          href="index.html">CIVET beta-0.8 documentation</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="appendix4.html" title="Appendix 4: Prototype on Google Application Engine"
              accesskey="P">previous</a>
@@ -66,11 +66,12 @@ heading <strong>Configure your Django application for AWS Elastic Beanstalk</str
 locally (which is probably a good idea)</p>
 <ol class="arabic simple" start="3">
 <li>Download the CIVET system from GitHub: <a class="reference external" href="https://github.com/civet-software/CIVET-Django">https://github.com/civet-software/CIVET-Django</a> <a class="footnote-reference" href="#f8" id="id3">[3]</a></li>
+<li>In the file <em>djcivet_site/djciv_data/civet_settings.py</em> set <code class="docutils literal"><span class="pre">PRODUCTION_MODE</span> <span class="pre">=</span> <span class="pre">True</span></code> <a class="footnote-reference" href="#f9" id="id4">[4]</a></li>
 </ol>
-<p>4. Create a directory that you will use to deploy the system: for consistency with the remaining instructions it should be
+<p>5. Create a directory that you will use to deploy the system: for consistency with the remaining instructions it should be
 called <em>AWS-CIVET</em> though once you are comfortable with these instructions it could be named something different.</p>
-<p>5. In that directory, copy the directory <em>djcivet_site</em>. Following the instructions, create directories named <em>.elasticbeanstalk</em>
-and <em>.ebextensions</em> <a class="footnote-reference" href="#f9" id="id4">[4]</a>
+<p>6. In that directory, copy the directory <em>djcivet_site</em>. Following the instructions, create directories named <em>.elasticbeanstalk</em>
+and <em>.ebextensions</em> <a class="footnote-reference" href="#f10" id="id5">[5]</a>
 and create a file named <em>requirements.txt</em> Just copy the contents from the section below; you don&#8217;t need the <code class="docutils literal"><span class="pre">pip</span> <span class="pre">freeze</span></code>
 step. Copy the code in the <strong>AWS-EB Configuration Files</strong> section below into the various files</p>
 <blockquote>
@@ -94,16 +95,17 @@ step. Copy the code in the <strong>AWS-EB Configuration Files</strong> section b
 </pre></div>
 </div>
 </div></blockquote>
-<p>6. Install the “eb” command-line tool per the instructions found at
+<p>7. Install the “eb” command-line tool per the instructions found at
 <a class="reference external" href="http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3.html">http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3.html</a>. Initializing this will require AWS access credentials, a
 process described at <a class="reference external" href="http://docs.aws.amazon.com/general/latest/gr/getting-aws-sec-creds.html">http://docs.aws.amazon.com/general/latest/gr/getting-aws-sec-creds.html</a>.</p>
-<p>7. Follow the instructions in the <strong>Deploy your site using AWS Elastic Beanstalk</strong> section to use “eb” in a terminal
+<p>8. Follow the instructions in the <strong>Deploy your site using AWS Elastic Beanstalk</strong> section to use “eb” in a terminal
 application. It will take a minute or so for the <code class="docutils literal"><span class="pre">eb</span> <span class="pre">create</span></code> process to complete—there&#8217;s plenty of feedback—and there is an
 additional lag before the URL will be recognized.</p>
-<p>8. You should now see the CIVET home page at the URL <a class="reference external" href="http://aws-civet-dev.elasticbeanstalk.com/djciv_data/">http://aws-civet-dev.elasticbeanstalk.com/djciv_data/</a> Be sure to include
-the final “/djciv_data/&#8221; or you will get an error. Run through the options with the demonstration files to make sure
-the site is working. If the site doesn&#8217;t come up, try reloading a couple of times.</p>
-<p>9. When you are finished, enter <code class="docutils literal"><span class="pre">eb</span> <span class="pre">terminate</span></code> and respond to the confirmation prompt with “AWS-CIVET-dev” in order to
+<p>9. You should now see the CIVET home page at the URL <a class="reference external" href="http://aws-civet-dev.elasticbeanstalk.com">http://aws-civet-dev.elasticbeanstalk.com</a>. This should take you to the
+login page unless you&#8217;ve set <code class="docutils literal"><span class="pre">REQUIRE_LOGIN</span> <span class="pre">=</span> <span class="pre">False</span></code>. Run through the options with the demonstration files to make sure
+the site is working. If the site doesn&#8217;t come up at your first attempt, try reloading a couple of times until AWS
+recognizes the URL.</p>
+<p>10. When you are finished, enter <code class="docutils literal"><span class="pre">eb</span> <span class="pre">terminate</span></code> and respond to the confirmation prompt with “AWS-CIVET-dev” in order to
 stop the program.</p>
 <div class="section" id="aws-eb-configuration-files">
 <h3>AWS-EB Configuration Files<a class="headerlink" href="#aws-eb-configuration-files" title="Permalink to this headline">¶</a></h3>
@@ -147,25 +149,25 @@ option_settings:
 <h3>Handling of <em>static</em> files<a class="headerlink" href="#handling-of-static-files" title="Permalink to this headline">¶</a></h3>
 <p>As even a brief perusal of the web will affirm, the handling of <em>static</em> files in production versions of
 Django is, well, complicated. After joining legions of programmers past, present and future in beating my head against
-the wall on trying to get CIVET to access files internally in production as it does in the development mode, I gave up <a class="footnote-reference" href="#f5" id="id5">[5]</a>
+the wall on trying to get CIVET to access files internally in production as it does in the development mode, I gave up <a class="footnote-reference" href="#f5" id="id6">[6]</a>
 and put the static resources referenced from inside templates on a directory on an external server, specifically
 <em>http://civet.parusanalytics.com/civet_static/</em>  Files that are read in <em>views.py</em> remain in the <em>static/djciv_data</em>
 folder, which works in both the development and production modes.</p>
 <p>If you would like to modify the static files in the system—the main target would be <em>CKEditor</em>, unless you find our
 mascot too insufferably cute—you can move this material (the contents of the directory <em>static/djciv_data</em> in the distribution) to
-the server of your choice: just change the address in <code class="docutils literal"><span class="pre">settings.STATIC_SOURCE</span></code> to point to the new location. <a class="footnote-reference" href="#f6" id="id6">[6]</a></p>
+the server of your choice: just change the address in <code class="docutils literal"><span class="pre">settings.STATIC_SOURCE</span></code> to point to the new location. <a class="footnote-reference" href="#f6" id="id7">[7]</a></p>
 </div>
 </div>
 <div class="section" id="docker">
 <h2>Docker<a class="headerlink" href="#docker" title="Permalink to this headline">¶</a></h2>
-<p>Docker (<a class="reference external" href="https://www.docker.com/">https://www.docker.com/</a>) is a highly popular, rapidly evolving <a class="footnote-reference" href="#f1" id="id7">[7]</a> “containerization” system which will ultimately simplify the secure deployment
+<p>Docker (<a class="reference external" href="https://www.docker.com/">https://www.docker.com/</a>) is a highly popular, rapidly evolving <a class="footnote-reference" href="#f1" id="id8">[8]</a> “containerization” system which will ultimately simplify the secure deployment
 of software in a wide variety of different systems. Briefly, “containers” are a more efficient extension of the concept of
 <a class="reference external" href="https://en.wikipedia.org/wiki/Virtual_machine">virtual machines</a> —computers running programs which simulate the operation
 of other computers—by packaging all of the required software in an “image” file that is able to run on any system capable of
 running Docker. Because the operations within a container can be isolated from the host machine, and the contents of the
 container can be inspected and verified, this should provide a more secure (and efficient) environment than situations where
 a variety of software
-needs to be installed in order for a system to run, and that software potentially has access to all of the resources of the system. <a class="footnote-reference" href="#f3" id="id8">[9]</a>
+needs to be installed in order for a system to run, and that software potentially has access to all of the resources of the system. <a class="footnote-reference" href="#f3" id="id9">[10]</a>
 Hence the excitement.</p>
 <p>To date, I have successfully gotten the Docker container described below to run CIVET in development mode as a container on my
 Macintosh; I attempted to get it running on the Google Cloud but was unsuccessful; I have not tried any other configurations.
@@ -300,20 +302,27 @@ out.</td></tr>
 <table class="docutils footnote" frame="void" id="f9" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id4">[4]</a></td><td>The ‘.’ in front of the file name means these will probably be invisible in most standard views of the <em>AWS-CIVET</em>
+<tr><td class="label"><a class="fn-backref" href="#id4">[4]</a></td><td>You can also leave <code class="docutils literal"><span class="pre">PRODUCTION_MODE</span> <span class="pre">=</span> <span class="pre">False</span></code> and set <code class="docutils literal"><span class="pre">STATIC_SOURCE</span> <span class="pre">=</span> <span class="pre">&quot;http://civet.parusanalytics.com/civet_static/&quot;</span></code>:
+key here is that AWS needs to read static files from a remote server.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f10" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id5">[5]</a></td><td>The ‘.’ in front of the file name means these will probably be invisible in most standard views of the <em>AWS-CIVET</em>
 directory: this is a Unix feature, not a bug.</td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="f5" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id5">[5]</a></td><td>Or simply took the approach that the Django system clearly prefers, depending on your perspective</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id6">[6]</a></td><td>Or simply took the approach that the Django system clearly prefers, depending on your perspective</td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="f6" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id6">[6]</a></td><td>An apparently popular approach for handling this is to use an AWS S3 server instance for external storage of static files:
+<tr><td class="label"><a class="fn-backref" href="#id7">[7]</a></td><td>An apparently popular approach for handling this is to use an AWS S3 server instance for external storage of static files:
 there are multiple descriptions on the Web describing how to do this. As it involves quite a few steps and I&#8217;ve
 got a perfectly good server already set up in the cloud, I went with that route instead.</td></tr>
 </tbody>
@@ -321,21 +330,21 @@ got a perfectly good server already set up in the cloud, I went with that route 
 <table class="docutils footnote" frame="void" id="f1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id7">[7]</a></td><td>Which is to say, a whole lot of moving parts which don&#8217;t quite always play well together and inconsistently documented:
+<tr><td class="label"><a class="fn-backref" href="#id8">[8]</a></td><td>Which is to say, a whole lot of moving parts which don&#8217;t quite always play well together and inconsistently documented:
 see   <a class="reference external" href="http://blog.circleci.com/its-the-future/">http://blog.circleci.com/its-the-future/</a>,
-<a class="reference external" href="http://blog.circleci.com/it-really-is-the-future/">http://blog.circleci.com/it-really-is-the-future/</a>, and <a class="reference external" href="https://valdhaus.co/writings/docker-misconceptions/">https://valdhaus.co/writings/docker-misconceptions/</a> <a class="footnote-reference" href="#f2" id="id9">[8]</a></td></tr>
+<a class="reference external" href="http://blog.circleci.com/it-really-is-the-future/">http://blog.circleci.com/it-really-is-the-future/</a>, and <a class="reference external" href="https://valdhaus.co/writings/docker-misconceptions/">https://valdhaus.co/writings/docker-misconceptions/</a> <a class="footnote-reference" href="#f2" id="id10">[9]</a></td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="f2" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id9">[8]</a></td><td>Thanks to John Beieler for the links.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id10">[9]</a></td><td>Thanks to John Beieler for the links.</td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="f3" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id8">[9]</a></td><td>Or as the situation was recently explicated at our local software development meet-up, in reference
+<tr><td class="label"><a class="fn-backref" href="#id9">[10]</a></td><td>Or as the situation was recently explicated at our local software development meet-up, in reference
 to a certain institution that does not have a campus but “Grounds”, and I am not referring to Starbucks, “So which
 is it with your sysadmins? They want to make sure Docker is deployed securely? Well, there are plenty of ways to do
 that. Or they just don&#8217;t want to do any work? Then you&#8217;ve got a different set of problems.”</td></tr>
@@ -355,6 +364,7 @@ that. Or they just don&#8217;t want to do any work? Then you&#8217;ve got a diff
           <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installing.html">Installing CIVET</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authentication.html">Authentication</a></li>
 <li class="toctree-l1"><a class="reference internal" href="homepage.html">Home Page Options</a></li>
 <li class="toctree-l1"><a class="reference internal" href="forms.html">CIVET Coding Form Templates</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workspaces.html">CIVET Workspaces</a></li>
@@ -406,7 +416,7 @@ that. Or they just don&#8217;t want to do any work? Then you&#8217;ve got a diff
         <div class="right">
           
     <div class="footer" role="contentinfo">
-      Last updated on 2015-08-16.
+      Last updated on 2015-08-18.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
         </div>

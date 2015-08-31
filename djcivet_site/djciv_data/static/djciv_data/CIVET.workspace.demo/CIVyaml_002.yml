@@ -6,6 +6,7 @@ collcmt: Text file source: Apr15.OTH.stories.txt
 texts:
 
   - textid: TestTexts_002_001
+    textdelete: False
     textdate: 2000-01-01
     textpublisher: BBC Monitoring Africa
     textpubid: BBCAP
@@ -24,37 +25,3 @@ texts:
          said to have been in hot pursuit of assailants who attacked one of their vehicles, then shot and killed two of 
          their people.        
 
-
-cases:
-
-   - caseid: Case-001-1
-     casedate: 2000-01-01
-     casecoder: Debug-1
-     casecmt: sample coded case #1
-     casevalues: >
-        {
-        '_date_': '2000-01-01',
-        'typeincid': 'One-sided Violence',
-        'natincid': 'explosives',
-        'suicide': 'no',
-        'location': 'Case1-location [XXX]',
-        'injuries': 'Case1-injuries[3]',
-        'whois': 'Case1-whois',
-        'descrp': 'Case1-description',
-        }
-
-   - caseid: Case-001-2
-     casedate: 2000-01-01
-     casecoder: Debug-1
-     casecmt: sample coded case #2
-     casevalues: >
-        {
-        '_date_': '2000-01-01',
-        'typeincid': 'Armed Clash',
-        'natincid': 'firearms',
-        'suicide': 'yes',
-        'location': 'Case2-location [YYY]',
-        'injuries': 'Case2-injuries[4]',
-        'whois': 'Case2-whois',
-        'descrp': 'Case2-description: sample coded case #2',
-        }

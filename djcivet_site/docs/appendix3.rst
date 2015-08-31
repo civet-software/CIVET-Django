@@ -22,15 +22,12 @@ CIVET.stopwords.txt:
 CIVET.numberwords.txt:
     Number words and phrases for automatic number annotation
 
-civetstyle.css:
-    Style sheet for some of the program (this is modified with the
-    user-specified categories)
 
 Modify at your own risk
 ----------------------------------------------
 
 ckeditor:
-    This is a ``ckeditor`` file downloaded from
+    This is a “CKEditor” file downloaded from
     http://ckeditor.com/: if you would like additional features you
     should be able to create your own and swap it in here.
 
@@ -55,3 +52,10 @@ The commands::
 
 are used to generate the on-line and PDF documentation; the files are found in the 
 ``\_build/html`` and ``\_build/latex`` directories.
+
+Because of the images and the redundant files in the “\_build” directory, 
+“djcivet_site/docs” is a very large directory, about 70\% of the size of the 
+full “djcivet_site” directory, and can be removed in deployments where you are 
+just planning to use the on-line documentation. In that situation, the roughly 1 Mb file 
+“djcivet_site/djciv_data/static/djciv_data/civdocs.pdf” can also be removed, 
+to the code for the system itself is only about 2 Mb.

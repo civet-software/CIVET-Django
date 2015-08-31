@@ -2,7 +2,7 @@
 Installing CIVET
 ****************************
 
-To date we’ve only installed the system on Macintosh computers, though
+To date we’ve only installed the system on Macintosh computers (OS-X), though
 the only difference between a Macintosh installation and other
 installations should be the installation of the Django system.
 
@@ -15,7 +15,7 @@ install that.
 #. In the Terminal, run ``sudo pip install Django``: you will need
    administrative access to do this.
 
-#. Download the Civet system from
+#. Download the CIVET system from
    https://github.com/civet-software/CIVET-Django, unzip the folder and
    put it wherever you would like
 
@@ -26,11 +26,11 @@ install that.
 
 #. In a browser, enter the URL http://127.0.0.1:8000
 
-At this point you should see the Civet home screen [#f1]_
+At this point you should see the CIVET home screen [#f1]_
 
 .. figure:: civethome.png
    :width: 100%
-   :alt: Civet home screen
+   :alt: CIVET home screen
 
 Modifying the default installation
 ==================================

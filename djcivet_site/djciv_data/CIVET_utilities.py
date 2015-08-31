@@ -1,3 +1,30 @@
+##	civet_utilities.py
+##
+##  Assorted utilities for CIVET, mostly handling workspace files
+##
+##	PROVENANCE:
+##	Programmer: Philip A. Schrodt
+##				Parus Analytics
+##				Charlottesville, VA, 22901 U.S.A.
+##				http://parusanalytics.com
+##
+##	Copyright (c) 2015	Philip A. Schrodt.	All rights reserved.
+##
+##  The development of CIVET is funded by the U.S. National Science Foundation Office of Multidisciplinary Activities in the 
+##  Directorate for Social, Behavioral & Economic Sciences, Award 1338470 and the Odum Institute</a> at the University of 
+##  North Carolina at Chapel Hill with additional assistance from Parus Analytics.
+##
+##  This code is covered under the MIT license: http://opensource.org/licenses/MIT
+##
+##	Report bugs to: schrodt735@gmail.com
+##
+##	REVISION HISTORY:
+##	14-March-15:	Initial version
+##  4-August-15:    Beta 0.7
+##  31-August-15:   Beta 0.9
+##
+##	----------------------------------------------------------------------------------
+
 from __future__ import print_function
 import datetime
 import ast
@@ -9,23 +36,22 @@ import civet_settings
 import civet_form
 
 collfields = ['collid','colldate','colledit', 'collcmt']
-textfields = ['textid','textdate','textpublisher','textpubid','textlicense', 'textlede', 'textcmt','textmkupdate','textmkupcoder']
+textfields = ['textid','textdate', 'textdelete', 'textpublisher','textpubid', 'textbiblio', 'textlicense', 
+              'textgeogloc', 'textlede', 'textcmt','textmkupdate','textmkupcoder']
 casefields = ['casedate', 'casecoder', 'casecmt']
 
 thetext = ''
 StopList = []  # words that will not be marked as NEs if capitalized in isolation
 NumberDict = {} # words referring to numbers and their values
 
-# ===== Preference globals =====
-CodingOnly = False  
-MissingValue = '*'
-AlwaysAutoAnnotate = True
-
+AttrPattern = re.compile('(\S*)\s?=\s?\"(.*?)\"\s*')  # regular expression used in get_attributes()
 
 # ======== YAML I/O ========= #
 
 def read_YAML_file(fin,filename):
-    """ Reads a single collection YAML file from filename; returns dictionary from Collection; lists of dictionaries for Text, Case"""
+    """ Reads a single collection YAML file from filename; returns dictionary from Collection; 
+        lists of dictionaries for Text, Case
+    """
     collinfo = {}
     collinfo['collfilename'] = filename[:-4]
     collinfo['collid'] = filename[:-4]  # default 
@@ -66,7 +92,7 @@ def read_YAML_file(fin,filename):
             for st in textfields:  # also initialize mkup and original
                 curinfo[st] = ''
             curinfo['textparent'] = collinfo['collid']
-            curinfo['textid'] = line[line.find(':')+1:-1]
+            curinfo['textid'] = line[line.find(':')+1:-1].strip()
             curinfo['textmkup'] = ''  # set these to defaults
             curinfo['textmkupdate'] = '1900-01-01'
 
@@ -86,7 +112,12 @@ def read_YAML_file(fin,filename):
         elif line[:line.find(':')].strip() in textfields:
             thefield = line[:line.find(':')].strip()
             curinfo[thefield] = line[line.find(':')+1:-1].strip()
-            if 'date' in thefield and ':' in curinfo[thefield]:  # temporary fix removing times from the dates
+            if 'textdelete' in thefield:  # temporary fix removing times from the dates
+                if 'False' in curinfo[thefield]:
+                    curinfo[thefield] = False
+                else:
+                    curinfo[thefield] = True                    
+            elif 'date' in thefield and ':' in curinfo[thefield]:  # temporary fix removing times from the dates
                 curinfo[thefield] = curinfo[thefield][:curinfo[thefield].find(' ')]
 
     #        print('>>>',line[:-1])
@@ -181,6 +212,8 @@ def write_YAML_file(thecoll, filehandle):
                 if flst == 'textdate':
                     if textdict[flst]:  # allow possibility of no markup date
                         filehandle.write('    ' + flst + ': ' + textdict[flst].strftime("%Y-%m-%d %H:%M:%S") + '\n')
+                elif flst == 'textdelete':
+                    filehandle.write('    ' + flst + ': ' + str(textdict[flst]) + '\n')
                 else:
                     filehandle.write('    ' + flst + ': ' + textdict[flst] + '\n')
         filehandle.write('    textoriginal: |\n')
@@ -202,7 +235,7 @@ def write_YAML_file(thecoll, filehandle):
         filehandle.write('\ncases:\n')   
         for ct in curcases:
             casedict = ct.__dict__
-#            print('WYF-4:', casedict)
+            print('WYF-4:', casedict)
             filehandle.write('\n  - caseid: ' + casedict['caseid'] + '\n')
             for flst in casefields:
                 if flst in casedict:
@@ -213,17 +246,19 @@ def write_YAML_file(thecoll, filehandle):
                         filehandle.write('    ' + flst + ': ' + casedict[flst] + '\n')
         
             filehandle.write('    casevalues: >\n        {\n')
-            print(casedict['casevalues'])
+            print('-->',casedict['casevalues'])
             caseval = ast.literal_eval(casedict['casevalues'])  # this was checked for errors at the input level
             print('WYF-5:', caseval)
-            for avar in civet_form.SaveList:  # this does the output in the order given in the template
-                st = caseval[avar].replace("'","\\'")
-                filehandle.write("        '" + avar + "': '" + st + "',\n")
+            if '_discard_' in caseval and caseval['_discard_']:
+                 filehandle.write("        '_discard_': 'True'\n")
+            elif '_delete_' in caseval:
+                for avar, st in caseval.iteritems():  # this does the output in the order given in the template
+                    filehandle.write("        '" + avar + "': '" + st + "',\n")
+            else:   
+                for avar in civet_form.SaveList:  # this does the output in the order given in the template
+                    st = caseval[avar].replace("'","\\'")
+                    filehandle.write("        '" + avar + "': '" + st + "',\n")
             filehandle.write("        }\n")
-
-
-'''def hello():
-    print('Hey, I\'m here!')'''
     
     
 # ============ apply_markup functions ================ #
@@ -272,7 +307,7 @@ def read_numberlist():
                     else:
                         pass
                         # put some sort of error message here               
-    print(NumberDict) 
+#    print(NumberDict) 
   
 
 def make_oktext():
@@ -454,6 +489,7 @@ def do_markup(oldtext):
     do_number_markup()
 #    print('DM1:',thetext)
     return thetext
+
     
 def get_styles():
     """ creates the civet_styles for ckeditor """
@@ -463,19 +499,23 @@ def get_styles():
          "', 'color': '" + civet_form.UserCategories[cat][0] + "' }  },"
     return thestyles
 
+
 # ======== Miscellaneous utilities ========= #
 
-def get_preferences():
-    """ get context for preferences.html based on globals """
-    # <15.07.28> apparently this is better done in the DB but this will work for the time being until I've got a better idea of what is involved
-    curpref = {}
-    curpref['coding-only'] = CodingOnly
-    return curpref
-    
-def set_preferences(request):
-    """ get context for preferences.html based on globals """
-    CodingOnly = request.POST['coding-only']
+def get_attributes(strg):
+    """ returns a dictionary of the attributes and their values from an HTML tag string; 'tag' is the tag itself 
+        This is not a generic tag parser: it is meant to be used on tags generated internally so these follow a known format 
+    """
+    attr = {}
+    strg = strg.strip()
+    attr['tag'] = strg[strg.find('<')+1:strg.find(' ')]
+    for m in AttrPattern.finditer(strg):
+        tag, value = m.groups()
+        attr[tag] = value
+    return attr
     
 def unimplemented_feature(st):
     return '<h2>The option "' + st + '" has yet to be implemented.</h2><p><h3>Use the back arrow in your browser to return to the previous screen.</h3>'
     
+'''def hello():
+    print('Hey, I\'m here!')'''

@@ -69,7 +69,8 @@ The program is sensitive to file names:
    name can be anything, though typically it will end in ``.txt``.
 
 -  Any file ending with ``.ini`` is assumed to be a configuration file
-   [Beta 0.7: Not yet implemented]
+   [Version 1.0: Not yet implemented—see comments on setting globals in
+   the “Preferences” chapter.]
 
 Except for these restrictions, the directory can contain additional
 files of any kind: these will be preserved when the file is downloaded.
@@ -95,10 +96,11 @@ Workspace Management
 --------------------
 
 The ``Manage workspace`` link on the home page will take you first to a
-workspace selection page, and then to the page shown below. In Beta 0.7, only the
+workspace selection page, and then to the page shown below. In Beta 0.9, only the
 ``Export data in tab-delimited format/Use save-variable list in the template``
 is implemented: this will download any coded cases found in the
-workspace.
+workspace. The remaining functions will eventually be implemented but in 
+the meantime these tasks can be done using a text editing program.
 
 .. figure:: manage.png
    :alt: CIVET workspace management page
@@ -185,12 +187,12 @@ a comment.
 .. [#f2]
    If you read the workspace from the same directory where it will
    eventually be downloaded, the behavior presumably depends on the
-   operating system: in the case of the Macintosh both the downloaded
+   operating system: in the case of OS-X both the downloaded
    file and the decompressed versions get a suffix added. E.g. if the
-   original workspace folder is named ``test123`` with the compressed
-   version ``test123.zip``, the system assigns the downloaded version
-   the name ``test123 (1).zip`` which decompressed to a folder named
-   ``test123 (1)``. We are leaving the task of insuring that the
+   original workspace folder is named “test123” with the compressed
+   version “test123.zip”, the system assigns the downloaded version
+   the name “test123 (1).zip” which decompressed to a folder named
+   “test123 (1)”. We are leaving the task of insuring that the
    original file is not over-written to the operating system and
    whatever other utilities you might be using to manage workspaces.
 
@@ -198,20 +200,17 @@ a comment.
    Hahaha…just a little programmer joke…
 
 .. [#f4]
-   For example, the error in the variable values string in Figure
-   [fig:workerrors] occurs because of the substring
-   ``’whois’=’Case1-whois’,`` which should actually be
-   ``’whois’:’Case1-whois’,`` but that ‘``=``’ could only have been
+   For example, the error in the variable values string in the example screen
+   occurs because of the substring
+   ``'whois'='Case1-whois',`` which should actually be
+   ``'whois':'Case1-whois',`` but that ‘``=``’ could only have been
    introduced through external editing.
 
 .. [#f5]
-   If you need more, this can be changed by allowing more digits in
-     the ``{:02d}`` format in the code
-     
-        `` UserCategories[newcat].append(’termst{:02d}’.format(len(UserCategories)))``
-        
+   If you need more, this can be changed by allowing more digits in 
+   the ``{:02d}`` format in the code
+   ``UserCategories[newcat].append('termst{:02d}'.format(len(UserCategories)))``        
    in ``CIVET_template.make_category()``
-
 
 .. [#f6]
    See http://www.w3schools.com/html/html colornames.asp
@@ -222,9 +221,8 @@ a comment.
    something better. The list is set as ``CIV_template.CatColorList``
 
 .. [#f8]
-   | If you want it now, delete the test
-   | “``if endx == idx+len(st):``” in
-     ``CIVET_utilities.do_string_markup()``.
+   If you want it now, delete the test ``if endx == idx+len(st):`` in
+   ``CIVET_utilities.do_string_markup()``.
 
 .. [#f9]
    The period following the category-name is required!: the file name

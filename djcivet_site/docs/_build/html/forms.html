@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     'beta-0.8',
+        VERSION:     'beta-0.9',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -34,7 +34,7 @@
             <img class="logo" src="_static/civet200.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">CIVET beta-0.8 documentation</a></div>
+          href="index.html">CIVET beta-0.9 documentation</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="homepage.html" title="Home Page Options"
              accesskey="P">previous</a> |
@@ -149,8 +149,8 @@ stop after it has encountered the first error rather than reporting
 all of the errors in the file.</p>
 </div>
 </div>
-<div class="section" id="templates-specifying-variables">
-<h2>Templates: Specifying variables<a class="headerlink" href="#templates-specifying-variables" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="specifying-variables">
+<h2>Specifying variables<a class="headerlink" href="#specifying-variables" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="specifying-variables-to-save">
 <h3>Specifying variables to save<a class="headerlink" href="#specifying-variables-to-save" title="Permalink to this headline">¶</a></h3>
 <p>This command gives the variables that will be saved; these can be in any
@@ -170,17 +170,22 @@ written to a tab-delimited file: the value is the string in brackets
 <code class="docutils literal"><span class="pre">[…]</span></code> in the annotated coding mode. If there is a variable name inside
 the brackets, that will be used as the column name for the values;
 otherwise the regular name will be used: this allows both the literal
-text and the value to be saved, as in the third example below. If
-<code class="docutils literal"><span class="pre">save</span></code> specifies a value output and not is found, a missing value will
-be used.</p>
+text and the value to be saved, as in the third example below.</p>
+<p>If <code class="docutils literal"><span class="pre">save</span></code> specifies a value output and not is found, the output depends
+on the preference <code class="docutils literal"><span class="pre">civet_settings.USE_TEXT_FOR_MISSING</span></code>, which also can
+be set on the “Preferences” page. If this is <code class="docutils literal"><span class="pre">True</span></code>, the text will be
+used; otherwise the string in  <code class="docutils literal"><span class="pre">civet_settings.MISSING_VALUE</span></code> will be used.</p>
 <p><strong>Example:</strong></p>
-<blockquote>
-<div><div class="line-block">
-<div class="line"><code class="docutils literal"><span class="pre">save:</span> <span class="pre">worldregion,</span> <span class="pre">eyewit,</span> <span class="pre">groupname,</span> <span class="pre">comments</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">save:</span> <span class="pre">worldregion</span> <span class="pre">[regioncode],</span> <span class="pre">eyewit,</span> <span class="pre">groupname[],</span> <span class="pre">comments</span></code></div>
-<div class="line"><code class="docutils literal"><span class="pre">save:</span> <span class="pre">worldregion,</span> <span class="pre">eyewit,</span> <span class="pre">groupname,</span> <span class="pre">groupname</span> <span class="pre">[groupcode],</span> <span class="pre">comments</span></code></div>
+<div class="code highlight-python"><div class="highlight"><pre>save:
+worldregion, eyewit, groupname, comments
+
+save:
+worldregion [regioncode], eyewit, groupname[], comments
+
+save:
+worldregion, eyewit, groupname, groupname [groupcode], comments
+</pre></div>
 </div>
-</div></blockquote>
 </div>
 <div class="section" id="constant">
 <h3>constant<a class="headerlink" href="#constant" title="Permalink to this headline">¶</a></h3>
@@ -198,7 +203,7 @@ be used.</p>
 <div class="section" id="filename">
 <h3>filename<a class="headerlink" href="#filename" title="Permalink to this headline">¶</a></h3>
 <p>Sets the default file name for the downloads: this can be changed before
-downloading. [Beta 0.7: Not yet implemented]</p>
+downloading.</p>
 <blockquote>
 <div><div class="line-block">
 <div class="line"><strong>filename:</strong> page-text</div>
@@ -208,21 +213,103 @@ downloading. [Beta 0.7: Not yet implemented]</p>
 <blockquote>
 <div><code class="docutils literal"><span class="pre">filename:</span> <span class="pre">our_wonderful_data.csv</span></code></div></blockquote>
 </div>
-<div class="section" id="special-variables">
-<h3>Special variables<a class="headerlink" href="#special-variables" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="special-save-variables">
+<h3>Special <code class="docutils literal"><span class="pre">save</span></code> variables<a class="headerlink" href="#special-save-variables" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
-<dt>_coder_</dt>
-<dd>: Text entered in the <em>CIVET template selection</em> page</dd>
-<dt>_date_</dt>
-<dd>: Current date. this is currently in the form DD-mmm-YYYY but later
-versions of the system will allow other formats</dd>
-<dt>_time_</dt>
-<dd>: Current time in hh:mm:ss format</dd>
+<dt><code class="docutils literal"><span class="pre">\_coder\_</span></code></dt>
+<dd>Coder text entered in the <em>CIVET template selection</em> page</dd>
+<dt><code class="docutils literal"><span class="pre">\_date\_</span></code></dt>
+<dd>Current date. this is currently in the form YYYY-MM-DD. <a class="footnote-reference" href="#f3" id="id3">[3]</a></dd>
+<dt><code class="docutils literal"><span class="pre">\_time\_</span></code></dt>
+<dd>Current time in hh:mm:ss format</dd>
 </dl>
 </div>
 </div>
-<div class="section" id="templates-data-entry-fields">
-<h2>Templates: Data Entry Fields<a class="headerlink" href="#templates-data-entry-fields" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="commands-only-relevant-in-workspaces">
+<h2>Commands only relevant in workspaces<a class="headerlink" href="#commands-only-relevant-in-workspaces" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="discard">
+<h3>discard<a class="headerlink" href="#discard" title="Permalink to this headline">¶</a></h3>
+<p>Sets an initially unchecked checkbox for the special variable
+“_discard_”, which can be used
+to indicate that a collection has been evaluated by a coder but nothing
+was coded. When this is checked, a case is generated for the collection
+containing only the “_discard_” variable; those cases are not used to
+generate data.</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line"><strong>discard:</strong> entry-title</div>
+</div>
+</div></blockquote>
+<p><strong>Example:</strong></p>
+<blockquote>
+<div><code class="docutils literal"><span class="pre">discard:</span> <span class="pre">Texts</span> <span class="pre">are</span> <span class="pre">not</span> <span class="pre">codeable</span></code></div></blockquote>
+</div>
+<div class="section" id="comments">
+<h3>comments<a class="headerlink" href="#comments" title="Permalink to this headline">¶</a></h3>
+<p>Creates a textarea box for the special variable <code class="docutils literal"><span class="pre">_comments_</span></code> which will be
+added to the “casecmt” meta-data for the case being coded. <code class="docutils literal"><span class="pre">_comments_</span></code>
+can also be added to the output data like any other variable, but this
+is not required. The default size of the text box is 4 x 64 characters;
+alternative sizes can be specified by adding an empty set of brackets
+followed by <code class="docutils literal"><span class="pre">rows</span></code> and <code class="docutils literal"><span class="pre">cols</span></code> using the same format as the <code class="docutils literal"><span class="pre">textarea</span></code>
+command. <a class="footnote-reference" href="#f4" id="id4">[4]</a></p>
+<blockquote>
+<div><div class="line-block">
+<div class="line"><strong>comments:</strong> entry-title</div>
+<div class="line"><strong>comments:</strong> entry-title [] rows = number cols = number</div>
+</div>
+</div></blockquote>
+<p><strong>Example:</strong></p>
+<blockquote>
+<div><code class="docutils literal"><span class="pre">comments:</span> <span class="pre">Enter</span> <span class="pre">any</span> <span class="pre">additional</span> <span class="pre">comments</span> <span class="pre">about</span> <span class="pre">this</span> <span class="pre">case</span></code></div></blockquote>
+</div>
+<div class="section" id="header">
+<h3>header<a class="headerlink" href="#header" title="Permalink to this headline">¶</a></h3>
+<p>Sets the HTML code for the display of collection information at the
+top of the editing and coding screens. The text of <code class="docutils literal"><span class="pre">field-name</span></code> will
+be substituted for the optional token <code class="docutils literal"><span class="pre">_text_</span></code> in <code class="docutils literal"><span class="pre">HTML-text</span></code></p>
+<blockquote>
+<div><div class="line-block">
+<div class="line"><strong>header:</strong> HTML-text [field-name]</div>
+</div>
+</div></blockquote>
+<p><code class="docutils literal"><span class="pre">field</span> <span class="pre">name</span></code> should be one of the following</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">workspace</span></code></dt>
+<dd>Workspace file name</dd>
+<dt><code class="docutils literal"><span class="pre">collection</span></code></dt>
+<dd>Collection ID (<code class="docutils literal"><span class="pre">collid</span></code> field)</dd>
+<dt><code class="docutils literal"><span class="pre">comments</span></code></dt>
+<dd>Collection comments (<code class="docutils literal"><span class="pre">collcmt</span></code> field)</dd>
+</dl>
+<p>The three fields are displayed in this order; they default to null strings.
+The individual <code class="docutils literal"><span class="pre">header</span></code> commands must be separated by blank lines; otherwise,
+consistent with the command syntax, <a class="footnote-reference" href="#f6" id="id5">[6]</a> the latter lines will be ignored.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight-python"><div class="highlight"><pre>header: &lt;h3&gt;&lt;span style=&quot;color:blue&quot;&gt;Workspace _text_ &lt;/span&gt;&lt;/h3&gt;&#39; [workspace]
+
+header: &lt;b&gt;Collection:&lt;/b&gt; _text_ &#39; [collection]
+</pre></div>
+</div>
+</div>
+<div class="section" id="special-save-variables-for-workspaces">
+<h3>Special <code class="docutils literal"><span class="pre">save</span></code> variables for workspaces<a class="headerlink" href="#special-save-variables-for-workspaces" title="Permalink to this headline">¶</a></h3>
+<p>These variables will not include any texts that were deleted using
+<code class="docutils literal"><span class="pre">shift-click</span></code> on the lede. <a class="footnote-reference" href="#f5" id="id6">[5]</a></p>
+<dl class="docutils">
+<dt>_publisher_</dt>
+<dd>Comma-delimited list of the <code class="docutils literal"><span class="pre">textpublisher</span></code> fields of the texts in
+the collection</dd>
+<dt>_bibliorefs_</dt>
+<dd>Comma-delimited list of the <code class="docutils literal"><span class="pre">textbiblio</span></code> fields of the texts in
+the collection</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="data-entry-fields">
+<h2>Data entry fields<a class="headerlink" href="#data-entry-fields" title="Permalink to this headline">¶</a></h2>
+<p>Any of these commands can be prefixed with “//”, which inserts a <code class="docutils literal"><span class="pre">&lt;p&gt;&lt;/p&gt;</span></code>
+or a “/”, which inserts a <code class="docutils literal"><span class="pre">&lt;br&gt;</span></code>.</p>
 <div class="section" id="checkbox">
 <h3>Checkbox<a class="headerlink" href="#checkbox" title="Permalink to this headline">¶</a></h3>
 <p>A simple binary check-box. The value of the variable will be first item
@@ -324,19 +411,21 @@ the text entry box in characters: the default is <code class="docutils literal">
 </div>
 </div></blockquote>
 <p><strong>Example:</strong></p>
-<blockquote>
-<div><code class="docutils literal"><span class="pre">textarea:</span> <span class="pre">Comments</span> <span class="pre">[comments]</span> <span class="pre">rows</span> <span class="pre">=</span> <span class="pre">2</span> <span class="pre">cols</span> <span class="pre">=</span> <span class="pre">64</span> <span class="pre">–</span> <span class="pre">put</span> <span class="pre">any</span> <span class="pre">additional</span> <span class="pre">comments</span> <span class="pre">here</span> <span class="pre">–</span></code></div></blockquote>
+<div class="highlight-python"><div class="highlight"><pre>textarea: Description [descript] rows = 2 cols = 64
+Briefly describe the incident
+</pre></div>
 </div>
 </div>
-<div class="section" id="templates-additional-web-page-formatting">
-<h2>Templates: Additional Web Page Formatting<a class="headerlink" href="#templates-additional-web-page-formatting" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="additional-web-page-formatting">
+<h2>Additional web page formatting<a class="headerlink" href="#additional-web-page-formatting" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="set-page-title">
 <h3>Set page title<a class="headerlink" href="#set-page-title" title="Permalink to this headline">¶</a></h3>
 <p>Sets the title of the web page: that is, the HTML``&lt;title&gt;...&lt;/title&gt;``
 section of the header.</p>
 <blockquote>
 <div><div class="line-block">
-<div class="line"><strong>title:</strong> page-text</div>
+<div class="line"><strong>title:</strong> page-title</div>
 </div>
 </div></blockquote>
 <p><strong>Example:</strong></p>
@@ -351,6 +440,8 @@ characters are not interpreted as HTML: note that this means that
 in-line mark-up such as <code class="docutils literal"><span class="pre">&lt;i&gt;</span></code>, <code class="docutils literal"><span class="pre">&lt;b&gt;</span></code> and <code class="docutils literal"><span class="pre">&lt;tt&gt;</span></code> will not work,
 so if you need this activate and use the <code class="docutils literal"><span class="pre">html:</span></code> command. Also keep in
 mind that these commands need to be separated by a blank line.</p>
+<p>A “/” in the page-text will add a line-break <code class="docutils literal"><span class="pre">&lt;br&gt;</span></code>. To include a
+“/” in the text, use “//”.</p>
 <blockquote>
 <div><div class="line-block">
 <div class="line"><strong>h1:</strong> page-text</div>
@@ -363,34 +454,109 @@ mind that these commands need to be separated by a blank line.</p>
 <p><strong>Example:</strong></p>
 <div class="highlight-python"><div class="highlight"><pre>h1: Primary data set coding form
 
-p:Please enter data in the fields below, and be really, really careful!
+p:Please enter data in the fields below,/ and be really, really careful!
 </pre></div>
 </div>
 <p>The simple command</p>
 <div class="highlight-python"><div class="highlight"><pre>p:
 </pre></div>
 </div>
-<p>is useful for putting some space between form elements.</p>
+<p>is useful for putting some space between form elements; this is equivalent to the
+“//” prefix in the data entry commands.</p>
+</div>
+<div class="section" id="insert-a-line-break">
+<h3>Insert a line break<a class="headerlink" href="#insert-a-line-break" title="Permalink to this headline">¶</a></h3>
+<p>Adds a new line in the form; this is equivalent to the “/” prefix in the
+data entry commands.</p>
+<blockquote>
+<div><strong>newline:</strong></div></blockquote>
+</div>
+</div>
+<div class="section" id="advanced-formating-options">
+<h2>Advanced formating options<a class="headerlink" href="#advanced-formating-options" title="Permalink to this headline">¶</a></h2>
+<p>A CIVET form is simply a web page, and consequently can be controlled by
+the standard commands for displaying web pages, notably cascading style sheets (CSS).</p>
+<div class="section" id="set-css">
+<h3>Set css<a class="headerlink" href="#set-css" title="Permalink to this headline">¶</a></h3>
+<p>Adds the text which follows the command to the <code class="docutils literal"><span class="pre">&lt;style&gt;...&lt;/style&gt;</span></code> section
+in the page head. The text block is terminated by a blank line.</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line"><strong>css:</strong></div>
+<div class="line">one or more lines of css definitions</div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="set-form-division-sizes">
+<h3>Set form division sizes<a class="headerlink" href="#set-form-division-sizes" title="Permalink to this headline">¶</a></h3>
+<p>This is a short-cut that for most options just changes the size of various components in either of these
+forms:</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line"><strong>size:</strong> [division-name] width = &lt;length&gt; height = &lt;length&gt;</div>
+<div class="line"><strong>size:</strong> [division-name] width : &lt;length&gt;; height : &lt;length&gt;</div>
+</div>
+</div></blockquote>
+<p>&lt;size&gt; can be any of the CSS “length” formats: <a class="reference external" href="http://www.w3schools.com/cssref/css_units.asp">http://www.w3schools.com/cssref/css_units.asp</a>.</p>
+<p><em>division-name</em> is one of the following:</p>
+<dl class="docutils">
+<dt><em>body</em></dt>
+<dd>over-all size of the page</dd>
+<dt><em>civ-editor</em></dt>
+<dd>size of CKEditor text box on the annotation page</dd>
+<dt><em>civ-text-display</em></dt>
+<dd>size of the scrolling text display on the coding page</dd>
+<dt><em>civ-form</em></dt>
+<dd>size of the coding form created by the template in both the basic form and the coding page</dd>
+</dl>
+<p><strong>Notes:</strong></p>
+<ol class="arabic">
+<li><p class="first">The system does not check for the validity of either the division names or the
+CSS <em>&lt;length&gt;</em> specification; if they can&#8217;t be interpreted
+they are ignored.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">size</span></code> commands can occur anywhere and can be combined with a <code class="docutils literal"><span class="pre">css</span></code> command:
+if they occur before the <code class="docutils literal"><span class="pre">css</span></code> command the contents of <code class="docutils literal"><span class="pre">css</span></code> will override <code class="docutils literal"><span class="pre">size</span></code>,
+and vice-versa if they occur afterwards: the CSS string for the
+<code class="docutils literal"><span class="pre">&lt;style&gt;...&lt;/style&gt;</span></code> section is assembled in the order the commands occur.</p>
+</li>
+<li><p class="first">Because CSS doesn&#8217;t use object-like inheritance, the <code class="docutils literal"><span class="pre">size:</span> <span class="pre">[body]</span></code>  command resets
+<em>all</em> of the properties of <code class="docutils literal"><span class="pre">body</span></code>, leaving only <code class="docutils literal"><span class="pre">width</span></code> and <code class="docutils literal"><span class="pre">height</span></code> set in the style, e.g.</p>
+<div class="code highlight-python"><div class="highlight"><pre>body {
+    width:900px;
+    height:700px;
+}
+</pre></div>
+</div>
+<p>If you want to change the size but also retain other characteristics, use <code class="docutils literal"><span class="pre">css</span></code>
+to define the complete <code class="docutils literal"><span class="pre">body</span></code> style.</p>
+</li>
+<li><p class="first">The <code class="docutils literal"><span class="pre">civ-editor</span></code> command changes the size in the configuration of CKEditor rather than
+any CSS, so this name cannot be used in  <code class="docutils literal"><span class="pre">css:</span></code> (well, it can be used but it won&#8217;t
+do anything...). CKEditor does not allow the “%” option to be used as a “height”:
+see <a class="reference external" href="http://docs.ckeditor.com/#!/guide/dev_size">http://docs.ckeditor.com/#!/guide/dev_size</a>. The CKEditor defaults to the width
+of the page (more or less) and a height of 200px.</p>
+</li>
+<li><p class="first">The  <code class="docutils literal"><span class="pre">civ-form</span></code> and <code class="docutils literal"><span class="pre">civ-text-display</span></code> names correspond correspond to <code class="docutils literal"><span class="pre">&lt;div</span> <span class="pre">class='name'&gt;</span></code>
+in the content of the form; you can modify these directly by using a <code class="docutils literal"><span class="pre">css:``command.</span>
+<span class="pre">The</span> <span class="pre">``size</span></code> command resets the <em>&lt;name&gt;-size</em> class, which only controls the size.</p>
+</li>
+</ol>
 </div>
 <div class="section" id="insert-html">
 <h3>Insert HTML<a class="headerlink" href="#insert-html" title="Permalink to this headline">¶</a></h3>
 <p>[This command may or may not be included in the operational version of
 the system, as it provides some opportunities for mischief. Stay tuned.
 It is in the code but currently deactivated; if you are installing your
-own version of the system, it can be activated by changing a single
-character in the source code.]</p>
+own version of the system, it can be activated by setting
+<code class="docutils literal"><span class="pre">civet_settings.HTML_OK</span> <span class="pre">=</span> <span class="pre">True</span></code>.]</p>
 <p>Adds arbitrary HTML code without escaping.</p>
 <blockquote>
 <div><div class="line-block">
-<div class="line"><strong>html:</strong> page-text</div>
+<div class="line"><strong>html:</strong></div>
+<div class="line">one or more lines of HTML</div>
 </div>
 </div></blockquote>
-</div>
-<div class="section" id="insert-a-line-break">
-<h3>Insert a line break<a class="headerlink" href="#insert-a-line-break" title="Permalink to this headline">¶</a></h3>
-<p>Adds a new line in the form</p>
-<blockquote>
-<div><strong>newline:</strong></div></blockquote>
 <p class="rubric">Footnotes</p>
 <table class="docutils footnote" frame="void" id="f1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
@@ -415,6 +581,36 @@ delimiter: depending on whether there is demand for this feature, the
 system could provide a way around this.</td></tr>
 </tbody>
 </table>
+<table class="docutils footnote" frame="void" id="f3" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[3]</a></td><td>This format can be changed in the function <code class="docutils literal"><span class="pre">get_special_var(avar)</span></code> in
+<em>civet_form.py</em>: It is specified using the extensive Python/C date format
+operators shown <a class="reference external" href="http://strftime.org/">here.</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f4" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id4">[4]</a></td><td>In fact, the <code class="docutils literal"><span class="pre">comments:</span></code> command is just a shorthand for
+<code class="docutils literal"><span class="pre">textarea:</span> <span class="pre">entry-text</span> <span class="pre">[_comments_]</span></code>, and this will have the same
+effect, with the contents added to the metadata.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f5" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id6">[5]</a></td><td>At present, only these two fields are available, but it is relatively
+straightforward to add the others by just following the existing
+code that you locate in a search for “textpublisher”</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f6" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id5">[6]</a></td><td>Neither a bug nor a feature: just is what it is.</td></tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
@@ -434,14 +630,17 @@ system could provide a way around this.</td></tr>
 <li class="toctree-l1 current"><a class="current reference internal" href="">CIVET Coding Form Templates</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#simple-template-based-data-entry-form">Simple Template-Based Data Entry Form</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#command-formats">Command formats</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#templates-specifying-variables">Templates: Specifying variables</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#templates-data-entry-fields">Templates: Data Entry Fields</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#templates-additional-web-page-formatting">Templates: Additional Web Page Formatting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#specifying-variables">Specifying variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#commands-only-relevant-in-workspaces">Commands only relevant in workspaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#data-entry-fields">Data entry fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#additional-web-page-formatting">Additional web page formatting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#advanced-formating-options">Advanced formating options</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="workspaces.html">CIVET Workspaces</a></li>
 <li class="toctree-l1"><a class="reference internal" href="annotation.html">Annotation and Editing Collections</a></li>
 <li class="toctree-l1"><a class="reference internal" href="extraction.html">Coding and Text Extraction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="preferences.html">Preferences</a></li>
 <li class="toctree-l1"><a class="reference internal" href="future.html">Projected Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="appendix1.html">Appendix 1: Sample Template File</a></li>
 <li class="toctree-l1"><a class="reference internal" href="appendix2.html">Appendix 2: Input Format</a></li>
@@ -486,7 +685,7 @@ system could provide a way around this.</td></tr>
         <div class="right">
           
     <div class="footer" role="contentinfo">
-      Last updated on 2015-08-18.
+      Last updated on 2015-08-31.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
         </div>

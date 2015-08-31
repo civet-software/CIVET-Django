@@ -24,44 +24,44 @@
 ##
 ##	REVISION HISTORY:
 ##	14-March-15:	Initial version
+##  4-August-15:    Beta 0.7
+##  31-August-15:   Beta 0.9
 ##
 ##	----------------------------------------------------------------------------------
 
 from __future__ import print_function
+from django.utils.html import escape
 import datetime
 import time
 import sys
 
 from .models import Collection, Text, Case
+from .forms import CodingForm
 
+import civet_settings
 
 # ======== global initializations ========= #
-
-_html_escapes = { #'&': '&amp;',   # this allows entities
-            '<': '&lt;',
-            '>': '&gt;',
-            '"': '&quot;',
-            "'": '&rsquo;'}
-
-# Escape every ASCII character with a value less than 32. 
-_html_escapes.update(('%c' % z, '\\u%04X' % z) for z in xrange(32))
-
-HTML_OK = True   # allow html: command?
-#HTML_OK = False
 
 SaveList = []   # variables to write 
 SaveTypes = []   # full variable string with optional label for values 
 SpecialVarList = ['_coder_', '_date_', '_time_']
+MetaVarList    = ['_publisher_', '_biblioref_']
 VarList = []    # variables which have entry boxes
 TempData = ''   # output string for form-only mode
-UncheckedValues = {}  # values to output for unchecked checkboxes
 CoderName = '---' 
 ConstVarDict = {}  # holds the variables set by constant:
-DefaultFileName = 'civet.output.txt'  # holds the value set by filename:
-FormPageTitle = 'CIVET Data Entry Form'   # holds the value set by title:
 UserCategories = {} # holds user categories as list [color, vocabulary...]
 CategoryCodes = {} # dictionary of dictionaries for category codes, if these are present
-FormContent = ''  # html for the coding form
+
+FormContent = ['']  # list containing html strings for the coding form pages
+FormFields = {} # dictionary containing the type of field, title, current value and ancillary information, indexed by var name
+FormCSS = ''  # css for the coding form
+
+WorkspaceFileName = ''
+CollectionId = ''
+CollectionComments = ''
+
+EditorSize = '' # size for CKEditor
 
 CatColorList = ['Magenta', 'SeaGreen',  'Orchid', 'Brown', 'Purple', 'Gold', 'Olive', 'Slateblue', 'Cyan', 'Thistle',
                 'CornflowerBlue', 'DarkGray', 'Lime', 'Turquoise', 'SlateGray', 'Tan']
@@ -74,24 +74,23 @@ tableau20 = [(31, 119, 180), (174, 199, 232), (255, 127, 14), (255, 187, 120),
              (188, 189, 34), (219, 219, 141), (23, 190, 207), (158, 218, 229)]  
 http://www.randalolson.com/2014/06/28/how-to-make-beautiful-data-visualizations-in-python-with-matplotlib/"""
 
-
 # ============ function definitions ================ #
 
 """def imalive(): # debugging
     print('Hello from CIV_template')"""
     
-def escapehtml_filter(value):
-    """ Nice little filter I modified slightly from the code in 
-    http://stackoverflow.com/questions/12339806/escape-strings-for-javascript-using-jinja2 
-    jinja2 apparently has a more robust function for this. """
-    retval = []
-    for letter in value:
-            if _html_escapes.has_key(letter):
-                    retval.append(_html_escapes[letter])
-            else:
-                    retval.append(letter)
-
-    return "".join(retval)
+    
+def get_text_metadata(commd, active_collection):
+    retstr = ''
+    curtexts = Text.objects.filter(textparent__exact=active_collection)
+    for ct in curtexts:
+        temp = ct.get_text_fields()
+        if commd == '_publisher_':
+            retstr += ct.textpublisher + ', '
+        elif commd == '_biblioref_':
+            retstr += ct.textbiblio + ', '
+#    print('GTM:',retstr)
+    return retstr[:-2]   # remove final comma+space
 
 def split_options(commst):
     """ splits the options for select, option, checkbox, SaveList """
@@ -105,7 +104,7 @@ def get_special_var(avar):
     if avar == '_coder_':
         return CoderName
     elif avar == '_date_':
-        return time.strftime("%d-%b-%Y")
+        return time.strftime("%Y-%m-%d")
     elif avar == '_time_':
         return time.strftime("%H:%M:%S")
     else: # shouldn't hit this
@@ -137,6 +136,17 @@ def check_for_equalchar(targst, labelst):
     """ checks if '=' is in targst. Exception will be caught in do_commands."""
     if '=' not in targst:
         raise Exception('','No "' + labelst + '=" was found in ',)
+
+def get_integer(optstr, tarst):
+    """ returns integer following 'tarst = ...' """
+    optstr += ' '
+    tarsta = optstr[optstr.index(tarst):]
+    check_for_equalchar(tarsta,tarst)
+    tarst = tarsta[tarsta.index('=')+1:].lstrip()
+    rowstr = tarst[:tarst.index(' ')] 
+    check_integer(rowstr,tarst.capitalize())
+    return rowstr        
+
     
 def read_codes_file(fin, filename):
     """ reads the codes.file fin and stores results in CategoryCodes """ 
@@ -210,40 +220,33 @@ def make_category(commlines):
 
 def make_checkbox(commlines):
     """ creates a checkbox entry: """
-    global UncheckedValues
     valuelist = split_options(commlines[4])
-#    contrstr = '\n' + commlines[1] + '<input name = "' + commlines[2] + '" type="hidden" value="' + valuelist[0] + '">\n' # seems this old trick won't work at least on the GAE Flask
-    UncheckedValues[commlines[2]] =  valuelist[0]
-    contrstr = '\n' + commlines[1] +'<input name = "' + commlines[2] + '" type="checkbox" value="'
     if valuelist[1][0] == '*':
-        contrstr +=  valuelist[1][1:] + '" checked="checked" >\n'
+        return [commlines[2], 'checkbox', commlines[1], True]
     else:
-        contrstr +=  valuelist[1] + '">\n'
-    return contrstr 
+        return [commlines[2], 'checkbox', commlines[1], False]
 
 def make_textline(commlines, widthstr='24'):
     """ creates a text input entry """
-    widthstr = '24'  # not needed, right?
-    optstr = commlines[3] + ' '
-    if 'width' in optstr:
-        tarsta = optstr[optstr.index('width'):]
-        tarst = tarsta[tarsta.index('=')+1:].lstrip()  # need to catch error here
-        widthstr = tarst[:tarst.index(' ')]  # check if this is an integer
-        check_integer(widthstr,'Width')
-    return '\n' + commlines[1] + '<input name = "' + commlines[2] + '" type="text" value="' + commlines[4] + '" size = ' + widthstr + '>\n'
+    if 'width' in commlines[3]:
+        widthstr = get_integer(commlines[3], 'width')
+    return [commlines[2], 'textline', commlines[1], commlines[4], widthstr] 
+
+def make_date(commlines):
+    """ creates a date input entry: implementation delayed until such point that system is responding 
+        plausibly to invalid field entries
+    """
+#    print('MD-1:',commlines)
+    return [commlines[2], 'date', commlines[1]] 
 
 def make_textclass(commlines, widthstr='24'):
     """ creates a text input entry attached to a category. The various errors are caught in do_command """
-#    widthstr = '24'  # not needed, right?
 #    print('MTc-1:',commlines)
     optstr = commlines[3] + ' '
-    if 'width' in optstr:
-        tarsta = optstr[optstr.index('width'):]
-        check_for_equalchar(tarsta,'width')
-        tarst = tarsta[tarsta.index('=')+1:].lstrip()  
-        widthstr = tarst[:tarst.index(' ')]
-        check_integer(widthstr,'Width')
-    if 'category' in optstr:  # this is required, so throw an error if it isn't here
+    if 'width' in commlines[3]:
+        widthstr = get_integer(commlines[3], 'width')
+    if 'category' in commlines[3]:  # this is required, so throw an error if it isn't here
+        optstr = commlines[3] + ' '
         tarsta = optstr[optstr.index('category'):]
         check_for_equalchar(tarsta,'category')
         tarst = tarsta[tarsta.index('=')+1:].lstrip()  # need to catch error here
@@ -253,81 +256,143 @@ def make_textclass(commlines, widthstr='24'):
 #        print('MTc-2:',classstr)
     else:
         raise Exception('','No "category" in ')
-    return '\n' + commlines[1] + '<input name = "' + commlines[2] + '" id = "' + commlines[2] + '" type="text" value="' + commlines[4] + \
-           '" size = ' + widthstr + ' onfocus="coloraclass(\'' + classstr + '\', \'' + commlines[2] + '\')" ' +\
-           ' onblur="cancelclass()">\n'
+    return  [commlines[2], 'textclass', commlines[1], commlines[4], widthstr, classstr] 
 
 def make_textarea(commlines):
     """ creates a text area entry """
     rowstr = '4'  # set the defaults
     colstr = '64'
-    optstr = commlines[3] + ' '
-    if 'rows' in optstr:
-        tarsta = optstr[optstr.index('rows'):]
-        check_for_equalchar(tarsta,'rows')
-        tarst = tarsta[tarsta.index('=')+1:].lstrip()
-        rowstr = tarst[:tarst.index(' ')] 
-        check_integer(rowstr,'Rows')
-        
-    if 'cols' in optstr:
-        tarsta = optstr[optstr.index('cols'):]
-        check_for_equalchar(tarsta,'cols')
-        tarst = tarsta[tarsta.index('=')+1:].lstrip()
-        colstr = tarst[:tarst.index(' ')]
-        check_integer(colstr,'Cols')
-        
-    return '\n' + commlines[1] + '<BR><TEXTAREA name = "' + commlines[2] + '" rows ="' + rowstr + '" cols = ' + colstr + '>' + commlines[4] + '</TEXTAREA>\n'
+    if 'rows' in commlines[3]:
+        rowstr = get_integer(commlines[3], 'rows')
+    if 'cols' in commlines[3]:
+        colstr = get_integer(commlines[3], 'cols')
+    return [commlines[2], 'textarea', commlines[1], commlines[4], rowstr, colstr] 
 
 def make_select(commlines):
     """ creates a pull-down menu entry """
-    title = commlines[1]
-    valuelist = split_options(commlines[4])
-    contrstr = commlines[1] + '\n<select name = "' + commlines[2] + '">\n'
-    for val in valuelist:
+    choices = []
+    init = ''
+    for val in split_options(commlines[4]):
         if val[0] == '*':
-            contrstr += '<option value="' + val[1:] + '" selected = "selected">' + val[1:] + '</option>\n'
+            init = val[1:]
+            choices.append((val[1:],val[1:]))
         else:
-            contrstr += '<option value="' + val + '">' + val + '</option>\n'
-    contrstr += '</select>\n\n'
-    return contrstr 
+            choices.append((val,val))
 
+    return [commlines[2], 'select', commlines[1], init, choices]
+ 
 def make_radio(commlines):
-    """ creates a radio button entry """
-    title = commlines[1]
-    valuelist = split_options(commlines[4])
-    if title[-1] == '/':
-        contrstr = title[:-1] + '<br>\n'
+    """ creates a radio button entry; linebrks indicates whether a <br> will be added """
+    if commlines[1][-1] == '/':
+        linebrks = [True]
+        commlines[1] = commlines[1][:-1]
     else:
-        contrstr = title + '\n'        
-    for val in valuelist:
+        linebrks = [False]
+    choices = []
+    init = ''
+    for val in split_options(commlines[4]):
         if val == '/':
-            contrstr += '<br>\n'
+            linebrks[-1] = True
         else:
-            contrstr += '<input type="radio" name="' + commlines[2] + '"'
+            linebrks.append(False)
             if val[0] == '*':
-                contrstr += ' value="' + val[1:] + '" checked>' + val[1:] + '\n'
+                init = val[1:]
+                choices.append((val[1:],val[1:]))
             else:
-                contrstr += ' value="' + val + '">' + val +'\n'
-    contrstr += '\n'
-    return contrstr 
+                choices.append((val,val))
+    return [commlines[2], 'radio', commlines[1], init, choices, linebrks]
+
+
+def make_discard(commlines):
+    """ creates a discard entry: """
+    return ['_discard_', 'checkbox', commlines[1], False]
+
+
+def make_comments(commlines):
+    """ creates a comment entry: """
+    return make_textarea(['', commlines[1], '_comments_', commlines[3],''])
+
 
 def make_text(commst, content):
-    """ processes the h*, p commands. In a Django implementation, there is probably a better way to escape the html  """
+    """ processes the h*, p commands, with linefeeds html escaping  """
+    content = escape(content) + '<'  # assumes idx+1 reference won't cause error and we need it anyway
+    strg = ''
+    endx = 0
+    idx = content.find('/')
+    while idx >= 0:
+        if content[idx+1] == '/':    # escaped //
+            strg += content[endx:idx+1]
+            endx = idx + 2
+        else:
+            strg += content[endx:idx] + '<br>'
+            endx = idx + 1       
+        idx = content.find('/',endx)
+    strg += content[endx:]
     if commst[0] == 'h':
-        return '<'+ commst + '>' + escapehtml_filter(content) + '</'+ commst + '>\n'
+        return '<'+ commst + '>' + strg + '/' + commst + '>\n'
     else:
-        return '<p>'+ escapehtml_filter(content) + '</p>\n'
+        return '<p>'+ strg + '/p>\n'
 
+def make_header(commlines):
+    """ processes the header command """
+    global WorkspaceFileName, CollectionId, CollectionComments
+    restr = ' '
+    if commlines[2] == 'workspace':
+        WorkspaceFileName = commlines[1] 
+    elif commlines[2] == 'collection':
+        CollectionId = commlines[1] 
+    elif commlines[2] == 'comments':
+        CollectionComments = commlines[1] 
+    else:
+       restr = '~Error~<p>' + commlines[2] + ' is not a valid field name in \"header: ' +\
+              escape(commlines[1]) + ' [' + commlines[2] + ']\"<br>\n'
+    return restr
+        
 def make_html(content):
     """ processes the html command, simply writing the text. If the global HTML_OK = False, just writes a comment  """
-    if HTML_OK:
-        return content + '\n'
+#    print('MH:',content)
+    if civet_settings.HTML_OK:
+        return '\n'.join(content)
     else:
         return '<!-- Requested HTML code not allowed -->\n'
 
 def make_newline():
     """ processes newline command  """
     return '\n<br>\n'
+
+def make_size(commlines):
+    """ processes size command. Per the documentation, this does not throw errors when the
+        division name or length specification is incorrect: these are just ignored. 
+        The -size prefix is used to allows the size to be reset while effectively inheriting 
+        the other style specification, getting CSS to act like it has object inheritance
+        even though it doesn't. The civ-editor case is post-processed in make_editor_size()
+    """
+    if commlines[2] == 'body':
+        cssst = '\nbody {\n'
+    elif commlines[2] in ['civ-editor','civ-text-display','civ-form']:
+        cssst = '\n.' + commlines[2] + '-size {\n'    
+    else:
+        return '' # could throw an error here but it is harmless to ignore it
+    tarst = commlines[3].strip() + ';'
+    tarst = tarst.replace('=',':')
+    tarst = tarst.replace('wid','; wid')
+    tarst = tarst.replace('hei','; hei')
+    if 'width' in tarst:
+        cssst += '    ' + tarst[tarst.index('width'): tarst.index(';',tarst.index('width'))+1] + '\n'
+    if 'height' in tarst:
+        cssst += '    ' + tarst[tarst.index('height'): tarst.index(';',tarst.index('height'))+1] + '\n'
+#    print('msz:', cssst)
+    return cssst + '}\n'
+    
+def set_editor_size(cssstr):
+    """ sets EditorSize to the size in the CSS strg """
+    global EditorSize
+    strg = "CKEDITOR.config.width = '"
+    part = cssstr.partition('hei')
+    strg += part[0][part[0].index(':')+1:part[0].index(';')] + "';\nCKEDITOR.config.height = '"
+    strg += part[2][part[2].index(':')+1:part[2].index(';')] + "';\n"
+    print('MES:',strg)
+    EditorSize = strg
 
 def get_commlines(fin):
     """ reads a command; filters out comments and initial '+'; skips command on '-', returns list in commlines. 
@@ -375,9 +440,23 @@ def parse_command(commline):
     if theline.find(':') < 0:  
         return ['Error 1', theline]
     retlist = [theline[:theline.index(':')]]
-    if retlist[0] == 'save':
+    if retlist[0] in ['discard','comments']:
+        st = theline[theline.index(':')+1:].strip()
+        if '[' in st:
+            st = st[:st.find('[')]
+        retlist.append(st)
+        retlist.append('_' + retlist[0] + '_')
+        if ']' in theline:
+            retlist.append(theline[theline.index(']')+1:])
+        else:
+            retlist.append('')
+        return retlist        
+    if retlist[0] in ['save', 'css', 'html']:
         if len(commline) > 1:
-            retlist.append(commline[1])
+            if retlist[0] == 'save':
+                retlist.append(commline[1])
+            else:
+                retlist.append(commline[1:])
             return retlist
         else:
             return []   # this triggers an error
@@ -389,7 +468,9 @@ def parse_command(commline):
         title = title.replace('~2~',']')
         retlist.append(title)
         return retlist
-    title = escapehtml_filter(theline[:theline.index('[')].strip())  # title text
+    title = theline[:theline.index('[')].strip()  # title text
+    if retlist[0] not in ['header']:
+        title = escape(title) 
     title = title.replace('~1~','[')
     title = title.replace('~2~',']')
     retlist.append(title)
@@ -398,12 +479,22 @@ def parse_command(commline):
     if retlist[0] == 'constant':
         return retlist
     retlist.append(theline[theline.index(']')+1:].strip()) # options
-    retlist.append(commline[1])
+    if len(commline) > 1:
+        retlist.append(commline[1])
+
+    if retlist[0].startswith('//'):  # move line feeds to title field
+        retlist[0] = retlist[0][2:]
+        retlist[1] = '//' + retlist[1]
+    elif retlist[0].startswith('/'):
+        retlist[0] = retlist[0][1:]
+        retlist[1] = '/' + retlist[1]
+#    print('PC2:',retlist)
     return retlist
+
     
 def do_command(commln):
     """ Calls various `make_*' routines, adds variables to VarList, forwards any errors from parse_command() """
-    global VarList, SaveList, SaveTypes, DefaultFileName, FormPageTitle
+    global VarList, SaveList, SaveTypes, FormCSS, FormFields
     if commln[0] == '-':
         return ''
     commlines = parse_command(commln)
@@ -412,18 +503,24 @@ def do_command(commln):
         return ''
     commst = commlines[0]
     if 'Error 1' in commst:
-        outline = '~Error~<p>No ":" in command line:<br>'+escapehtml_filter(commlines[1])+'<br>\n'
+        outline = '~Error~<p>No ":" in command line:<br>'+escape(commlines[1])+'<br>\n'
         return outline
     outline = ''
     if commst[0] == 'h':
-        if len(commst) == 2:
+        if len(commst) == 2: # handles all of the <h*> commands
             outline = make_text(commst,commlines[1])
-        else:
+        elif commst == 'header':
+            outline = make_header(commlines)
+        elif commst == 'html':
             outline = make_html(commlines[1])
+        else:
+            outline = ''  # throw an error
     elif commst == 'p':
         outline = make_text(commst,commlines[1])
     elif commst == 'newline':
             outline = make_newline()   # just make this in-line....
+    elif commst == 'newpage':
+        outline = '~NewPage~'         
     elif commst == 'save':
         varlist = split_options(commlines[1])
         if len(varlist) > 0:
@@ -450,10 +547,21 @@ def do_command(commln):
         VarList.append(commlines[2])
         outline = ' ' 
     elif commst == 'title':
-        FormPageTitle  = commlines[1]
+        civet_settings.FORM_PAGETITLE = commlines[1]
         outline = ' ' 
     elif commst == 'filename':
-        DefaultFileName = commlines[1]
+        civet_settings.DEFAULT_FILENAME = commlines[1]
+        outline = ' ' 
+    elif commst == 'css':
+        FormCSS += '\n'.join(commlines[1])
+#        print('css:',FormCSS)
+        outline = ' ' 
+    elif commst == 'size':
+        strg = make_size(commlines)
+        if commlines[2] == 'civ-editor':
+            set_editor_size(strg)
+        else:
+            FormCSS += strg
         outline = ' ' 
     elif commst == 'category':
         try:
@@ -462,56 +570,182 @@ def do_command(commln):
         except Exception, e:
             outline = '~Error~<p>' + str(e) + '<br>\n'
 
-    if len(outline) == 0:   # remaining commands specify variables 
+    if not outline:   # remaining commands specify variables 
+        field = []
         try:
             if commst == 'radio':
-                outline = make_radio(commlines)
+                field = make_radio(commlines)
             elif commst == 'select':
-                outline = make_select(commlines)
+                field = make_select(commlines)
             elif commst == 'checkbox':
-                outline = make_checkbox(commlines)
+                field = make_checkbox(commlines)                
             elif commst == 'textline':
-                outline = make_textline(commlines)
+                field = make_textline(commlines)
             elif commst == 'textclass':
-                outline = make_textclass(commlines)
+                field = make_textclass(commlines)
             elif commst == 'textarea':
-                outline = make_textarea(commlines)
+                field = make_textarea(commlines)
+#           elif commst == 'date':
+#                field = make_date(commlines) # not implemented in Version 1.0: see note in function 
+            elif commst == 'discard':
+                field = make_discard(commlines)
+            elif commst == 'comments':
+                field = make_comments(commlines)
         except Exception as e:
             outline = '~Error~<p>' + str(e[1]) + '"' + commln[0] + '"<br>\n'
+            
+        if field:
+            if field[2].startswith('//'):  # process line feeds
+                outline = '<p></p>'
+                field[2] = field[2][2:]
+            elif field[2].startswith('/'):
+                outline = '<br>'
+                field[2] = field[2][1:]
+            else:
+                outline = ''
+            FormFields[field[0]] = field[1:]
+            outline += '{==' + field[0] + '==}' 
 
-        if len(outline) > 0:  # record variable name
+        if outline:  # record variable name
             VarList.append(commlines[2])
         else:
             outline = '~Error~<p>Command "' + commst + '" not implemented.<br>\n'
+#    print('DC2:',outline)
     return outline
 
+
+def radio_format(djst, linebrks):
+    """ converts the forms.ChoiceField  <ul> list to in-line with <br> determined by linebrks """
+#    print('CFI0:',djst, linebrks)
+    idx = djst.find('<ul')
+    radst = djst[:idx]
+    if linebrks[0]:
+        radst += '<br>'        
+    idx = djst.find('<li>')
+    ka = 0
+    while idx > 0:  # ReGex would also work here but this is easy enough
+        endx = djst.find('</li>',idx)
+        radst += djst[idx + 4: endx]
+        ka += 1
+        if linebrks[ka]:
+            radst += '<br>'
+        idx = djst.find('<li>',endx)
+#    print('CFI:',radst)
+    return radst   
+
+def get_current_form(pageindex):
+    """ Create the form HTML for pageindex. This is effectively a template inside a template, replacing the {==<var_id>==} 
+        tokens with the corresponding widget HTML, sometimes modified. 
+    """
+    formstrg = FormContent[pageindex]
+    form = CodingForm(fields = FormFields)
+#                                   get the variables that are used in this form
+#    curvars = ['deletelist']  
+    curvars = []  
+    alist = formstrg.split('{==')
+    for st in alist[1:]:
+        curvars.append(st[:st.find('==}')]) 
+#    print('IFF0:',curvars)
+#    print('IFF:',form.as_p())
+#                                   get the widgets that are used in this form
+    fielddict = {} 
+    for strg in form.as_p().split('</p>\n'):  # still need to get rid of terminal </p>, though it appears harmless
+        for fld in curvars:
+            if 'id_' + fld in strg:           # ids generated by Django have the format 'id_'+<name>
+                if FormFields[fld][0] == 'radio':
+                    fielddict[fld] = radio_format(strg,FormFields[fld][4] )
+                elif FormFields[fld][0] == 'textarea':
+                    parts = strg[3:].partition('</label> ')
+                    fielddict[fld] = parts[0] + '</label><br>' + parts[2]
+                elif FormFields[fld][0] == 'textclass':
+                    fielddict[fld] = strg[3:].replace('&#39;',"'").replace('id="id_','id="')  # switch from Django to CIVET id style
+                else:
+                    fielddict[fld] = strg[3:]
+                break
+#                                    do the substitutions            
+    idx = formstrg.find('{==')
+    while idx >=0:
+        endx = formstrg.find('==}',idx) 
+        fld = formstrg[idx+3:endx]
+        formstrg = formstrg[:idx] + fielddict[fld] + formstrg[endx+3:]
+        idx = formstrg.find('{==')
+    return formstrg, curvars
+
+
 def init_template():
-    global VarList, SaveList, UserCategories, codename, FormContent
+    global VarList, SaveList, UserCategories, FormContent, FormCSS, EditorSize, FormFields
     VarList = []
     VarList.extend(SpecialVarList) 
+    VarList.extend(MetaVarList) 
     SaveList = []  
     SaveTypes = []  
-    CoderName = '---' 
     UserCategories = {}
-    FormContent = ''       
+    FormContent = ['']
+#    FormFields = {'deletelist': ['hidden','','']}       
+    FormFields = {}       
+    FormCSS = '' 
+    EditorSize = '' # size for CKEditor      
 
+
+def read_template(fin):
+    """ reads a template (or the error strings from same) from the file handle fin into civet_form.FormContent """
+    global FormContent
+    init_template()
+    thecontent = ''
+    commln = get_commlines(fin)
+    while len(commln) > 0:
+        thecontent += do_command(commln)
+        commln = get_commlines(fin)
+        
+#    print('thecontent:',thecontent)
+    if len(SaveList) == 0:
+        thecontent += '~Error~<p>A "save:" command is required in the template<br>\n'
+    else:
+        misslist = []
+        for ele in SaveList:
+            if ele not in VarList:
+                misslist.append(ele)
+        if len(misslist) > 0:
+            thecontent += '~Error~<p>The following variables are in the "save:" command but were not declared in a data field<br>' + str(misslist) + '\n'
+
+    if '~Error~' in thecontent:
+        errortext = '&Errors:'
+        indx = thecontent.find('~Error~')
+        while indx >= 0:
+            indy = thecontent.find('\n',indx)
+            errortext += thecontent[indx+7:indy+1]
+            indx = thecontent.find('~Error~',indy)
+        thecontent = errortext
+        
+    if '~NewPage~' in thecontent:
+        FormContent = thecontent.split('~NewPage~') 
+    else:    
+        FormContent[0] = thecontent
+        
+            
 #  ================  Data saving  ================
 
-def save_case(request, active_collection, case_id = ''):
-    """ saves (case_id empty) or replaces case for active_collection """
-    valdict = {}
-#    print('SC-1',SaveList, active_collection)
-    for avar in SaveList: 
-#        print('STT2:',avar)
-        if avar in SpecialVarList: 
-            valdict[avar] =  get_special_var(avar)
-        elif avar in ConstVarDict.keys(): 
-            valdict[avar] =  ConstVarDict[avar]
-        elif avar in request.POST:
-            valdict[avar] =  request.POST[avar]
-        else:
-            valdict[avar] =  UncheckedValues[avar]
+def delete_texts(active_collection, deletelist):
+    """ for each text in deletelist, sets the textdelete to true, generates a delete case """
+    print('DT1:',deletelist)
+    for txt in deletelist.split(' '):
+#        print('DT1.5:',txt)
+        save_newcase(active_collection, '', '', {'_delete_' : True, '_textid_' : txt})
+        txtrec = Text.objects.get(textid__exact=txt)
+#        print('DT2-2:',txtrec.textid, txtrec.textlede, txtrec.textdelete)
+        txtrec.textdelete = True
+        txtrec.save(update_fields=['textdelete'])
 
+
+def get_data():
+    """ get the values from FormFields """
+    vals = {}
+    for key, val in FormFields.iteritems():
+        vals[key] = val[2]
+    return vals
+    
+def save_newcase(active_collection, case_id, cmtstr, valdict):
+    """ save or replaces case """
     if len(case_id) == 0:
         maxser = '000'
         for ct in Case.objects.filter(caseparent__exact=active_collection):
@@ -520,11 +754,11 @@ def save_case(request, active_collection, case_id = ''):
         theser = '{:03d}'.format(int(maxser)+1)
     else:
         theser = case_id
-        
+
     # convert valdict to a string: in fact we could probably skip making the dictionary first but at one point it was stored as such
     valst = "{"
     for key in valdict:
-        st = valdict[key].replace("'","\\'")
+        st = str(valdict[key]).replace("'","\\'")  # str converts any Booleans
         valst += "'" + key + "': '" + st + "', "
     valst += '}'
     newcase = Case.objects.create_case(
@@ -532,24 +766,56 @@ def save_case(request, active_collection, case_id = ''):
         caseid = theser,
         casedate = datetime.datetime.now(),
         casecoder = CoderName,  
-        casecmt = '',
+        casecmt = cmtstr,
         casevalues = valst,
         )
     newcase.save()
 
-def save_to_TempData(request):
+
+def save_case(active_collection, deletelist, case_id = ''):
+    """ saves (case_id empty) or replaces case for active_collection """
+    vals = get_data()
+    if deletelist:
+        delete_texts(active_collection, deletelist.strip())
+    valdict = {}
+#    print('SC-1',vals, active_collection)
+#    print('SC-1.1',FormFields)
+    if '_discard_' in vals and vals['_discard_']:
+        valdict['_discard_'] = True
+    else:
+        for avar in SaveList: 
+#            print('STT2:',avar)
+            if avar in SpecialVarList: 
+                valdict[avar] =  get_special_var(avar)
+            elif avar in MetaVarList: 
+                valdict[avar] =  get_text_metadata(avar, active_collection)
+            elif avar in ConstVarDict.keys(): 
+                valdict[avar] =  ConstVarDict[avar]
+            elif avar in vals:
+                valdict[avar] = vals[avar]
+
+    if '_comments_' in vals:
+        cmtstr = vals['_comments_']
+    else:
+        cmtstr = ''
+
+    save_newcase(active_collection, case_id, cmtstr, valdict)
+        
+
+def save_to_TempData():
     """ adds the variables from the basic.html form to the TempData string  """
     global TempData
+    vals = get_data()
     for avar in SaveList: 
 #        print('STT2:',avar)
         if avar in SpecialVarList: 
             TempData += get_special_var(avar) + '\t'
         elif avar in ConstVarDict.keys(): 
             TempData += ConstVarDict[avar] + '\t'
-        elif avar in request.POST:
-            TempData += request.POST[avar]+'\t'
-        else:
-            TempData += UncheckedValues[avar] + '\t'
+        elif avar in vals:
+            TempData += str(vals[avar]) + '\t'
+#            print('STT3:',avar,str(vals[avar]))
+
     TempData = TempData[:-1] + '\n'
 
 def create_TempData_header():

@@ -14,9 +14,13 @@
     \section*{Preface}
 
 
-This is the documentation for the CIVET—Contentious Incident Variable Entry Template—data entry system. CIVET is being developed by the NSF-sponsored project titled “A Method for Leveraging Public Information Sources for Social Science Research” which is creating tools to improve the efficiency of data generation in the social sciences, with an initial focus on coding event data in the domain of contentious politics.
+This is the documentation for the CIVET—Contentious Incident Variable Entry Template—data entry system. 
+CIVET was developed under the NSF-sponsored project titled “A Method for Leveraging Public Information 
+Sources for Social Science Research” which is creating tools to improve the efficiency of data generation 
+in the social sciences, with an initial focus on coding event data in the domain of contentious politics.
 
-The system is deployed as a `Django <https://www.djangoproject.com/start/overview/>`_ application; it should be possible to get this working by installing Django on a local machine and copying the directory ``djcivet_site``.  
+The system is deployed as a `Django <https://www.djangoproject.com/start/overview/>`_ application; 
+it should be possible to get this working by installing Django on a local machine and copying the directory ``djcivet_site``.  
 
 We are very interested in feedback on this system, including any bugs
 you encounter (please let us know what operating system (e.g. Windows,
@@ -64,7 +68,8 @@ suggestions to `schrodt735@gmail.com <schrodt735@gmail.com>`__.
 
 The development of CIVET is funded by the U.S. National Science Foundation Office of Multidisciplinary Activities
 in the Directorate for Social, Behavioral & Economic Sciences, Award 1338470 and the `Odum Institute <http://www.odum.unc.edu/odum/home2.jsp>`_ at the University of North Carolina at Chapel Hill with additional assistance from `Parus Analytics <http://parusanalytics.com/>`_. This documentation is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License; CIVET is open source and under the MIT license.
-
+Any opinions, findings, and conclusions or recommendations expressed in this material are those of the authors 
+and do not necessarily reflect the views of the National Science Foundation.
 
 .. only:: html
 
@@ -89,6 +94,7 @@ in the Directorate for Social, Behavioral & Economic Sciences, Award 1338470 and
     workspaces
     annotation
     extraction
+    preferences
     future
     appendix1
     appendix2

@@ -2,7 +2,15 @@
 Appendix 2: Input Format
 ****************************
 
-Fields marked with \*\* are required.
+Fields marked with \*\* are required. Text fields are limited to 100 characters except 
+for:
+
+- ``textoriginal``, ``textmkup`` and ``casevalues`` have no length limitation
+
+- the three comment fields ``collcmt``, ``textcmt`` and ``casecmt`` can be up 
+  to 500 characters
+
+- coder ID, which is limited to 32 characters.
 
 ========================
 Collection fields
@@ -45,6 +53,9 @@ Text fields
 
 \*\*textdate
     text date YYYY-MM-DD
+
+textdelete: 
+    Boolean: text has been marked for deletion.
 
 textpublisher
     publisher [any string]
@@ -114,7 +125,7 @@ casevalues
 Date formats
 ========================
 
-[This has not been consistently implemented in Beta-0.7]
+[This has not been consistently implemented in Beta-0.9]
 
 Dates are ISO-8601 (http://en.wikipedia.org/wiki/ISO\_8601;
 http://www.w3.org/TR/NOTE-datetime; https://xkcd.com/1179/;

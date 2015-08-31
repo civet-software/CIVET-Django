@@ -4,14 +4,14 @@ Home Page Options
 The home page has the following links:
 
 Read coding form:
-    Civet reads a coding form template without using a workspace: this
+    CIVET reads a coding form template without using a workspace: this
     is used if you want to use the web coding form without annotated
     texts. This option can also be used when debugging coding forms.
     Further instructions for the template-only mode are given in Section
     [sec:template].
 
 Read workspace:
-    Civet reads a set of text collections and their associated coding
+    CIVET reads a set of text collections and their associated coding
     form from a zipped file: this mode allows for text annotation and
     extraction and is described in more detail in Section
     [sec:workspace], [sec:annotate] and [sec:coding].
@@ -33,9 +33,9 @@ The first three modes go to a file selection screen similar to Figure
 [fig:fileselect].
 
 .. figure:: fileselect.png
-   :alt: Civet file selection screen
+   :alt: CIVET file selection screen
 
-   Civet file selection screen
+   CIVET file selection screen
 
 This provides the following options:
 
@@ -58,7 +58,7 @@ Download demonstration file:
 Program Navigation Placeholders
 -------------------------------
 
-Civet is currently under development and not all of the options have
+CIVET is currently under development and not all of the options have
 been fully implemented. If you see a page with a message of the form
 
     ``The option [something] has yet to be implemented. Use the back arrow in your browser to return to the previous screen.``

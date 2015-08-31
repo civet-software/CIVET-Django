@@ -1,0 +1,75 @@
+# CIVET template demonstration file
+
+title: CIVET basic form demonstration
+
+h1:Ministry of Magic Hogwarts Incident Report
+
+html:
+<h2> An h-2 line</h2>
+<ol>
+	<li>Item 1</li>
+	<li>Item 2</li>
+</ol>
+
+
+//radio: House where incident occurred:/ [house]
+Gryffindor, Hufflepuff, /, Ravenclaw, *Slytherin
+
+#h2: Should not see this
+
+//select:Nature of incident [natincid]
+Minor mischief, Unauthorized absence, Accident, *Major infraction, Unforgivable Curses, Other
+
+p:If "Other", provide details in the report section
+
+checkbox: Was incident reported to school authorities? [authreport]
+No,*Yes
+
+/checkbox: Did incident involve muggles? [muggles]
+No,Yes
+
+
+//textline: Name of student(s) [names] width=80
+Enter names here
+
+p:
+
+textarea:Brief description of incident [descrp] cols = 80
+Enter brief description here
+
+p:
+
+textline:Reporting official [reporter] width=40
+Page-1-name
+
+h3:<<Thank you>> for your assistance & we will contact/you by owl should we require// any additional information
+
+newpage:
+
+h2:This is the second page
+
+checkbox: Check if you see this [seeit]
+No,*Yes
+
+p:
+
+textline: See if this box is working [pagetext2] width=60
+Page2-entry
+
+
+newpage:
+
+h2:This is the third page
+
+checkbox: Check if you see this [seeit3]
+No,*Yes
+
+p:
+
+textline: And also see if this box is working [pagetext3] width=40
+Page3-entry
+
+
+save: 
+_date_, _time_, house, natincid, authreport, muggles, names, descrp, reporter, pagetext2, pagetext3, _coder_
+

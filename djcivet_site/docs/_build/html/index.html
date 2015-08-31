@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     'beta-0.8',
+        VERSION:     'beta-0.9',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -33,7 +33,7 @@
             <img class="logo" src="_static/civet200.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="#">CIVET beta-0.8 documentation</a></div>
+          href="#">CIVET beta-0.9 documentation</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="intro.html" title="Introduction"
              accesskey="N">next</a>
@@ -52,8 +52,12 @@
   <div class="section" id="welcome">
 <h1>Welcome<a class="headerlink" href="#welcome" title="Permalink to this headline">¶</a></h1>
 </div>
-<p>This is the documentation for the CIVET—Contentious Incident Variable Entry Template—data entry system. CIVET is being developed by the NSF-sponsored project titled “A Method for Leveraging Public Information Sources for Social Science Research” which is creating tools to improve the efficiency of data generation in the social sciences, with an initial focus on coding event data in the domain of contentious politics.</p>
-<p>The system is deployed as a <a class="reference external" href="https://www.djangoproject.com/start/overview/">Django</a> application; it should be possible to get this working by installing Django on a local machine and copying the directory <code class="docutils literal"><span class="pre">djcivet_site</span></code>.</p>
+<p>This is the documentation for the CIVET—Contentious Incident Variable Entry Template—data entry system.
+CIVET was developed under the NSF-sponsored project titled “A Method for Leveraging Public Information
+Sources for Social Science Research” which is creating tools to improve the efficiency of data generation
+in the social sciences, with an initial focus on coding event data in the domain of contentious politics.</p>
+<p>The system is deployed as a <a class="reference external" href="https://www.djangoproject.com/start/overview/">Django</a> application;
+it should be possible to get this working by installing Django on a local machine and copying the directory <code class="docutils literal"><span class="pre">djcivet_site</span></code>.</p>
 <p>We are very interested in feedback on this system, including any bugs
 you encounter (please let us know what operating system (e.g. Windows,
 OS-X) and browser (e.g. FireFox, Explorer, Chrome) you were using),
@@ -65,7 +69,9 @@ suggestions to <a class="reference external" href="mailto:schrodt735&#37;&#52;&#
 <h1>Acknowledgements<a class="headerlink" href="#acknowledgements" title="Permalink to this headline">¶</a></h1>
 </div>
 <p>The development of CIVET is funded by the U.S. National Science Foundation Office of Multidisciplinary Activities
-in the Directorate for Social, Behavioral &amp; Economic Sciences, Award 1338470 and the <a class="reference external" href="http://www.odum.unc.edu/odum/home2.jsp">Odum Institute</a> at the University of North Carolina at Chapel Hill with additional assistance from <a class="reference external" href="http://parusanalytics.com/">Parus Analytics</a>. This documentation is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License; CIVET is open source and under the MIT license.</p>
+in the Directorate for Social, Behavioral &amp; Economic Sciences, Award 1338470 and the <a class="reference external" href="http://www.odum.unc.edu/odum/home2.jsp">Odum Institute</a> at the University of North Carolina at Chapel Hill with additional assistance from <a class="reference external" href="http://parusanalytics.com/">Parus Analytics</a>. This documentation is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License; CIVET is open source and under the MIT license.
+Any opinions, findings, and conclusions or recommendations expressed in this material are those of the authors
+and do not necessarily reflect the views of the National Science Foundation.</p>
 <div class="section" id="contents">
 <h1>Contents<a class="headerlink" href="#contents" title="Permalink to this headline">¶</a></h1>
 </div>
@@ -73,6 +79,7 @@ in the Directorate for Social, Behavioral &amp; Economic Sciences, Award 1338470
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="intro.html#program-navigation-placeholders">Program Navigation Placeholders</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#status-of-the-program-31-august-2015">Status of the Program: 31 August 2015</a></li>
 <li class="toctree-l2"><a class="reference internal" href="intro.html#documentation">Documentation</a></li>
 </ul>
 </li>
@@ -92,9 +99,11 @@ in the Directorate for Social, Behavioral &amp; Economic Sciences, Award 1338470
 <li class="toctree-l1"><a class="reference internal" href="forms.html">CIVET Coding Form Templates</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="forms.html#simple-template-based-data-entry-form">Simple Template-Based Data Entry Form</a></li>
 <li class="toctree-l2"><a class="reference internal" href="forms.html#command-formats">Command formats</a></li>
-<li class="toctree-l2"><a class="reference internal" href="forms.html#templates-specifying-variables">Templates: Specifying variables</a></li>
-<li class="toctree-l2"><a class="reference internal" href="forms.html#templates-data-entry-fields">Templates: Data Entry Fields</a></li>
-<li class="toctree-l2"><a class="reference internal" href="forms.html#templates-additional-web-page-formatting">Templates: Additional Web Page Formatting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="forms.html#specifying-variables">Specifying variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="forms.html#commands-only-relevant-in-workspaces">Commands only relevant in workspaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="forms.html#data-entry-fields">Data entry fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="forms.html#additional-web-page-formatting">Additional web page formatting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="forms.html#advanced-formating-options">Advanced formating options</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="workspaces.html">CIVET Workspaces</a><ul>
@@ -107,7 +116,14 @@ in the Directorate for Social, Behavioral &amp; Economic Sciences, Award 1338470
 <li class="toctree-l2"><a class="reference internal" href="annotation.html#comments-on-annotation-and-editing">Comments on annotation and editing</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="extraction.html">Coding and Text Extraction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extraction.html">Coding and Text Extraction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="extraction.html#note-on-deleting-texts">Note on deleting texts</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="preferences.html">Preferences</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="preferences.html#programming-note">Programming note</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="future.html">Projected Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="appendix1.html">Appendix 1: Sample Template File</a></li>
 <li class="toctree-l1"><a class="reference internal" href="appendix2.html">Appendix 2: Input Format</a><ul>
@@ -148,6 +164,7 @@ in the Directorate for Social, Behavioral &amp; Economic Sciences, Award 1338470
 <li class="toctree-l1"><a class="reference internal" href="workspaces.html">CIVET Workspaces</a></li>
 <li class="toctree-l1"><a class="reference internal" href="annotation.html">Annotation and Editing Collections</a></li>
 <li class="toctree-l1"><a class="reference internal" href="extraction.html">Coding and Text Extraction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="preferences.html">Preferences</a></li>
 <li class="toctree-l1"><a class="reference internal" href="future.html">Projected Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="appendix1.html">Appendix 1: Sample Template File</a></li>
 <li class="toctree-l1"><a class="reference internal" href="appendix2.html">Appendix 2: Input Format</a></li>
@@ -190,7 +207,7 @@ in the Directorate for Social, Behavioral &amp; Economic Sciences, Award 1338470
         <div class="right">
           
     <div class="footer" role="contentinfo">
-      Last updated on 2015-08-18.
+      Last updated on 2015-08-31.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
         </div>

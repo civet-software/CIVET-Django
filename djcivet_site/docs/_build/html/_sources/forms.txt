@@ -123,7 +123,7 @@ stop after it has encountered the first error rather than reporting
 all of the errors in the file.
 
 ===============================
-Templates: Specifying variables
+Specifying variables
 ===============================
 
 Specifying variables to save
@@ -144,15 +144,25 @@ written to a tab-delimited file: the value is the string in brackets
 ``[…]`` in the annotated coding mode. If there is a variable name inside
 the brackets, that will be used as the column name for the values;
 otherwise the regular name will be used: this allows both the literal
-text and the value to be saved, as in the third example below. If
-``save`` specifies a value output and not is found, a missing value will
-be used.
+text and the value to be saved, as in the third example below. 
+
+If ``save`` specifies a value output and not is found, the output depends
+on the preference ``civet_settings.USE_TEXT_FOR_MISSING``, which also can  
+be set on the “Preferences” page. If this is ``True``, the text will be
+used; otherwise the string in  ``civet_settings.MISSING_VALUE`` will be used.
 
 **Example:**
 
-    | ``save: worldregion, eyewit, groupname, comments``
-    | ``save: worldregion [regioncode], eyewit, groupname[], comments``
-    | ``save: worldregion, eyewit, groupname, groupname [groupcode], comments``
+.. code::
+    
+    save: 
+    worldregion, eyewit, groupname, comments
+        
+    save:  
+    worldregion [regioncode], eyewit, groupname[], comments
+    
+    save:  
+    worldregion, eyewit, groupname, groupname [groupcode], comments
 
 constant
 --------
@@ -170,7 +180,7 @@ filename
 --------
 
 Sets the default file name for the downloads: this can be changed before
-downloading. [Beta 0.7: Not yet implemented]
+downloading. 
 
     | **filename:** page-text
 
@@ -178,23 +188,112 @@ downloading. [Beta 0.7: Not yet implemented]
 
     ``filename: our_wonderful_data.csv``
 
-Special variables
------------------
+Special ``save`` variables
+---------------------------
 
-\_coder\_
-    : Text entered in the *CIVET template selection* page
+``\_coder\_``
+    Coder text entered in the *CIVET template selection* page
 
-\_date\_
-    : Current date. this is currently in the form DD-mmm-YYYY but later
-    versions of the system will allow other formats
+``\_date\_``
+    Current date. this is currently in the form YYYY-MM-DD. [#f3]_
 
-\_time\_
-    : Current time in hh:mm:ss format
+``\_time\_``
+    Current time in hh:mm:ss format
+
+
+========================================================
+Commands only relevant in workspaces
+========================================================
+
+discard
+--------
+
+Sets an initially unchecked checkbox for the special variable
+“_discard_”, which can be used 
+to indicate that a collection has been evaluated by a coder but nothing
+was coded. When this is checked, a case is generated for the collection
+containing only the “_discard_” variable; those cases are not used to 
+generate data.  
+
+    | **discard:** entry-title 
+
+**Example:**
+
+    ``discard: Texts are not codeable``
+
+comments
+--------
+
+Creates a textarea box for the special variable ``_comments_`` which will be
+added to the “casecmt” meta-data for the case being coded. ``_comments_``
+can also be added to the output data like any other variable, but this
+is not required. The default size of the text box is 4 x 64 characters;
+alternative sizes can be specified by adding an empty set of brackets
+followed by ``rows`` and ``cols`` using the same format as the ``textarea``
+command. [#f4]_ 
+
+    | **comments:** entry-title 
+    | **comments:** entry-title [] rows = number cols = number
+
+
+**Example:**
+
+    ``comments: Enter any additional comments about this case``
+
+header
+--------
+
+Sets the HTML code for the display of collection information at the 
+top of the editing and coding screens. The text of ``field-name`` will
+be substituted for the optional token ``_text_`` in ``HTML-text``
+
+    | **header:** HTML-text [field-name] 
+
+``field name`` should be one of the following
+
+``workspace``
+    Workspace file name
+    
+``collection``
+    Collection ID (``collid`` field)
+    
+``comments``
+    Collection comments (``collcmt`` field)
+    
+The three fields are displayed in this order; they default to null strings.
+The individual ``header`` commands must be separated by blank lines; otherwise,
+consistent with the command syntax, [#f6]_ the latter lines will be ignored. 
+    
+**Example:**
+
+::
+
+    header: <h3><span style="color:blue">Workspace _text_ </span></h3>' [workspace]
+    
+    header: <b>Collection:</b> _text_ ' [collection]
+
+Special ``save`` variables for workspaces
+-----------------------------------------
+
+These variables will not include any texts that were deleted using 
+``shift-click`` on the lede. [#f5]_
+
+\_publisher\_
+    Comma-delimited list of the ``textpublisher`` fields of the texts in
+    the collection
+
+\_bibliorefs\_
+    Comma-delimited list of the ``textbiblio`` fields of the texts in
+    the collection
 
 
 ============================
-Templates: Data Entry Fields
+Data entry fields
 ============================
+
+Any of these commands can be prefixed with “//”, which inserts a ``<p></p>``
+or a “/”, which inserts a ``<br>``.
+
 
 Checkbox
 --------
@@ -296,10 +395,31 @@ the text entry box in characters: the default is ``rows = 4 cols = 80``
 
 **Example:**
 
-    ``textarea: Comments [comments] rows = 2 cols = 64 – put any additional comments here –``
+::
+
+   textarea: Description [descript] rows = 2 cols = 64
+   Briefly describe the incident
+    
+.. Date [this wasn't implemented in Version 1.0 but should be in the future
+    ----
+
+    Corresponds to a Django DateField(): https://docs.djangoproject.com/en/1.8/ref/forms/fields/#datefield
+
+        | **date:** entry-title [var-name] 
+
+    This field is currently set to use the default allowable formats:
+
+    - %Y-%m-%d' : '2006-10-25'
+
+    - '%m/%d/%Y' : '10/25/2006'
+
+    - '%m/%d/%y' :  '10/25/06'
+
+    Additional formats can be added by changing the ``forms.DateField`` call in *forms.py*; these
+    are specified using the extensive Python date format operators shown `here. <http://strftime.org/>`_
 
 ==========================================
-Templates: Additional Web Page Formatting
+Additional web page formatting
 ==========================================
 
 Set page title
@@ -308,7 +428,7 @@ Set page title
 Sets the title of the web page: that is, the HTML``<title>...</title>`` 
 section of the header.
 
-    | **title:** page-text
+    | **title:** page-title
 
 **Example:**
 
@@ -324,6 +444,9 @@ in-line mark-up such as ``<i>``, ``<b>`` and ``<tt>`` will not work,
 so if you need this activate and use the ``html:`` command. Also keep in
 mind that these commands need to be separated by a blank line.
 
+A “/” in the page-text will add a line-break ``<br>``. To include a 
+“/” in the text, use “//”.
+
     | **h1:** page-text
     | **h2:** page-text
     | **h3:** page-text
@@ -336,7 +459,7 @@ mind that these commands need to be separated by a blank line.
 
         h1: Primary data set coding form
 
-        p:Please enter data in the fields below, and be really, really careful!
+        p:Please enter data in the fields below,/ and be really, really careful!
 
 The simple command
 
@@ -344,7 +467,96 @@ The simple command
 
     p:
 
-is useful for putting some space between form elements.
+is useful for putting some space between form elements; this is equivalent to the
+“//” prefix in the data entry commands.
+
+Insert a line break
+-------------------
+
+Adds a new line in the form; this is equivalent to the “/” prefix in the 
+data entry commands.
+
+    **newline:**
+    
+======================================
+Advanced formating options
+======================================
+
+A CIVET form is simply a web page, and consequently can be controlled by 
+the standard commands for displaying web pages, notably cascading style sheets (CSS). 
+
+Set css
+-------
+
+Adds the text which follows the command to the ``<style>...</style>`` section 
+in the page head. The text block is terminated by a blank line.
+
+    | **css:**
+    | one or more lines of css definitions
+
+Set form division sizes
+-----------------------
+
+This is a short-cut that for most options just changes the size of various components in either of these 
+forms:
+
+    | **size:** [division-name] width = <length> height = <length>
+    | **size:** [division-name] width : <length>; height : <length>
+    
+<size> can be any of the CSS “length” formats: http://www.w3schools.com/cssref/css_units.asp.
+
+*division-name* is one of the following: 
+
+*body*
+    over-all size of the page
+    
+*civ-editor*
+    size of CKEditor text box on the annotation page
+    
+*civ-text-display*
+    size of the scrolling text display on the coding page
+    
+*civ-form*
+    size of the coding form created by the template in both the basic form and the coding page
+    
+**Notes:**
+
+1. 
+    The system does not check for the validity of either the division names or the 
+    CSS *<length>* specification; if they can't be interpreted
+    they are ignored.
+
+2. 
+    ``size`` commands can occur anywhere and can be combined with a ``css`` command:
+    if they occur before the ``css`` command the contents of ``css`` will override ``size``,
+    and vice-versa if they occur afterwards: the CSS string for the 
+    ``<style>...</style>`` section is assembled in the order the commands occur.
+
+3. 
+    Because CSS doesn't use object-like inheritance, the ``size: [body]``  command resets 
+    *all* of the properties of ``body``, leaving only ``width`` and ``height`` set in the style, e.g. 
+    
+    .. code::
+    
+        body {
+            width:900px;
+            height:700px;
+        }
+
+    If you want to change the size but also retain other characteristics, use ``css``
+    to define the complete ``body`` style.
+
+4. 
+    The ``civ-editor`` command changes the size in the configuration of CKEditor rather than
+    any CSS, so this name cannot be used in  ``css:`` (well, it can be used but it won't
+    do anything...). CKEditor does not allow the “%” option to be used as a “height”:
+    see http://docs.ckeditor.com/#!/guide/dev_size. The CKEditor defaults to the width 
+    of the page (more or less) and a height of 200px. 
+
+5. 
+    The  ``civ-form`` and ``civ-text-display`` names correspond correspond to ``<div class='name'>`` 
+    in the content of the form; you can modify these directly by using a ``css:``command. 
+    The ``size`` command resets the *<name>-size* class, which only controls the size.
 
 Insert HTML
 -----------
@@ -352,19 +564,15 @@ Insert HTML
 [This command may or may not be included in the operational version of
 the system, as it provides some opportunities for mischief. Stay tuned.
 It is in the code but currently deactivated; if you are installing your
-own version of the system, it can be activated by changing a single
-character in the source code.]
+own version of the system, it can be activated by setting 
+``civet_settings.HTML_OK = True``.]
 
 Adds arbitrary HTML code without escaping.
 
-    | **html:** page-text
+    | **html:** 
+    | one or more lines of HTML 
 
-Insert a line break
--------------------
 
-Adds a new line in the form
-
-    **newline:**
 
 .. rubric:: Footnotes
 
@@ -384,4 +592,22 @@ Adds a new line in the form
    equivalent of ’]’—do not work since the # is interpreted as a comment
    delimiter: depending on whether there is demand for this feature, the
    system could provide a way around this.
+   
+..  [#f3]
+    This format can be changed in the function ``get_special_var(avar)`` in 
+    *civet_form.py*: It is specified using the extensive Python/C date format 
+    operators shown `here. <http://strftime.org/>`_
+    
+.. [#f4]
+    In fact, the ``comments:`` command is just a shorthand for 
+    ``textarea: entry-text [_comments_]``, and this will have the same
+    effect, with the contents added to the metadata.
 
+.. [#f5]
+    At present, only these two fields are available, but it is relatively
+    straightforward to add the others by just following the existing 
+    code that you locate in a search for “textpublisher”    
+    
+.. [#f6]
+    Neither a bug nor a feature: just is what it is.
+    

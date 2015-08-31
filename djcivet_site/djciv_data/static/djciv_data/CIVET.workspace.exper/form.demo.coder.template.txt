@@ -1,0 +1,54 @@
+# CIVET coder template demonstration file
+
+category:action [Magenta]
+ killed[2], shot and killed [2],wounded[1], bombed[3], clashed[3],injured[1],attacked[3],assaulted[1], collect[5]
+
+category:people [Brown]
+civilians,workers,authorities, groups,troops,soldiers,rebels, people, group
+
+category:woozle [yellow]  # this will not be found in markup
+woozle1 , woozle2
+
+category:cities [cyan]  # get the list from a file
+codes.cities.txt
+
+title: CIVET coding form demonstration
+
+h1:Demonstration of CIVET form linked to annotated texts
+
+radio: Type of incident: [typeincid]
+*Demonstration, One-sided Violence, Armed Clash
+
+p:
+
+select:Type of weapons [natincid]
+*firearms, primitive weapons, explosives, heavy weapons, other
+
+p:If "Other", provide details in the 'Description; section
+
+checkbox: Was the incident a suicide attack? [suicide]
+No,*Yes
+
+p:
+
+textclass: Location [location] width=40 category=nament
+This field extracts the 'named-entity' type
+
+p:
+
+textclass: Maximal injuries [injuries] width=40 category=action
+This field extracts the 'action' type
+
+p:
+
+textclass: Who was involved [whois] width=40 category=people
+This field extracts the 'people' type
+
+p:
+
+textarea:Brief description of incident [descrp] cols = 72
+Enter brief description here
+
+save: 
+_date_, typeincid, natincid, suicide, location, location[isocode], injuries [injurycode], whois, descrp
+

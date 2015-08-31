@@ -6,6 +6,7 @@ collcmt: Text file source: Apr15.OTH.stories.txt
 texts:
 
   - textid: TestTexts_006_001
+    textdelete: False
     textdate: 2000-01-01
     textpublisher: BBC Monitoring Middle East
     textpubid: BBCMEP
@@ -25,15 +26,3 @@ texts:
         Further as warranted.
         
         Source: Al-Jazeera TV, Doha, in Arabic 2204 gmt 3 Apr 15
-    textmkup: |
-        Text of report by Qatari government-funded, pan-Arab news channel Al-Jazeera satellite TV on 3 April
-        
-        At 2204 GMT on 3 April, Al-Jazeera Live TV in Arabic was observed to carry the following breaking news as a screen caption:
-        
-        "Al-Jazeera correspondent: 15 individuals were killed and 20 others were wounded in Huthi bombardment of residential neighbourhoods in Kraytar in Aden Governorate."
-        
-        Further as warranted.
-        
-        Source: Al-Jazeera TV, Doha, in Arabic 2204 gmt 3 Apr 15
-    textmkupdate: 2015-06-08
-

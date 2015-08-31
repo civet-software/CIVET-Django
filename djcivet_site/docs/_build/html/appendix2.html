@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     'beta-0.8',
+        VERSION:     'beta-0.9',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -34,7 +34,7 @@
             <img class="logo" src="_static/civet200.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">CIVET beta-0.8 documentation</a></div>
+          href="index.html">CIVET beta-0.9 documentation</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="appendix1.html" title="Appendix 1: Sample Template File"
              accesskey="P">previous</a> |
@@ -54,7 +54,14 @@
             
   <div class="section" id="appendix-2-input-format">
 <h1>Appendix 2: Input Format<a class="headerlink" href="#appendix-2-input-format" title="Permalink to this headline">¶</a></h1>
-<p>Fields marked with ** are required.</p>
+<p>Fields marked with ** are required. Text fields are limited to 100 characters except
+for:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">textoriginal</span></code>, <code class="docutils literal"><span class="pre">textmkup</span></code> and <code class="docutils literal"><span class="pre">casevalues</span></code> have no length limitation</li>
+<li>the three comment fields <code class="docutils literal"><span class="pre">collcmt</span></code>, <code class="docutils literal"><span class="pre">textcmt</span></code> and <code class="docutils literal"><span class="pre">casecmt</span></code> can be up
+to 500 characters</li>
+<li>coder ID, which is limited to 32 characters.</li>
+</ul>
 <div class="section" id="collection-fields">
 <h2>Collection fields<a class="headerlink" href="#collection-fields" title="Permalink to this headline">¶</a></h2>
 <dl class="docutils">
@@ -88,6 +95,8 @@ If a value for the <code class="docutils literal"><span class="pre">text</span><
 assigned by the program.</dd>
 <dt>**textdate</dt>
 <dd>text date YYYY-MM-DD</dd>
+<dt>textdelete:</dt>
+<dd>Boolean: text has been marked for deletion.</dd>
 <dt>textpublisher</dt>
 <dd>publisher [any string]</dd>
 <dt>textpubid</dt>
@@ -139,7 +148,7 @@ pairs of variable names and values</dd>
 </div>
 <div class="section" id="date-formats">
 <h2>Date formats<a class="headerlink" href="#date-formats" title="Permalink to this headline">¶</a></h2>
-<p>[This has not been consistently implemented in Beta-0.7]</p>
+<p>[This has not been consistently implemented in Beta-0.9]</p>
 <p>Dates are ISO-8601 (<a class="reference external" href="http://en.wikipedia.org/wiki/ISO_8601">http://en.wikipedia.org/wiki/ISO_8601</a>;
 <a class="reference external" href="http://www.w3.org/TR/NOTE-datetime">http://www.w3.org/TR/NOTE-datetime</a>; <a class="reference external" href="https://xkcd.com/1179/">https://xkcd.com/1179/</a>;
 <a class="reference external" href="http://www.cl.cam.ac.uk/mgk25/iso-time.html">http://www.cl.cam.ac.uk/mgk25/iso-time.html</a>) so generally either</p>
@@ -175,6 +184,7 @@ hence the color mark-up. A workspace demonstration file with several collections
 <li class="toctree-l1"><a class="reference internal" href="workspaces.html">CIVET Workspaces</a></li>
 <li class="toctree-l1"><a class="reference internal" href="annotation.html">Annotation and Editing Collections</a></li>
 <li class="toctree-l1"><a class="reference internal" href="extraction.html">Coding and Text Extraction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="preferences.html">Preferences</a></li>
 <li class="toctree-l1"><a class="reference internal" href="future.html">Projected Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="appendix1.html">Appendix 1: Sample Template File</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Appendix 2: Input Format</a><ul>
@@ -226,7 +236,7 @@ hence the color mark-up. A workspace demonstration file with several collections
         <div class="right">
           
     <div class="footer" role="contentinfo">
-      Last updated on 2015-08-18.
+      Last updated on 2015-08-31.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
         </div>

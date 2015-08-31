@@ -76,8 +76,3 @@ These utilities will provide at least the following capabilities:
 -  Development of training materials, both text and video, for the
    system
 
--  We are currently developing this based on a fixed frame that is 960
-   pixels wide and 700 pixels high: this will fit easily on a 1024x768
-   screen. For contemporary equipment this is probably quite
-   conservative but it is not unheard of for data labs to have older
-   equipment so we’re going with this at the moment

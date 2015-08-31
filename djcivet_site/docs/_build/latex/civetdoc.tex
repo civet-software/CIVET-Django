@@ -19,8 +19,8 @@
 
 
 \title{CIVET Documentation}
-\date{August 18, 2015}
-\release{beta-0.8}
+\date{August 31, 2015}
+\release{beta-0.9}
 \author{Philip A. Schrodt\\Parus Analytics LLC\\Charlottesville, VA USA\\schrodt735@gmail.com}
 \newcommand{\sphinxlogo}{\includegraphics{civet200.png}\par}
 \renewcommand{\releasename}{Release}
@@ -127,9 +127,13 @@
 \maketitle
 \tableofcontents
 \phantomsection\label{index::doc}\section*{Preface}
-This is the documentation for the CIVET—Contentious Incident Variable Entry Template—data entry system. CIVET is being developed by the NSF-sponsored project titled “A Method for Leveraging Public Information Sources for Social Science Research” which is creating tools to improve the efficiency of data generation in the social sciences, with an initial focus on coding event data in the domain of contentious politics.
+This is the documentation for the CIVET—Contentious Incident Variable Entry Template—data entry system.
+CIVET was developed under the NSF-sponsored project titled “A Method for Leveraging Public Information
+Sources for Social Science Research” which is creating tools to improve the efficiency of data generation
+in the social sciences, with an initial focus on coding event data in the domain of contentious politics.
 
-The system is deployed as a \href{https://www.djangoproject.com/start/overview/}{Django} application; it should be possible to get this working by installing Django on a local machine and copying the directory \code{djcivet\_site}.
+The system is deployed as a \href{https://www.djangoproject.com/start/overview/}{Django} application;
+it should be possible to get this working by installing Django on a local machine and copying the directory \code{djcivet\_site}.
 
 We are very interested in feedback on this system, including any bugs
 you encounter (please let us know what operating system (e.g. Windows,
@@ -142,32 +146,34 @@ suggestions to \href{mailto:schrodt735@gmail.com}{schrodt735@gmail.com}.
 \section*{Acknowledgements}
 The development of CIVET is funded by the U.S. National Science Foundation Office of Multidisciplinary Activities
 in the Directorate for Social, Behavioral \& Economic Sciences, Award 1338470 and the \href{http://www.odum.unc.edu/odum/home2.jsp}{Odum Institute} at the University of North Carolina at Chapel Hill with additional assistance from \href{http://parusanalytics.com/}{Parus Analytics}. This documentation is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License; CIVET is open source and under the MIT license.
+Any opinions, findings, and conclusions or recommendations expressed in this material are those of the authors
+and do not necessarily reflect the views of the National Science Foundation.
 
 
 
 
 \chapter{Introduction}
 \label{intro:introduction}\label{intro::doc}\label{intro:id1}
-This is the documentation for the beta version of the
-Civet \footnote{
-\href{http://en.wikipedia.org/wiki/Civet}{http://en.wikipedia.org/wiki/Civet}
+This is the documentation for
+CIVET \footnote{
+\href{http://en.wikipedia.org/wiki/CIVET}{http://en.wikipedia.org/wiki/CIVET}
 }—Contentious Incident Variable Entry Template—customizable
-data entry system. Civet is being developed by the NSF-sponsored project
+data entry system. CIVET was developed by the NSF-sponsored project
 titled “A Method for Leveraging Public Information Sources for Social
 Science Research” which is creating tools to improve the efficiency of
-data generation in the social sciences. The project has an initial focus
+data generation in the social sciences. The project had an initial focus
 on coding event data in the domain of contentious politics, but we
 expect that these tools will be relevant in a number of data-generation
 domains.
 
-The core objective of Civet is to provide a reasonably simple—yes,
+The core objective of CIVET is to provide a reasonably simple—yes,
 simple—set of commands that will allow a user to set up a web-based
 coding environment without the need to master the likes of HTML, CSS and
 Javascript. As currently implemented, the system is a rather ugly
 prototype; it will also be evolving as we add additional elements.
 Nonetheless, the system should now be useable for coding.
 
-Civet is implemented in the widely-used and well documented
+CIVET is implemented in the widely-used and well documented
 Python-based Django system \footnote{
 An earlier prototype was implemented in the \code{Flask} framework: see
 Appendix 4
@@ -179,10 +185,10 @@ services can be found at
 \href{https://code.djangoproject.com/wiki/DjangoFriendlyWebHosts}{https://code.djangoproject.com/wiki/DjangoFriendlyWebHosts}
 \end{quote}
 
-The complete Civet code is licensed as open source under the MIT
+The complete CIVET code is licensed as open source under the MIT
 license and provided on GitHub at \href{https://github.com/civet-software}{https://github.com/civet-software} .
 
-Civet currently has two modes:
+CIVET currently has two modes:
 \begin{description}
 \item[{\textbf{Coding form template:}}] \leavevmode
 This is a template-based for setting up a web-based coding form
@@ -191,7 +197,7 @@ exports the resulting data as a tab-delimited text file. This is
 fully functional and should be useable for small projects.
 
 \item[{\textbf{Text annotation/extraction:}}] \leavevmode
-This uses Civet “workspaces” which combine related texts, their
+This uses CIVET “workspaces” which combine related texts, their
 metadata, and the coding form. Workspaces allow for manual and
 automated text annotation, then the ability to extract various types
 of information into the fields of a coding form.
@@ -201,7 +207,7 @@ of information into the fields of a coding form.
 
 \section{Program Navigation Placeholders}
 \label{intro:program-navigation-placeholders}
-Civet is currently under development and not all of the options have
+CIVET is still under development and not all of the options have
 been fully implemented. If you see a page with a message of the form
 \begin{quote}
 
@@ -209,7 +215,36 @@ been fully implemented. If you see a page with a message of the form
 \end{quote}
 
 you have encountered one of those options: as noted, just use the “Back”
-option in your browser to return to the previous screen.
+option in your browser to return to the previous screen. These are primarily
+in the “Workspace Management” papge.
+
+
+\section{Status of the Program: 31 August 2015}
+\label{intro:status-of-the-program-31-august-2015}
+The NSF funding for the project ended on this date. At this point, all of
+the documented features of the program should be working except as
+noted above. However, we are just beginning the process of
+operational field testing and it is likely—which is to say, inevitable—
+that some additional bugs will be found, hence this is still considered
+“Beta-0.9” rather than “1.0.” We currently have two field tests underway,
+and are hoping to get some additional ones going, and will be posting
+bug fixes to GitHub promptly as these appear and are resolved.
+
+At present, we have not developed any software for generating the
+workspace files, though we expect to have at least a couple programs
+available in the next few months. The problem here is that identifying
+the various metadata and components in a set of texts is highly
+specific to the text source, and to date we've not found general
+solutions for this. As noted in the final chapter of this document,
+over the next year or so we will be seeking additional funding for
+tool development for these “front-end” tasks, though given the very
+slow pace of the public funding cycle, this is unlikely to occur until
+late in 2016 at the earliest. In the meantime, we will be leveraging
+tools developed in existing projects and, of course, would very
+much appreciate the contribution of any ancillary tools that the user
+community develops, particularly for common sources such as Lexis-Nexis,
+Factiva, ProQuest, LDC Gigaword, and various news feeds and social
+media.
 
 
 \section{Documentation}
@@ -238,7 +273,7 @@ version being used depending on what modifications have been made. The command \
 
 \chapter{Installing CIVET}
 \label{installing:installing-civet}\label{installing::doc}
-To date we’ve only installed the system on Macintosh computers, though
+To date we’ve only installed the system on Macintosh computers (OS-X), though
 the only difference between a Macintosh installation and other
 installations should be the installation of the Django system.
 
@@ -253,7 +288,7 @@ In the Terminal, run \code{sudo pip install Django}: you will need
 administrative access to do this.
 
 \item {} 
-Download the Civet system from
+Download the CIVET system from
 \href{https://github.com/civet-software/CIVET-Django}{https://github.com/civet-software/CIVET-Django}, unzip the folder and
 put it wherever you would like
 
@@ -269,7 +304,7 @@ In a browser, enter the URL \href{http://127.0.0.1:8000}{http://127.0.0.1:8000}
 
 \end{enumerate}
 
-At this point you should see the Civet home screen \footnote{
+At this point you should see the CIVET home screen \footnote{
 If you see a log-in page requesting a user name and password, the log-in requirement
 has been activated: see the “Authentication” chapter for details on how to use
 (or deactivate) this.
@@ -404,27 +439,26 @@ least change the passwords.
 The home page has the following links:
 \begin{description}
 \item[{\textbf{Read coding form:}}] \leavevmode
-Civet reads a coding form template without using a workspace: this
+CIVET reads a coding form template without using a workspace: this
 is used if you want to use the web coding form without annotated
 texts. This option can also be used when debugging coding forms.
-Further instructions for the template-only mode are given in Section
-{[}sec:template{]}.
 
 \item[{\textbf{Read workspace:}}] \leavevmode
-Civet reads a set of text collections and their associated coding
+CIVET reads a set of text collections and their associated coding
 form from a zipped file: this mode allows for text annotation and
 extraction and is described in more detail in Section
 {[}sec:workspace{]}, {[}sec:annotate{]} and {[}sec:coding{]}.
 
 \item[{\textbf{Manage workspace:}}] \leavevmode
 This links to various utilities that operate on workspace files
-(Section {[}sec:workspace{]}) including downloading the coded data as a
+including downloading the coded data as a
 tab-delimited file, editing the meta-data, and adding comments to
-the file. {[}Beta 0.7: only the data download is implemented{]}
+the file. {[}Beta 0.9: only the data download is implemented; editing
+the meta-data can be done in a text editor.{]}
 
 \item[{\textbf{Set preferences:}}] \leavevmode
 This goes to a page where various program preferences can be set
-manually. {[}Beta 0.7: not currently implemented{]}
+manually.
 
 \end{description}
 
@@ -455,7 +489,7 @@ The first three modes go to a file selection screen.
 \capstart
 
 \includegraphics{fileselect.png}
-\caption{Civet file selection screen}\end{figure}
+\caption{CIVET file selection screen}\end{figure}
 
 This provides the following options:
 \begin{description}
@@ -624,8 +658,8 @@ stop after it has encountered the first error rather than reporting
 all of the errors in the file.
 
 
-\section{Templates: Specifying variables}
-\label{forms:templates-specifying-variables}
+\section{Specifying variables}
+\label{forms:specifying-variables}
 
 \subsection{Specifying variables to save}
 \label{forms:specifying-variables-to-save}
@@ -648,19 +682,25 @@ written to a tab-delimited file: the value is the string in brackets
 \code{{[}…{]}} in the annotated coding mode. If there is a variable name inside
 the brackets, that will be used as the column name for the values;
 otherwise the regular name will be used: this allows both the literal
-text and the value to be saved, as in the third example below. If
-\code{save} specifies a value output and not is found, a missing value will
-be used.
+text and the value to be saved, as in the third example below.
+
+If \code{save} specifies a value output and not is found, the output depends
+on the preference \code{civet\_settings.USE\_TEXT\_FOR\_MISSING}, which also can
+be set on the “Preferences” page. If this is \code{True}, the text will be
+used; otherwise the string in  \code{civet\_settings.MISSING\_VALUE} will be used.
 
 \textbf{Example:}
-\begin{quote}
 
-\begin{DUlineblock}{0em}
-\item[] \code{save: worldregion, eyewit, groupname, comments}
-\item[] \code{save: worldregion {[}regioncode{]}, eyewit, groupname{[}{]}, comments}
-\item[] \code{save: worldregion, eyewit, groupname, groupname {[}groupcode{]}, comments}
-\end{DUlineblock}
-\end{quote}
+\begin{Verbatim}[commandchars=\\\{\}]
+save:
+worldregion, eyewit, groupname, comments
+
+save:
+worldregion [regioncode], eyewit, groupname[], comments
+
+save:
+worldregion, eyewit, groupname, groupname [groupcode], comments
+\end{Verbatim}
 
 
 \subsection{constant}
@@ -684,7 +724,7 @@ Sets the value of a variable to a constant; this can be used in a
 \subsection{filename}
 \label{forms:filename}
 Sets the default file name for the downloads: this can be changed before
-downloading. {[}Beta 0.7: Not yet implemented{]}
+downloading.
 \begin{quote}
 
 \begin{DUlineblock}{0em}
@@ -699,23 +739,142 @@ downloading. {[}Beta 0.7: Not yet implemented{]}
 \end{quote}
 
 
-\subsection{Special variables}
-\label{forms:special-variables}\begin{description}
-\item[{\_coder\_}] \leavevmode
-: Text entered in the \emph{CIVET template selection} page
+\subsection{Special \texttt{save} variables}
+\label{forms:special-save-variables}\begin{description}
+\item[{\code{\textbackslash{}\_coder\textbackslash{}\_}}] \leavevmode
+Coder text entered in the \emph{CIVET template selection} page
 
-\item[{\_date\_}] \leavevmode
-: Current date. this is currently in the form DD-mmm-YYYY but later
-versions of the system will allow other formats
+\item[{\code{\textbackslash{}\_date\textbackslash{}\_}}] \leavevmode
+Current date. this is currently in the form YYYY-MM-DD. \footnote{
+This format can be changed in the function \code{get\_special\_var(avar)} in
+\emph{civet\_form.py}: It is specified using the extensive Python/C date format
+operators shown \href{http://strftime.org/}{here.}
+}
 
-\item[{\_time\_}] \leavevmode
-: Current time in hh:mm:ss format
+\item[{\code{\textbackslash{}\_time\textbackslash{}\_}}] \leavevmode
+Current time in hh:mm:ss format
 
 \end{description}
 
 
-\section{Templates: Data Entry Fields}
-\label{forms:templates-data-entry-fields}
+\section{Commands only relevant in workspaces}
+\label{forms:commands-only-relevant-in-workspaces}
+
+\subsection{discard}
+\label{forms:discard}
+Sets an initially unchecked checkbox for the special variable
+“\_discard\_”, which can be used
+to indicate that a collection has been evaluated by a coder but nothing
+was coded. When this is checked, a case is generated for the collection
+containing only the “\_discard\_” variable; those cases are not used to
+generate data.
+\begin{quote}
+
+\begin{DUlineblock}{0em}
+\item[] \textbf{discard:} entry-title
+\end{DUlineblock}
+\end{quote}
+
+\textbf{Example:}
+\begin{quote}
+
+\code{discard: Texts are not codeable}
+\end{quote}
+
+
+\subsection{comments}
+\label{forms:comments}
+Creates a textarea box for the special variable \code{\_comments\_} which will be
+added to the “casecmt” meta-data for the case being coded. \code{\_comments\_}
+can also be added to the output data like any other variable, but this
+is not required. The default size of the text box is 4 x 64 characters;
+alternative sizes can be specified by adding an empty set of brackets
+followed by \code{rows} and \code{cols} using the same format as the \code{textarea}
+command. \footnote{
+In fact, the \code{comments:} command is just a shorthand for
+\code{textarea: entry-text {[}\_comments\_{]}}, and this will have the same
+effect, with the contents added to the metadata.
+}
+\begin{quote}
+
+\begin{DUlineblock}{0em}
+\item[] \textbf{comments:} entry-title
+\item[] \textbf{comments:} entry-title {[}{]} rows = number cols = number
+\end{DUlineblock}
+\end{quote}
+
+\textbf{Example:}
+\begin{quote}
+
+\code{comments: Enter any additional comments about this case}
+\end{quote}
+
+
+\subsection{header}
+\label{forms:header}
+Sets the HTML code for the display of collection information at the
+top of the editing and coding screens. The text of \code{field-name} will
+be substituted for the optional token \code{\_text\_} in \code{HTML-text}
+\begin{quote}
+
+\begin{DUlineblock}{0em}
+\item[] \textbf{header:} HTML-text {[}field-name{]}
+\end{DUlineblock}
+\end{quote}
+
+\code{field name} should be one of the following
+\begin{description}
+\item[{\code{workspace}}] \leavevmode
+Workspace file name
+
+\item[{\code{collection}}] \leavevmode
+Collection ID (\code{collid} field)
+
+\item[{\code{comments}}] \leavevmode
+Collection comments (\code{collcmt} field)
+
+\end{description}
+
+The three fields are displayed in this order; they default to null strings.
+The individual \code{header} commands must be separated by blank lines; otherwise,
+consistent with the command syntax, \footnote{
+Neither a bug nor a feature: just is what it is.
+} the latter lines will be ignored.
+
+\textbf{Example:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+header: \PYGZlt{}h3\PYGZgt{}\PYGZlt{}span style=\PYGZdq{}color:blue\PYGZdq{}\PYGZgt{}Workspace \PYGZus{}text\PYGZus{} \PYGZlt{}/span\PYGZgt{}\PYGZlt{}/h3\PYGZgt{}\PYGZsq{} [workspace]
+
+header: \PYGZlt{}b\PYGZgt{}Collection:\PYGZlt{}/b\PYGZgt{} \PYGZus{}text\PYGZus{} \PYGZsq{} [collection]
+\end{Verbatim}
+
+
+\subsection{Special \texttt{save} variables for workspaces}
+\label{forms:special-save-variables-for-workspaces}
+These variables will not include any texts that were deleted using
+\code{shift-click} on the lede. \footnote{
+At present, only these two fields are available, but it is relatively
+straightforward to add the others by just following the existing
+code that you locate in a search for “textpublisher”
+}
+\begin{description}
+\item[{\_publisher\_}] \leavevmode
+Comma-delimited list of the \code{textpublisher} fields of the texts in
+the collection
+
+\item[{\_bibliorefs\_}] \leavevmode
+Comma-delimited list of the \code{textbiblio} fields of the texts in
+the collection
+
+\end{description}
+
+
+\section{Data entry fields}
+\label{forms:data-entry-fields}
+Any of these commands can be prefixed with “//”, which inserts a \code{\textless{}p\textgreater{}\textless{}/p\textgreater{}}
+or a “/”, which inserts a \code{\textless{}br\textgreater{}}.
+
 
 \subsection{Checkbox}
 \label{forms:checkbox}
@@ -854,14 +1013,15 @@ the text entry box in characters: the default is \code{rows = 4 cols = 80}
 \end{quote}
 
 \textbf{Example:}
-\begin{quote}
 
-\code{textarea: Comments {[}comments{]} rows = 2 cols = 64 – put any additional comments here –}
-\end{quote}
+\begin{Verbatim}[commandchars=\\\{\}]
+textarea: Description [descript] rows = 2 cols = 64
+Briefly describe the incident
+\end{Verbatim}
 
 
-\section{Templates: Additional Web Page Formatting}
-\label{forms:templates-additional-web-page-formatting}
+\section{Additional web page formatting}
+\label{forms:additional-web-page-formatting}
 
 \subsection{Set page title}
 \label{forms:set-page-title}
@@ -870,7 +1030,7 @@ section of the header.
 \begin{quote}
 
 \begin{DUlineblock}{0em}
-\item[] \textbf{title:} page-text
+\item[] \textbf{title:} page-title
 \end{DUlineblock}
 \end{quote}
 
@@ -889,6 +1049,9 @@ characters are not interpreted as HTML: note that this means that
 in-line mark-up such as \code{\textless{}i\textgreater{}}, \code{\textless{}b\textgreater{}} and \code{\textless{}tt\textgreater{}} will not work,
 so if you need this activate and use the \code{html:} command. Also keep in
 mind that these commands need to be separated by a blank line.
+
+A “/” in the page-text will add a line-break \code{\textless{}br\textgreater{}}. To include a
+“/” in the text, use “//”.
 \begin{quote}
 
 \begin{DUlineblock}{0em}
@@ -905,7 +1068,7 @@ mind that these commands need to be separated by a blank line.
 \begin{Verbatim}[commandchars=\\\{\}]
 h1: Primary data set coding form
 
-p:Please enter data in the fields below, and be really, really careful!
+p:Please enter data in the fields below,/ and be really, really careful!
 \end{Verbatim}
 
 The simple command
@@ -914,7 +1077,109 @@ The simple command
 p:
 \end{Verbatim}
 
-is useful for putting some space between form elements.
+is useful for putting some space between form elements; this is equivalent to the
+“//” prefix in the data entry commands.
+
+
+\subsection{Insert a line break}
+\label{forms:insert-a-line-break}
+Adds a new line in the form; this is equivalent to the “/” prefix in the
+data entry commands.
+\begin{quote}
+
+\textbf{newline:}
+\end{quote}
+
+
+\section{Advanced formating options}
+\label{forms:advanced-formating-options}
+A CIVET form is simply a web page, and consequently can be controlled by
+the standard commands for displaying web pages, notably cascading style sheets (CSS).
+
+
+\subsection{Set css}
+\label{forms:set-css}
+Adds the text which follows the command to the \code{\textless{}style\textgreater{}...\textless{}/style\textgreater{}} section
+in the page head. The text block is terminated by a blank line.
+\begin{quote}
+
+\begin{DUlineblock}{0em}
+\item[] \textbf{css:}
+\item[] one or more lines of css definitions
+\end{DUlineblock}
+\end{quote}
+
+
+\subsection{Set form division sizes}
+\label{forms:set-form-division-sizes}
+This is a short-cut that for most options just changes the size of various components in either of these
+forms:
+\begin{quote}
+
+\begin{DUlineblock}{0em}
+\item[] \textbf{size:} {[}division-name{]} width = \textless{}length\textgreater{} height = \textless{}length\textgreater{}
+\item[] \textbf{size:} {[}division-name{]} width : \textless{}length\textgreater{}; height : \textless{}length\textgreater{}
+\end{DUlineblock}
+\end{quote}
+
+\textless{}size\textgreater{} can be any of the CSS “length” formats: \href{http://www.w3schools.com/cssref/css\_units.asp}{http://www.w3schools.com/cssref/css\_units.asp}.
+
+\emph{division-name} is one of the following:
+\begin{description}
+\item[{\emph{body}}] \leavevmode
+over-all size of the page
+
+\item[{\emph{civ-editor}}] \leavevmode
+size of CKEditor text box on the annotation page
+
+\item[{\emph{civ-text-display}}] \leavevmode
+size of the scrolling text display on the coding page
+
+\item[{\emph{civ-form}}] \leavevmode
+size of the coding form created by the template in both the basic form and the coding page
+
+\end{description}
+
+\textbf{Notes:}
+\begin{enumerate}
+\item {} 
+The system does not check for the validity of either the division names or the
+CSS \emph{\textless{}length\textgreater{}} specification; if they can't be interpreted
+they are ignored.
+
+\item {} 
+\code{size} commands can occur anywhere and can be combined with a \code{css} command:
+if they occur before the \code{css} command the contents of \code{css} will override \code{size},
+and vice-versa if they occur afterwards: the CSS string for the
+\code{\textless{}style\textgreater{}...\textless{}/style\textgreater{}} section is assembled in the order the commands occur.
+
+\item {} 
+Because CSS doesn't use object-like inheritance, the \code{size: {[}body{]}}  command resets
+\emph{all} of the properties of \code{body}, leaving only \code{width} and \code{height} set in the style, e.g.
+
+\begin{Verbatim}[commandchars=\\\{\}]
+body \PYGZob{}
+    width:900px;
+    height:700px;
+\PYGZcb{}
+\end{Verbatim}
+
+If you want to change the size but also retain other characteristics, use \code{css}
+to define the complete \code{body} style.
+
+\item {} 
+The \code{civ-editor} command changes the size in the configuration of CKEditor rather than
+any CSS, so this name cannot be used in  \code{css:} (well, it can be used but it won't
+do anything...). CKEditor does not allow the “\%” option to be used as a “height”:
+see \href{http://docs.ckeditor.com/\#!/guide/dev\_size}{http://docs.ckeditor.com/\#!/guide/dev\_size}. The CKEditor defaults to the width
+of the page (more or less) and a height of 200px.
+
+\item {} 
+The  \code{civ-form} and \code{civ-text-display} names correspond correspond to \code{\textless{}div class='name'\textgreater{}}
+in the content of the form; you can modify these directly by using a \code{css:{}`{}`command.
+The {}`{}`size} command resets the \emph{\textless{}name\textgreater{}-size} class, which only controls the size.
+
+\end{enumerate}
 
 
 \subsection{Insert HTML}
@@ -922,24 +1187,16 @@ is useful for putting some space between form elements.
 {[}This command may or may not be included in the operational version of
 the system, as it provides some opportunities for mischief. Stay tuned.
 It is in the code but currently deactivated; if you are installing your
-own version of the system, it can be activated by changing a single
-character in the source code.{]}
+own version of the system, it can be activated by setting
+\code{civet\_settings.HTML\_OK = True}.{]}
 
 Adds arbitrary HTML code without escaping.
 \begin{quote}
 
 \begin{DUlineblock}{0em}
-\item[] \textbf{html:} page-text
+\item[] \textbf{html:}
+\item[] one or more lines of HTML
 \end{DUlineblock}
-\end{quote}
-
-
-\subsection{Insert a line break}
-\label{forms:insert-a-line-break}
-Adds a new line in the form
-\begin{quote}
-
-\textbf{newline:}
 \end{quote}
 
 
@@ -983,12 +1240,12 @@ be downloaded to wherever your system downloads file: for example on the
 Macintosh this is a folder named \code{Downloads}. \footnote{
 If you read the workspace from the same directory where it will
 eventually be downloaded, the behavior presumably depends on the
-operating system: in the case of the Macintosh both the downloaded
+operating system: in the case of OS-X both the downloaded
 file and the decompressed versions get a suffix added. E.g. if the
-original workspace folder is named \code{test123} with the compressed
-version \code{test123.zip}, the system assigns the downloaded version
-the name \code{test123 (1).zip} which decompressed to a folder named
-\code{test123 (1)}. We are leaving the task of insuring that the
+original workspace folder is named “test123” with the compressed
+version “test123.zip”, the system assigns the downloaded version
+the name “test123 (1).zip” which decompressed to a folder named
+“test123 (1)”. We are leaving the task of insuring that the
 original file is not over-written to the operating system and
 whatever other utilities you might be using to manage workspaces.
 } If you wish to
@@ -1013,10 +1270,10 @@ workspace for the first time or if you have manually edited it outside
 of the CIVET system: once a workspace has been successfully read by
 CIVET the program should not introduce any errors that would be caught
 at this point. \footnote{
-For example, the error in the variable values string in Figure
-{[}fig:workerrors{]} occurs because of the substring
-\code{’whois’=’Case1-whois’,} which should actually be
-\code{’whois’:’Case1-whois’,} but that ‘\code{=}’ could only have been
+For example, the error in the variable values string in the example screen
+occurs because of the substring
+\code{'whois'='Case1-whois',} which should actually be
+\code{'whois':'Case1-whois',} but that ‘\code{=}’ could only have been
 introduced through external editing.
 }
 
@@ -1039,7 +1296,8 @@ name can be anything, though typically it will end in \code{.txt}.
 
 \item {} 
 Any file ending with \code{.ini} is assumed to be a configuration file
-{[}Beta 0.7: Not yet implemented{]}
+{[}Version 1.0: Not yet implemented—see comments on setting globals in
+the “Preferences” chapter.{]}
 
 \end{itemize}
 
@@ -1070,10 +1328,11 @@ generated from inside the program.
 \section{Workspace Management}
 \label{workspaces:workspace-management}\label{workspaces:sec-management}
 The \code{Manage workspace} link on the home page will take you first to a
-workspace selection page, and then to the page shown below. In Beta 0.7, only the
+workspace selection page, and then to the page shown below. In Beta 0.9, only the
 \code{Export data in tab-delimited format/Use save-variable list in the template}
 is implemented: this will download any coded cases found in the
-workspace.
+workspace. The remaining functions will eventually be implemented but in
+the meantime these tasks can be done using a text editing program.
 \begin{figure}[htbp]
 \centering
 
@@ -1098,16 +1357,10 @@ annotation editor.
 
 The \code{category-name} must be unique and cannot be one of the standard
 categories \code{nament, num} or \code{date}. The program currently
-accommodates up to 99 categories. \footnote{\begin{description}
-\item[{If you need more, this can be changed by allowing more digits in}] \leavevmode
+accommodates up to 99 categories. \footnote{
+If you need more, this can be changed by allowing more digits in
 the \code{\{:02d\}} format in the code
-\begin{quote}
-
-{}`{}` UserCategories{[}newcat{]}.append(’termst\{:02d\}’.format(len(UserCategories))){}`{}`
-\end{quote}
-
-\end{description}
-
+\code{UserCategories{[}newcat{]}.append('termst\{:02d\}'.format(len(UserCategories)))}
 in \code{CIVET\_template.make\_category()}
 }
 
@@ -1152,11 +1405,8 @@ evaluated in the order they are listed—see the example in the chapter on annot
 which can be used to establish precedent when words or
 phrases overlap. At present the program does not allow partial matches,
 though a facility for this may be added in the future. \footnote{
-\begin{DUlineblock}{0em}
-\item[] If you want it now, delete the test
-\item[] “\code{if endx == idx+len(st):}” in
+If you want it now, delete the test \code{if endx == idx+len(st):} in
 \code{CIVET\_utilities.do\_string\_markup()}.
-\end{DUlineblock}
 }
 
 The comma-delimited-phrase/code-list can have codes assigned to each of
@@ -1193,12 +1443,16 @@ a comment.
 
 \chapter{Annotation and Editing Collections}
 \label{annotation::doc}\label{annotation:annotation-and-editing-collections}
-The annotation and editing page for workspace collections implements a
+The annotation and editing page for workspace collections \footnote{
+If you are not seeing this screen,  \code{civet\_settings.SKIP\_EDITING} is
+probably set to \code{True}: this can be changed on the “Preferences”
+screen.
+} implements a
 minimal version \footnote{
 that is, the version of \code{ckeditor} deliberately uses only a very
 small set of the features that are available for the editor: if you
 want to customize this, additional features can easily be added.
-} of the Javascript \code{ckeditor} which allows the
+} of the open source Javascript “CKEditor” \href{http://ckeditor.com/}{http://ckeditor.com/} which allows the
 texts to be edited and annotated. Editing works as you would expect,
 including cut/copy/paste options.
 
@@ -1220,27 +1474,30 @@ annotate and then select the annotation to apply.
 
 The following options are available on this screen
 
-Annotate the collection:
+\textbf{Annotate the collection:}
 \begin{quote}
 
 This applies the automated markup system which currently annotates the following
 categories of words and phrases:
 \begin{description}
-\item[{Named-entities:}] \leavevmode
+\item[{\emph{Named-entities}:}] \leavevmode
 This is based on capitalization; consecutive capitalized words
 are combined.
 
-\item[{Numbers:}] \leavevmode
+\item[{\emph{Numbers}:}] \leavevmode
 Digits and numerical words and phrases such as “one” and
 “two-hundred.”
 
-\item[{User-specified categories:}] \leavevmode
+\item[{\emph{User-specified categories}:}] \leavevmode
 See the discussion of {\hyperref[workspaces:sec-categories]{\emph{\DUspan{}{categories}}}}
 
 \end{description}
+
+Annotation is done automatically when \code{civet\_settings.ALWAYS\_ANNOTATE} is
+set to \code{True}; this can be changed on the “Preferences” screen.
 \end{quote}
 
-Save edits and select new collection:
+\textbf{Save edits and select new collection:}
 \begin{quote}
 
 This saves whatever annotation has been done to the internal
@@ -1254,20 +1511,20 @@ of the YAML file along with the date of the annotating and the
 coder ID.
 \end{quote}
 
-Save edits and code the collection:
+\textbf{Save edits and code the collection:}
 \begin{quote}
 
 This saves whatever annotation has been done to the internal
 database and goes to the coding and text extraction page
 \end{quote}
 
-Discard edits and select new collection:
+\textbf{Discard edits and select new collection:}
 \begin{quote}
 
 This discards the edits and returns to the collection selection screen.
 \end{quote}
 
-Download workspace and return to home screen:
+\textbf{Download workspace and return to home screen:}
 \begin{quote}
 
 This downloads the current workspace without doing any coding.
@@ -1279,7 +1536,7 @@ This downloads the current workspace without doing any coding.
 \item {} 
 Associated codes in brackets following a term can be edited: when
 writing variable values, the system will simply be looking for a
-value in a bracket.
+value in a bracket that occurs at the end of a string.
 
 \item {} 
 A word or phrase can be annotated only once. \footnote{
@@ -1404,6 +1661,35 @@ and can be modified if you want to experiment.
 The general operation of the coder/extractor is described below:
 \begin{enumerate}
 \item {} 
+Unless \code{civet\_settings.SHOW\_ALL\_CONTENT = True}, only the content
+of the first text will be expanded; to expand or collapse these,
+click on the lede (green text). The date of the
+article follows the lede in brackets.
+
+Shift-click on the lede will \emph{delete} the text: the lede and text
+disappear and from any subsequent codings. The text actually remains
+in the workspace file until it is permanently removed (or the
+deletion is reversed) in the workspace management. See the notes
+below for more details on this operation.
+
+\item {} 
+There are three controls at the top of the text display:
+\begin{itemize}
+\item {} \begin{description}
+\item[{\code{Show/hide comments}: toggles the display of the comments for}] \leavevmode
+each text: these are initially hidden.
+
+\end{description}
+
+\item {} 
+\code{Show all content}: shows the content for all of the ledes
+
+\item {} 
+\code{Hide all content}: hides the content for all of the ledes
+
+\end{itemize}
+
+\item {} 
 Clicking a text entry boxes associated with an annotation category
 will highlight the relevant words in text: In the demonstration
 version these are
@@ -1458,6 +1744,21 @@ Copy-and-paste from the text to the data fields work as you would
 expect; text can also be entered manually.
 
 \item {} 
+If bracketed values are included in the string, the system takes
+the value from within a set of brackets that is the final item \footnote{
+Specifically, the system checks whether the final character in the
+string that is not whitespace is ‘{]}’. The output when the system is
+expecting to find a bracketed value and does not is controlled by
+the preference \code{civet\_settings.USE\_TEXT\_FOR\_MISSING} which can be
+changed on the “Preferences” screen.
+}
+in the phrase: earlier sets are
+assumed to be part of the text. For example, the value of the
+phrase \code{Islamic State {[}ISIS{]}{[}mnsa{]}} will be “mnsa”; the value
+of the phrase \code{Islamic State {[}ISIS{]} militia} will be
+“Islamic State {[}ISIS{]} militia”.
+
+\item {} 
 To save a set of coded fields, click one of the buttons along the
 bottom. At present, all three buttons save; later versions add
 ``cancel“ and ``reset” options. The options are:
@@ -1468,11 +1769,7 @@ additional cases.
 
 \item[{Code next collection:}] \leavevmode
 Save the data internally, then select the next collection in the
-workspace and go to the annotation screen. \footnote{
-Beta 0.7: In the final version of the program, there will be an
-option for going to either the annotation or coding screen; the
-annotation screen will also have a “Next” button.
-}
+workspace and go to the annotation screen.
 
 \item[{Select new collection:}] \leavevmode
 Save the data internally, then select a new collection
@@ -1484,6 +1781,125 @@ machine. The {\hyperref[workspaces:sec-management]{\emph{\DUspan{}{Manage worksp
 \end{description}
 
 \end{enumerate}
+
+
+\section{Note on deleting texts}
+\label{extraction:note-on-deleting-texts}
+Deleting a text changes the value of the \code{textdelete} field to
+\code{True}: the text remains in the workspace file but will not be
+displayed again. Deletion also generates a case with the standard
+\code{casedate} and \code{casecoder} fields and the following fields in the
+\code{casevalues} dictionary
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYGZus{}delete\PYGZus{} : True
+\PYGZus{}textid\PYGZus{} : textid for the deleted text
+\end{Verbatim}
+
+This can be used to track the deletion of specific texts. version
+Beta-0.9 does not have any internal utilities for using this
+information but those functions may be added in a later version.
+
+Deletion is tracked through the hidden text field \code{deletelist}
+in \emph{civet\_coder.html.}
+
+
+\chapter{Preferences}
+\label{preferences::doc}\label{preferences:preferences}
+This page has standard HTML check-boxes for setting the status of some of the
+variables affecting the work flow and initial presentation of the texts.
+\begin{description}
+\item[{\textbf{Always apply annotation}}] \leavevmode
+Always apply automatic annotation to texts that have not been previously
+annotated.
+\begin{itemize}
+\item {} 
+Default: \code{True}
+
+\item {} 
+“civet\_settings.py” variable: \code{ALWAYS\_ANNOTATE}
+
+\end{itemize}
+
+\item[{\textbf{Show all content in coder}}] \leavevmode
+In the coder, initially expand the content of all of the ledes.
+\begin{itemize}
+\item {} 
+Default: Only expand the first lede.
+
+\item {} 
+“civet\_settings.py” variable: \code{SHOW\_ALL\_CONTENT}
+
+\end{itemize}
+
+\item[{\textbf{Skip editing}}] \leavevmode
+When reading a collection, skip the editing screen and go directly to the
+coder: this is typically used when dealing with texts that have already
+been annotated or where the form does not have any fields that use
+annotation.
+
+When combined with \code{Always apply annotation: True}, the
+“Code next collection” button in the coding screen will read the next
+collection, apply the automatic annotation, and display the annotated
+text with the form. In this mode, the automatic annotation is not
+saved.
+\begin{itemize}
+\item {} 
+Default: \code{False}
+
+\item {} 
+“civet\_settings.py” variable: \code{SKIP\_EDITING}
+
+\end{itemize}
+
+\item[{\textbf{Use text if value is missing:}}] \leavevmode
+This controls the output when \code{save} specifies a value output and a
+bracketed value is not the final element of the text string.  If \code{True},
+the text will be
+used; otherwise the MISSING\_VALUE string will be used.
+
+When combined with \code{Always apply annotation: True}, the
+“Code next collection” button in the coding screen will read the next
+collection, apply the automatic annotation, and display the annotated
+text with the form. In this mode, the automatic annotation is not
+saved.
+\begin{itemize}
+\item {} 
+Default: \code{True}
+
+\item {} 
+“civet\_settings.py” variable: \code{USE\_TEXT\_FOR\_MISSING}
+
+\end{itemize}
+
+\item[{\textbf{Missing value}}] \leavevmode
+Sets the missing value.
+\begin{itemize}
+\item {} 
+Default: *
+
+\item {} 
+“civet\_settings.py” variable: \code{MISSING\_VALUE}
+
+\end{itemize}
+
+\end{description}
+
+
+\section{Programming note}
+\label{preferences:programming-note}
+We eventually expect to implement an option for setting initial preferences
+through a configuration file in the workspace, but in the meantime the default
+values of various global variables are set in the file
+\emph{civet\_settings.py} and should be reasonably well documented there; in most
+cases these take the values \code{True} or \code{False}; those values are
+case-sensitive.
+
+The preferences page is implemented through those global variables, a very
+minimal Django form class \code{PrefsForm} in \emph{forms.py}, and the \code{set\_preferences()}
+and \code{get\_preferences()} functions in \emph{civet\_settings.py.}  If you wish
+to make additional global variables modifiable from this screen,  you will probably be able to
+customize it just by following the examples in the existing code.
 
 
 \chapter{Projected Features}
@@ -1571,13 +1987,6 @@ Dataverse.
 Development of training materials, both text and video, for the
 system
 
-\item {} 
-We are currently developing this based on a fixed frame that is 960
-pixels wide and 700 pixels high: this will fit easily on a 1024x768
-screen. For contemporary equipment this is probably quite
-conservative but it is not unheard of for data labs to have older
-equipment so we’re going with this at the moment
-
 \end{itemize}
 
 
@@ -1586,40 +1995,34 @@ equipment so we’re going with this at the moment
 \begin{Verbatim}[commandchars=\\\{\}]
 \PYGZsh{} CIVET template demonstration file
 
+title: CIVET basic form demonstration
+
 h1:Ministry of Magic Hogwarts Incident Report
 
 radio: House where incident occurred: [house]
 Gryffindor, Hufflepuff, Ravenclaw, *Slytherin
 
-p:
-
-select:Nature of incident [natincid]
+//select:Nature of incident [natincid]
 *Minor mischief, Unauthorized absence, Accident, Major infraction, Unforgivable Curses, Other
 
 p:If \PYGZdq{}Other\PYGZdq{}, provide details in the report section
 
-checkbox: Was incident reported to school authorities? [authreport]
+//checkbox: Was incident reported to school authorities? [authreport]
 No,*Yes
 
 checkbox: Did incident involve muggles? [muggles]
 No,Yes
 
-p:
-
-textline: Name of student(s) [names] width=80
+//textline: Name of student(s) [names] width=80
 Enter names here
 
-p:
-
-textarea:Brief description of incident [descrp] cols = 80
+//textarea:Brief description of incident [descrp] cols = 80
 Enter brief description here
 
-p:
-
-textline:Reporting official [reporter] width=40
+//textline:Reporting official [reporter] width=40
 Enter your name here
 
-h3:Thank you for your assistance; we will contact you by owl should we require more information
+h3:Thank you for your assistance; we will contact you by owl should we require any additional information
 
 save:
 \PYGZus{}date\PYGZus{}, house, natincid, authreport, muggles, names, descrp, reporter
@@ -1635,7 +2038,20 @@ This produces the form
 
 \chapter{Appendix 2: Input Format}
 \label{appendix2:appendix-2-input-format}\label{appendix2::doc}
-Fields marked with ** are required.
+Fields marked with ** are required. Text fields are limited to 100 characters except
+for:
+\begin{itemize}
+\item {} 
+\code{textoriginal}, \code{textmkup} and \code{casevalues} have no length limitation
+
+\item {} 
+the three comment fields \code{collcmt}, \code{textcmt} and \code{casecmt} can be up
+to 500 characters
+
+\item {} 
+coder ID, which is limited to 32 characters.
+
+\end{itemize}
 
 
 \section{Collection fields}
@@ -1678,6 +2094,9 @@ assigned by the program.
 
 \item[{**textdate}] \leavevmode
 text date YYYY-MM-DD
+
+\item[{textdelete:}] \leavevmode
+Boolean: text has been marked for deletion.
 
 \item[{textpublisher}] \leavevmode
 publisher {[}any string{]}
@@ -1749,7 +2168,7 @@ pairs of variable names and values
 
 \section{Date formats}
 \label{appendix2:date-formats}
-{[}This has not been consistently implemented in Beta-0.7{]}
+{[}This has not been consistently implemented in Beta-0.9{]}
 
 Dates are ISO-8601 (\href{http://en.wikipedia.org/wiki/ISO\_8601}{http://en.wikipedia.org/wiki/ISO\_8601};
 \href{http://www.w3.org/TR/NOTE-datetime}{http://www.w3.org/TR/NOTE-datetime}; \href{https://xkcd.com/1179/}{https://xkcd.com/1179/};
@@ -1799,17 +2218,13 @@ Stop words for automatic named-entity annotation
 \item[{CIVET.numberwords.txt:}] \leavevmode
 Number words and phrases for automatic number annotation
 
-\item[{civetstyle.css:}] \leavevmode
-Style sheet for some of the program (this is modified with the
-user-specified categories)
-
 \end{description}
 
 
 \subsection{Modify at your own risk}
 \label{appendix3:modify-at-your-own-risk}\begin{description}
 \item[{ckeditor:}] \leavevmode
-This is a \code{ckeditor} file downloaded from
+This is a “CKEditor” file downloaded from
 \href{http://ckeditor.com/}{http://ckeditor.com/}: if you would like additional features you
 should be able to create your own and swap it in here.
 
@@ -1839,14 +2254,22 @@ make latexpdf
 are used to generate the on-line and PDF documentation; the files are found in the
 \code{\textbackslash{}\_build/html} and \code{\textbackslash{}\_build/latex} directories.
 
+Because of the images and the redundant files in the “\_build” directory,
+“djcivet\_site/docs” is a very large directory, about 70\% of the size of the
+full “djcivet\_site” directory, and can be removed in deployments where you are
+just planning to use the on-line documentation. In that situation, the roughly 1 Mb file
+“djcivet\_site/djciv\_data/static/djciv\_data/civdocs.pdf” can also be removed,
+to the code for the system itself is only about 2 Mb.
+
 
 \chapter{Appendix 4: Prototype on Google Application Engine}
 \label{appendix4:appendix-4-prototype-on-google-application-engine}\label{appendix4::doc}
 An earlier demonstration version of the program, written in the Flask
-framework, is deployed as an application on the Google App Engine at
-\href{http://ace-element-88313.appspot.com/}{http://ace-element-88313.appspot.com/}. The “Coding Form Template” option
-in this program works as described {\hyperref[forms:sec-forms]{\emph{\DUspan{}{here}}}}. The code
-for this version can be downloaded from \href{https://github.com/philip-schrodt/CIVET-Flask}{https://github.com/philip-schrodt/CIVET-Flask}
+\href{http://flask.pocoo.org/}{http://flask.pocoo.org/} micro-framework , is deployed as an application on the Google App Engine at
+\href{http://ace-element-88313.appspot.com/}{http://ace-element-88313.appspot.com/}.  The code
+for this version can be downloaded from \href{https://github.com/philip-schrodt/CIVET-Flask}{https://github.com/philip-schrodt/CIVET-Flask}.
+The Flask version has most of the data entry commands, but none of the
+workspace commands.
 
 The other option in the program is the “Text-Extraction Demonstration
 Form” which was a prototype of the full annotation/extraction system. To
@@ -1916,19 +2339,34 @@ the window.
 
 \end{enumerate}
 
+If you don't need the content management or extraction facilities of CIVET
+workspaces, Flask is simpler and easier to deploy than Django, but has much
+the same model-view-controller logical structure, and like Django uses the
+“jinja2” template system for web pages. It should be relatively
+straightforward to retro-fit the new features of the forms system—notably
+the “//” and “/” prefixes—to the older code.
+
 
 \chapter{Appendix 5: Installing in AWS-EB and Docker}
 \label{appendix5:appendix-5-installing-in-aws-eb-and-docker}\label{appendix5::doc}
+“Cloud” servers are an increasingly popular low-cost alternative to locally-administered servers. A large number of these
+options are available \footnote{
+In particular, Heroku (\href{https://www.heroku.com/}{https://www.heroku.com/}) appears to be another
+\href{https://devcenter.heroku.com/articles/getting-started-with-django}{Django-friendly} option, and also offers free accounts.
+Using Heroku requires a {[}free{]} GitHub account. With the
+\href{http://www.nytimes.com/2015/08/16/technology/inside-amazon-wrestling-big-ideas-in-a-bruising-workplace.html}{recent revelations}
+about the sheer brutality of Amazon's corporate culture, I've got some
+ethical issues with recommending this vendor, but for the moment it is
+the one widely-available cloud option where I know I can get CIVET to work.
+} and as time goes by we hope to have instructions for multiple platforms and,
+of course, would greatly appreciate any community contributions along these lines.
+
 
 \section{Amazon Web Services Elastic Beanstalk}
 \label{appendix5:amazon-web-services-elastic-beanstalk}
-“Cloud” servers are an increasingly popular low-cost alternative to locally-administered servers. A large number of these
-options are available; \footnote{
-In particular, Heroku (\href{https://www.heroku.com/}{https://www.heroku.com/}) appears to be another
-\href{https://devcenter.heroku.com/articles/getting-started-with-django}{Django-friendly} option, and also offers free accounts.
-Using Heroku requires a {[}free{]} GitHub account.
-} I'm focusing on the Amazon Web Services “Elastic Beanstalk” (AWS-EB) for the simple reason that at the time
-of this writing AWS provides a generous free trial option, and their instructions worked the first time I tried. \footnote{
+Amazon Web Services “Elastic Beanstalk” (AWS-EB) was the first cloud service where we
+successfully deployed CIVET: At the time of this writing AWS provides a generous free trial
+option, and their instructions worked the first time I tried. \footnote{
 Which, ahem, cannot be said for my multiple attempts to get the system running on the comparable Google service,
 though I'm sure it is possible to do this and would be happy to add instructions once someone has figured it
 out.

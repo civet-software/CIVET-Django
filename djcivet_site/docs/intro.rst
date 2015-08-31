@@ -3,34 +3,34 @@ Introduction
 ****************************
 
 
-This is the documentation for the beta version of the
-Civet\  [#f1]_—Contentious Incident Variable Entry Template—customizable
-data entry system. Civet is being developed by the NSF-sponsored project
+This is the documentation for 
+CIVET\  [#f1]_—Contentious Incident Variable Entry Template—customizable
+data entry system. CIVET was developed by the NSF-sponsored project
 titled “A Method for Leveraging Public Information Sources for Social
 Science Research” which is creating tools to improve the efficiency of
-data generation in the social sciences. The project has an initial focus
+data generation in the social sciences. The project had an initial focus
 on coding event data in the domain of contentious politics, but we
 expect that these tools will be relevant in a number of data-generation
 domains.
 
-The core objective of Civet is to provide a reasonably simple—yes,
+The core objective of CIVET is to provide a reasonably simple—yes,
 simple—set of commands that will allow a user to set up a web-based
 coding environment without the need to master the likes of HTML, CSS and
 Javascript. As currently implemented, the system is a rather ugly
 prototype; it will also be evolving as we add additional elements.
 Nonetheless, the system should now be useable for coding.
 
-Civet is implemented in the widely-used and well documented
+CIVET is implemented in the widely-used and well documented
 Python-based Django system [#f2]_ which is widely available on various
 cloud platforms: a rather extended list of “Django-friendly” hosting
 services can be found at
 
     https://code.djangoproject.com/wiki/DjangoFriendlyWebHosts
 
-The complete Civet code is licensed as open source under the MIT
+The complete CIVET code is licensed as open source under the MIT
 license and provided on GitHub at https://github.com/civet-software .
 
-Civet currently has two modes:
+CIVET currently has two modes:
 
 **Coding form template:**
     This is a template-based for setting up a web-based coding form
@@ -39,7 +39,7 @@ Civet currently has two modes:
     fully functional and should be useable for small projects.
 
 **Text annotation/extraction:**
-    This uses Civet “workspaces” which combine related texts, their
+    This uses CIVET “workspaces” which combine related texts, their
     metadata, and the coding form. Workspaces allow for manual and
     automated text annotation, then the ability to extract various types
     of information into the fields of a coding form.
@@ -47,13 +47,43 @@ Civet currently has two modes:
 Program Navigation Placeholders
 ==================================
 
-Civet is currently under development and not all of the options have
+CIVET is still under development and not all of the options have
 been fully implemented. If you see a page with a message of the form
 
     ``The option [something] has yet to be implemented. Use the back arrow in your browser to return to the previous screen.``
 
 you have encountered one of those options: as noted, just use the “Back”
-option in your browser to return to the previous screen.
+option in your browser to return to the previous screen. These are primarily
+in the “Workspace Management” papge.
+
+
+Status of the Program: 31 August 2015
+=====================================
+
+The NSF funding for the project ended on this date. At this point, all of
+the documented features of the program should be working except as
+noted above. However, we are just beginning the process of 
+operational field testing and it is likely—which is to say, inevitable—
+that some additional bugs will be found, hence this is still considered
+“Beta-0.9” rather than “1.0.” We currently have two field tests underway,
+and are hoping to get some additional ones going, and will be posting
+bug fixes to GitHub promptly as these appear and are resolved.
+
+At present, we have not developed any software for generating the 
+workspace files, though we expect to have at least a couple programs 
+available in the next few months. The problem here is that identifying
+the various metadata and components in a set of texts is highly 
+specific to the text source, and to date we've not found general 
+solutions for this. As noted in the final chapter of this document, 
+over the next year or so we will be seeking additional funding for
+tool development for these “front-end” tasks, though given the very 
+slow pace of the public funding cycle, this is unlikely to occur until 
+late in 2016 at the earliest. In the meantime, we will be leveraging
+tools developed in existing projects and, of course, would very 
+much appreciate the contribution of any ancillary tools that the user
+community develops, particularly for common sources such as Lexis-Nexis,
+Factiva, ProQuest, LDC Gigaword, and various news feeds and social 
+media.
 
 
 Documentation
@@ -70,7 +100,7 @@ be downloaded by clicking the ``Download PDF`` link on the home page. [#f4]_
 
 .. rubric:: Footnotes
 
-.. [#f1] http://en.wikipedia.org/wiki/Civet
+.. [#f1] http://en.wikipedia.org/wiki/CIVET
 
 .. [#f2] An earlier prototype was implemented in the ``Flask`` framework: see
    Appendix 4

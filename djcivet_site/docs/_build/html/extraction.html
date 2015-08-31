@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     'beta-0.8',
+        VERSION:     'beta-0.9',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="CIVET documentation" href="index.html" />
-    <link rel="next" title="Projected Features" href="future.html" />
+    <link rel="next" title="Preferences" href="preferences.html" />
     <link rel="prev" title="Annotation and Editing Collections" href="annotation.html" /> 
   </head>
   <body role="document">
@@ -34,11 +34,11 @@
             <img class="logo" src="_static/civet200.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">CIVET beta-0.8 documentation</a></div>
+          href="index.html">CIVET beta-0.9 documentation</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="annotation.html" title="Annotation and Editing Collections"
              accesskey="P">previous</a> |
-          <a href="future.html" title="Projected Features"
+          <a href="preferences.html" title="Preferences"
              accesskey="N">next</a>
         </div>
        </div>
@@ -60,6 +60,32 @@
 </div>
 <p>The general operation of the coder/extractor is described below:</p>
 <ol class="arabic">
+<li><p class="first">Unless <code class="docutils literal"><span class="pre">civet_settings.SHOW_ALL_CONTENT</span> <span class="pre">=</span> <span class="pre">True</span></code>, only the content
+of the first text will be expanded; to expand or collapse these,
+click on the lede (green text). The date of the
+article follows the lede in brackets.</p>
+<p>Shift-click on the lede will <em>delete</em> the text: the lede and text
+disappear and from any subsequent codings. The text actually remains
+in the workspace file until it is permanently removed (or the
+deletion is reversed) in the workspace management. See the notes
+below for more details on this operation.</p>
+</li>
+<li><p class="first">There are three controls at the top of the text display:</p>
+<blockquote>
+<div><ul>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">Show/hide</span> <span class="pre">comments</span></code>: toggles the display of the comments for</dt>
+<dd><p class="first last">each text: these are initially hidden.</p>
+</dd>
+</dl>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">Show</span> <span class="pre">all</span> <span class="pre">content</span></code>: shows the content for all of the ledes</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">Hide</span> <span class="pre">all</span> <span class="pre">content</span></code>: hides the content for all of the ledes</p>
+</li>
+</ul>
+</div></blockquote>
+</li>
 <li><p class="first">Clicking a text entry boxes associated with an annotation category
 will highlight the relevant words in text: In the demonstration
 version these are</p>
@@ -101,6 +127,14 @@ selected text or, if no text is selected, the highlighted text</p>
 <li><p class="first">Copy-and-paste from the text to the data fields work as you would
 expect; text can also be entered manually.</p>
 </li>
+<li><p class="first">If bracketed values are included in the string, the system takes
+the value from within a set of brackets that is the final item <a class="footnote-reference" href="#f4" id="id4">[4]</a>
+in the phrase: earlier sets are
+assumed to be part of the text. For example, the value of the
+phrase <code class="docutils literal"><span class="pre">Islamic</span> <span class="pre">State</span> <span class="pre">[ISIS][mnsa]</span></code> will be “mnsa”; the value
+of the phrase <code class="docutils literal"><span class="pre">Islamic</span> <span class="pre">State</span> <span class="pre">[ISIS]</span> <span class="pre">militia</span></code> will be
+“Islamic State [ISIS] militia”.</p>
+</li>
 <li><p class="first">To save a set of coded fields, click one of the buttons along the
 bottom. At present, all three buttons save; later versions add
 &#8220;cancel“ and &#8220;reset” options. The options are:</p>
@@ -111,7 +145,7 @@ additional cases.</p>
 </dd>
 <dt>Code next collection:</dt>
 <dd><p class="first last">Save the data internally, then select the next collection in the
-workspace and go to the annotation screen. <a class="footnote-reference" href="#f4" id="id4">[4]</a></p>
+workspace and go to the annotation screen.</p>
 </dd>
 <dt>Select new collection:</dt>
 <dd><p class="first last">Save the data internally, then select a new collection</p>
@@ -123,6 +157,22 @@ machine. The <a class="reference internal" href="workspaces.html#sec-management"
 </dl>
 </li>
 </ol>
+<div class="section" id="note-on-deleting-texts">
+<h2>Note on deleting texts<a class="headerlink" href="#note-on-deleting-texts" title="Permalink to this headline">¶</a></h2>
+<p>Deleting a text changes the value of the <code class="docutils literal"><span class="pre">textdelete</span></code> field to
+<code class="docutils literal"><span class="pre">True</span></code>: the text remains in the workspace file but will not be
+displayed again. Deletion also generates a case with the standard
+<code class="docutils literal"><span class="pre">casedate</span></code> and <code class="docutils literal"><span class="pre">casecoder</span></code> fields and the following fields in the
+<code class="docutils literal"><span class="pre">casevalues</span></code> dictionary</p>
+<div class="highlight-python"><div class="highlight"><pre>_delete_ : True
+_textid_ : textid for the deleted text
+</pre></div>
+</div>
+<p>This can be used to track the deletion of specific texts. version
+Beta-0.9 does not have any internal utilities for using this
+information but those functions may be added in a later version.</p>
+<p>Deletion is tracked through the hidden text field <code class="docutils literal"><span class="pre">deletelist</span></code>
+in <em>civet_coder.html.</em></p>
 <p class="rubric">Footnotes</p>
 <table class="docutils footnote" frame="void" id="f1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
@@ -153,11 +203,14 @@ rather than a feature.</td></tr>
 <table class="docutils footnote" frame="void" id="f4" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id4">[4]</a></td><td>Beta 0.7: In the final version of the program, there will be an
-option for going to either the annotation or coding screen; the
-annotation screen will also have a “Next” button.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id4">[4]</a></td><td>Specifically, the system checks whether the final character in the
+string that is not whitespace is ‘]’. The output when the system is
+expecting to find a bracketed value and does not is controlled by
+the preference <code class="docutils literal"><span class="pre">civet_settings.USE_TEXT_FOR_MISSING</span></code> which can be
+changed on the “Preferences” screen.</td></tr>
 </tbody>
 </table>
+</div>
 </div>
 
 
@@ -175,7 +228,11 @@ annotation screen will also have a “Next” button.</td></tr>
 <li class="toctree-l1"><a class="reference internal" href="forms.html">CIVET Coding Form Templates</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workspaces.html">CIVET Workspaces</a></li>
 <li class="toctree-l1"><a class="reference internal" href="annotation.html">Annotation and Editing Collections</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Coding and Text Extraction</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Coding and Text Extraction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#note-on-deleting-texts">Note on deleting texts</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="preferences.html">Preferences</a></li>
 <li class="toctree-l1"><a class="reference internal" href="future.html">Projected Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="appendix1.html">Appendix 1: Sample Template File</a></li>
 <li class="toctree-l1"><a class="reference internal" href="appendix2.html">Appendix 2: Input Format</a></li>
@@ -207,7 +264,7 @@ annotation screen will also have a “Next” button.</td></tr>
           <div role="navigation" aria-label="related navigaton">
             <a href="annotation.html" title="Annotation and Editing Collections"
               >previous</a> |
-            <a href="future.html" title="Projected Features"
+            <a href="preferences.html" title="Preferences"
               >next</a>
           </div>
           <div role="note" aria-label="source link">
@@ -220,7 +277,7 @@ annotation screen will also have a “Next” button.</td></tr>
         <div class="right">
           
     <div class="footer" role="contentinfo">
-      Last updated on 2015-08-18.
+      Last updated on 2015-08-31.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
         </div>

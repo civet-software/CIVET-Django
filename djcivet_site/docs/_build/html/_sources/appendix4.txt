@@ -3,10 +3,11 @@ Appendix 4: Prototype on Google Application Engine
 ********************************************************
 
 An earlier demonstration version of the program, written in the Flask
-framework, is deployed as an application on the Google App Engine at
-http://ace-element-88313.appspot.com/. The “Coding Form Template” option
-in this program works as described :ref:`here <sec-forms>`. The code
-for this version can be downloaded from https://github.com/philip-schrodt/CIVET-Flask
+http://flask.pocoo.org/ micro-framework , is deployed as an application on the Google App Engine at
+http://ace-element-88313.appspot.com/.  The code
+for this version can be downloaded from https://github.com/philip-schrodt/CIVET-Flask. 
+The Flask version has most of the data entry commands, but none of the
+workspace commands.
 
 The other option in the program is the “Text-Extraction Demonstration
 Form” which was a prototype of the full annotation/extraction system. To
@@ -58,3 +59,10 @@ demo of the text-highlighting system by clicking here*
 #. To quit the program, just close the window: This is a HTML/Javascript security feature which
    prevents rogue websites from closing windows unless they have created
    the window.
+
+If you don't need the content management or extraction facilities of CIVET
+workspaces, Flask is simpler and easier to deploy than Django, but has much
+the same model-view-controller logical structure, and like Django uses the
+“jinja2” template system for web pages. It should be relatively 
+straightforward to retro-fit the new features of the forms system—notably
+the “//” and “/” prefixes—to the older code.

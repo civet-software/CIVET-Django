@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     'beta-0.8',
+        VERSION:     'beta-0.9',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -34,7 +34,7 @@
             <img class="logo" src="_static/civet200.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">CIVET beta-0.8 documentation</a></div>
+          href="index.html">CIVET beta-0.9 documentation</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="workspaces.html" title="CIVET Workspaces"
              accesskey="P">previous</a> |
@@ -54,8 +54,8 @@
             
   <div class="section" id="annotation-and-editing-collections">
 <h1>Annotation and Editing Collections<a class="headerlink" href="#annotation-and-editing-collections" title="Permalink to this headline">¶</a></h1>
-<p>The annotation and editing page for workspace collections implements a
-minimal version <a class="footnote-reference" href="#f1" id="id1">[1]</a> of the Javascript <code class="docutils literal"><span class="pre">ckeditor</span></code> which allows the
+<p>The annotation and editing page for workspace collections <a class="footnote-reference" href="#f0" id="id1">[1]</a> implements a
+minimal version <a class="footnote-reference" href="#f1" id="id2">[2]</a> of the open source Javascript “CKEditor” <a class="reference external" href="http://ckeditor.com/">http://ckeditor.com/</a> which allows the
 texts to be edited and annotated. Editing works as you would expect,
 including cut/copy/paste options.</p>
 <p>Annotation is handled with the <code class="docutils literal"><span class="pre">Styles</span></code> drop-down menu in the window
@@ -70,37 +70,39 @@ annotate and then select the annotation to apply.</p>
 <img alt="CIVET Editor" src="_images/style_options.png" />
 </div>
 <p>The following options are available on this screen</p>
-<p>Annotate the collection:</p>
+<p><strong>Annotate the collection:</strong></p>
 <blockquote>
 <div><p>This applies the automated markup system which currently annotates the following
 categories of words and phrases:</p>
 <dl class="docutils">
-<dt>Named-entities:</dt>
+<dt><em>Named-entities</em>:</dt>
 <dd>This is based on capitalization; consecutive capitalized words
 are combined.</dd>
-<dt>Numbers:</dt>
+<dt><em>Numbers</em>:</dt>
 <dd>Digits and numerical words and phrases such as “one” and
 “two-hundred.”</dd>
-<dt>User-specified categories:</dt>
+<dt><em>User-specified categories</em>:</dt>
 <dd>See the discussion of <a class="reference internal" href="workspaces.html#sec-categories"><span>categories</span></a></dd>
 </dl>
+<p>Annotation is done automatically when <code class="docutils literal"><span class="pre">civet_settings.ALWAYS_ANNOTATE</span></code> is
+set to <code class="docutils literal"><span class="pre">True</span></code>; this can be changed on the “Preferences” screen.</p>
 </div></blockquote>
-<p>Save edits and select new collection:</p>
+<p><strong>Save edits and select new collection:</strong></p>
 <blockquote>
 <div>This saves whatever annotation has been done to the internal
-database <a class="footnote-reference" href="#f2" id="id2">[2]</a> and returns to the collection selection screen :
+database <a class="footnote-reference" href="#f2" id="id3">[3]</a> and returns to the collection selection screen :
 this option would be used if you are only annotating text rather
 than coding them. Annotations are saved in the <code class="docutils literal"><span class="pre">textmkup</span></code> field
 of the YAML file along with the date of the annotating and the
 coder ID.</div></blockquote>
-<p>Save edits and code the collection:</p>
+<p><strong>Save edits and code the collection:</strong></p>
 <blockquote>
 <div>This saves whatever annotation has been done to the internal
 database and goes to the coding and text extraction page</div></blockquote>
-<p>Discard edits and select new collection:</p>
+<p><strong>Discard edits and select new collection:</strong></p>
 <blockquote>
 <div>This discards the edits and returns to the collection selection screen.</div></blockquote>
-<p>Download workspace and return to home screen:</p>
+<p><strong>Download workspace and return to home screen:</strong></p>
 <blockquote>
 <div>This downloads the current workspace without doing any coding.</div></blockquote>
 <div class="section" id="comments-on-annotation-and-editing">
@@ -108,9 +110,9 @@ database and goes to the coding and text extraction page</div></blockquote>
 <ol class="arabic">
 <li><p class="first">Associated codes in brackets following a term can be edited: when
 writing variable values, the system will simply be looking for a
-value in a bracket.</p>
+value in a bracket that occurs at the end of a string.</p>
 </li>
-<li><p class="first">A word or phrase can be annotated only once. <a class="footnote-reference" href="#f3" id="id3">[3]</a> The user-specified
+<li><p class="first">A word or phrase can be annotated only once. <a class="footnote-reference" href="#f3" id="id4">[4]</a> The user-specified
 <code class="docutils literal"><span class="pre">category</span></code> words are annotated before the general named-entity, so
 if a named entity occurs in a <code class="docutils literal"><span class="pre">category</span></code>, that will take
 precedence. Similarly, any numbers that occur in a <code class="docutils literal"><span class="pre">category</span></code>
@@ -121,7 +123,7 @@ they are listed, which can be used to establish precedence.</p>
 <p>Consider the sentence</p>
 </li>
 </ol>
-<div class="figure" id="id6">
+<div class="figure" id="id7">
 <img alt="_images/annotation0.png" src="_images/annotation0.png" />
 <p class="caption"><span class="caption-text">The category listing:</span></p>
 <div class="legend">
@@ -132,7 +134,7 @@ shot and killed [4], killed [1], wounded [2], bombed [3]
 <p>would result in the annotation</p>
 </div>
 </div>
-<div class="figure" id="id7">
+<div class="figure" id="id8">
 <img alt="_images/annotation1.png" src="_images/annotation1.png" />
 <p class="caption"><span class="caption-text">whereas category listing:</span></p>
 <div class="legend">
@@ -143,7 +145,7 @@ killed [1], shot and killed [4], wounded [2], bombed [3]]
 <p>would result in the annotation</p>
 </div>
 </div>
-<div class="figure" id="id8">
+<div class="figure" id="id9">
 <img alt="_images/annotation2.png" src="_images/annotation2.png" />
 <p class="caption"><span class="caption-text">because the “killed” part of the phrase “shot and killed” has
 already been annotated, and the remainder does not fit any of the
@@ -161,7 +163,7 @@ word and is in the list of common “stop words” in the file</p>
 <li><p class="first">Words referring to numbers such as “one”, “ten” and “fifty” have the corresponding
 numerical value added in brackets following the number; these phrase and their
 associated values are obtained from the file</p>
-<p><code class="docutils literal"><span class="pre">djcivet_site/djciv_data/static/djciv_data/CIVET.numberwords.txt</span></code> <a class="footnote-reference" href="#f4" id="id4">[4]</a></p>
+<p><code class="docutils literal"><span class="pre">djcivet_site/djciv_data/static/djciv_data/CIVET.numberwords.txt</span></code> <a class="footnote-reference" href="#f4" id="id5">[5]</a></p>
 <p>This file only contains the most commonly-encountered phrases; bracketed values can be added manually as well.</p>
 </li>
 </ol>
@@ -171,13 +173,21 @@ quotes—and will not automatically mark named entities or numbers
 beginning with this: this is on the list of changes for the future.
 It does handle most trailing punctuation. In named entities, the
 lower-case prefixes “al-”, “bin-” and “ibn-” are recognized as
-part of a name. <a class="footnote-reference" href="#f5" id="id5">[5]</a></li>
+part of a name. <a class="footnote-reference" href="#f5" id="id6">[6]</a></li>
 </ol>
 <p class="rubric">Footnotes</p>
+<table class="docutils footnote" frame="void" id="f0" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>If you are not seeing this screen,  <code class="docutils literal"><span class="pre">civet_settings.SKIP_EDITING</span></code> is
+probably set to <code class="docutils literal"><span class="pre">True</span></code>: this can be changed on the “Preferences”
+screen.</td></tr>
+</tbody>
+</table>
 <table class="docutils footnote" frame="void" id="f1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>that is, the version of <code class="docutils literal"><span class="pre">ckeditor</span></code> deliberately uses only a very
+<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td>that is, the version of <code class="docutils literal"><span class="pre">ckeditor</span></code> deliberately uses only a very
 small set of the features that are available for the editor: if you
 want to customize this, additional features can easily be added.</td></tr>
 </tbody>
@@ -185,14 +195,14 @@ want to customize this, additional features can easily be added.</td></tr>
 <table class="docutils footnote" frame="void" id="f2" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td>That is, the data is saved on the machine where CIVET is running; it
+<tr><td class="label"><a class="fn-backref" href="#id3">[3]</a></td><td>That is, the data is saved on the machine where CIVET is running; it
 is not saved on your local machine until the workspace is downloaded.</td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="f3" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id3">[3]</a></td><td>It would be possible to modify the system to allow for phrases to be
+<tr><td class="label"><a class="fn-backref" href="#id4">[4]</a></td><td>It would be possible to modify the system to allow for phrases to be
 in multiple categories, but at present this seems like a low
 priority; such a feature may or may not be included in future
 versions.</td></tr>
@@ -201,7 +211,7 @@ versions.</td></tr>
 <table class="docutils footnote" frame="void" id="f4" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id4">[4]</a></td><td>Looking for a little programming exercise?: This needs more
+<tr><td class="label"><a class="fn-backref" href="#id5">[5]</a></td><td>Looking for a little programming exercise?: This needs more
 development in at least three ways. First, generate all of the
 standard English equivalents, e.g. “eighty-five”, since these follow
 a simple set of rules. Second, and perhaps more important, allow the
@@ -218,7 +228,7 @@ presumably create issues further down the processing pipeline.</td></tr>
 <table class="docutils footnote" frame="void" id="f5" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id5">[5]</a></td><td>This list can be extended in the regular expression <code class="docutils literal"><span class="pre">pat1</span></code> in
+<tr><td class="label"><a class="fn-backref" href="#id6">[6]</a></td><td>This list can be extended in the regular expression <code class="docutils literal"><span class="pre">pat1</span></code> in
 <code class="docutils literal"><span class="pre">civet_utilities.do_NE_markup()</span></code>.</td></tr>
 </tbody>
 </table>
@@ -244,6 +254,7 @@ presumably create issues further down the processing pipeline.</td></tr>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="extraction.html">Coding and Text Extraction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="preferences.html">Preferences</a></li>
 <li class="toctree-l1"><a class="reference internal" href="future.html">Projected Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="appendix1.html">Appendix 1: Sample Template File</a></li>
 <li class="toctree-l1"><a class="reference internal" href="appendix2.html">Appendix 2: Input Format</a></li>
@@ -288,7 +299,7 @@ presumably create issues further down the processing pipeline.</td></tr>
         <div class="right">
           
     <div class="footer" role="contentinfo">
-      Last updated on 2015-08-18.
+      Last updated on 2015-08-31.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
         </div>

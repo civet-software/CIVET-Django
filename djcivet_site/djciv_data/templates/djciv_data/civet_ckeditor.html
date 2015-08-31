@@ -5,7 +5,7 @@
     <title>CIVET Annotation Editor</title>
     <!-- Make sure the path to CKEditor is correct.-->
     <script type="text/javascript" src="{{ staticpath }}ckeditor/ckeditor.js"></script>
-    <link rel="stylesheet" type="text/css" href="{{ staticpath }}civetstyle.css" />  <!-- mostly sets the size -->
+<!--    <link rel="stylesheet" type="text/css" href="{{ staticpath }}civetstyle.css" />   mostly sets the page size -->
     <style>
     td {
     width:250px;
@@ -13,20 +13,27 @@
     font-weight: bold;
     font-size: larger;
     }
+    .textlede{
+        color:green; 
+        font-weight:bold;    
+        padding-top: 8px;
+    }
+    .textcontent{
+        font-size:0.8em;    
+    }
+    {{ form_css }}
     </style>
 </head>
 <body>
-    <form method="POST" action="more_edits">{% csrf_token %}
-        <h1>Collection: {{ current_collection }}</H1>
-        <textarea name="editor1" id="editor1" rows="40" cols="80">
+<form method="POST">{% csrf_token %}
+        <h2>Collection: {{ current_collection }}</H2>
+        <textarea name="civ_editor" id="civ_editor">
           {% autoescape off %}
            {{ thetext }}            
           {% endautoescape %}
         </textarea>
         <script>
             // Replace the <textarea id="editor1"> with a CKEditor
-            // instance, using a custom configuration.
-           // CKEDITOR.replace( 'editor1', {customConfig: 'testbed.config.js'});
            CKEDITOR.stylesSet.add( 'my_styles', [
             // Inline styles.
             {% autoescape off %}
@@ -34,8 +41,12 @@
             {% endautoescape %}
             ]);
             CKEDITOR.config.stylesSet = 'my_styles';
-            CKEDITOR.replace('editor1');
-
+            {% if editor_size %}
+                {% autoescape off %}
+                    {{ editor_size }}
+                {% endautoescape %}
+            {% endif %}
+            CKEDITOR.replace('civ_editor');
         </script> 
     <table>
     <tr>
@@ -43,8 +54,8 @@
         <td> </td>
     </tr>
     <tr>
-        <td> <input type="submit"  formaction="code_collection" value="Save edits and code the collection" ></td>
-        <td> <input type="submit"  value="Save edits and select new collection" ></td>
+        <td> <input type="submit"  formaction="save_and_code" value="Save edits and code the collection" ></td>
+        <td> <input type="submit"  formaction="more_edits" value="Save edits and select new collection" ></td>
     </tr>
     <tr>
         <td> <input type="submit"  formaction="cancel_edits" value="Discard edits and select new collection" ></td>
@@ -52,5 +63,6 @@
     </tr>
     </table>
     </form>
+
 </body>
 </html>

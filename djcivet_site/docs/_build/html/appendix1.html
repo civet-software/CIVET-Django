@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     'beta-0.8',
+        VERSION:     'beta-0.9',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -34,7 +34,7 @@
             <img class="logo" src="_static/civet200.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">CIVET beta-0.8 documentation</a></div>
+          href="index.html">CIVET beta-0.9 documentation</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="future.html" title="Projected Features"
              accesskey="P">previous</a> |
@@ -56,40 +56,34 @@
 <h1>Appendix 1: Sample Template File<a class="headerlink" href="#appendix-1-sample-template-file" title="Permalink to this headline">¶</a></h1>
 <div class="highlight-python"><div class="highlight"><pre># CIVET template demonstration file
 
+title: CIVET basic form demonstration
+
 h1:Ministry of Magic Hogwarts Incident Report
 
 radio: House where incident occurred: [house]
 Gryffindor, Hufflepuff, Ravenclaw, *Slytherin
 
-p:
-
-select:Nature of incident [natincid]
+//select:Nature of incident [natincid]
 *Minor mischief, Unauthorized absence, Accident, Major infraction, Unforgivable Curses, Other
 
 p:If &quot;Other&quot;, provide details in the report section
 
-checkbox: Was incident reported to school authorities? [authreport]
+//checkbox: Was incident reported to school authorities? [authreport]
 No,*Yes
 
 checkbox: Did incident involve muggles? [muggles]
 No,Yes
 
-p:
-
-textline: Name of student(s) [names] width=80
+//textline: Name of student(s) [names] width=80
 Enter names here
 
-p:
-
-textarea:Brief description of incident [descrp] cols = 80
+//textarea:Brief description of incident [descrp] cols = 80
 Enter brief description here
 
-p:
-
-textline:Reporting official [reporter] width=40
+//textline:Reporting official [reporter] width=40
 Enter your name here
 
-h3:Thank you for your assistance; we will contact you by owl should we require more information
+h3:Thank you for your assistance; we will contact you by owl should we require any additional information
 
 save:
 _date_, house, natincid, authreport, muggles, names, descrp, reporter
@@ -117,6 +111,7 @@ _date_, house, natincid, authreport, muggles, names, descrp, reporter
 <li class="toctree-l1"><a class="reference internal" href="workspaces.html">CIVET Workspaces</a></li>
 <li class="toctree-l1"><a class="reference internal" href="annotation.html">Annotation and Editing Collections</a></li>
 <li class="toctree-l1"><a class="reference internal" href="extraction.html">Coding and Text Extraction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="preferences.html">Preferences</a></li>
 <li class="toctree-l1"><a class="reference internal" href="future.html">Projected Features</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Appendix 1: Sample Template File</a></li>
 <li class="toctree-l1"><a class="reference internal" href="appendix2.html">Appendix 2: Input Format</a></li>
@@ -161,7 +156,7 @@ _date_, house, natincid, authreport, muggles, names, descrp, reporter
         <div class="right">
           
     <div class="footer" role="contentinfo">
-      Last updated on 2015-08-18.
+      Last updated on 2015-08-31.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
         </div>

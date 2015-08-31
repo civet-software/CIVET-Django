@@ -10,6 +10,27 @@ The CIVET coding form screen in the demonstration version is shown below. [#f1]_
 
 The general operation of the coder/extractor is described below:
 
+#. Unless ``civet_settings.SHOW_ALL_CONTENT = True``, only the content 
+   of the first text will be expanded; to expand or collapse these,
+   click on the lede (green text). The date of the 
+   article follows the lede in brackets.
+   
+   Shift-click on the lede will *delete* the text: the lede and text 
+   disappear and from any subsequent codings. The text actually remains 
+   in the workspace file until it is permanently removed (or the 
+   deletion is reversed) in the workspace management. See the notes
+   below for more details on this operation.
+   
+#. There are three controls at the top of the text display:
+
+    - ``Show/hide comments``: toggles the display of the comments for
+       each text: these are initially hidden.
+       
+    - ``Show all content``: shows the content for all of the ledes
+       
+    - ``Hide all content``: hides the content for all of the ledes
+              
+
 #. Clicking a text entry boxes associated with an annotation category
    will highlight the relevant words in text: In the demonstration
    version these are
@@ -48,6 +69,14 @@ The general operation of the coder/extractor is described below:
 #. Copy-and-paste from the text to the data fields work as you would
    expect; text can also be entered manually.
 
+#. If bracketed values are included in the string, the system takes
+   the value from within a set of brackets that is the final item [#f4]_
+   in the phrase: earlier sets are
+   assumed to be part of the text. For example, the value of the
+   phrase ``Islamic State [ISIS][mnsa]`` will be “mnsa”; the value 
+   of the phrase ``Islamic State [ISIS] militia`` will be 
+   “Islamic State [ISIS] militia”.
+
 #. To save a set of coded fields, click one of the buttons along the
    bottom. At present, all three buttons save; later versions add
    "cancel“ and "reset” options. The options are:
@@ -58,7 +87,7 @@ The general operation of the coder/extractor is described below:
 
    Code next collection:
        Save the data internally, then select the next collection in the
-       workspace and go to the annotation screen. [#f4]_
+       workspace and go to the annotation screen.
 
    Select new collection:
        Save the data internally, then select a new collection
@@ -66,6 +95,28 @@ The general operation of the coder/extractor is described below:
    Download workspace and return to home screen:
         This downloads the workspace with the coded cases to the local
         machine. The :ref:`Manage workspace <sec-management>` facility  can then be used to download any coded cases.
+
+Note on deleting texts
+----------------------
+
+Deleting a text changes the value of the ``textdelete`` field to 
+``True``: the text remains in the workspace file but will not be
+displayed again. Deletion also generates a case with the standard
+``casedate`` and ``casecoder`` fields and the following fields in the
+``casevalues`` dictionary
+
+::
+
+_delete_ : True
+_textid_ : textid for the deleted text
+
+This can be used to track the deletion of specific texts. version
+Beta-0.9 does not have any internal utilities for using this 
+information but those functions may be added in a later version.
+
+Deletion is tracked through the hidden text field ``deletelist`` 
+in *civet_coder.html.*
+    
 
 .. rubric:: Footnotes
 
@@ -88,7 +139,12 @@ The general operation of the coder/extractor is described below:
    rather than a feature.
 
 .. [#f4]
-   Beta 0.7: In the final version of the program, there will be an
-   option for going to either the annotation or coding screen; the
-   annotation screen will also have a “Next” button.
+   Specifically, the system checks whether the final character in the
+   string that is not whitespace is ‘]’. The output when the system is
+   expecting to find a bracketed value and does not is controlled by
+   the preference ``civet_settings.USE_TEXT_FOR_MISSING`` which can be 
+   changed on the “Preferences” screen.
+
+   
+
 

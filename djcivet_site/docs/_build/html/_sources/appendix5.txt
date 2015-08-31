@@ -2,12 +2,16 @@
 Appendix 5: Installing in AWS-EB and Docker
 *******************************************
 
+“Cloud” servers are an increasingly popular low-cost alternative to locally-administered servers. A large number of these 
+options are available [#f7]_ and as time goes by we hope to have instructions for multiple platforms and, 
+of course, would greatly appreciate any community contributions along these lines.
+
 Amazon Web Services Elastic Beanstalk
 =====================================
 
-“Cloud” servers are an increasingly popular low-cost alternative to locally-administered servers. A large number of these 
-options are available; [#f7]_ I'm focusing on the Amazon Web Services “Elastic Beanstalk” (AWS-EB) for the simple reason that at the time 
-of this writing AWS provides a generous free trial option, and their instructions worked the first time I tried. [#f4]_
+Amazon Web Services “Elastic Beanstalk” (AWS-EB) was the first cloud service where we
+successfully deployed CIVET: At the time of this writing AWS provides a generous free trial 
+option, and their instructions worked the first time I tried. [#f4]_
 
 A coherent set of instructions can be found at 
 http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/create-deploy-python-django.html. Then follow these steps:
@@ -262,7 +266,11 @@ Contents of *Dockerfile*
 .. [#f7]
     In particular, Heroku (https://www.heroku.com/) appears to be another 
     `Django-friendly <https://devcenter.heroku.com/articles/getting-started-with-django>`_ option, and also offers free accounts.
-    Using Heroku requires a [free] GitHub account. 
+    Using Heroku requires a [free] GitHub account. With the 
+    `recent revelations <http://www.nytimes.com/2015/08/16/technology/inside-amazon-wrestling-big-ideas-in-a-bruising-workplace.html>`_ 
+    about the sheer brutality of Amazon's corporate culture, I've got some 
+    ethical issues with recommending this vendor, but for the moment it is 
+    the one widely-available cloud option where I know I can get CIVET to work.
 
 .. [#f4]
     Which, ahem, cannot be said for my multiple attempts to get the system running on the comparable Google service, 

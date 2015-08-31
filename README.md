@@ -1,4 +1,4 @@
-# CIVET-Django Beta 0.8
+# CIVET-Django Beta 0.9
 
 CIVET -- Contentious Incident Variable Entry Template -- is a customizable data annotation, extraction and entry system running in the Django web framework. CIVET is being developed by the NSF-sponsored project titled "A Method for Leveraging Public Information Sources for Social Science Research" which is creating tools to improve the efficiency of data generation in the social sciences. The project has an initial focus on coding event data in the domain of contentious politics, but we expect that these tools will be relevant in a number of data-generation domains.
 
@@ -10,11 +10,11 @@ CIVET currently has the following features
 * Automatical annotation of texts to identify named entities, numbers and user-specified categories. 
 * Integration of the annotated texts with the web form so that data fields can be extracted by going through a specific set of annotated words. Simple data entry and select/paste from the texts are also supported.
 
-The file *CIVET.Documentation.pdf* provides information on installing and operating the system. In the current version, Beta 0.7, all of the major functions needed for specifying a form, readings collections of texts, annotating and coding the text, and writing the resulting data are operational. We expect to have a fully operational version with additional capabilities, particular for dealing with meta-data, available in early September 2015.
+The file *CIVET.Documentation.pdf* provides information on installing and operating the system. In the current version, Beta 0.9, all of the major functions needed for specifying a form, readings collections of texts, annotating and coding the text, and writing the resulting data are operational. 
 
 While the system has been tested during the software development process, it has yet to be tested in the field, so
 you should experiment to make sure it is coding and saving your data correctly, and then check the output files 
-periodically to make sure it is still working. We expect to start field testing in October-2015.
+periodically to make sure it is still working. We expect to start field testing in September-2015.
 
 
 ###Acknowledgements

@@ -7,20 +7,9 @@
 </head>
 <body>
 <h1>CIVET Preferences</h1>
-<form method="POST" action="reset_preferences">{% csrf_token %}
-<!--    <select name="current_collection">
-        <option value="">Select a collection</option>
-    {% for option in files %}
-        <option value="{{ option }}">{{ option }}</option> 
-    {% endfor %}-->
-Code collections without annotating first: 
-{% if codingonly %}
-    On <input type="radio" name="coding-only" value="On" checked> 
-    Off <input type="radio" name="coding-only" value="Off"> 
-{% else %}
-    On <input type="radio" name="coding-only" value="On"> 
-    Off <input type="radio" name="coding-only" value="Off" checked> 
-{% endif %}
+<form method="POST" action="preferences">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Submit" />
 </form>
 </body>
 </html>

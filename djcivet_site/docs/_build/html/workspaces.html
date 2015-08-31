@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     'beta-0.8',
+        VERSION:     'beta-0.9',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -34,7 +34,7 @@
             <img class="logo" src="_static/civet200.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">CIVET beta-0.8 documentation</a></div>
+          href="index.html">CIVET beta-0.9 documentation</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="forms.html" title="CIVET Coding Form Templates"
              accesskey="P">previous</a> |
@@ -111,7 +111,8 @@ collections file</li>
 <code class="docutils literal"><span class="pre">category</span></code> name then a period; the remainder of a &#8220;codes&#8221; file
 name can be anything, though typically it will end in <code class="docutils literal"><span class="pre">.txt</span></code>.</li>
 <li>Any file ending with <code class="docutils literal"><span class="pre">.ini</span></code> is assumed to be a configuration file
-[Beta 0.7: Not yet implemented]</li>
+[Version 1.0: Not yet implemented—see comments on setting globals in
+the “Preferences” chapter.]</li>
 </ul>
 <p>Except for these restrictions, the directory can contain additional
 files of any kind: these will be preserved when the file is downloaded.
@@ -131,10 +132,11 @@ generated from inside the program.</li>
 <div class="section" id="workspace-management">
 <span id="sec-management"></span><h2>Workspace Management<a class="headerlink" href="#workspace-management" title="Permalink to this headline">¶</a></h2>
 <p>The <code class="docutils literal"><span class="pre">Manage</span> <span class="pre">workspace</span></code> link on the home page will take you first to a
-workspace selection page, and then to the page shown below. In Beta 0.7, only the
+workspace selection page, and then to the page shown below. In Beta 0.9, only the
 <code class="docutils literal"><span class="pre">Export</span> <span class="pre">data</span> <span class="pre">in</span> <span class="pre">tab-delimited</span> <span class="pre">format/Use</span> <span class="pre">save-variable</span> <span class="pre">list</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">template</span></code>
 is implemented: this will download any coded cases found in the
-workspace.</p>
+workspace. The remaining functions will eventually be implemented but in
+the meantime these tasks can be done using a text editing program.</p>
 <div class="figure">
 <img alt="CIVET workspace management page" src="_images/manage.png" />
 </div>
@@ -214,12 +216,12 @@ a comment.</p>
 <tbody valign="top">
 <tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td>If you read the workspace from the same directory where it will
 eventually be downloaded, the behavior presumably depends on the
-operating system: in the case of the Macintosh both the downloaded
+operating system: in the case of OS-X both the downloaded
 file and the decompressed versions get a suffix added. E.g. if the
-original workspace folder is named <code class="docutils literal"><span class="pre">test123</span></code> with the compressed
-version <code class="docutils literal"><span class="pre">test123.zip</span></code>, the system assigns the downloaded version
-the name <code class="docutils literal"><span class="pre">test123</span> <span class="pre">(1).zip</span></code> which decompressed to a folder named
-<code class="docutils literal"><span class="pre">test123</span> <span class="pre">(1)</span></code>. We are leaving the task of insuring that the
+original workspace folder is named “test123” with the compressed
+version “test123.zip”, the system assigns the downloaded version
+the name “test123 (1).zip” which decompressed to a folder named
+“test123 (1)”. We are leaving the task of insuring that the
 original file is not over-written to the operating system and
 whatever other utilities you might be using to manage workspaces.</td></tr>
 </tbody>
@@ -233,25 +235,20 @@ whatever other utilities you might be using to manage workspaces.</td></tr>
 <table class="docutils footnote" frame="void" id="f4" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id4">[4]</a></td><td>For example, the error in the variable values string in Figure
-[fig:workerrors] occurs because of the substring
-<code class="docutils literal"><span class="pre">’whois’=’Case1-whois’,</span></code> which should actually be
-<code class="docutils literal"><span class="pre">’whois’:’Case1-whois’,</span></code> but that ‘<code class="docutils literal"><span class="pre">=</span></code>’ could only have been
+<tr><td class="label"><a class="fn-backref" href="#id4">[4]</a></td><td>For example, the error in the variable values string in the example screen
+occurs because of the substring
+<code class="docutils literal"><span class="pre">'whois'='Case1-whois',</span></code> which should actually be
+<code class="docutils literal"><span class="pre">'whois':'Case1-whois',</span></code> but that ‘<code class="docutils literal"><span class="pre">=</span></code>’ could only have been
 introduced through external editing.</td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="f5" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id5">[5]</a></td><td><dl class="first docutils">
-<dt>If you need more, this can be changed by allowing more digits in</dt>
-<dd><p class="first">the <code class="docutils literal"><span class="pre">{:02d}</span></code> format in the code</p>
-<blockquote class="last">
-<div>`` UserCategories[newcat].append(’termst{:02d}’.format(len(UserCategories)))``</div></blockquote>
-</dd>
-</dl>
-<p class="last">in <code class="docutils literal"><span class="pre">CIVET_template.make_category()</span></code></p>
-</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id5">[5]</a></td><td>If you need more, this can be changed by allowing more digits in
+the <code class="docutils literal"><span class="pre">{:02d}</span></code> format in the code
+<code class="docutils literal"><span class="pre">UserCategories[newcat].append('termst{:02d}'.format(len(UserCategories)))</span></code>
+in <code class="docutils literal"><span class="pre">CIVET_template.make_category()</span></code></td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="f6" rules="none">
@@ -271,12 +268,8 @@ something better. The list is set as <code class="docutils literal"><span class=
 <table class="docutils footnote" frame="void" id="f8" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id8">[8]</a></td><td><div class="first last line-block">
-<div class="line">If you want it now, delete the test</div>
-<div class="line">“<code class="docutils literal"><span class="pre">if</span> <span class="pre">endx</span> <span class="pre">==</span> <span class="pre">idx+len(st):</span></code>” in
-<code class="docutils literal"><span class="pre">CIVET_utilities.do_string_markup()</span></code>.</div>
-</div>
-</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id8">[8]</a></td><td>If you want it now, delete the test <code class="docutils literal"><span class="pre">if</span> <span class="pre">endx</span> <span class="pre">==</span> <span class="pre">idx+len(st):</span></code> in
+<code class="docutils literal"><span class="pre">CIVET_utilities.do_string_markup()</span></code>.</td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="f9" rules="none">
@@ -315,6 +308,7 @@ category <code class="docutils literal"><span class="pre">weapons_mnsa_list</spa
 </li>
 <li class="toctree-l1"><a class="reference internal" href="annotation.html">Annotation and Editing Collections</a></li>
 <li class="toctree-l1"><a class="reference internal" href="extraction.html">Coding and Text Extraction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="preferences.html">Preferences</a></li>
 <li class="toctree-l1"><a class="reference internal" href="future.html">Projected Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="appendix1.html">Appendix 1: Sample Template File</a></li>
 <li class="toctree-l1"><a class="reference internal" href="appendix2.html">Appendix 2: Input Format</a></li>
@@ -359,7 +353,7 @@ category <code class="docutils literal"><span class="pre">weapons_mnsa_list</spa
         <div class="right">
           
     <div class="footer" role="contentinfo">
-      Last updated on 2015-08-18.
+      Last updated on 2015-08-31.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
         </div>

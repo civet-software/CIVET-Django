@@ -4,19 +4,42 @@
     <meta charset="utf-8" />
     <title>{{page_title}}</title>
     <meta name="generator" content="CIVET" />
+    <style>
+    .pagebutton {
+      padding:5px;
+      width: 50px;
+      border: 2px solid #666;
+      background: transparent;
+    }    
+    {{ form_css }}
+    </style>
 </head>
 <body>
-<form action="save_basic" method = "post">{% csrf_token %}
-{% autoescape off %}
-    {{form_content}}
-{% endautoescape %}
-
-<!--<div id="submitArea" style="clear:both; height:20px;padding:10px;border:2px dotted green;"> -->
+  
+<form  method = "post">{% csrf_token %}
+    <div class="civ-form civ-form-size">  {# using two classes here allows the size to be reset while effectively inheriting the other styles #}
+    {% autoescape off %}
+        {{ form_content }}
+    {% endautoescape %}
+    </div>
 <br>
+{% if show_prev or show_next %}
+    <div style="width:300px; height:60px;">
+    {% if show_prev %}
+        <button type="submit" class = "pagebutton" formaction="prev_form_page" style="float:left;">Prev</button>
+    {% else %}
+        <button type="submit" class = "pagebutton" formaction="prev_form_page" style="visibility: hidden;">Prev</button>
+    {% endif %}
+    {% if show_next %}
+        <button type="submit" class = "pagebutton" formaction="next_form_page" style="float:right;">Next</button>
+    {% else %}
+        <button type="submit" class = "pagebutton" formaction="next_form_page" style="  visibility: hidden;">Next</button>
+    {% endif %}
+    </div>
+{% endif %}
 <b>Options after saving:</b>
-<button type="submit">Code another case</button>
+<button type="submit" formaction="save_basic">Code another case</button>
 <button type="submit" formaction="setup_basic_data_download">Download data</button>
 </form>
-<!-- </div> -->
 </body>
 </html>

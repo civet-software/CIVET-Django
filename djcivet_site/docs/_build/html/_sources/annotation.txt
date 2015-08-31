@@ -2,8 +2,8 @@
 Annotation and Editing Collections
 ***********************************
 
-The annotation and editing page for workspace collections implements a
-minimal version [#f1]_ of the Javascript ``ckeditor`` which allows the
+The annotation and editing page for workspace collections [#f0]_ implements a
+minimal version [#f1]_ of the open source Javascript “CKEditor” http://ckeditor.com/ which allows the
 texts to be edited and annotated. Editing works as you would expect,
 including cut/copy/paste options.
 
@@ -21,23 +21,26 @@ annotate and then select the annotation to apply.
 
 The following options are available on this screen
 
-Annotate the collection:
+**Annotate the collection:**
       
     This applies the automated markup system which currently annotates the following
     categories of words and phrases:
 
-    Named-entities:
+    *Named-entities*:
         This is based on capitalization; consecutive capitalized words
         are combined.
 
-    Numbers:
+    *Numbers*:
         Digits and numerical words and phrases such as “one” and
         “two-hundred.”
 
-    User-specified categories:
+    *User-specified categories*:
         See the discussion of :ref:`categories <sec-categories>`
+        
+    Annotation is done automatically when ``civet_settings.ALWAYS_ANNOTATE`` is
+    set to ``True``; this can be changed on the “Preferences” screen.
 
-Save edits and select new collection:
+**Save edits and select new collection:**
   
     This saves whatever annotation has been done to the internal
     database [#f2]_ and returns to the collection selection screen :
@@ -46,16 +49,16 @@ Save edits and select new collection:
     of the YAML file along with the date of the annotating and the
     coder ID.
 
-Save edits and code the collection:
+**Save edits and code the collection:**
   
     This saves whatever annotation has been done to the internal
     database and goes to the coding and text extraction page
 
-Discard edits and select new collection:
+**Discard edits and select new collection:**
   
     This discards the edits and returns to the collection selection screen.
 
-Download workspace and return to home screen:
+**Download workspace and return to home screen:**
  
     This downloads the current workspace without doing any coding.
 
@@ -65,7 +68,7 @@ Comments on annotation and editing
 
 1. Associated codes in brackets following a term can be edited: when
    writing variable values, the system will simply be looking for a
-   value in a bracket.
+   value in a bracket that occurs at the end of a string.
 
 2. A word or phrase can be annotated only once. [#f3]_ The user-specified
    ``category`` words are annotated before the general named-entity, so
@@ -126,6 +129,11 @@ Comments on annotation and editing
    part of a name. [#f5]_
 
 .. rubric:: Footnotes
+
+.. [#f0]
+   If you are not seeing this screen,  ``civet_settings.SKIP_EDITING`` is
+   probably set to ``True``: this can be changed on the “Preferences”
+   screen.
 
 .. [#f1]
    that is, the version of ``ckeditor`` deliberately uses only a very

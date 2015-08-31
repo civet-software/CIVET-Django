@@ -12,6 +12,10 @@ woozle1 , woozle2
 category:cities [cyan]  # get the list from a file
 codes.cities.txt
 
+header: <h3><span style="color:blue">Workspace _text_ </span></h3> [workspace]
+
+header: Comments: _text_ [comments]
+
 title: CIVET coding form demonstration
 
 h1:Demonstration of CIVET form linked to annotated texts
@@ -46,7 +50,7 @@ This field extracts the 'people' type
 
 p:
 
-textarea:Brief description of incident [descrp] cols = 72
+textarea:Brief description of incident [descrp] cols = 68
 Enter brief description here
 
 save: 

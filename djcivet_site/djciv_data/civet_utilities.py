@@ -457,6 +457,8 @@ def do_string_markup(category):
                 if endx == idx+len(st):  # only use complete matches except for punctuation: dropping this would allow stemming and that could be added as a option at some point
                     if category in civet_form.CategoryCodes:
                         code = ' [' + civet_form.CategoryCodes[category][st.strip()] + ']'
+                        if code == ' []':
+                            code = ''
                     else:
                         code = ''
                     curtext = curtext[:idx+1] + '=$=' + category + '=$=' + st[1:] + code  + '=$=' + curtext[endx:]
@@ -496,7 +498,11 @@ def get_styles():
     thestyles = civet_settings.DEFAULT_CKEDITOR_STYLES
     for cat in civet_form.UserCategories:
         thestyles += "\n{ name: '" + cat + "', element: 'span', styles: { 'class':'" + cat + \
-         "', 'color': '" + civet_form.UserCategories[cat][0] + "' }  },"
+         "', 'color': '"
+        if ' ' in civet_form.UserCategories[cat][0]:
+            thestyles +=  civet_form.UserCategories[cat][0][:civet_form.UserCategories[cat][0].find(' ')] + "' }  },"
+        else:
+            thestyles +=  civet_form.UserCategories[cat][0] + "' }  },"
     return thestyles
 
 

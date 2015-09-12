@@ -37,7 +37,7 @@ STATIC_FILE_PATH = settings.BASE_DIR + '/djciv_data' + settings.STATIC_URL + 'dj
 # ============= Editor styles  ============= #
 
 DEFAULT_CKEDITOR_STYLES = "{ name: 'Named Entity',	element: 'span', styles: { 'class':'nament', 'color': 'blue' }  },\n \
-            { name: 'Number',	element: 'span', styles: { 'class':'number', 'color': 'green' }  },\n \
+            { name: 'Number',	element: 'span', styles: { 'class':'num', 'color': 'green' }  },\n \
             { name: 'Date',	element: 'span', styles: { 'class':'date', 'color': 'coral' }  },\n \
 "
 

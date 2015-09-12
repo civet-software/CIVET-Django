@@ -139,8 +139,27 @@ accommodates up to 99 categories. [#f5]_
 
 .. figure:: defaultcolors.png
    :alt: CIVET Default Category Colors
+   
+Automatic annotation/skip editing mode only:
+---------------------------------------------
 
-The program will find capitalized versions of the words in the list—in
+When the program is running with ``Always apply annotation: True`` and
+``Skip editing: True``, [#f10]_ categories can be further visually differentiated using
+one or more of the following font specifications
+
+- bold: **bold face**
+
+- italic: *italic*
+
+- under: underline
+
+So for example ``[Green bold italic]`` will display the category in an 
+italic bold font colored green.
+
+Additional information on categories
+------------------------------------
+
+1. The program will find capitalized versions of the words in the list—in
 the example below, both "killed" and "Killed" will match—but not
 all-capitalized versions: "KILLED" would not be matched. A word or
 phrase can only be in a a single category: putting one in multiple
@@ -152,7 +171,7 @@ which can be used to establish precedent when words or
 phrases overlap. At present the program does not allow partial matches,
 though a facility for this may be added in the future. [#f8]_
 
-The comma-delimited-phrase/code-list can have codes assigned to each of
+2. The comma-delimited-phrase/code-list can have codes assigned to each of
 the phrases: these occur in brackets following the phrase and are added
 to the text during automated markup. The codes can be any character
 string. Either the phrase or the code or both can be specified in the
@@ -160,7 +179,7 @@ output. If some of the phrases in the list have codes and others do not,
 the blank codes will be assigned a null (or, optionally, missing)
 string.
 
-The vocabulary list can also be read from a file in the workspace. The
+3. The vocabulary list can also be read from a file in the workspace. The
 file name must begin with ``codes.+category-name.``; the remainder of
 the file name can be anything. [#f9]_ This be a text file with one phrase
 per line and the code in brackets; a line beginning with # is treated as
@@ -168,18 +187,22 @@ a comment.
 
 **Example:**
 
-    ``category:action [red] killed [1], wounded [2], shot and killed [1], bombed [3], clashed [3]``
+::   
 
-    ``category:people [Brown] civilians, workers, authorities, troops, soldiers, rebels, people, group``
+    category:action [red italic] 
+    killed [1], wounded [2], shot and killed [1], bombed [3], clashed [3]
 
-    ``category:nationstate [Gold] codes.nationstate.txt``
+    category:people [Brown]
+    civilians, workers, authorities, troops, soldiers, rebels, people, group``
 
-    ``category:weapons [Olive] codes.weapons.mnsa.weaponslist_150724.txt``
+    category:nationstate [Gold bold under]
+    codes.nationstate.txt
 
-.. only:: html
+    category:weapons [Olive] 
+    codes.weapons.mnsa.weaponslist_150724.txt
 
-    Footnotes
-    ---------
+.. rubric:: Footnotes
+
 
 .. [#f1]   
    https://en.wikipedia.org/wiki/YAML
@@ -219,6 +242,12 @@ a comment.
    This palette was assembled in a very ad hoc manner, is not
    color-blind-friendly, and we would be delighted to substitute
    something better. The list is set as ``CIV_template.CatColorList``
+   
+.. [#f10]
+   This is the configuration typically used when just coding the texts 
+   with automated annotation. We plan to retrofit this to the editor
+   as well but adding it to the annotation was a simple hack, and adding
+   it to the editor is a little more complicated. 
 
 .. [#f8]
    If you want it now, delete the test ``if endx == idx+len(st):`` in

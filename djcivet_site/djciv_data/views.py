@@ -253,9 +253,7 @@ def save_edits(request):
     thestring = request.POST['civ_editor']
     textblock = get_editor_blocks(thestring)
     for st in textblock:
-#        print('\nID:',st)
-        print('Lede:',textblock[st][0])
-#        print('Content:',textblock[st][1])
+#        print('\nID:',st,'\nLede:',textblock[st][0],'\nContent:',textblock[st][1])
         curtext = Text.objects.get(textid__exact=st)
         curtext.textlede = textblock[st][0]
         curtext.textdate = textblock[st][1]
@@ -273,9 +271,11 @@ def more_edits(request):
 
 
 def save_and_code(request):
-    """ saves edits, then goes back to the collection selection """
+    """ saves edits, then goes to the coder """
+    global CoderText
 #    print('SAC0:')
     save_edits(request)
+    CoderText = ''  # triggers re-reading from db
     return HttpResponseRedirect('code_collection')    
 # return render(request,'djciv_data/select_collection.html',{'files' : CollectionList, 'workspace': WorkspaceName})
 
@@ -510,7 +510,7 @@ def code_collection(request):
 #    "; color" -- probably need something better
     global ActiveCollection, CoderText, TermStyles, PageIndex, Deletelist
 
-    print('CC0:', request.POST)
+#    print('CC0:', request.POST)
     if 'current_collection' in request.POST:   # when called directly from select
         if request.POST['current_collection']:
             ActiveCollection = request.POST['current_collection']
@@ -529,13 +529,38 @@ def code_collection(request):
         CoderText = CoderText.replace('style="class:num;color:green"','class="num"')
     #    print('CC Incoming:\n',cktext)
         TermStyles = ''  # generate the new termst styles
+        styles = civet_settings.DEFAULT_CKEDITOR_STYLES.split("{ 'class':")
+        for strg in styles[1:]:
+#            print('CC-0:',strg)
+            strg = strg[:strg.find('}')+1].replace("'",'').replace('}',';}')
+            ### TEMPORARY ###
+            #strg = strg.replace('number','num')
+            ### TEMPORARY ###
+#            print('CC-00:',strg)
+            TermStyles += '.' + strg[:strg.find(',')] + ' {' + strg[strg.find(',')+1:] + '\n'
     #    print('CC-1:',theform)
+#        print('CC-1:',TermStyles)
         for cat in civet_form.UserCategories:
-            TermStyles += '.' + civet_form.UserCategories[cat][1] + '  {color:' + civet_form.UserCategories[cat][0] + ';}\n'
+            fontstrg = civet_form.UserCategories[cat][0]
+#            print('==',cat,fontstrg)
+            styst = ''
+            if ' bold' in fontstrg:
+                styst += ' font-weight: bold;'
+            if ' under' in fontstrg:
+                styst += ' text-decoration: underline;'
+            if ' italic' in fontstrg:
+                styst += '  font-style: italic;'
+#            print('++',cat,styst)
+            if styst:
+                TermStyles += '.' + civet_form.UserCategories[cat][1] + '  {color:' + fontstrg[:fontstrg.find(' ')] + \
+                                ';' + styst + '}\n'
+            else:              
+                TermStyles += '.' + civet_form.UserCategories[cat][1] + '  {color:' + fontstrg + ';}\n'
             CoderText = CoderText.replace('style="class:' + cat + ';color:' + civet_form.UserCategories[cat][0] + ';"',\
                                     'class="' + civet_form.UserCategories[cat][1] + '"') #   # standardize manual annotation <span> markup 
             CoderText = CoderText.replace('style="class:' + civet_form.UserCategories[cat][1] + ';color:' + civet_form.UserCategories[cat][0] + '"',\
                                     'class="' + civet_form.UserCategories[cat][1] + '"') #   # remove color from automatic annotation <span> markup       
+#        print('CC-2:',TermStyles)
     return render(request,'djciv_data/civet_coder.html',get_coder_context())
 
 
@@ -724,7 +749,7 @@ def read_workspace(request, isdemo = False, manage = False):
         return render(request,'djciv_data/manage_workspace.html',{'workspace' : WorkspaceName})
     else:
         InitalFormVals = deepcopy(civet_form.FormFields)
-        print('==',InitalFormVals)
+#        print('==',InitalFormVals)
         return render(request,'djciv_data/select_collection.html',{'files' : CollectionList, 'workspace' : WorkspaceName})
         
 def setup_workspace_download(request, iscoding = False):

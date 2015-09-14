@@ -12,7 +12,7 @@ The general operation of the coder/extractor is described below:
 
 #. Unless ``civet_settings.SHOW_ALL_CONTENT = True``, only the content 
    of the first text will be expanded; to expand or collapse these,
-   click on the lede (green text). The date of the 
+   click on the lede (green text). [#f2]_ The date of the 
    article follows the lede in brackets.
    
    Shift-click on the lede will *delete* the text: the lede and text 
@@ -41,6 +41,9 @@ The general operation of the coder/extractor is described below:
    Maximal injuries:
        actions
 
+   Wo was involved:
+       people
+
    The ‘tab’ key cycles between the coding fields, or an option can be
    selected using the mouse.
 
@@ -51,26 +54,24 @@ The general operation of the coder/extractor is described below:
    follows:
 
    Right arrow:
-       Highlight the next text in the category [#f2]_
+       Highlight the next text in the category
 
    Left arrow:
        Highlight the previous text in the category
 
    Down arrow:
-       *Replace* the contents of the field with either the currently
-       selected text—this is effectively a single-key shortcut for a
-       copy-and-paste—or, if no text is selected, the highlighted
-       text. [#f3]_
+       *Replace* the contents of the field with the highlighted
+       text. 
 
    Up arrow:
-       *Append* the contents of the field with either the currently
-       selected text or, if no text is selected, the highlighted text
+       *Append* the contents of the field with the highlighted text.
+       The appended texts are comma-delimited.
 
 #. Copy-and-paste from the text to the data fields work as you would
-   expect; text can also be entered manually.
+   expect; text can also be entered and edited manually.
 
 #. If bracketed values are included in the string, the system takes
-   the value from within a set of brackets that is the final item [#f4]_
+   the value from within a set of brackets that is the final item [#f3]_
    in the phrase: earlier sets are
    assumed to be part of the text. For example, the value of the
    phrase ``Islamic State [ISIS][mnsa]`` will be “mnsa”; the value 
@@ -128,17 +129,11 @@ in *civet_coder.html.*
    and can be modified if you want to experiment.
 
 .. [#f2]
-   Occasionally you will need to hit the key twice when changing
-   directions: this is a bug, not a feature, and may be corrected at
-   some point. Usually it works the first time. If you would like to try
-   to fix this, look at the Javascript in the file ``civet_coder.html``
+   If you are switching back to the text from a text-extraction box,
+   you will need to double-click: the first click switches the focus
+   to the text; the second toggles the content
 
 .. [#f3]
-   If you are tabbing between fields and extracting the first
-   highlighted text, you will need to hit down arrow twice: also a bug
-   rather than a feature.
-
-.. [#f4]
    Specifically, the system checks whether the final character in the
    string that is not whitespace is ‘]’. The output when the system is
    expecting to find a bracketed value and does not is controlled by

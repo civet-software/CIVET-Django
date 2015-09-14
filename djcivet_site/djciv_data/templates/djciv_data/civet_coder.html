@@ -35,8 +35,6 @@
         margin-right: 0;
         font-weight: bold;
         }    
-    .highlight {background-color:lightgreen;}
-    .termst {color:red;}
     .civ-text-display {
         float:left; 
         line-height:1.5em;
@@ -83,38 +81,29 @@
 
 </style>
 </head>
-<!--
-General comment <pas, 15.07.10 >
-This is the first code I wrote for CIVET and at the time -- well, still -- I was really just getting going on Javascript and
-the DOM approach, and there are probably a number of ways that this could be improved. If the code looks awkward, that's
-because it is.
 
-<15.08.23>: Using simple javascript rather than jQuery is a feature, not a bug: jQuery has overhead and at this point
-javascript seems quite adequate. 
--->
-<body onload="initglobals()">
+<body id = "mainbody" onload="initglobals()">
 <script>
 
 // declare an assortment of globals
-// If a point is reached where jQuery is used, the constants here could be replaced by the jQuery 'event.which' 
+// If a point is reached where jQuery is used, the first set of constants could be replaced by the jQuery 'event.which'.  
+// But the code is quite compact in simple Javascript, and jQuery does have some overhead. 
 var MOVE_LEFT = 37
 var MOVE_RIGHT = 39
 var MOVE_UP = 38
 var MOVE_DOWN = 40
 
-var	wdindex = 0  // location of start of search for next word in wordset
 var extracting = false  // true when a field associated with a category is in focus
-var	curstr = ""   // text of current highlighted word
-var curcategory = ""  // category associated with the field currently in focus
-var curfield = ""  // field currently in focus
+var	curPhrase = ""   // text of current highlighted word
+var curField = ""  // field currently in focus
 var inputText  // document.getElementById("inputText")
-var glinner    // inputText without any highlighting
-var lastkey = MOVE_RIGHT  // used to identify direction reversals
+var textBlocks = [] // array of displayed texts, with array of words in category in each entry
+var curWordIndex = 0 // index of current highlighted word in a text block
+var curTextBlock = 0 // index of current text block
 
 function initglobals()
 {
 	inputText = document.getElementById("inputText")
-	glinner = inputText.innerHTML 
     document.onkeydown =  dokeydown
     {% autoescape off %}
         {{ listeners }}
@@ -122,67 +111,88 @@ function initglobals()
 }
 
 
-function nexthightag(thekey)
-// highlight the next/previous term in the class; called with either MOVE_RIGHT or MOVE_LEFT
+function getwordlist(category)
 {
-    var curHTML = glinner  //
-    if (curHTML.indexOf(curcategory) < 0) { return }  // this class is not in the text so do nothing
-    if (lastkey != thekey) {  // handle reversal of direction
-// <pas 15.07.24: there's still a minor bug in this that occasionally requires hitting the key twice: not a sufficient big deal to correct right now   
-        if (lastkey == MOVE_RIGHT) {wdindex = curHTML.lastIndexOf('<span ',wdindex) - 1}
-        if (lastkey == MOVE_LEFT) {wdindex = curHTML.indexOf('</span>',wdindex) + 1}
-        lastkey = thekey
-    }       
-    if (thekey == MOVE_RIGHT) {
-        wdindex = curHTML.indexOf(curcategory,wdindex)
-        if (wdindex < 0)  { wdindex = curHTML.indexOf(curcategory)} // wraps back to beginning
-    } else {
-        wdindex = curHTML.lastIndexOf(curcategory,wdindex)
-        if (wdindex < 0) { wdindex = curHTML.lastIndexOf(curcategory)} // wrap to end
+    x = document.getElementsByClassName("textcontent")
+    textBlocks = []
+    var ka;
+    for (ka = 0; ka < x.length; ka ++) {
+         if (x[ka].style.display == 'block') {
+            y = x[ka].querySelectorAll("." + category);
+            textBlocks.push(y)
+            var kb
+            for (kb = 0; kb < y.length; kb ++){
+//                console.log("++ " + y[kb].innerHTML)
+                y[kb].style.color = 'red'   
+            }
+        }
     }
+}
 
-    var endspace = curHTML.indexOf("</span>",wdindex+1) + 7
-    var startspace = curHTML.lastIndexOf("<span ",wdindex)
-    var startcontent = curHTML.indexOf(">",wdindex)+1
-//	console.log("Indices: " + wdindex + '  ' + endspace )   
-//	console.log("String 1: " + curHTML.substring(0,wdindex-1))   
-//	console.log("String 2: " + curHTML.substring(wdindex-13,endspace))   
-    curstr = curHTML.substring(startcontent,endspace-7) // global which has the current highlighted content
-    curHTML = curHTML.substring(0,startspace) + "<span class='highlight'>" + curHTML.substring(startspace,endspace) + "</span>" + curHTML.substring(endspace)
-//	console.log("curHTML: " + curHTML)   
-    inputText.innerHTML = curHTML
-    if (thekey == MOVE_RIGHT) {
-        wdindex = endspace + 1
-        if (wdindex >= glinner.length) { wdindex = 0}  // should that be curHTML?
-    } else {
-        wdindex -= 1
-        if (wdindex >= glinner.length) { wdindex = 0}  // should that be curHTML?
+function next_word()
+// go to the next word, wrapping to first word
+{
+    curWordIndex += 1
+    if (curWordIndex >= textBlocks[curTextBlock].length) {
+        curTextBlock += 1    
+        if (curTextBlock >= textBlocks.length) {
+            curTextBlock = 0
+        }
+        curWordIndex = 0
     }
-    var list = document.getElementsByClassName(curcategory)  // change color of the words in the active category
-    for (var i = 0; i < list.length; i++) {
-        list[i].style.color="red"
+}
+
+function prev_word()
+// go to the previous word, wrapping to final word
+{
+    curWordIndex -= 1
+    if (curWordIndex < 0) {
+        curTextBlock -= 1    
+        if (curTextBlock < 0) {
+            curTextBlock = textBlocks.length - 1
+        }
+        curWordIndex = textBlocks[curTextBlock].length - 1
     }
+}
+
+function next_hightag(thekey)
+// highlight the next/previous term in the class and get text; called with either MOVE_RIGHT or MOVE_LEFT
+{
+    if (textBlocks.length == 0) { return }  // this class is not in the text so do nothing
+
+    textBlocks[curTextBlock][curWordIndex].style.backgroundColor = 'transparent';
+
+    if (thekey == MOVE_RIGHT) { next_word() } 
+    else { prev_word() }
+
+    curPhrase = textBlocks[curTextBlock][curWordIndex].innerHTML; // global which has the current highlighted content
+    textBlocks[curTextBlock][curWordIndex].style.backgroundColor = 'lightgreen'
 }
 
 function coloraclass(category, thisfield)
 // initialization for a new category
 {
-	curfield = thisfield  // text entry field which we are trying to fill
-    curcategory = category
-    wdindex = 0
-    lastkey = MOVE_RIGHT
-    nexthightag(MOVE_RIGHT)  // this actually does the coloring
+	curField = thisfield  // text entry field which we are trying to fill
+    getwordlist(category)
+	curTextBlock = 0
+	curWordIndex = 0
+    curPhrase = textBlocks[0][0].innerHTML
+    textBlocks[0][0].style.backgroundColor = 'lightgreen'
     extracting = true
-    document.getElementById("inputText").focus()
 }
 
-function cancelclass()
-// deactivates the category extraction; called `onblur'
+function cancelclass(category)
+// deactivates the category highlighting; called `onblur'
 {
-    document.getElementById("inputText").blur()
-    inputText.innerHTML = glinner
+    var ka
+    var kb
+    for (ka = 0; ka < textBlocks.length; ka ++) {
+        for (kb = 0; kb < textBlocks[ka].length; kb ++){
+            textBlocks[ka][kb].style.color = ""
+        }
+    }
+    textBlocks[curTextBlock][curWordIndex].style.backgroundColor = 'transparent';
     extracting = false
-    document.getElementById("inputText").focus()
 }
 
 function dokeydown(evt)
@@ -192,21 +202,12 @@ function dokeydown(evt)
     var charCode = evt.keyCode
 //    console.log('Down '+charCode )
     if (charCode == MOVE_RIGHT || charCode == MOVE_LEFT) {
-        nexthightag(charCode)  // go to the next/previous term in the class
+        next_hightag(charCode)  // go to the next/previous term in the class
     } else if (charCode == MOVE_DOWN) {  // set the field to the highlighted text
-    	var elem = document.getElementById(curfield)
-        if (document.getSelection().toString().length > 0) {
-            elem.value = document.getSelection().toString()
-        } else {
-            elem.value = curstr
-        }
+    	document.getElementById(curField).value = curPhrase
     } else if (charCode == MOVE_UP) {  // add the highlighted text to the current contents of the field
-    	var elem = document.getElementById(curfield)
-        if (document.getSelection().toString().length > 0) {
-            elem.value = elem.value + ', ' + document.getSelection().toString()
-        } else {
-            elem.value = elem.value + ', ' + curstr
-        }
+    	var elem = document.getElementById(curField)
+        elem.value = elem.value + ', ' + curPhrase
     }
 }
 
@@ -254,7 +255,6 @@ function hideall()
         comm[ka].style.display = 'none';
     }
 }
-
 
 function togglecomments() 
 // toggles display of comments

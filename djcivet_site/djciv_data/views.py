@@ -204,7 +204,6 @@ def get_editor_markup():
         temp = ct.get_text_fields()
 #        print('GEM-Mk3:',temp)
         if civet_settings.ALWAYS_ANNOTATE and 'class:nament' not in temp[4]:  # a robust, if not quite guaranteed, telltale that there has been no markup
-            temp[1] = civet_utilities.do_markup(temp[1])
             temp[4] = civet_utilities.do_markup(temp[4])
         stx += make_ckeditor_markup_string(temp,ka)
     return stx
@@ -514,10 +513,12 @@ def code_collection(request):
     if 'current_collection' in request.POST:   # when called directly from select
         if request.POST['current_collection']:
             ActiveCollection = request.POST['current_collection']
+            CoderText = ''
         else:
             return HttpResponse("No collection was selected: use the back key to return to the collection selection page.")
         
     if not CoderText:
+        civet_form.FormFields = deepcopy(InitalFormVals)
         CoderText = get_coder_markup()
         if len(CoderText) == 0:
             return HttpResponse("No collection was selected: use the back key to return to the collection selection page.")

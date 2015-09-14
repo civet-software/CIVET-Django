@@ -58,7 +58,8 @@ class CodingForm(forms.Form):
                                     widget=forms.TextInput(attrs={
                                     'size':info[3],
                                     'onfocus': 'coloraclass(\'' + info[4] + '\', \'' + fld + '\')',
-                                    'onblur' : 'cancelclass()'
+                                    'onblur' : 'cancelclass()',
+                                    'autocomplete' : 'off'
                                     }),
                                    required=False, error_messages={})
             elif info[0] == 'textarea':

@@ -37,6 +37,7 @@ STATIC_FILE_PATH = settings.BASE_DIR + '/djciv_data' + settings.STATIC_URL + 'dj
 # ============= Editor styles  ============= #
 
 DEFAULT_CKEDITOR_STYLES = "{ name: 'Named Entity',	element: 'span', styles: { 'class':'nament', 'color': 'blue' }  },\n \
+            { name: 'Location',	element: 'span', styles: { 'class':'geogent', 'color': 'brown' }  },\n \
             { name: 'Number',	element: 'span', styles: { 'class':'num', 'color': 'green' }  },\n \
             { name: 'Date',	element: 'span', styles: { 'class':'date', 'color': 'coral' }  },\n \
 "
@@ -48,6 +49,10 @@ EDITOR_LABEL_STYLE = '<span style="color:blue;">'
 EDITOR_DATE_LABEL =  EDITOR_LABEL_STYLE + 'Date:&nbsp;</span>'
 EDITOR_COMM_LABEL =  EDITOR_LABEL_STYLE + 'Comments:&nbsp;</span>&ldquo;&nbsp;'
 EDITOR_CONTENT_LABEL =  EDITOR_LABEL_STYLE + 'Content:<br /></span>'  # <br /> rather than <br> is required for consistency with CKEditor
+
+# ============= Annotation details  ============= #
+
+GEOG_PREPOSITIONS = ['at','to','in','from']
 
 # ============= Downloadable files  ============= #
 
@@ -70,7 +75,8 @@ USE_TEXT_FOR_MISSING = True   # substitute text rather than MISSING_VALUE if [va
 
 SHOW_ALL_CONTENT = False  # initially expand all content in coder
 ALWAYS_ANNOTATE = True
-SKIP_EDITING = False            
+SKIP_EDITING = False
+USE_GEOG_MARKUP = False  # do geographical markup before named entity            
 
 REQUIRE_LOGIN = False  
 #REQUIRE_LOGIN = True  
@@ -96,6 +102,7 @@ def get_preferences():
     prefs['skipediting'] = SKIP_EDITING
     prefs['textmissing'] = USE_TEXT_FOR_MISSING
     prefs['missingvalue'] = MISSING_VALUE
+    prefs['geogmarkup'] = USE_GEOG_MARKUP
     return prefs
     
 def set_preferences(form):
@@ -105,3 +112,6 @@ def set_preferences(form):
     SKIP_EDITING = form['skipediting']
     USE_TEXT_FOR_MISSING = form['textmissing']
     MISSING_VALUE = form['missingvalue']
+    USE_GEOG_MARKUP = prefs['geogmarkup']
+    
+

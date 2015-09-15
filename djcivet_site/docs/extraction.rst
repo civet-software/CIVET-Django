@@ -41,7 +41,7 @@ The general operation of the coder/extractor is described below:
    Maximal injuries:
        actions
 
-   Wo was involved:
+   Who was involved:
        people
 
    The ‘tab’ key cycles between the coding fields, or an option can be

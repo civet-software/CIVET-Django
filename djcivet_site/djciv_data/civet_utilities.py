@@ -106,7 +106,10 @@ def read_YAML_file(fin,filename):
             alltext = ''
             while line.startswith(indentst):  # add the markup
         #        print('>>>>',line[:-1])
-                alltext += line
+                if line[:-1] == indentst:
+                    alltext +=' <br> '
+                else:
+                    alltext += line
                 line = fin.readline() 
             curinfo[field] = alltext 
         elif line[:line.find(':')].strip() in textfields:
@@ -339,9 +342,73 @@ def add_span_tag(curtext,telltale,classt, colorst):
     idx = curtext.find(telltale)
     while idx > 0:
         indb = curtext.find(telltale,idx+3)
-        curtext = curtext[:idx] + '<span style="class:' + classt +';color:' + colorst + '">' + curtext[idx+3:indb] + "</span>" + curtext[indb+3:]  
+        curtext = curtext[:idx] + '<span style="class:' + classt +';color:' + colorst + ';">' + curtext[idx+3:indb] + "</span>" + curtext[indb+3:]  
         idx = curtext.find(telltale,indb+3)
     return curtext
+
+
+def do_geog_markup():
+    """ Mark geographical entities based on preceding preposition and capitalization """
+    global thetext
+    if len(StopList) == 0:
+        read_stoplist()
+    geogwords = []
+    strg = '|'.join(civet_settings.GEOG_PREPOSITIONS)
+#    print('DGM-enter',strg)
+    pat1 = re.compile(r' (' + strg + ') [A-Z]') ## make this a global
+    """tarst = ' in Yemen from Aden to Sanaa at Taiz '
+    idx = 0
+    curmatch = pat1.search(tarst,idx)
+    while curmatch:
+        print('DGM-0',idx, tarst[curmatch.start():curmatch.end()],curmatch.group())
+        idx = curmatch.end()
+        curmatch = pat1.search(tarst,idx)"""
+       
+    oktext = make_oktext()
+    for curtext in oktext: 
+        if curtext.startswith('<span'):  # do not try to code anything that has already been marked
+            continue
+#        print('DGM-1.0 \"'+curtext+'\"')
+        idx = 0
+        curmatch = pat1.search(curtext, idx)
+        while curmatch:
+            wordstart = curtext.find(' ',curmatch.start()+1)  # skip the preposition
+            endx = curtext.find(' ',wordstart+1)  # go to end of capitalized word
+            if endx < 0:
+                endx = len(curtext)-1
+            while endx < len(curtext)-1:  # check for subsequent cap words
+                if curtext[endx-1] in [',','.','?','"','\'','!','\n','\t']:
+                    endx -= 1
+                    break
+                elif curtext[endx+1].isupper():
+                    endx = curtext.find(' ',endx+1)  # go to end of capitalized word
+                    if endx < 0:
+                        break                    
+                else:
+                    break
+#            print('DGM-1.1',curtext[wordstart:endx])
+            if curtext[wordstart+1:endx] not in StopList:
+                geogwords.append(curtext[wordstart:endx])
+                    
+            idx = endx + 1
+            curmatch = pat1.search(curtext, idx)
+    
+#        print('DGM-2:',geogwords)
+        
+        for ka, curtext in enumerate(oktext):  # enumerate because we need to change oktext[ka]
+            for word in geogwords:
+                idx = 0
+                while word in curtext[idx:]:  # leading blank in word will not match marked cases
+                    idx = curtext.find(word,idx)
+                    if curtext[idx+len(word)] in [' ',',','.','?','"','\'','!','\n','\t']:
+                        curtext = curtext[:idx+1] + '=~=' + word[1:] + '=~=' + curtext[idx+len(word):]
+#                        print('DGM-3: "' + curtext + '\"')
+                    else:
+                        idx += 1
+            oktext[ka] = add_span_tag(curtext,'=~=','geogent', 'brown')
+
+    thetext = ''.join(oktext) 
+
 
 def do_NE_markup():
     """ Mark named-entities based on capitalization """
@@ -349,7 +416,7 @@ def do_NE_markup():
 #    newords = []
     if len(StopList) == 0:
         read_stoplist()
-    pat1 = re.compile(r' (al-|bin-|ibn-|)?[A-Z]')    
+    pat1 = re.compile(r' (al-|bin-|ibn-|)?[A-Z]') # make this a global   
     oktext = make_oktext()
     for ka, curtext in enumerate(oktext):
         if curtext.startswith('<span'):  # do not try to code anything that has already been marked
@@ -359,13 +426,10 @@ def do_NE_markup():
         while curmatch:
     #        print(curtext[curmatch.start()-1:curmatch.start()+8])
             endx = curtext.find(' ',curmatch.start()+1)
-            if curtext[endx-1] in [',','.','?','"','\'','!','\n','\t']:
+            while curtext[endx-1] in [',','.','?','"','\'','!','\n','\t']:
                 endx -= 1
             curtext = curtext[:curmatch.start()+1] + '=~=' + curtext[curmatch.start()+1:endx]  + '=~=' + curtext[endx:]
             idx = endx
-            """else:
-                idx = curmatch.end()
-    #            print('Mk2', curmatch.start(),curmatch.end(),idx, curtext[idx:idx+8])"""
             curmatch = pat1.search(curtext, idx)
     
         curtext = curtext.replace('=~= =~=',' ')
@@ -444,7 +508,6 @@ def do_string_markup(category):
     for st in civet_form.UserCategories[category][2:]:
         marklist.append(' ' + st)
     for st in marklist:
-#        print('DSM1:',st)
         oktext = make_oktext()
         for ka, curtext in enumerate(oktext):
             if curtext.startswith('<span'):  # do not try to code anything that has already been marked
@@ -452,7 +515,9 @@ def do_string_markup(category):
             idx = curtext.find(st)
             while idx > 0:
                 endx = curtext.find(' ',idx+len(st))
-                if curtext[endx-1] in [',','.','?','"','\'','!','\n','\t']:
+                if endx < 0:
+                    endx = len(curtext) - 1
+                while curtext[endx-1] in [',','.','?','"','\'','!','\n','\t']:
                     endx -= 1
                 if endx == idx+len(st):  # only use complete matches except for punctuation: dropping this would allow stemming and that could be added as a option at some point
                     if category in civet_form.CategoryCodes:
@@ -462,10 +527,9 @@ def do_string_markup(category):
                     else:
                         code = ''
                     curtext = curtext[:idx+1] + '=$=' + category + '=$=' + st[1:] + code  + '=$=' + curtext[endx:]
-    #                print('DSM2:',curtext)
                     idx = curtext.find(st,endx+len(category+code)+6)
                 else:
-                    idx = endx
+                    idx = curtext.find(st,endx+1)
 
             idx = curtext.find('=$=')
             while idx > 0:
@@ -487,6 +551,8 @@ def do_markup(oldtext):
     for cat in civet_form.UserCategories:
         do_string_markup(cat)
     do_numberword_markup()    
+    if civet_settings.USE_GEOG_MARKUP:
+        do_geog_markup()
     do_NE_markup()
     do_number_markup()
 #    print('DM1:',thetext)

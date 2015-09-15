@@ -262,7 +262,7 @@ be substituted for the optional token ``_text_`` in ``HTML-text``
     
 The three fields are displayed in this order; they default to null strings.
 The individual ``header`` commands must be separated by blank lines; otherwise,
-consistent with the command syntax, [#f6]_ the latter lines will be ignored. 
+consistent with the command syntax, [#f5]_ the latter lines will be ignored. 
     
 **Example:**
 
@@ -276,7 +276,7 @@ Special ``save`` variables for workspaces
 -----------------------------------------
 
 These variables will not include any texts that were deleted using 
-``shift-click`` on the lede. [#f5]_
+``shift-click`` on the lede. [#f6]_
 
 \_publisher\_
     Comma-delimited list of the ``textpublisher`` fields of the texts in
@@ -363,10 +363,13 @@ the same as ``textline`` and the ``class`` information is ignored.
 
 The ``class=class-name`` is required and specifies the name of the
 annotation class that the text-entry box is connected with; a class can
-be associated with multiple text-entry boxes. There are three standard
+be associated with multiple text-entry boxes. There are four standard
 classes:
 
 -  ``nament``: named-enties, which are determined by capitalization
+
+-  ``geogent``: geographical locations, which are determined by a 
+    combination of prepositions and capitalization [#f7]_
 
 -  ``num``: numbers
 
@@ -604,10 +607,17 @@ Adds arbitrary HTML code without escaping.
     effect, with the contents added to the metadata.
 
 .. [#f5]
+    Neither a bug nor a feature: just is what it is.
+
+.. [#f6]
     At present, only these two fields are available, but it is relatively
     straightforward to add the others by just following the existing 
     code that you locate in a search for “textpublisher”    
+
+.. [#f7]
+    This is only done in the automatic annotation if 
+    ``civet_settings.USE_GEOG_MARKUP = True``: see the discussion in the
+    *Preferences* chapter.
+
     
-.. [#f6]
-    Neither a bug nor a feature: just is what it is.
     

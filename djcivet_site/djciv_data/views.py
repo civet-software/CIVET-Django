@@ -285,11 +285,11 @@ def apply_editor_markup(request):
     newstr = ''
     ka = 0
     for idst, lst in textblock.iteritems():
-        print('AEM1',ka, idst,lst)
+#        print('AEM1',ka, idst,lst)
         newstr += make_ckeditor_markup_string(
                  [idst, civet_utilities.do_markup(lst[0]), lst[1], lst[2], civet_utilities.do_markup(lst[3])],
                  ka)
-        print('AEM2',newstr)
+#        print('AEM2',newstr)
         ka += 1
     context = get_CKEditor_context(newstr)
     return render(request,'djciv_data/civet_ckeditor.html',context)
@@ -469,7 +469,6 @@ def get_coder_markup():
         if not ct.textdelete:
             temp = ct.get_text_fields()
             if civet_settings.ALWAYS_ANNOTATE and 'class:nament' not in temp[4]:  # a robust, if not quite guaranteed, telltale that there has been no markup
-                temp[1] = civet_utilities.do_markup(temp[1])
                 temp[4] = civet_utilities.do_markup(temp[4])
             stx += make_coder_markup_string(temp,ka)
     return stx
@@ -526,8 +525,9 @@ def code_collection(request):
                                                                                         # do the standard replacements
         PageIndex = 0
         Deletelist = ''
-        CoderText = CoderText.replace('style="class:nament;color:blue"','class="nament"') 
-        CoderText = CoderText.replace('style="class:num;color:green"','class="num"')
+        CoderText = CoderText.replace('style="class:nament;color:blue;"','class="nament"')  # this list should probably be linked to a civet_settings global
+        CoderText = CoderText.replace('style="class:geogent;color:brown;"','class="geogent"') 
+        CoderText = CoderText.replace('style="class:num;color:green;"','class="num"')
     #    print('CC Incoming:\n',cktext)
         TermStyles = ''  # generate the new termst styles
         styles = civet_settings.DEFAULT_CKEDITOR_STYLES.split("{ 'class':")

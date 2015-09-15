@@ -30,6 +30,12 @@ The following options are available on this screen
         This is based on capitalization; consecutive capitalized words
         are combined.
 
+    *Location* [optional]
+        When the ``Use preposition-based geographical markup`` preference is set to 
+        ``True``, these are named-entities which are preceded somewhere in the 
+        text by prepositions in the list ``'at','to','in','from'`` See 
+        additional discussion in the “Preferences” chapter. 
+    
     *Numbers*:
         Digits and numerical words and phrases such as “one” and
         “two-hundred.”
@@ -37,7 +43,7 @@ The following options are available on this screen
     *User-specified categories*:
         See the discussion of :ref:`categories <sec-categories>`
         
-    Annotation is done automatically when ``civet_settings.ALWAYS_ANNOTATE`` is
+    Annotation is done automatically when ``Always apply annotation`` preference is
     set to ``True``; this can be changed on the “Preferences” screen.
 
 **Save edits and select new collection:**

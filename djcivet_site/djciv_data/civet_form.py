@@ -251,7 +251,7 @@ def make_textclass(commlines, widthstr='24'):
         check_for_equalchar(tarsta,'category')
         tarst = tarsta[tarsta.index('=')+1:].lstrip()  # need to catch error here
         classstr = tarst[:tarst.index(' ')]  # we added a terminal blank so this will always be okay
-        if classstr not in ['nament','date','num']:
+        if classstr not in ['nament','geogent','date','num']:  # this list should probably be a civet_settings global
             classstr = '=^=' + classstr + '=^='   # these will be replaced by termstNN
 #        print('MTc-2:',classstr)
     else:

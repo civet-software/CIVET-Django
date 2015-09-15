@@ -48,6 +48,20 @@ variables affecting the work flow and initial presentation of the texts.
     - Default: ``True``
     - “civet_settings.py” variable: ``USE_TEXT_FOR_MISSING``
 
+**Use preposition-based geographical markup:**
+    Use prepositions to attempt to identify named entities that are geographical 
+    locations: capitalized phrases that are preceded by the prepositions in the 
+    list ``'at','to','in','from'`` are assigned the category “Location”. If a
+    phrase is identified *anywhere* in the text as a possible 
+    locations, all instances will be labelled with that category; that
+    label will take precedence over the standard “Named entity” category. 
+
+    - Default: ``False``
+    - “civet_settings.py” variable: ``USE_GEOG_MARKUP``
+    - “civet_settings.py” preposition list: ``GEOG_PREPOSITIONS``
+
+    
+
 **Missing value**
     Sets the missing value. 
     

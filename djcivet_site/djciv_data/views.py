@@ -459,18 +459,23 @@ def make_listeners(length):
 def get_coder_markup():
     """ return a string containing all of the textmkup fields from ActiveCollection """
     global HeaderInfo
+#    print('GCM-Enter:',ActiveCollection)
     thecoll = Collection.objects.get(collid__exact=ActiveCollection)
     HeaderInfo['collid'] = thecoll.collid
     HeaderInfo['collcmt'] = thecoll.collcmt
+#    print('GCM-1:',HeaderInfo)
     curtexts = Text.objects.filter(textparent__exact=ActiveCollection)
     stx = ''
     for ka, ct in enumerate(curtexts):
-#        print('ED-Mk2:',ct.textmkup)
+#        print('GCM-2:',ct.textoriginal[:64])
         if not ct.textdelete:
             temp = ct.get_text_fields()
+#            print('GCM-3:',temp[:2],temp[2][:64])
             if civet_settings.ALWAYS_ANNOTATE and 'class:nament' not in temp[4]:  # a robust, if not quite guaranteed, telltale that there has been no markup
                 temp[4] = civet_utilities.do_markup(temp[4])
             stx += make_coder_markup_string(temp,ka)
+#            print('GCM-4:',stx)
+#    print('GCM-exit')
     return stx
 
     
@@ -517,8 +522,10 @@ def code_collection(request):
             return HttpResponse("No collection was selected: use the back key to return to the collection selection page.")
         
     if not CoderText:
+#        print('CC00:')
         civet_form.FormFields = deepcopy(InitalFormVals)
         CoderText = get_coder_markup()
+#        print('CC00-2:')
         if len(CoderText) == 0:
             return HttpResponse("No collection was selected: use the back key to return to the collection selection page.")
 
@@ -528,15 +535,12 @@ def code_collection(request):
         CoderText = CoderText.replace('style="class:nament;color:blue;"','class="nament"')  # this list should probably be linked to a civet_settings global
         CoderText = CoderText.replace('style="class:geogent;color:brown;"','class="geogent"') 
         CoderText = CoderText.replace('style="class:num;color:green;"','class="num"')
-    #    print('CC Incoming:\n',cktext)
+#        print('CC Incoming:\n',CoderText)
         TermStyles = ''  # generate the new termst styles
         styles = civet_settings.DEFAULT_CKEDITOR_STYLES.split("{ 'class':")
         for strg in styles[1:]:
 #            print('CC-0:',strg)
             strg = strg[:strg.find('}')+1].replace("'",'').replace('}',';}')
-            ### TEMPORARY ###
-            #strg = strg.replace('number','num')
-            ### TEMPORARY ###
 #            print('CC-00:',strg)
             TermStyles += '.' + strg[:strg.find(',')] + ' {' + strg[strg.find(',')+1:] + '\n'
     #    print('CC-1:',theform)
@@ -561,7 +565,7 @@ def code_collection(request):
                                     'class="' + civet_form.UserCategories[cat][1] + '"') #   # standardize manual annotation <span> markup 
             CoderText = CoderText.replace('style="class:' + civet_form.UserCategories[cat][1] + ';color:' + civet_form.UserCategories[cat][0] + '"',\
                                     'class="' + civet_form.UserCategories[cat][1] + '"') #   # remove color from automatic annotation <span> markup       
-#        print('CC-2:',TermStyles)
+#    print('CC-2:',TermStyles)
     return render(request,'djciv_data/civet_coder.html',get_coder_context())
 
 
@@ -627,7 +631,7 @@ def read_workspace(request, isdemo = False, manage = False):
             return HttpResponse("No file was selected: please go back to the previous page and select a file")
        
     zf = zipfile.ZipFile(zipfilename, 'r')
-#    print('RW1:',zf.namelist())
+#    print('RW0-1:',zf.namelist())
  
     ActiveCollection = ''
     CoderText = ''
@@ -654,7 +658,7 @@ def read_workspace(request, isdemo = False, manage = False):
         
     CollectionList = []  # list of available collections   
     for file in zf.namelist():
-#        print('RDC1:',file)
+#        print('RW2:',file)
         if file.startswith('__'):
             continue
         try:
@@ -664,13 +668,13 @@ def read_workspace(request, isdemo = False, manage = False):
         if file.endswith('.yml'):
             ka += 1
             if ka > 0: # <= 4:            # DEBUG
-#                print('RCD-1:',file)
+#                print('RW2-1:',filename)
                 fin = zf.open(file,'r')
                 try:
                     collinfo, textlist, caselist = civet_utilities.read_YAML_file(fin, file)
                 except Exception as e:
- #                   print('Error:' + str(e) + ' in ' + file)
-                    error_string += '<p>' + str(e) + ' in the file "' + filename + '"'
+#                    print('Error:' + str(e) + ' in ' + file)
+                    error_string += '<p>' + str(e) + ' in the file "' + filename + '"'  # <15.09.16>: This needs to be more informative as a zillion things could cause it
                     continue
 
                 collentry = Collection.objects.create_coll(

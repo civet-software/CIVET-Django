@@ -66,6 +66,11 @@ The general operation of the coder/extractor is described below:
    Up arrow:
        *Append* the contents of the field with the highlighted text.
        The appended texts are comma-delimited.
+       
+   If the highlighted textis off the screen, the window will automatically 
+   scroll to place the text on the bottom of the screen. If the text 
+   contains no words in the category, a pop-up window will alert you
+   to this. 
 
 #. Copy-and-paste from the text to the data fields work as you would
    expect; text can also be entered and edited manually.

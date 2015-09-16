@@ -60,7 +60,6 @@ def read_YAML_file(fin,filename):
     casedicts = []
 #    print('GYF-0:')
 
-#    fin = open(filename,'r')
     line = fin.readline() 
     while len(line) > 0 and not line.startswith('texts:'):  # could doc, headline, source info here
 #        print('>>',line[:-1])
@@ -189,6 +188,7 @@ def read_YAML_file(fin,filename):
                 if k in dc: print(k, dc[k])
             print('casevalues:', dc['casevalues'])"""
 
+#    print("RYF-exit\n")
     return collinfo, textdicts, casedicts
 
 def write_YAML_file(thecoll, filehandle):
@@ -238,7 +238,7 @@ def write_YAML_file(thecoll, filehandle):
         filehandle.write('\ncases:\n')   
         for ct in curcases:
             casedict = ct.__dict__
-            print('WYF-4:', casedict)
+#            print('WYF-4:', casedict)
             filehandle.write('\n  - caseid: ' + casedict['caseid'] + '\n')
             for flst in casefields:
                 if flst in casedict:
@@ -249,9 +249,9 @@ def write_YAML_file(thecoll, filehandle):
                         filehandle.write('    ' + flst + ': ' + casedict[flst] + '\n')
         
             filehandle.write('    casevalues: >\n        {\n')
-            print('-->',casedict['casevalues'])
+#            print('-->',casedict['casevalues'])
             caseval = ast.literal_eval(casedict['casevalues'])  # this was checked for errors at the input level
-            print('WYF-5:', caseval)
+#            print('WYF-5:', caseval)
             if '_discard_' in caseval and caseval['_discard_']:
                  filehandle.write("        '_discard_': 'True'\n")
             elif '_delete_' in caseval:
@@ -413,7 +413,7 @@ def do_geog_markup():
 def do_NE_markup():
     """ Mark named-entities based on capitalization """
     global thetext
-#    newords = []
+#    print('DNM-entry')
     if len(StopList) == 0:
         read_stoplist()
     pat1 = re.compile(r' (al-|bin-|ibn-|)?[A-Z]') # make this a global   
@@ -424,7 +424,7 @@ def do_NE_markup():
         idx = 0
         curmatch = pat1.search(curtext, idx)
         while curmatch:
-    #        print(curtext[curmatch.start()-1:curmatch.start()+8])
+#            print('DNM1:',curtext[curmatch.start()-1:curmatch.start()+8])
             endx = curtext.find(' ',curmatch.start()+1)
             while curtext[endx-1] in [',','.','?','"','\'','!','\n','\t']:
                 endx -= 1
@@ -433,15 +433,20 @@ def do_NE_markup():
             curmatch = pat1.search(curtext, idx)
     
         curtext = curtext.replace('=~= =~=',' ')
- #       print('DNM1:',curtext)
+#        print('DNM2:',curtext)
         idx = curtext.find('=~=')
         while idx >= 0:
-            idend = curtext.find('=~=',idx+1)+3
-#            print('   ',curtext[idx:idend],':',curtext[idx+3:idend-3])
+            idend = curtext.find('=~=',idx+1)
+            if idend < 0:
+                break
+            else:
+                idend += 3
+#            print('DMN3: ',curtext[idx:idend],':',curtext[idx+3:idend-3])
             if ' ' not in curtext[idx+3:idend] and curtext[idx+3:idend-3] in StopList: # remove markup from single-word stopwords
                 curtext = curtext[:idx] + curtext[idx+3:idend-3] + curtext[idend:]
 #                print('  ==>',curtext[idx:idend])
-            idx = curtext.find('=~=',idend+1)            
+            idx = curtext.find('=~=',idend+1)
+#            print('  ++>',idx)            
 
         oktext[ka] = add_span_tag(curtext,'=~=','nament', 'blue')
 
@@ -547,6 +552,7 @@ def do_string_markup(category):
 
 def do_markup(oldtext):
     global thetext
+#    print('DM-entry')
     thetext = oldtext + ' '
     for cat in civet_form.UserCategories:
         do_string_markup(cat)
@@ -555,7 +561,7 @@ def do_markup(oldtext):
         do_geog_markup()
     do_NE_markup()
     do_number_markup()
-#    print('DM1:',thetext)
+#    print('DM-exit:',thetext)
     return thetext
 
     

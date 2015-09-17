@@ -49,6 +49,7 @@ import datetime
 import shutil
 import zipfile
 import StringIO
+import codecs
 import os
 import ast
 
@@ -788,7 +789,7 @@ def write_workspace(request):
         fdir, filename = os.path.split(thecoll.collfilename)
 #        print('WW1:',collst, fdir,filename)
         filename = tempdirname + '/' + filename + '.yml'
-        filehandle = open(filename,'w')
+        filehandle = codecs.open(filename,'w',encoding="ascii", errors="ignore")
         civet_utilities.write_YAML_file(thecoll, filehandle)
         filehandle.close()
         filenames.append(filename)

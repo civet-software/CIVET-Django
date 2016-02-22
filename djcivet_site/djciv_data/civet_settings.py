@@ -76,10 +76,18 @@ USE_TEXT_FOR_MISSING = True   # substitute text rather than MISSING_VALUE if [va
 SHOW_ALL_CONTENT = False  # initially expand all content in coder
 ALWAYS_ANNOTATE = True
 SKIP_EDITING = False
-USE_GEOG_MARKUP = False  # do geographical markup before named entity            
+USE_GEOG_MARKUP = False  # do geographical markup before named entity
+HIGHLIGHT_NAMENT = True  # highlight the nament class during annotation
+HIGHLIGHT_NUM = True  # highlight the num class during annotation
+
+USE_TEXTBIBLIO_IN_SOURCE = True  # source includes textbiblio field
+USE_TEXTID_IN_SOURCE = False # source includes textid field
+            
 
 REQUIRE_LOGIN = False  
-#REQUIRE_LOGIN = True  
+#REQUIRE_LOGIN = True
+
+CLEAR_DATABASE = True  # clears database before reading workspace  
             
 # ============= Production mode  ============= #
 
@@ -103,15 +111,19 @@ def get_preferences():
     prefs['textmissing'] = USE_TEXT_FOR_MISSING
     prefs['missingvalue'] = MISSING_VALUE
     prefs['geogmarkup'] = USE_GEOG_MARKUP
+    prefs['sourcetextbiblio'] = USE_TEXTBIBLIO_IN_SOURCE
+    prefs['sourcetextid'] = USE_TEXTID_IN_SOURCE
     return prefs
     
 def set_preferences(form):
-    global ALWAYS_ANNOTATE, SKIP_EDITING, SHOW_ALL_CONTENT, USE_TEXT_FOR_MISSING, MISSING_VALUE
+    global ALWAYS_ANNOTATE, SKIP_EDITING, SHOW_ALL_CONTENT, USE_TEXT_FOR_MISSING, MISSING_VALUE, USE_TEXTBIBLIO_IN_SOURCE, USE_TEXTID_IN_SOURCE 
     ALWAYS_ANNOTATE = form['alwaysannotate']
     SHOW_ALL_CONTENT = form['showallcontent']
     SKIP_EDITING = form['skipediting']
     USE_TEXT_FOR_MISSING = form['textmissing']
     MISSING_VALUE = form['missingvalue']
-    USE_GEOG_MARKUP = prefs['geogmarkup']
+    USE_GEOG_MARKUP = form['geogmarkup']
+    USE_TEXTBIBLIO_IN_SOURCE = form['sourcetextbiblio']
+    USE_TEXTID_IN_SOURCE = form['sourcetextid']
     
 

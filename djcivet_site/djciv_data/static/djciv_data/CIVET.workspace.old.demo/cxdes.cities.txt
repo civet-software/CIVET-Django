@@ -1,0 +1,12 @@
+# CIVET Cities demo file
+Gotrone [TCD]
+Misratah [LBY]
+Sanaa [YEM]
+Okash [YEM]
+Hodeida [YEM]
+Aden [YEM]
+Kraytar [YEM]
+Ikobo [COD]
+Kalehe [COD]
+Kanune  [COD]
+Rusamambo [COD]

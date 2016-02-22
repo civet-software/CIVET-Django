@@ -23,17 +23,40 @@
 ##	Report bugs to: schrodt735@gmail.com
 ##
 ##	REVISION HISTORY:
-##	14-March-15:	Initial version
-##  4-August-15:    Beta 0.7
-##  31-August-15:   Beta 0.9
+##	14-Mar-15:	 Initial version
+##  04-Aug-15:   Beta 0.7
+##  31-Aug-15:   Beta 0.9
+##  31-Oct-15:   Minerva modifications
 ##
 ##	----------------------------------------------------------------------------------
+
+""" Rough guide to processing of forms 
+
+1. get_commlines() takes the text input from the template file and returns a list with a standard set of fields
+
+2. do_command() looks at the type of command and either adds HTML to FormContent or inserts markers for widgets and creates a 
+   list that can be passed to  forms.CodingForm
+
+3. forms.CodingForm both creates the various input widgets using Django standards, and stores the current variable values  
+   between page changes. These are accessed locally in FormFields
+
+4. get_current_form() uses form.as_p() to get the widgets and current values and replaces the markers with these to produce 
+   FormContent, a list of the individual pages which will be displayed as form_content in civet_coder.html.
+   
+5. Cases store all variable values as a dictionary in the field casevalues -- this is only modified when the cases are 
+   read or saved. caselocs is a dictionary which saves the locations of the extracted texts so these can be highlighted 
+   during review. 
+   
+"""
+
 
 from __future__ import print_function
 from django.utils.html import escape
 import datetime
 import time
 import sys
+
+from django.utils import encoding   # used for utf-8 -> ascii conversion
 
 from .models import Collection, Text, Case
 from .forms import CodingForm
@@ -45,13 +68,14 @@ import civet_settings
 SaveList = []   # variables to write 
 SaveTypes = []   # full variable string with optional label for values 
 SpecialVarList = ['_coder_', '_date_', '_time_']
-MetaVarList    = ['_publisher_', '_biblioref_']
+MetaVarList    = ['_collection_', '_publisher_', '_biblioref_']
 VarList = []    # variables which have entry boxes
 TempData = ''   # output string for form-only mode
 CoderName = '---' 
 ConstVarDict = {}  # holds the variables set by constant:
 UserCategories = {} # holds user categories as list [color, vocabulary...]
 CategoryCodes = {} # dictionary of dictionaries for category codes, if these are present
+CheckboxValues = {} # dictionary of lists of values for checkboxes in order [F,T]; index is variable name
 
 FormContent = ['']  # list containing html strings for the coding form pages
 FormFields = {} # dictionary containing the type of field, title, current value and ancillary information, indexed by var name
@@ -78,19 +102,21 @@ http://www.randalolson.com/2014/06/28/how-to-make-beautiful-data-visualizations-
 
 """def imalive(): # debugging
     print('Hello from CIV_template')"""
-    
+
     
 def get_text_metadata(commd, active_collection):
-    retstr = ''
-    curtexts = Text.objects.filter(textparent__exact=active_collection)
-    for ct in curtexts:
-        temp = ct.get_text_fields()
-        if commd == '_publisher_':
-            retstr += ct.textpublisher + ', '
-        elif commd == '_biblioref_':
-            retstr += ct.textbiblio + ', '
-#    print('GTM:',retstr)
-    return retstr[:-2]   # remove final comma+space
+    if commd == '_collection_':
+        return active_collection
+    else:
+        retstr = ''
+        curtexts = Text.objects.filter(textparent__exact=active_collection)
+        for ct in curtexts:
+            if commd == '_publisher_':
+                retstr += ct.textpublisher + ', '
+            elif commd == '_biblioref_':
+                retstr += ct.textbiblio + ', '
+    #    print('GTM:',retstr)
+        return retstr[:-2]   # remove final comma+space
 
 def split_options(commst):
     """ splits the options for select, option, checkbox, SaveList """
@@ -149,11 +175,18 @@ def get_integer(optstr, tarst):
 
     
 def read_codes_file(fin, filename):
-    """ reads the codes.file fin and stores results in CategoryCodes """ 
-    global CategoryCodes           
+    """ reads the codes.file fin and stores results in CategoryCodes 
+        This converts utf-8 to ASCII, which needs to be changed in the relatively near future, though probably not until
+        we convert the whole thing to Python 3.0
+    """ 
+    global CategoryCodes 
+              
+    def create_ascii(str):
+        return encoding.smart_str(str, encoding='ascii', errors='ignore')
+
     newcat = filename[filename.index('codes.')+6:].partition('.')[0]  # category name follows 'codes.' in filename
     CategoryCodes[newcat] = {}
-    line = fin.readline() 
+    line = create_ascii(fin.readline())             
     while len(line) > 0:
 #        print('GC1:',line)
         if not line.startswith('#'):
@@ -161,7 +194,7 @@ def read_codes_file(fin, filename):
             CategoryCodes[newcat][vocab] = code
             if len(capvocab) > 0:
                 CategoryCodes[newcat][capvocab] = code               
-        line = fin.readline()
+        line = create_ascii(fin.readline())             
 #    print('RCF:',newcat, CategoryCodes[newcat])
         
 
@@ -219,8 +252,14 @@ def make_category(commlines):
 
 
 def make_checkbox(commlines):
-    """ creates a checkbox entry: """
+    """ creates a checkbox entry """
     valuelist = split_options(commlines[4])
+    CheckboxValues[commlines[2]] = []   # save values without marker
+    for ele in valuelist:
+        if ele[0] == '*':
+            CheckboxValues[commlines[2]].append(ele[1:])
+        else:
+            CheckboxValues[commlines[2]].append(ele)
     if valuelist[1][0] == '*':
         return [commlines[2], 'checkbox', commlines[1], True]
     else:
@@ -231,6 +270,12 @@ def make_textline(commlines, widthstr='24'):
     if 'width' in commlines[3]:
         widthstr = get_integer(commlines[3], 'width')
     return [commlines[2], 'textline', commlines[1], commlines[4], widthstr] 
+
+def make_textsource(commlines, widthstr='24'):
+    """ creates a source entry """
+    if 'width' in commlines[3]:
+        widthstr = get_integer(commlines[3], 'width')
+    return [commlines[2], 'textsource', commlines[1], commlines[4], widthstr] 
 
 def make_date(commlines):
     """ creates a date input entry: implementation delayed until such point that system is responding 
@@ -336,6 +381,10 @@ def make_text(commst, content):
 def make_header(commlines):
     """ processes the header command """
     global WorkspaceFileName, CollectionId, CollectionComments
+    if len(commlines) < 2:
+       return '~Error~<p>Missing text and field name in \"header: command <br>\n'  # <15.11.02> not sure this can even happen but better safe than sorry
+    elif len(commlines) < 3:
+       return '~Error~<p>Missing field name in \"header: ' + escape(commlines[1]) + '<br>\n'
     restr = ' '
     if commlines[2] == 'workspace':
         WorkspaceFileName = commlines[1] 
@@ -402,7 +451,11 @@ def get_commlines(fin):
             2: name of the variable
             3: options (often empty) 
         the remaining content is specific to each command and will be interpreted by those functions
-        An empty list indicates EOF """
+        An empty list indicates EOF 
+        Sort of bug <15.10.26>: The check "line[0] == '-' and ':' in line" would still fail on an entry line of the form 
+            ---:Enter data here
+        This has been documented but maybe to make it really robust we should check a list of actual commands.
+        """
     commlines = []
     line = fin.readline() 
     while len(line) > 0:
@@ -420,7 +473,7 @@ def get_commlines(fin):
                 line = fin.readline()
                 continue 
 
-        if  line[0] == '-':  # cancel a command
+        if  line[0] == '-' and ':' in line:  # cancel a command
             line = fin.readline() 
             while len(line.strip()) > 0:
                 line = fin.readline()
@@ -522,9 +575,9 @@ def do_command(commln):
     elif commst == 'newpage':
         outline = '~NewPage~'         
     elif commst == 'save':
-        varlist = split_options(commlines[1])
+        varlist = split_options(commlines[1])  # bad choice of local variable name here...
         if len(varlist) > 0:
-    #        print('DC2.1:',varlist)
+#            print('DC2.1:',varlist)
             SaveList = []
             SaveTypes = [] 
             for st in varlist:
@@ -541,7 +594,7 @@ def do_command(commln):
         else:            
             outline += '~Error~<p>Missing variable list on the line following ' + commlines[0] + '<br>\n'
         outline += ' '  # show something was processed
-#        print('SV:',SaveList)
+#        print('DC2.2:',SaveList)
     elif commst == 'constant':
         ConstVarDict[commlines[2]] = commlines[1]
         VarList.append(commlines[2])
@@ -583,6 +636,8 @@ def do_command(commln):
                 field = make_textline(commlines)
             elif commst == 'textclass':
                 field = make_textclass(commlines)
+            elif commst == 'textsource':
+                field = make_textsource(commlines)
             elif commst == 'textarea':
                 field = make_textarea(commlines)
 #           elif commst == 'date':
@@ -591,6 +646,8 @@ def do_command(commln):
                 field = make_discard(commlines)
             elif commst == 'comments':
                 field = make_comments(commlines)
+        except IndexError: # missing line will usually be the cause here...I hope...
+            outline = '~Error~<p>Second line is missing for the command "' + commln[0] + '"<br>\n'
         except Exception as e:
             outline = '~Error~<p>' + str(e[1]) + '"' + commln[0] + '"<br>\n'
             
@@ -647,11 +704,12 @@ def get_current_form(pageindex):
         curvars.append(st[:st.find('==}')]) 
 #    print('IFF0:',curvars)
 #    print('IFF:',form.as_p())
+#    print('IFF1:',FormFields)
 #                                   get the widgets that are used in this form
     fielddict = {} 
     for strg in form.as_p().split('</p>\n'):  # still need to get rid of terminal </p>, though it appears harmless
         for fld in curvars:
-            if 'id_' + fld in strg:           # ids generated by Django have the format 'id_'+<name>
+            if 'id_' + fld + '"' in strg:           # ids generated by Django have the format 'id_'+<name>
                 if FormFields[fld][0] == 'radio':
                     fielddict[fld] = radio_format(strg,FormFields[fld][4] )
                 elif FormFields[fld][0] == 'textarea':
@@ -659,6 +717,9 @@ def get_current_form(pageindex):
                     fielddict[fld] = parts[0] + '</label><br>' + parts[2]
                 elif FormFields[fld][0] == 'textclass':
                     fielddict[fld] = strg[3:].replace('&#39;',"'").replace('id="id_','id="')  # switch from Django to CIVET id style
+                elif FormFields[fld][0] == 'textsource':
+                    fielddict[fld] = strg[3:].replace('id="id_','id="')  # switch from Django to CIVET id style
+#                    print('========GCF Mk1: ', fld, fielddict[fld] )
                 else:
                     fielddict[fld] = strg[3:]
                 break
@@ -701,6 +762,8 @@ def read_template(fin):
     if len(SaveList) == 0:
         thecontent += '~Error~<p>A "save:" command is required in the template<br>\n'
     else:
+#        print('RT1:',SaveList)
+#        print('RT2:',VarList)
         misslist = []
         for ele in SaveList:
             if ele not in VarList:
@@ -721,7 +784,6 @@ def read_template(fin):
         FormContent = thecontent.split('~NewPage~') 
     else:    
         FormContent[0] = thecontent
-        
             
 #  ================  Data saving  ================
 
@@ -764,7 +826,7 @@ def save_newcase(active_collection, case_id, cmtstr, valdict):
     newcase = Case.objects.create_case(
         caseparent = active_collection,
         caseid = theser,
-        casedate = datetime.datetime.now(),
+        casedate = datetime.datetime.now().isoformat(),
         casecoder = CoderName,  
         casecmt = cmtstr,
         casevalues = valst,
@@ -814,7 +876,7 @@ def save_to_TempData():
             TempData += ConstVarDict[avar] + '\t'
         elif avar in vals:
             TempData += str(vals[avar]) + '\t'
-#            print('STT3:',avar,str(vals[avar]))
+#        print('STT3:',avar,str(vals[avar]))
 
     TempData = TempData[:-1] + '\n'
 

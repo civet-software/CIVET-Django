@@ -102,12 +102,10 @@ class Text(models.Model):
 
     def get_text_fields(self):
         """ returns textmkup if it is not null, otherwise textoriginal"""
-        if len(self.textmkup) > 0:
-            return [self.textid, self.textlede, str(self.textdate), self.textcmt, self.textmkup]
+        if len(self.textmkup) > 64:  ### <16.02.11> THIS IS A KLUDGE FOR THE ALBANY PROJECT: CORRECT IT
+            return [self.textid, self.textlede, str(self.textdate), self.textcmt, self.textbiblio, self.textmkup]
         else:
-            return [self.textid, self.textlede, str(self.textdate), self.textcmt, self.textoriginal]
-
-       
+            return [self.textid, self.textlede, str(self.textdate), self.textcmt, self.textbiblio, self.textoriginal]
 
 
 

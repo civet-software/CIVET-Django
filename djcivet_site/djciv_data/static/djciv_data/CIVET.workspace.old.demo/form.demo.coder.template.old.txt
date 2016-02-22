@@ -1,13 +1,31 @@
 # Minerva template demonstration file
 
+category: petroleum [Brown]
+codes.petroleum.vocabulary.txt
+
+category: agriculture [SeaGreen]
+codes.agriculture.vocabulary.txt
+
+category: mineral [Gold]
+codes.mineral.vocabulary.txt
+
+category: narcotics [SlateBlue]
+codes.narcotics.vocabulary.txt
+
+category: group [Blue]
+codes.group.vocabulary.txt
+
+
 title: Natural Resources and Armed Conflict Dataset
+
+header: <span style="color:blue; font-size: 120%;"> _text_ </span>' [comments]
 
 h2: Natural Resources and Armed Conflict Dataset Coding Form
 
 select: Resource: [resource]
 agriculture, animal, bauxite, cannabis, charcoal, cobalt, coca, cocoa, coffee, coltan, copper, diamonds (alluvial), diamonds (primary), drugs, gems, gold, iron, mercury, oil, opium, other, rubber, tea, timber, tin, titanium, wolframite, zinc, minerals unknown
 
-radio:Strategy [strat]
+radio:Strategy [strategy]
 *Extortion, Theft, Booty Future, Smuggling
 
 //textline: Location [location] width=60
@@ -29,9 +47,9 @@ Additional information
 $
 
 radio:Certainty [certainty]
-/,*Higher Certainty,Lower Certainty:One Source, Lower Certainty:Bias,/,Lower Certainty:Identity,Lower Certainty: Timing,High Certainty:Timing
+/,*Higher Certainty,Lower Certainty:One Source, /, Lower Certainty:Bias, Lower Certainty:Identity,/,Lower Certainty: Timing,High Certainty:Timing
 
 
 save: 
-_date_, _coder_, resource, strat, location, geogkw, keywords, certainty, amount
+_date_, _coder_, resource, strategy, location, geogkw, keywords, certainty, amount
 

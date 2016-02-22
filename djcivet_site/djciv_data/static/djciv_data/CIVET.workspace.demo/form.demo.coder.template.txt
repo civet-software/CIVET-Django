@@ -1,58 +1,84 @@
-# CIVET coder template demonstration file
+# Minerva template demonstration file
 
-category:action [Magenta]
- killed[2], shot and killed [2],wounded[1], bombed[3], clashed[3],injured[1],attacked[3],assaulted[1], collect[5]
+category: petroleum [Brown]
+codes.petroleum.vocabulary.txt
 
-category:people [Brown]
-civilians,workers,authorities, groups,troops,soldiers,rebels, people, group
+category: agriculture [SeaGreen]
+codes.agriculture.vocabulary.txt
 
-category:woozle [yellow]  # this will not be found in markup
-woozle1 , woozle2
+category: mineral [Gold]
+codes.mineral.vocabulary.txt
 
-category:cities [cyan]  # get the list from a file
-codes.cities.txt
+category: narcotics [SlateBlue]
+codes.narcotics.vocabulary.txt
 
-header: <h3><span style="color:blue">Workspace _text_ </span></h3> [workspace]
+category: group [Green bold under italic]
+codes.group.vocabulary.txt
 
-header: Comments: _text_ [comments]
 
-title: CIVET coding form demonstration
+title: Natural Resources and Armed Conflict Dataset
 
-h1:Demonstration of CIVET form linked to annotated texts
+header: <span style="color:blue; font-size: 120%;"> _text_ </span> [comments]
 
-radio: Type of incident: [typeincid]
-*Demonstration, One-sided Violence, Armed Clash
+h2: Natural Resources Coding Form
 
-p:
+h3: Agriculture
 
-select:Type of weapons [natincid]
-*firearms, primitive weapons, explosives, heavy weapons, other
+radio:Strategy [agrstrat]
+*Extortion, Theft, Booty Future, Smuggling
 
-p:If "Other", provide details in the 'Description; section
+/textclass: Location [agrloc] width=64 category=nament
+Enter region or regions of the country
 
-checkbox: Was the incident a suicide attack? [suicide]
-No,*Yes
+/textclass: Geographical keywords [agrgeog] width=80 category=nament
+Enter additional geographical keywords here
 
-p:
+/textclass:Keywords [agrkw] width=80  category=agriculture
+Agricultural keywords
 
-textclass: Location [location] width=40 category=nament
-This field extracts the 'named-entity' type
+h3: Mineral
 
-p:
+radio:Strategy [minstrat]
+*Extortion, Theft, Booty Future, Smuggling
 
-textclass: Maximal injuries [injuries] width=40 category=action
-This field extracts the 'action' type
+/textclass: Location [minloc] width=64 category=nament
+Enter region or regions of the country
 
-p:
+/textclass: Geographical keywords [mingeog] width=80 category=nament
+Enter additional geographical keywords here
 
-textclass: Who was involved [whois] width=40 category=people
-This field extracts the 'people' type
+/textclass:Keywords [minkw] width=80  category=mineral
+Mineral keywords
 
-p:
+h3: Petroleum
 
-textarea:Brief description of incident [descrp] cols = 68
-Enter brief description here
+radio:Strategy [petstrat]
+*Extortion, Theft, Booty Future, Smuggling
+
+/textclass: Location [petloc] width=64 category=nament
+Enter region or regions of the country
+
+/textclass: Geographical keywords [petgeog] width=80 category=nament
+Enter additional geographical keywords here
+
+/textclass:Keywords [petkw] width=80  category=petroleum
+Petroleum keywords
+
+h3: Narcotics
+
+radio:Strategy [narstrat]
+*Extortion, Theft, Booty Future, Smuggling
+
+/textclass: Location [narloc] width=64 category=nament
+Enter region or regions of the country
+
+/textclass: Geographical keywords [nargeog] width=80 category=nament
+Enter additional geographical keywords here
+
+/textclass:Keywords [narkw] width=80  category=narcotics
+Narcotics keywords
+
 
 save: 
-_date_, typeincid, natincid, suicide, location, location[isocode], injuries [injurycode], whois, descrp
+_date_, _coder_, agrstrat, agrloc, agrgeog, agrkw, minstrat, minloc, mingeog, minkw, petstrat, petloc, petgeog, petkw, narstrat, narloc, nargeog, narkw
 

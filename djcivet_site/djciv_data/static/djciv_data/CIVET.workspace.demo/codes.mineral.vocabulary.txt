@@ -1,0 +1,258 @@
+aluminium
+aluminum
+bauxite
+boehmite
+diaspore
+gibbsite
+cassiterite
+charcoal
+cobalt
+cobaltite
+erythrite
+glaucodot
+kobold
+safflorite
+skutterudite
+spherocobaltite
+coltan
+copper
+diamond
+diamonds
+kimberlite
+lamproite
+emerald
+emeralds
+garnet
+gem
+gems
+gemstone
+gemstones
+ornamental stones
+pearls
+precious stones
+semiprecious stones
+topaz
+galamsey
+galamseys
+garimpeiro
+garimpeiros
+gold
+placer deposits
+placer mining
+tellurium
+hematite
+iron
+magnetite
+cinnabar
+corderoite
+livingstonite
+mercury
+alkaline
+alunite
+amber
+amphibole
+andalusite
+antimony
+arsenic
+asbestiform
+asbestos
+asphalt
+ball clays
+barite
+barium
+basalt
+bentonite
+beryllium
+biominerals
+bismuth
+borate
+borates
+boron
+brines
+bromine
+cadmium
+calcified seaweed
+calcium
+calcium phosphates
+calcium sulfate
+carbonate
+carbonates
+carbonatites
+celestite
+cesium
+chalk
+chlorine
+chlorite
+chromate
+chrome
+chromite
+chromium
+clastic rocks
+clay
+coal
+corundum
+diagenetic mineral
+diatomite
+dolomite
+dolomitic limestone
+dunite
+duricrusts
+emery
+epidote
+evaporites
+feldspar
+feldspathoids
+felsic clan
+fluorine
+fluorite
+fluorspar
+fuller's earth
+gallium
+germanium
+granite
+granites
+graphite
+gravel
+guano
+gypsum
+hafnium
+hormites
+indium
+industrial minerals
+industrial rocks
+inosilicate
+inosilicates
+iodine
+kaolin
+kaolinite
+kyanite
+lead deposit
+lead deposits
+lignite
+limestone
+limestones
+lithium
+magmatic
+magnesite
+magnesium
+magnesium bromide
+manganese
+marble
+marine products
+marl
+mica
+mineable
+mined
+mineral sands
+minerals
+mines
+mining
+molybdenum
+natron
+natural asphalt
+nepheline
+nickel
+niobium
+nitrates
+nitrogen
+nonferrous metals
+ofion
+olivine
+palygorskite
+perlite
+phosphate
+phosphorite
+phosphorus
+phyllosilicate
+platinum
+polymetallic nodules
+potash
+potassium
+precious metals
+prehnite
+pumice
+pumicite
+pyrite
+pyrophyllite
+pyroxene
+pyroxenoid
+quarry stone
+quartz
+radium
+rare earth
+regolith
+rhenium
+rock salt
+rubidium
+salt
+scandium
+seabed minerals
+selenium
+sepiolite
+serpentine
+serpentines
+silica
+sillimanite
+silver
+slate
+smectite
+soda ash
+sodium
+sodium bicarbonate
+sodium sulfate
+spinel
+staurolite
+strategic minerals
+strontium
+sulfate
+sulfur
+syenite
+talc
+tantalite
+tantalum
+tar sands
+thallium
+thorium
+uranium
+vanadium
+vermiculite
+wollastonite
+zeolite
+zeolites
+zircon
+zirconium
+canfieldite
+cassiterite
+cylindrite
+franckeite
+stannite
+teallite
+tin
+anatase
+brookite
+ilmenite
+perovskite
+rutile
+titanite
+titanium
+arsenopyrite
+ferberite
+galena
+huebernite
+pegmatite
+scheelite
+sphalerite
+tungstate
+tungsten
+wolframite
+chalcophile
+hemimorphite
+hydrozincite
+smithsonite
+spelter
+wurtzite
+zinc
+ruby
+rubies
+sapphires
+sapphire

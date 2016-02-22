@@ -35,6 +35,8 @@ class PrefsForm(forms.Form):
     showallcontent = forms.BooleanField(label='Show all content in coder',required=False, error_messages={})
     skipediting = forms.BooleanField(label='Skip editing',required=False, error_messages={})
     textmissing = forms.BooleanField(label='Use text if value is missing',required=False, error_messages={})
+    sourcetextid = forms.BooleanField(label='Use textid in source citation',required=False, error_messages={})
+    sourcetextbiblio = forms.BooleanField(label='Use textbiblio in source citation',required=False, error_messages={})
     geogmarkup = forms.BooleanField(label='Use preposition-based geographical markup',required=False, error_messages={})
     missingvalue = forms.CharField(label='Missing value:', widget=forms.TextInput(attrs={'size':'8'}),
                                    required=False, error_messages={})
@@ -60,6 +62,13 @@ class CodingForm(forms.Form):
                                     'size':info[3],
                                     'onfocus': 'coloraclass(\'' + info[4] + '\', \'' + fld + '\')',
                                     'onblur' : 'cancelclass()',
+                                    'autocomplete' : 'off'
+                                    }),
+                                   required=False, error_messages={})
+            elif info[0] == 'textsource':
+                self.fields[fld] = forms.CharField(label=info[1],initial=info[2],
+                                    widget=forms.TextInput(attrs={
+                                    'size':info[3],
                                     'autocomplete' : 'off'
                                     }),
                                    required=False, error_messages={})

@@ -27,8 +27,11 @@
 
 from __future__ import print_function
 import datetime
+import sys
 import ast
 import re
+
+from django.utils import encoding   # used for utf-8 -> ascii conversion
 
 from .models import Collection, Text, Case
 
@@ -51,7 +54,12 @@ AttrPattern = re.compile('(\S*)\s?=\s?\"(.*?)\"\s*')  # regular expression used 
 def read_YAML_file(fin,filename):
     """ Reads a single collection YAML file from filename; returns dictionary from Collection; 
         lists of dictionaries for Text, Case
+        This converts utf-8 to ASCII, which needs to be changed in the relatively near future, though probably not until
+        we convert the whole thing to Python 3.0
     """
+    def create_ascii(str):
+        return encoding.smart_str(str, encoding='ascii', errors='ignore')
+
     collinfo = {}
     collinfo['collfilename'] = filename[:-4]
     collinfo['collid'] = filename[:-4]  # default 
@@ -60,7 +68,8 @@ def read_YAML_file(fin,filename):
     casedicts = []
 #    print('GYF-0:')
 
-    line = fin.readline() 
+    line = create_ascii(fin.readline())             
+     
     while len(line) > 0 and not line.startswith('texts:'):  # could doc, headline, source info here
 #        print('>>',line[:-1])
         if len(line) > 4 and line[:line.find(':')] in collfields:
@@ -68,8 +77,8 @@ def read_YAML_file(fin,filename):
             collinfo[thefield] = line[line.find(':')+1:-1].strip()
             if 'date' in thefield and ':' in collinfo[thefield]:  # temporary fix removing times from the dates
                 collinfo[thefield] = collinfo[thefield][:collinfo[thefield].find(' ')]
-        line = fin.readline() 
-        
+        line = create_ascii(fin.readline())             
+       
     if len(line) == 0:
         raise Exception('No "texts:" segment found')
                 
@@ -78,7 +87,7 @@ def read_YAML_file(fin,filename):
         print(k, v)"""     
     
     while len(line) > 0 and not line.strip().startswith('-'):  
-        line = fin.readline()
+        line = create_ascii(fin.readline())
     curinfo = {} # read the text blocks
     while len(line) > 0 and not line.startswith('cases:'):
         if line.strip().startswith('-'):
@@ -96,11 +105,11 @@ def read_YAML_file(fin,filename):
             curinfo['textmkupdate'] = '1900-01-01'
 
         if line.strip().startswith('textmkup:') and '|' not in line:  # textmkup can be null, so just use the defaults
-            line = fin.readline()             
+            line = create_ascii(fin.readline())             
         elif line.strip().startswith('textmkup:') or line.strip().startswith('textoriginal:'): 
 #            print('Mk2',line[:-1]) 
             field = line[:line.find(':')].strip()
-            line = fin.readline() 
+            line = create_ascii(fin.readline()) 
             indentst = line[:len(line) - len(line.lstrip())]
             alltext = ''
             while line.startswith(indentst):  # add the markup
@@ -109,7 +118,8 @@ def read_YAML_file(fin,filename):
                     alltext +=' <br> '
                 else:
                     alltext += line
-                line = fin.readline() 
+                line = fin.readline()
+                line = create_ascii(fin.readline())              
             curinfo[field] = alltext 
         elif line[:line.find(':')].strip() in textfields:
             thefield = line[:line.find(':')].strip()
@@ -123,9 +133,11 @@ def read_YAML_file(fin,filename):
                 curinfo[thefield] = curinfo[thefield][:curinfo[thefield].find(' ')]
 
     #        print('>>>',line[:-1])
-            line = fin.readline()
+            line = create_ascii(fin.readline())
+
         else:
-             line = fin.readline()
+            line = create_ascii(fin.readline())
+
 
     textdicts.append(curinfo) 
     """print("GYF-2: Texts:\n")
@@ -138,7 +150,7 @@ def read_YAML_file(fin,filename):
             
     if len(line)>0: # get the previously coded cases
         while len(line) > 0 and not line.strip().startswith('-'):  
-            line = fin.readline()
+            line = create_ascii(fin.readline())
         curinfo = {} # read the case blocks
         while len(line) > 0:
             if line.strip().startswith('-'):
@@ -155,13 +167,13 @@ def read_YAML_file(fin,filename):
 
             if line.strip().startswith('casevalues:'): 
     #            print('Mk2',line[:-1]) 
-                line = fin.readline() 
+                line = create_ascii(fin.readline()) 
                 indentst = line[:len(line) - len(line.lstrip())]
                 alltext = ''
                 while line.startswith(indentst):  # add the markup
             #        print('>>>>',line[:-1])
                     alltext += line.strip()
-                    line = fin.readline()
+                    line = create_ascii(fin.readline())
                 try:
                     caseval = ast.literal_eval(alltext)
                 except:
@@ -175,9 +187,10 @@ def read_YAML_file(fin,filename):
                 if 'date' in thefield and ':' in curinfo[thefield]:  # temporary fix removing times from the dates
                     curinfo[thefield] = curinfo[thefield][:curinfo[thefield].find(' ')]
 
-                line = fin.readline()
+                line = create_ascii(fin.readline())
+
             else:
-                 line = fin.readline()
+                line = create_ascii(fin.readline())
 
         casedicts.append(curinfo) 
         
@@ -257,9 +270,17 @@ def write_YAML_file(thecoll, filehandle):
             elif '_delete_' in caseval:
                 for avar, st in caseval.iteritems():  # this does the output in the order given in the template
                     filehandle.write("        '" + avar + "': '" + st + "',\n")
-            else:   
+            else: 
+                """print('WFY-6', civet_form.SaveList)
+                print('WFY-7', caseval)"""
                 for avar in civet_form.SaveList:  # this does the output in the order given in the template
-                    st = caseval[avar].replace("'","\\'")
+                    if avar in civet_form.CheckboxValues:  # translate T/F to values for checkboxes
+                        if caseval[avar] == 'True':
+                            st = civet_form.CheckboxValues[avar][1]
+                        else:
+                            st = civet_form.CheckboxValues[avar][0]                      
+                    else:
+                        st = caseval[avar].replace("'","\\'")
                     filehandle.write("        '" + avar + "': '" + st + "',\n")
             filehandle.write("        }\n")
     
@@ -513,12 +534,19 @@ def do_string_markup(category):
     for st in civet_form.UserCategories[category][2:]:
         marklist.append(' ' + st)
     for st in marklist:
+        allup = st.isupper()
+        if not allup:
+            lowst = st.lower()
         oktext = make_oktext()
         for ka, curtext in enumerate(oktext):
             if curtext.startswith('<span'):  # do not try to code anything that has already been marked
                 continue
-            idx = curtext.find(st)
+            if allup:
+                idx = curtext.find(st)
+            else:
+                idx = curtext.lower().find(lowst)
             while idx > 0:
+#                print('DSM1:',st)
                 endx = curtext.find(' ',idx+len(st))
                 if endx < 0:
                     endx = len(curtext) - 1
@@ -556,11 +584,14 @@ def do_markup(oldtext):
     thetext = oldtext + ' '
     for cat in civet_form.UserCategories:
         do_string_markup(cat)
-    do_numberword_markup()    
+    if civet_settings.HIGHLIGHT_NUM:
+        do_numberword_markup()    
     if civet_settings.USE_GEOG_MARKUP:
         do_geog_markup()
-    do_NE_markup()
-    do_number_markup()
+    if civet_settings.HIGHLIGHT_NAMENT:
+        do_NE_markup()
+    if civet_settings.HIGHLIGHT_NUM:
+        do_number_markup()
 #    print('DM-exit:',thetext)
     return thetext
 

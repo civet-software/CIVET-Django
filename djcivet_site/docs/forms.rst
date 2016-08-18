@@ -73,7 +73,7 @@ separated by blank lines.)
 
 Commands can also be cancelled by adding a “-” in front of the command:
 this will cancel the entire command, that is, all of the lines
-associated with the command, not just the first line. For visual
+associated with the command, not just the first line. [#f9]_  For visual
 symmetry, a “+” in front of the command “activates” it, though the
 command will also be active without the plus.
 
@@ -191,13 +191,13 @@ downloading.
 Special ``save`` variables
 ---------------------------
 
-``\_coder\_``
+_coder_
     Coder text entered in the *CIVET template selection* page
 
-``\_date\_``
+_date_
     Current date. this is currently in the form YYYY-MM-DD. [#f3]_
 
-``\_time\_``
+_time_
     Current time in hh:mm:ss format
 
 
@@ -278,11 +278,14 @@ Special ``save`` variables for workspaces
 These variables will not include any texts that were deleted using 
 ``shift-click`` on the lede. [#f6]_
 
-\_publisher\_
+_collection_
+    ``collid`` field of the collection
+
+_publisher_
     Comma-delimited list of the ``textpublisher`` fields of the texts in
     the collection
 
-\_bibliorefs\_
+_bibliorefs_
     Comma-delimited list of the ``textbiblio`` fields of the texts in
     the collection
 
@@ -295,8 +298,8 @@ Any of these commands can be prefixed with “//”, which inserts a ``<p></p>``
 or a “/”, which inserts a ``<br>``.
 
 
-Checkbox
---------
+*checkbox*: Binary checkbox
+---------------------------
 
 A simple binary check-box. The value of the variable will be first item
 in the list when the box is not checked; the second item when the box is
@@ -308,9 +311,12 @@ whether or not the box is initially checked.
 
 **Example:**
 
-    ``select: Eyewitness report? [eyewit] no,*yes``
+::
 
-Select from pull-down menu
+    checkbox: Eyewitness report? [eyewit] 
+    no,*yes
+
+*select*: Pull-down menu
 --------------------------
 
 Pull-down menus—which are called a “select” in HTML—are specified with
@@ -321,10 +327,32 @@ the syntax
 
 **Example:**
 
-    ``select: Region [worldregion] North America, South America, Europe, *Africa, Middle East, Asia``
+::
 
-Radio buttons
--------------
+    select: Region [worldregion] 
+    North America, South America, Europe, *Africa, Middle East, Asia``
+
+*dynselect*: Select from dynamic pull-down menu [workspaces only]
+----------------------------------------------------
+
+Pull-down menus which are specified dynamically using the ``categories`` section in the collections are specified with
+the syntax
+
+    | **dynselect:** entry-title [var-name]
+    | category-name
+
+**Example:**
+
+::
+
+    select: Region [worldregion] 
+    statelist
+    
+If the category-name is not found in the collection, the control defaults to a single entry ``---``: this allows for 
+situations where there were no items found in the category.
+
+*radio*: Radio buttons
+-----------------------
 
 A series of radio buttons are specified with the syntax
 
@@ -336,10 +364,13 @@ inserted
 
 **Example:**
 
-    ``radio: Region/ [worldregion] North America, South America, Europe, *Africa, /,Middle East, Asia``
+::
 
-Enter single line of text
--------------------------
+    radio: Region [worldregion] 
+    North America, South America, Europe, *Africa, /,Middle East, Asia
+
+*textline*: Enter single line of text
+-------------------------------------
 
 This creates a box for a single line of text (HTML `` type=text``). The
 ``width = number`` is optional and specifies the size of the text entry
@@ -350,10 +381,13 @@ box in characters: the default is ``width = 32``
 
 **Example:**
 
-    ``textline: Name of group [groupname] <enter name>``
+::
 
-Extract single line from annotated text
----------------------------------------
+    textline: Name of group [groupname] 
+    <enter name>
+
+*textclass*: Extract single line from annotated text
+-----------------------------------------------------
 
 This creates a box for a single line of text (HTML `` type=text``) that
 will interact with annotated text; in addition information can be
@@ -384,10 +418,14 @@ entry box in characters: the default is ``width = 32``
 
 **Example:**
 
-    ``textclass: Name of city [cityname] class=nament <enter city>``
+::
 
-Enter multiple lines of text
-----------------------------
+    textclass: Name of city [cityname] class=nament
+     <enter city>
+
+
+*textarea*: Enter multiple lines of text
+-----------------------------------------
 
 This corresponds to an HTML “TEXTAREA” object. The
 ``rows = number cols = number`` is optional and specifies the size of
@@ -421,12 +459,102 @@ the text entry box in characters: the default is ``rows = 4 cols = 80``
     Additional formats can be added by changing the ``forms.DateField`` call in *forms.py*; these
     are specified using the extensive Python date format operators shown `here. <http://strftime.org/>`_
 
+
+============================
+Linking fields
+============================
+
+*link*: Linking *select* and *textline* fields
+----------------------------------------------
+
+The **link:** command can be used to connect a **select:** or **dynselect:** menu to a set of **textline:** 
+fields so that their content is filled in from the menu if something is selected, but otherwise these
+fields can be filled in manually. 
+ 
+    | **link:** one-to-four-textline-vars [select-var-name] 
+    
+The list of variables is space-delimited and all of the variables must have been defined before the **link:** 
+command is encountered, but otherwise the command can be anywhere in the file.
+
+The rules for extracting the fields depends on the number of variables specified:
+
+1.
+
+    Insert the entire menu item, which can have any format, in the text field
+
+2.
+
+    The entire menu item has the form ``xxxxx [yyy]``  The ``xxxxx``—which can contain anything except
+    ``[ ]``—is inserted in the first field; ``yyy`` is inserted in the second field. This is typically used for names
+    and codes, e.g. ``Algeria [DZA]``
+
+3.
+
+    The entire menu item has the form ``xxxxx (zzzz) [yyy]``  The ``xxxxx``—which can contain anything except
+    ``(  )``—is inserted in the first field; ``zzzz`` is inserted in the *third* field, and ``yyy`` is inserted 
+    in the second field. This a somewhat awkward generalization of the four-variable option. 
+    Example: ``Algiers (Algeria) [DZA]``
+
+4.
+
+    The entire menu item has the form ``xxxxx (lat, lon) [yyy]``  The ``xxxxx``—which can contain anything except
+    ``(  )``—is inserted in the first field; ``lat`` is inserted  in the third field, ``lon`` in the fourth field, 
+    and ``yyy`` is in the second field. This is typically used for names with geocoordinates and codes, 
+    e.g. ``Algiers (36.757, 3.063) [DZA]``, but ``lat`` and ``lon`` do not need to be numbers
+    
+At present, there is only minimal error checking to insure that the fields are delimited correctly: These are taken
+from a set menu, not user input, so it is the responsibility of the form developer to make sure these aren't ambiguous
+(e.g. the menu option ``Florence (Firenze) (43.821641, 11.286954) [ITA]`` will generate the string ``Firenze) (43.821641``
+as the *lon* field). Alternatively, you can add code in ``civet_coder.html`` to accommodate the more complex formats. 
+
+::
+
+        link: countryname countrycode [countrymenu]
+
+        link: cname ccode clat clong [geolocmenu]
+
+*textsource*: Extract sources from annotated text
+----------------------------------------------------
+
+A ``textsource:`` field can be automatically linked to a ``textclass:``
+field so that the information in the ``textid:`` and/or ``textbiblio:`` field
+for the workspace text block where an annotated word or phrase has been 
+extracted will be automatically added. This linkage is done by using 
+the variable name from a ``textclass`` field with ``_src`` added to the
+end. 
+
+Except for the linkage, a ``textsource`` variable acts like a regular text
+variable: information can be typed or pasted into the text box—typically this
+will be done from the ``Source`` information that is visible when the 
+``Show Comments`` option is active—and the variable can be saved.
+
+If the variable name does not correspond to a ``textclass`` variable with 
+an added ``_src``, ``textsource`` behaves the same as ``textline.``  [#f8]_
+
+The ``textid:/textbiblio:`` content is controlled by the preferences 
+“Use textid in source citation:” and “Use textbiblio in source citation:”;
+the default uses only ``textbiblio:``.
+
+
+The ``width = number`` is optional and specifies the size of the text
+entry box in characters: the default is ``width = 32``
+
+    | **textsource:** entry-title [var-name]  width = number
+    | initial-text
+
+**Example:**
+
+::
+
+    textsource: Source for city [cityname_src] width=40 
+    <enter source>
+
 ==========================================
 Additional web page formatting
 ==========================================
 
-Set page title
---------------
+*title*: Set page title
+------------------------
 
 Sets the title of the web page: that is, the HTML``<title>...</title>`` 
 section of the header.
@@ -473,13 +601,21 @@ The simple command
 is useful for putting some space between form elements; this is equivalent to the
 “//” prefix in the data entry commands.
 
-Insert a line break
--------------------
+*newline*: Insert a line break
+--------------------------------
 
 Adds a new line in the form; this is equivalent to the “/” prefix in the 
 data entry commands.
 
     **newline:**
+    
+
+*newpage*: Insert a page break
+--------------------------------
+
+Adds a new page to the form.
+
+    **newpage:**
     
 ======================================
 Advanced formating options
@@ -587,6 +723,13 @@ Adds arbitrary HTML code without escaping.
    the *View source* option in your browser, then save it as a file
    using *Save Page As...* and that could provide a starting point for
    creating prettier code.
+   
+..  [#f9]
+    This feature is actually a bit more subtle: cancellation is invoked when  
+    the first character in a line is “-” *and* there is a “:” in the line,  
+    which will always occur with a command. This allows default texts such as “- - -”
+    to be used, though a default text such as “- - -: we really want to confuse CIVET”
+    will cause an error.
 
 .. [#f2]
    In the current implementation, named HTML entities such as ``&copy;``
@@ -619,5 +762,10 @@ Adds arbitrary HTML code without escaping.
     ``civet_settings.USE_GEOG_MARKUP = True``: see the discussion in the
     *Preferences* chapter.
 
+.. [#f8]
+    In a future version of CIVET we hope to have a facility where citation
+    information can be transferred into a ``textsource`` field by clicking on 
+    a lede but this has been implemented yet. 
+    *Preferences* chapter.
     
     

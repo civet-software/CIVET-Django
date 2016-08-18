@@ -39,18 +39,22 @@ documentation, it should be relatively easy alternative instructions.
 <h3>Click one of the following links to use the system</h3>
 <table>
 <tr>
+{% if not hidereadcodingform %}
 	<td> <a href="/djciv_data/select_template">Read coding form</a></td>
+{% endif %}
+{% if not hidereadworkspace %}
 	<td> <a href="/djciv_data/select_workspace">Read workspace</a></td>
+{% endif %}
 </tr>
 <tr>
 	<td> <a href="/djciv_data/select_workspace/manage">Manage workspace</a></td>
-	<td> <a href="/djciv_data/set_preferences">Set preferences</a></td>
+{% if not hidepreferences %}
+	<td> <a href="/djciv_data/preferences">Set preferences</a></td>
+{% endif %}
 </tr>
 <tr>
-	<td> <a href="/djciv_data/preferences">Preferences</a></td>
 {% if login %}
 	<td> <a href="/djciv_data/handle_logout">Log out</a></td>
-
 {% endif %}
 </tr>
 <tr>
@@ -70,7 +74,7 @@ documentation, it should be relatively easy alternative instructions.
  in the Directorate for Social, Behavioral & Economic Sciences, Award 1338470 and the <a href="http://www.odum.unc.edu/odum/home2.jsp">Odum Institute</a> at the University of North Carolina at Chapel Hill with additional assistance from <a href="http://parusanalytics.com/">Parus Analytics</a>.
 </div>
 <div style="float:bottom; text-align:center;margin: 12px 0 3px 0;">
-Last update: 31 August 2015
+Last update: 31 August 2016
 </div>
 </body>
 </html>

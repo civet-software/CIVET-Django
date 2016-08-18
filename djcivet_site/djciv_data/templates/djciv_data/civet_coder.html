@@ -4,7 +4,7 @@
 	<meta charset="utf-8" />
     <title>{{page_title}}</title>
 	<meta name="generator" content="BBEdit 11.0" />
-<style> {# 15.08.31: This is currently fine tuned to produce a nice screen for the manual; the settings may or may generalize. #}
+<style> {# 15.08.31: This is currently fine tuned to produce a nice screen for the manual; the settings may or may not generalize. #}
     body {
         height:1024px;
         width:1280px;
@@ -102,15 +102,54 @@ var curWordIndex = 0 // index of current highlighted word in a text block
 var curTextBlock = 0 // index of current text block
 var showalert = true
 
+
 function initglobals()
 {
 	inputText = document.getElementById("inputText")
     document.onkeydown =  dokeydown
     {% autoescape off %}
         {{ listeners }}
+        {{ links }}
     {% endautoescape %}
 }
 
+function transfer(thevalue, xfr_1, xfr_2, xfr_3, xfr_4)
+// link a menu and one to four text fields using link: command
+{
+    //console.log('Call transfer' + thevalue);
+    //console.log(xfr_1 + xfr_2 + xfr_3 + xfr_4);
+    if (xfr_2 == undefined && xfr_3 == undefined && xfr_4 == undefined) {
+        document.getElementById(xfr_1).value = thevalue;
+        return
+    }
+    document.getElementById(xfr_2).value = thevalue.substr(thevalue.indexOf("[")+1,3);
+    if (xfr_3 == undefined && xfr_4 == undefined) {
+        document.getElementById(xfr_1).value = thevalue.slice(0,thevalue.indexOf("["));
+        return
+    }
+    document.getElementById(xfr_1).value = thevalue.slice(0,thevalue.indexOf("("));
+    if (xfr_4 == undefined) {
+        document.getElementById(xfr_3).value = thevalue.slice(thevalue.indexOf("(") + 1,thevalue.indexOf(")"));
+    }
+    else {
+        document.getElementById(xfr_3).value = thevalue.slice(thevalue.indexOf("(") + 1,thevalue.indexOf(","));
+        document.getElementById(xfr_4).value = thevalue.slice(thevalue.indexOf(",") + 2,thevalue.indexOf(")"));
+    }    
+}
+
+
+function transfer_location()
+// custom function linking a menu and five geographical text fields
+// UNCC SmARTT project, August-2016
+{
+    //console.log('Call transfer');
+    console.log(this.value);
+    document.getElementById("id_country").value = "correct name will get transfered here in final version";
+    document.getElementById("id_geoname").value = this.value.slice(0,this.value.indexOf("("));
+    document.getElementById("id_lat").value = this.value.slice(this.value.indexOf("(") + 1,this.value.indexOf(","));
+    document.getElementById("id_lon").value = this.value.slice(this.value.indexOf(",") + 2,this.value.indexOf(")"));
+    document.getElementById("id_geo_iso").value = this.value.substr(this.value.indexOf("[")+1,3);
+}
 
 function getwordlist(category)
 {
@@ -232,13 +271,18 @@ function togglecontent(event,divid)
 //    console.log('toggle call '+divid )
     if (event.shiftKey) {
         var myDiv = document.getElementById(divid);
-        myDiv.style.display = 'none'
+        myDiv.style.display = 'none';
         myDiv = document.getElementById('ld'.concat(divid));
-        myDiv.style.display = 'none'
-        console.log('textid '+ myDiv.getAttribute("textid") )
+        myDiv.style.display = 'none';
+        console.log('textid '+ myDiv.getAttribute("textid") );
         document.getElementById("deletelist").value += myDiv.getAttribute("textid") + ' ';
         myDiv = document.getElementById('cm'.concat(divid));
-        myDiv.style.display = 'none'
+        myDiv.style.display = 'none';
+    }
+    else if (event.altKey) {  // prototype code to transfer source info for UNCC SmARTT project
+        var myDiv = document.getElementById('ld'.concat(divid));
+        console.log('toggle alt call textid '+ myDiv.getAttribute("id") )
+        document.getElementById("id_source_link").value = myDiv.getAttribute("textid") + ' ';
     }
     else { 
         var myDiv = document.getElementById(divid);
@@ -289,6 +333,14 @@ function togglecomments()
         comm[ka].style.display = disp;
     }
 }
+
+function showmaps()
+// hide all text contents
+{ 
+    var newWin = open('url','Map window','height=600,width=500');
+    newWin.document.write('{% autoescape off %}{{map_content}}{% endautoescape %}');
+}
+
 </script>
 
 
@@ -300,6 +352,9 @@ function togglecomments()
 <input class = 'docbutton' id="commenttoggle" type="button" onclick="togglecomments()" value = "Show comments"/>
 <input class = 'docbutton' type="button" onclick="showall()" value = "Show all content"/>
 <input class = 'docbutton' type="button" onclick="hideall()" value = "Hide all content"/>
+{% if map_content %}
+    <input class = 'docbutton' type="button" onclick="showmaps()" value = "Show maps"/>
+{% endif %}
 </div>
 <div id="inputText" class="civ-text-display civ-text-display-size">
 {% autoescape off %}

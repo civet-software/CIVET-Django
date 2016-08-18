@@ -23,8 +23,8 @@ The general operation of the coder/extractor is described below:
    
 #. There are three controls at the top of the text display:
 
-    - ``Show/hide comments``: toggles the display of the comments for
-       each text: these are initially hidden.
+    - ``Show/hide comments``: toggles the display of the comments and 
+        sources for each text: these are initially hidden.  [#f3]_ 
        
     - ``Show all content``: shows the content for all of the ledes
        
@@ -49,7 +49,8 @@ The general operation of the coder/extractor is described below:
 
 #. When an annotated category field is active, all of the words and
    phrases in the text for that category are changed to red, with the
-   first word highlighted using a green background. The arrow keys can
+   first word that is in an expanded text highlighted using a green 
+   background. The arrow keys can
    be used to move the highlighted text into the field. These operate as
    follows:
 
@@ -67,16 +68,32 @@ The general operation of the coder/extractor is described below:
        *Append* the contents of the field with the highlighted text.
        The appended texts are comma-delimited.
        
-   If the highlighted textis off the screen, the window will automatically 
+   If the highlighted text is off the screen, the window will automatically 
    scroll to place the text on the bottom of the screen. If the text 
    contains no words in the category, a pop-up window will alert you
-   to this. 
+   to this.
+   
+   If an annotated category field has an associated source field, that 
+   information will be automatically replaced or added when the down 
+   or up arrow is used. If a reference is already in the source field 
+   and information is being added from the same source, this will not 
+   be repeated. References can also be added to source fields using
+   copy-and-paste. 
+   
+   **Note:** If there are a number of phrases in the target category—this occurs 
+   frequently for the named-entity and geographical-entity categories—and 
+   the phrase you want to extract is not in the first
+   expanded block, click on the ledes to collapse them until you get 
+   to a text that does contain the target phrase. If the earlier ledes 
+   collapsed, the first phrase highlighted will be in the expanded 
+   lede, so you will not need to hit the right-arrow key many times 
+   to highlight and extract it. 
 
 #. Copy-and-paste from the text to the data fields work as you would
    expect; text can also be entered and edited manually.
 
 #. If bracketed values are included in the string, the system takes
-   the value from within a set of brackets that is the final item [#f3]_
+   the value from within a set of brackets that is the final item [#f4]_
    in the phrase: earlier sets are
    assumed to be part of the text. For example, the value of the
    phrase ``Islamic State [ISIS][mnsa]`` will be “mnsa”; the value 
@@ -139,6 +156,11 @@ in *civet_coder.html.*
    to the text; the second toggles the content
 
 .. [#f3]
+   If the ``textcmt`` field for the text block was empty, the display will show 
+   ``Comment: ----``. If the ``textbiblio`` field for the text block was empty,
+   no ``Source:`` line will be shown.
+
+.. [#f4]
    Specifically, the system checks whether the final character in the
    string that is not whitespace is ‘]’. The output when the system is
    expecting to find a bracketed value and does not is controlled by

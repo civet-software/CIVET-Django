@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     'beta-0.9',
+        VERSION:     'beta-0.9.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -34,7 +34,7 @@
             <img class="logo" src="_static/civet200.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">CIVET beta-0.9 documentation</a></div>
+          href="index.html">CIVET beta-0.9.1 documentation</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="index.html" title="Welcome"
              accesskey="P">previous</a> |
@@ -126,6 +126,67 @@ community develops, particularly for common sources such as Lexis-Nexis,
 Factiva, ProQuest, LDC Gigaword, and various news feeds and social
 media.</p>
 </div>
+<div class="section" id="status-of-the-program-august-2016">
+<h2>Status of the Program: August 2016<a class="headerlink" href="#status-of-the-program-august-2016" title="Permalink to this headline">¶</a></h2>
+<p>Over the past year, CIVET has been used in two projects, though both with
+my assistance in generating the YAML files and with some additional
+customization, much of which has been incorporated into the general
+system.</p>
+<p>To my knowledge, however—and if you know of some project using this,
+please let me know—it has not been used for the originally intended
+purpose of providing a platform which would allow someone with relatively
+limited programming knowledge to create a web-based form. I suspect this
+is due to one or more of the following factors:</p>
+<ul class="simple">
+<li>The process of getting Django installed, while thoroughly documented,
+apparently can require some experimentation and tweaking. That
+said, one of the projects decided to install Django on laptops
+used by the coders rather than through a server: this
+allowed the coders to work anywhere.</li>
+<li>When using workspaces, which allow access to the most sophisticated
+parts of the system, the texts must be converted to the YAML
+format, a task for which I&#8217;ve yet to see a general solution and
+almost certainly requires Python, perl or Java programming skills</li>
+<li>Realistically, there are only a small number of new projects starting in any given
+year which are sufficiently large that existing tools such as
+spreadsheets or Google Forms are inadequate. And many of those,
+of course, will have resources to directly develop customized
+pages rather than working within the constraints of CIVET</li>
+</ul>
+<p>So, this is essentially just an open-source version of a codebase that
+I can customize to generate coding forms. Which I&#8217;m realizing is
+probably pretty much what about 95% of open-source projects are, though
+that still gives the client a whole lot more knowledge and power than
+they have with a proprietary system, even if they never change a line
+of code. Whatever.</p>
+<p>Some random observations from those two deployments:</p>
+<ul class="simple">
+<li>Additional customization of the code has gone quite smoothly, even
+allowing for the inevitable decay of my comprehension of the
+system. Granted, even when I&#8217;ve forgotten the details of the code
+I&#8217;m still working with my programming idioms, but it does seem like as a
+base, this is quite solid. The same can be said for the YAML
+workspace format.</li>
+<li>Neither of the two installations made any use of the manual
+annotation, and in the second, the <code class="docutils literal"><span class="pre">NEVER_ANNOTATE</span></code> option was
+added to bypass this entirely: annotation is either handled
+automatically using vocabulary files, or directly putting the
+HTML into the YAML files.</li>
+<li>More generally, though completely expected, the deployment have
+generated a number of interesting ideas for new features that
+did not emerge in the abstract design phase. I&#8217;ve also left
+in some custom code—commented-out or otherwise deactivated—
+that could be used for examples of further possible extensions.</li>
+<li>On two occasions over the past year there were changes to
+Django that required minor changes—one or two lines of code—
+to CIVET in order to keep it running. Unsurprisingly, we have
+also found that Django is more likely to be fully compatible
+with up-to-date hardware
+and operating systems: in particular, one project ran into some
+issues running it on some old copies of Windows. Once again, this is
+less of a turn-key system than I&#8217;d hoped.</li>
+</ul>
+</div>
 <div class="section" id="documentation">
 <h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
 <p>Documentation is maintained using the <a class="reference external" href="http://http://sphinx-doc.org/">Sphinx</a> system, which provides both an
@@ -183,6 +244,7 @@ version being used depending on what modifications have been made. The command <
 <li class="toctree-l1 current"><a class="current reference internal" href="">Introduction</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#program-navigation-placeholders">Program Navigation Placeholders</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#status-of-the-program-31-august-2015">Status of the Program: 31 August 2015</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#status-of-the-program-august-2016">Status of the Program: August 2016</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#documentation">Documentation</a></li>
 </ul>
 </li>
@@ -197,9 +259,8 @@ version being used depending on what modifications have been made. The command <
 <li class="toctree-l1"><a class="reference internal" href="future.html">Projected Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="appendix1.html">Appendix 1: Sample Template File</a></li>
 <li class="toctree-l1"><a class="reference internal" href="appendix2.html">Appendix 2: Input Format</a></li>
-<li class="toctree-l1"><a class="reference internal" href="appendix3.html">Appendix 3: Supporting Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix3.html">Appendix 3: Supporting Files and Source Code Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="appendix4.html">Appendix 4: Prototype on Google Application Engine</a></li>
-<li class="toctree-l1"><a class="reference internal" href="appendix5.html">Appendix 5: Installing in AWS-EB and Docker</a></li>
 </ul>
 
           <div role="search">
@@ -238,7 +299,7 @@ version being used depending on what modifications have been made. The command <
         <div class="right">
           
     <div class="footer" role="contentinfo">
-      Last updated on 2015-08-31.
+      Last updated on 2016-08-17.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
         </div>

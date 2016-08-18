@@ -86,6 +86,75 @@ Factiva, ProQuest, LDC Gigaword, and various news feeds and social
 media.
 
 
+Status of the Program: August 2016
+=====================================
+
+Over the past year, CIVET has been used in two projects, though both with 
+my assistance in generating the YAML files and with some additional
+customization, much of which has been incorporated into the general 
+system. 
+
+To my knowledge, however—and if you know of some project using this,
+please let me know—it has not been used for the originally intended 
+purpose of providing a platform which would allow someone with relatively
+limited programming knowledge to create a web-based form. I suspect this
+is due to one or more of the following factors:
+
+-  The process of getting Django installed, while thoroughly documented, 
+   apparently can require some experimentation and tweaking. That
+   said, one of the projects decided to install Django on laptops
+   used by the coders rather than through a server: this 
+   allowed the coders to work anywhere.
+   
+-   When using workspaces, which allow access to the most sophisticated 
+    parts of the system, the texts must be converted to the YAML
+    format, a task for which I've yet to see a general solution and
+    almost certainly requires Python, perl or Java programming skills
+    
+-   Realistically, there are only a small number of new projects starting in any given
+    year which are sufficiently large that existing tools such as 
+    spreadsheets or Google Forms are inadequate. And many of those,
+    of course, will have resources to directly develop customized 
+    pages rather than working within the constraints of CIVET   
+
+So, this is essentially just an open-source version of a codebase that 
+I can customize to generate coding forms. Which I'm realizing is 
+probably pretty much what about 95% of open-source projects are, though
+that still gives the client a whole lot more knowledge and power than
+they have with a proprietary system, even if they never change a line 
+of code. Whatever.
+
+Some random observations from those two deployments:
+
+-   Additional customization of the code has gone quite smoothly, even 
+    allowing for the inevitable decay of my comprehension of the 
+    system. Granted, even when I've forgotten the details of the code
+    I'm still working with my programming idioms, but it does seem like as a 
+    base, this is quite solid. The same can be said for the YAML
+    workspace format. 
+    
+-   Neither of the two installations made any use of the manual 
+    annotation, and in the second, the ``NEVER_ANNOTATE`` option was
+    added to bypass this entirely: annotation is either handled
+    automatically using vocabulary files, or directly putting the 
+    HTML into the YAML files.
+    
+-   More generally, though completely expected, the deployment have
+    generated a number of interesting ideas for new features that
+    did not emerge in the abstract design phase. I've also left 
+    in some custom code—commented-out or otherwise deactivated—
+    that could be used for examples of further possible extensions.  
+    
+-   On two occasions over the past year there were changes to 
+    Django that required minor changes—one or two lines of code—
+    to CIVET in order to keep it running. Unsurprisingly, we have 
+    also found that Django is more likely to be fully compatible 
+    with up-to-date hardware
+    and operating systems: in particular, one project ran into some
+    issues running it on some old copies of Windows. Once again, this is
+    less of a turn-key system than I'd hoped.
+      
+
 Documentation
 =============
 

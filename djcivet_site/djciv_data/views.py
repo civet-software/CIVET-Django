@@ -26,12 +26,13 @@
 ##	14-March-15:	Initial version
 ##  4-August-15:    Beta 0.7
 ##  31-August-15:   Beta 0.9
+##  18-August-16:   Beta 0.9.1
 ##
 ##	----------------------------------------------------------------------------------
 
 from __future__ import print_function
 
-from django.core.servers.basehttp import FileWrapper
+from wsgiref.util import FileWrapper
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
@@ -61,6 +62,15 @@ import civet_form
 # ======== global initializations ========= #
 
 # Global variables that are set during a session are 'CamelCase'
+
+#            return [self.textid, self.textlede, str(self.textdate), self.textcmt, self.textbiblio, self.textoriginal]
+# indices of the information return by Text.get_text_fields()
+ID_INDEX = 0
+LEDE_INDEX = 1
+DATE_INDEX = 2
+CMT_INDEX = 3
+BIBLIO_INDEX = 4
+TEXT_INDEX = 5
 
 ActiveCollection = ''
 CollectionList = []  # list of available collections in workspace 
@@ -139,6 +149,9 @@ def index(request):
 #    print('STATIC_URL:',settings.STATIC_URL)
     return render(request, 'djciv_data/index.html',
         {'staticpath':civet_settings.STATIC_SOURCE,
+        'hidereadcodingform':civet_settings.HIDE_READ_CODING_FORM,
+        'hidereadworkspace':civet_settings.HIDE_READ_WORKSPACE,
+        'hidepreferences':civet_settings.HIDE_PREFERENCES,
          'login':civet_settings.REQUIRE_LOGIN }
     )
 
@@ -171,14 +184,14 @@ def make_ckeditor_markup_string(theinfo, index):
     """ create a markup string containing from information from [textid, textlede, textdate, textcmt, textcontent] by adding 
         the <div>s and toggle controls 
     """
-    ledest = '<div class = "textlede" textid = "' + theinfo[0] + '" style = "' + civet_settings.EDITOR_LEDE_STYLE + \
-            '">' + civet_settings.EDITOR_LEDE_LABEL + theinfo[1] + '</div> '
+    ledest = '<div class = "textlede" textid = "' + theinfo[ID_INDEX] + '" style = "' + civet_settings.EDITOR_LEDE_STYLE + \
+            '">' + civet_settings.EDITOR_LEDE_LABEL + theinfo[LEDE_INDEX] + '</div> '
     datest = '<div class = "textdate" style = "' + civet_settings.EDITOR_CONT_STYLE + \
-            '">' + civet_settings.EDITOR_DATE_LABEL + theinfo[2] + '</div> '
+            '">' + civet_settings.EDITOR_DATE_LABEL + theinfo[DATE_INDEX] + '</div> '
     commst = '<div class = "textcomm" style = "' + civet_settings.EDITOR_CONT_STYLE + \
-            '">' + civet_settings.EDITOR_COMM_LABEL + theinfo[3] + '&rdquo;</div> '
+            '">' + civet_settings.EDITOR_COMM_LABEL + theinfo[CMT_INDEX] + '&rdquo;</div> '
     contst = '<div class = "textcontent" style = "' + civet_settings.EDITOR_CONT_STYLE + \
-            '">' + civet_settings.EDITOR_CONTENT_LABEL + theinfo[4] + '</div> '
+            '">' + civet_settings.EDITOR_CONTENT_LABEL + theinfo[TEXT_INDEX] + '</div> '
     return ledest + datest + commst + contst       
 
 
@@ -204,8 +217,8 @@ def get_editor_markup():
 #        print('GEM-Mk2:',ct.textmkup)
         temp = ct.get_text_fields()
 #        print('GEM-Mk3:',temp)
-        if civet_settings.ALWAYS_ANNOTATE and 'class:nament' not in temp[4]:  # a robust, if not quite guaranteed, telltale that there has been no markup
-            temp[4] = civet_utilities.do_markup(temp[4])
+        if civet_settings.ALWAYS_ANNOTATE and 'class:nament' not in temp[TEXT_INDEX]:  # a robust, if not quite guaranteed, telltale that there has been no markup
+            temp[TEXT_INDEX] = civet_utilities.do_markup(temp[TEXT_INDEX])
         stx += make_ckeditor_markup_string(temp,ka)
     return stx
 
@@ -249,6 +262,7 @@ def get_editor_blocks(thestring):
     
 def save_edits(request):
     """ saves current markup to the DB """
+# it would be useful to get rid of the magic numbers here... <16.08.18>
 #    print('SE-Mk0:')
     thestring = request.POST['civ_editor']
     textblock = get_editor_blocks(thestring)
@@ -282,6 +296,7 @@ def save_and_code(request):
 
 def apply_editor_markup(request):
     """ calls civet_utilities.do_markup() to lede and content. """
+# it would be useful to get rid of the magic numbers here...<16.08.18>
     textblock = get_editor_blocks(request.POST['civ_editor'])
     newstr = ''
     ka = 0
@@ -435,21 +450,19 @@ def make_coder_markup_string(theinfo, index):
         the <div>s and toggle controls 
     """
     ledest = '<div class = "textlede" id = "ldtext-'+ str(index) + \
-            '" textid = "' + theinfo[0] + '">' + theinfo[1] + ' [' + theinfo[2] + ']</div> '
-    commst = '<div class = "textcomm" id = "cmtext-'+ str(index) + '" style="display:none;">Comment: --' + theinfo[3] + '--</div>'
+            '" textid = "' + theinfo[ID_INDEX] + '">' + theinfo[LEDE_INDEX] + ' [' + theinfo[DATE_INDEX] + ']</div> '
+    commst = '<div class = "textcomm" id = "cmtext-'+ str(index) + '" style="display:none;">Comment: --' + theinfo[CMT_INDEX] + '--</div>'
     contst = '<div class = "textcontent" id = "text-'+ str(index) + '" style="display:'
     if index == 0 or civet_settings.SHOW_ALL_CONTENT:
         contst += 'block'
     else:
         contst += 'none'
-    contst += ';">' + theinfo[4] + '</div>'
+    contst += ';">' + theinfo[TEXT_INDEX] + '</div>'
     return ledest + commst + contst       
 
 
 def make_listeners(length):
-    """ returns a .addEventListener() function linked to the <div>s in the markup: this is needed to get around 
-        the Chrome XSS Auditor and is probably good practice in any case.
-    """
+    """ returns a .addEventListener() function linked to the <div>s in the markup """
     strg = ''
     for ka in range(length):
         strg += '     document.getElementById("ldtext-' + str(ka) + '")' + \
@@ -457,25 +470,42 @@ def make_listeners(length):
     return strg      
 
 
+def make_links():
+    """ returns the .addEventListener() functions for the linked fields"""
+    strg = ''
+    for vi in civet_form.LinkedFields:
+        for typest in ['change','click']:
+            strg += '     document.getElementById("id_' + vi + '")' + \
+               '.addEventListener("' + typest + '", function() {transfer(this.value,"id_' 
+            for li in civet_form.LinkedFields[vi][:-1]:
+                strg += li +'", "id_' 
+            strg += civet_form.LinkedFields[vi][-1] + '")});\n' 
+    return strg      
+
+
 def get_coder_markup():
     """ return a string containing all of the textmkup fields from ActiveCollection """
     global HeaderInfo
-#    print('GCM-Enter:',ActiveCollection)
+# --    print('GCM-Enter:',ActiveCollection)
     thecoll = Collection.objects.get(collid__exact=ActiveCollection)
     HeaderInfo['collid'] = thecoll.collid
     HeaderInfo['collcmt'] = thecoll.collcmt
-#    print('GCM-1:',HeaderInfo)
+# --    print('GCM-1:',HeaderInfo)
     curtexts = Text.objects.filter(textparent__exact=ActiveCollection)
     stx = ''
     for ka, ct in enumerate(curtexts):
 #        print('GCM-2:',ct.textoriginal[:64])
+# --        print('GCM-2:',ct.textoriginal)
         if not ct.textdelete:
             temp = ct.get_text_fields()
-#            print('GCM-3:',temp[:2],temp[2][:64])
-            if civet_settings.ALWAYS_ANNOTATE and 'class:nament' not in temp[4]:  # a robust, if not quite guaranteed, telltale that there has been no markup
-                temp[4] = civet_utilities.do_markup(temp[4])
+# --            print('GCM-3:',temp[:2],temp[2][:64])
+            if civet_settings.NEVER_ANNOTATE:
+#                temp[TEXT_INDEX] = temp[5]
+                pass
+            elif civet_settings.ALWAYS_ANNOTATE and 'class:nament' not in temp[TEXT_INDEX]:  # a robust, if not quite guaranteed, telltale that there has been no markup
+                temp[TEXT_INDEX] = civet_utilities.do_markup(temp[TEXT_INDEX])
             stx += make_coder_markup_string(temp,ka)
-#            print('GCM-4:',stx)
+# --            print('GCM-4:',stx)
 #    print('GCM-exit')
     return stx
 
@@ -483,23 +513,29 @@ def get_coder_markup():
 def get_coder_context():
     global CurVars
     theform, CurVars = civet_form.get_current_form(PageIndex)
-    for cat in civet_form.UserCategories:
-        theform = theform.replace('=^=' + cat + '=^=',civet_form.UserCategories[cat][1]) # replace the categories in the form with internal termstNN 
+    if not civet_settings.NEVER_ANNOTATE:
+        for cat in civet_form.UserCategories:
+            theform = theform.replace('=^=' + cat + '=^=',civet_form.UserCategories[cat][1]) # replace the categories in the form with internal termstNN
+    if '=*=DYN:' in theform:
+        theform = civet_form.add_dynselect(theform, ActiveCollection)  
     context = {}
     context['document_header'] = civet_form.WorkspaceFileName.replace('_text_',WorkspaceName) +\
                                  civet_form.CollectionId.replace('_text_',HeaderInfo['collid']) +\
                                  civet_form.CollectionComments.replace('_text_',HeaderInfo['collcmt'])
+#    print('GCC-1:',theform)
     context['form_content'] = theform
     context['form_css'] = civet_form.FormCSS
     context['markedtext'] = CoderText
     context['newterm'] = TermStyles
     context['page_title'] = civet_settings.FORM_PAGETITLE        
     context['listeners'] = make_listeners(CoderText.count('<div class = "textlede"'))    
+    context['links'] = make_links()    
     context['page_index'] = PageIndex # not actually using this right now
     flen = len(civet_form.FormContent)
     if flen > 1:
         context['show_prev'] = (PageIndex > 0)
-        context['show_next'] = (PageIndex < flen - 1)         
+        context['show_next'] = (PageIndex < flen - 1)
+    context['map_content'] = civet_form.make_map_info(ActiveCollection)
     return context
 
 
@@ -514,7 +550,7 @@ def code_collection(request):
 #    "; color" -- probably need something better
     global ActiveCollection, CoderText, TermStyles, PageIndex, Deletelist
 
-#    print('CC0:', request.POST)
+# --    print('CC0:', request.POST)
     if 'current_collection' in request.POST:   # when called directly from select
         if request.POST['current_collection']:
             ActiveCollection = request.POST['current_collection']
@@ -523,49 +559,47 @@ def code_collection(request):
             return HttpResponse("No collection was selected: use the back key to return to the collection selection page.")
         
     if not CoderText:
-#        print('CC00:')
+# --        print('CC00:')
         civet_form.FormFields = deepcopy(InitalFormVals)
         CoderText = get_coder_markup()
-#        print('CC00-2:')
+# --        print('CC00-2:',CoderText)
         if len(CoderText) == 0:
             return HttpResponse("No collection was selected: use the back key to return to the collection selection page.")
 
                                                                                         # do the standard replacements
         PageIndex = 0
         Deletelist = ''
-        CoderText = CoderText.replace('style="class:nament;color:blue;"','class="nament"')  # this list should probably be linked to a civet_settings global
-        CoderText = CoderText.replace('style="class:geogent;color:brown;"','class="geogent"') 
-        CoderText = CoderText.replace('style="class:num;color:green;"','class="num"')
-#        print('CC Incoming:\n',CoderText)
-        TermStyles = ''  # generate the new termst styles
-        styles = civet_settings.DEFAULT_CKEDITOR_STYLES.split("{ 'class':")
-        for strg in styles[1:]:
-#            print('CC-0:',strg)
-            strg = strg[:strg.find('}')+1].replace("'",'').replace('}',';}')
-#            print('CC-00:',strg)
-            TermStyles += '.' + strg[:strg.find(',')] + ' {' + strg[strg.find(',')+1:] + '\n'
-    #    print('CC-1:',theform)
-#        print('CC-1:',TermStyles)
-        for cat in civet_form.UserCategories:
-            fontstrg = civet_form.UserCategories[cat][0]
-#            print('==',cat,fontstrg)
-            styst = ''
-            if ' bold' in fontstrg:
-                styst += ' font-weight: bold;'
-            if ' under' in fontstrg:
-                styst += ' text-decoration: underline;'
-            if ' italic' in fontstrg:
-                styst += '  font-style: italic;'
-#            print('++',cat,styst)
-            if styst:
-                TermStyles += '.' + civet_form.UserCategories[cat][1] + '  {color:' + fontstrg[:fontstrg.find(' ')] + \
-                                ';' + styst + '}\n'
-            else:              
-                TermStyles += '.' + civet_form.UserCategories[cat][1] + '  {color:' + fontstrg + ';}\n'
-            CoderText = CoderText.replace('style="class:' + cat + ';color:' + civet_form.UserCategories[cat][0] + ';"',\
-                                    'class="' + civet_form.UserCategories[cat][1] + '"') #   # standardize manual annotation <span> markup 
-            CoderText = CoderText.replace('style="class:' + civet_form.UserCategories[cat][1] + ';color:' + civet_form.UserCategories[cat][0] + '"',\
-                                    'class="' + civet_form.UserCategories[cat][1] + '"') #   # remove color from automatic annotation <span> markup       
+        if not civet_settings.NEVER_ANNOTATE:
+            CoderText = CoderText.replace('style="class:nament;color:blue;"','class="nament"')  # this list should probably be linked to a civet_settings global
+            CoderText = CoderText.replace('style="class:geogent;color:brown;"','class="geogent"') 
+            CoderText = CoderText.replace('style="class:num;color:green;"','class="num"')
+# --            print('CC Incoming:\n',CoderText)
+            TermStyles = ''  # generate the new termst styles
+            styles = civet_settings.DEFAULT_CKEDITOR_STYLES.split("{ 'class':")
+            for strg in styles[1:]:
+                strg = strg[:strg.find('}')+1].replace("'",'').replace('}',';}')
+                TermStyles += '.' + strg[:strg.find(',')] + ' {' + strg[strg.find(',')+1:] + '\n'
+    #        print('CC-1:',TermStyles)
+            for cat in civet_form.UserCategories:
+                fontstrg = civet_form.UserCategories[cat][0]
+    #            print('==',cat,fontstrg)
+                styst = ''
+                if ' bold' in fontstrg:
+                    styst += ' font-weight: bold;'
+                if ' under' in fontstrg:
+                    styst += ' text-decoration: underline;'
+                if ' italic' in fontstrg:
+                    styst += '  font-style: italic;'
+    #            print('++',cat,styst)
+                if styst:
+                    TermStyles += '.' + civet_form.UserCategories[cat][1] + '  {color:' + fontstrg[:fontstrg.find(' ')] + \
+                                    ';' + styst + '}\n'
+                else:              
+                    TermStyles += '.' + civet_form.UserCategories[cat][1] + '  {color:' + fontstrg + ';}\n'
+                CoderText = CoderText.replace('style="class:' + cat + ';color:' + civet_form.UserCategories[cat][0] + ';"',\
+                                        'class="' + civet_form.UserCategories[cat][1] + '"') #   # standardize manual annotation <span> markup 
+                CoderText = CoderText.replace('style="class:' + civet_form.UserCategories[cat][1] + ';color:' + civet_form.UserCategories[cat][0] + '"',\
+                                        'class="' + civet_form.UserCategories[cat][1] + '"') #   # remove color from automatic annotation <span> markup       
 #    print('CC-2:',TermStyles)
     return render(request,'djciv_data/civet_coder.html',get_coder_context())
 
@@ -594,7 +628,7 @@ def save_and_next(request):
     if idx < len(CollectionList):
         ActiveCollection = CollectionList[idx] 
         civet_form.FormFields = deepcopy(InitalFormVals)
-        if civet_settings.SKIP_EDITING:
+        if civet_settings.SKIP_EDITING or civet_settings.NEVER_ANNOTATE:
             CoderText = ''
             return HttpResponseRedirect('code_collection')
         else:   
@@ -683,12 +717,15 @@ def read_workspace(request, isdemo = False, manage = False):
                     collfilename = collinfo['collfilename'],
                     colldate = collinfo['colldate'],
                     colledit = collinfo['colledit'],
-                    collcmt = collinfo['collcmt']
+                    collcmt = collinfo['collcmt'],
+                    collcat = collinfo['collcat']
                     )
                 collentry.save()
                 CollectionList.append(collinfo['collid'])
 
                 for dc in textlist:
+                    """if dc['textid'] == '2014-06-20_LBY_NR000':  # -- DEBUG
+                        print('DC1: textoriginal:', dc['textoriginal'])"""
                     textentry = Text.objects.create_text(
                         textparent = dc['textparent'],
                         textid = dc['textid'],

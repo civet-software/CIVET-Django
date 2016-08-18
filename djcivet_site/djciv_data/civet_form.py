@@ -54,6 +54,7 @@ from __future__ import print_function
 from django.utils.html import escape
 import datetime
 import time
+import json
 import sys
 
 from django.utils import encoding   # used for utf-8 -> ascii conversion
@@ -76,6 +77,7 @@ ConstVarDict = {}  # holds the variables set by constant:
 UserCategories = {} # holds user categories as list [color, vocabulary...]
 CategoryCodes = {} # dictionary of dictionaries for category codes, if these are present
 CheckboxValues = {} # dictionary of lists of values for checkboxes in order [F,T]; index is variable name
+LinkedFields = {} # holds info linked fields
 
 FormContent = ['']  # list containing html strings for the coding form pages
 FormFields = {} # dictionary containing the type of field, title, current value and ancillary information, indexed by var name
@@ -97,6 +99,9 @@ tableau20 = [(31, 119, 180), (174, 199, 232), (255, 127, 14), (255, 187, 120),
              (227, 119, 194), (247, 182, 210), (127, 127, 127), (199, 199, 199),  
              (188, 189, 34), (219, 219, 141), (23, 190, 207), (158, 218, 229)]  
 http://www.randalolson.com/2014/06/28/how-to-make-beautiful-data-visualizations-in-python-with-matplotlib/"""
+
+CategoryDict = {}  # this will be set in civet_utilities.read_YAML_file()
+
 
 # ============ function definitions ================ #
 
@@ -250,6 +255,18 @@ def make_category(commlines):
                 UserCategories[newcat].append(st[0].upper() + st[1:])
 #    print('MC1:',newcat, UserCategories[commlines[1]])
 
+def make_link(commlines):
+    """ checks that all variables are defined, then adds to LinkedFields """
+    global LinkedFields
+    vars = commlines[1].split()
+    if len(vars) > 4:
+        raise Exception('A link: command has more than the maximum of four destination fields')  # this is caught in do_command
+    for vi in vars:
+        if vi not in VarList:
+            raise Exception('The destination field "' + vi + '" in a link: command has not been defined prior to the command') 
+    if commlines[2] not in VarList:
+            raise Exception('The source field "' + commlines[2] + '" in a link: command has not been defined prior to the command') 
+    LinkedFields[commlines[2]] = vars
 
 def make_checkbox(commlines):
     """ creates a checkbox entry """
@@ -325,6 +342,15 @@ def make_select(commlines):
             choices.append((val,val))
 
     return [commlines[2], 'select', commlines[1], init, choices]
+
+ 
+def make_dynselect(commlines):
+    """ creates a dynamic pull-down menu entry """
+    choices = []
+    init = ''
+    choices.append(('=*=DYN:' + commlines[4] + '=*=','---')) # placeholder which will be modified when a collection is read
+    return [commlines[2], 'dynselect', commlines[1], init, choices]
+
  
 def make_radio(commlines):
     """ creates a radio button entry; linebrks indicates whether a <br> will be added """
@@ -529,7 +555,7 @@ def parse_command(commline):
     retlist.append(title)
     theline = theline[theline.index('[')+1:]
     retlist.append(theline[:theline.index(']')].strip()) # var name
-    if retlist[0] == 'constant':
+    if retlist[0] in ['link', 'constant']:
         return retlist
     retlist.append(theline[theline.index(']')+1:].strip()) # options
     if len(commline) > 1:
@@ -622,6 +648,12 @@ def do_command(commln):
             outline = ' ' 
         except Exception, e:
             outline = '~Error~<p>' + str(e) + '<br>\n'
+    elif commst == 'link':
+        try:
+            make_link(commlines)
+            outline = ' ' 
+        except Exception, e:
+            outline = '~Error~<p>' + str(e) + '<br>\n'
 
     if not outline:   # remaining commands specify variables 
         field = []
@@ -630,6 +662,8 @@ def do_command(commln):
                 field = make_radio(commlines)
             elif commst == 'select':
                 field = make_select(commlines)
+            elif commst == 'dynselect':
+                field = make_dynselect(commlines)
             elif commst == 'checkbox':
                 field = make_checkbox(commlines)                
             elif commst == 'textline':
@@ -888,4 +922,62 @@ def create_TempData_header():
         TempData += avar+'\t'
     TempData = TempData[:-1] + '\n'
 
-   
+def add_dynselect(newform, active_collection):
+    """ adds the current dynamic categories to the dynselect fields """
+    thecoll = Collection.objects.get(collid__exact=active_collection)
+#    print('AD-0',thecoll.collcat) 
+    catdict = json.loads(thecoll.collcat)   
+    curloc = 0
+#    print('AD-1',newform[:64], active_collection)
+    while newform.find('=*=DYN:',curloc) > 0:
+        curloc = newform.find('=*=DYN:',curloc)
+#        print('AD-2',curloc, newform[curloc:curloc+24])
+        brk1 = newform.find('<option ',curloc - 16)
+        brk2 = newform.find('</option>',curloc) + 9
+#        print('AD-2',curloc, brk1, brk2, newform[curloc:curloc+24])
+        instrg = ''
+        catstrg = newform[curloc + 7:newform.index('=*=',curloc + 7)]
+        if catstrg not in catdict:
+            instrg += '<option value="---">---</option>\n'
+        else:
+            for optstrg in catdict[catstrg]:
+                if optstrg[0] == '*':
+                    instrg += '<option value="' + optstrg[1:] + '" selected >' + optstrg[1:] + '</option>\n'
+                else:
+                    instrg += '<option value="' + optstrg + '">' + optstrg + '</option>\n'
+#        print('AD-3',instrg)
+        newform = newform[:brk1] + instrg + newform[brk2:]
+#        print('AD-4',newform[curloc-16:curloc+16])
+    return newform
+
+def make_map_info(active_collection):
+    """ generates Google maps calls for countries which have more than one location, adds to CategoryDict """
+    thecoll = Collection.objects.get(collid__exact=active_collection)
+    if not thecoll.collcat:
+        return ''
+    catdict = json.loads(thecoll.collcat)   
+    if 'loccat' not in catdict:
+        return '' 
+    gotlst = []
+    allmaps = ''           
+    for la in catdict['loccat']:
+        targ = la[la.index('['):la.index('[')+5]
+        if targ in gotlst:
+            continue
+        ct = sum([1 if targ in lb else 0 for lb in catdict['loccat']]) # Pythonic or what! And worked the first time!
+        if ct > 1:
+            gotlst.append(targ)
+#            print('==++',targ)
+            mapstrg = '<h2>Map of locations in ' + targ[1:-1] + '</h2><p><img alt="' + targ[1:-1] + \
+                      ' map" src="https://maps.googleapis.com/maps/api/staticmap?size=400x400&maptype=roadmap' 
+            ka = 0
+            for li in catdict['loccat']:
+                if targ in li:
+                    mapstrg += '&markers=color:red%7Clabel:' + chr(65+ka) + '%7C' + li[li.index('(') + 1:li.index(')')]
+                    ka += 1
+            mapstrg += '&key=' + civet_settings.MAP_KEY + '"> '
+            allmaps += mapstrg
+            
+    return allmaps
+                
+        

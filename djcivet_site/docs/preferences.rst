@@ -5,12 +5,27 @@ Preferences
 This page has standard HTML check-boxes for setting the status of some of the
 variables affecting the work flow and initial presentation of the texts. 
 
+**Note:** The “Default” values are those in the “off-the-shelf” version of the 
+program: if you are using a version that has been customized for your specific 
+project, these may have been changed. And if so, further changing them may have
+unpredictable consequences for the proper functioning of the program.
+
 **Always apply annotation**
     Always apply automatic annotation to texts that have not been previously 
     annotated. 
     
     - Default: ``True``
     - “civet_settings.py” variable: ``ALWAYS_ANNOTATE``
+
+**Never apply annotation**
+    Never apply automatic annotation to texts: this is used when the annotation has
+    already been done in the YAML file. When ``True``,  the 
+    “Code next collection” button in the coding screen will read the next 
+    collection then display the text with the form without any additional
+    markup.
+    
+    - Default: ``False``
+    - “civet_settings.py” variable: ``NEVER_ANNOTATE``
 
 **Show all content in coder**
     In the coder, initially expand the content of all of the ledes. 
@@ -59,6 +74,25 @@ variables affecting the work flow and initial presentation of the texts.
     - Default: ``False``
     - “civet_settings.py” variable: ``USE_GEOG_MARKUP``
     - “civet_settings.py” preposition list: ``GEOG_PREPOSITIONS``
+
+**Use textid in source citation:**
+
+**Use textbiblio in source citation:**
+    These control the content of the ``Source:`` that is saved in a ``textsource``
+    command and displayed in the ``Comments:`` ``textid`` and ``textbiblio``
+    refer to the fields in the texts in a workspace file. When both are true,
+    the source has the form “textid:textbiblio” where the content of the 
+    field is substituted for the name, unless ``textbiblio`` is empty, in which
+    case it has the form “textid”. If only one is true, only 
+    the contents of that field are included; if both are false, the source is 
+    empty and not shown.
+    
+    - Default: 
+        textid: ``False``
+        
+        textbiblio: ``True``
+        
+    - “civet_settings.py” variables: ``USE_TEXTID_IN_SOURCE``, ``USE_TEXTBIBLIO_IN_SOURCE``
 
     
 

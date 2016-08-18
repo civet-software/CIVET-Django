@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     'beta-0.9',
+        VERSION:     'beta-0.9.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -34,7 +34,7 @@
             <img class="logo" src="_static/civet200.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">CIVET beta-0.9 documentation</a></div>
+          href="index.html">CIVET beta-0.9.1 documentation</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="annotation.html" title="Annotation and Editing Collections"
              accesskey="P">previous</a> |
@@ -62,7 +62,7 @@
 <ol class="arabic">
 <li><p class="first">Unless <code class="docutils literal"><span class="pre">civet_settings.SHOW_ALL_CONTENT</span> <span class="pre">=</span> <span class="pre">True</span></code>, only the content
 of the first text will be expanded; to expand or collapse these,
-click on the lede (green text). The date of the
+click on the lede (green text). <a class="footnote-reference" href="#f2" id="id2">[2]</a> The date of the
 article follows the lede in brackets.</p>
 <p>Shift-click on the lede will <em>delete</em> the text: the lede and text
 disappear and from any subsequent codings. The text actually remains
@@ -74,8 +74,8 @@ below for more details on this operation.</p>
 <blockquote>
 <div><ul>
 <li><dl class="first docutils">
-<dt><code class="docutils literal"><span class="pre">Show/hide</span> <span class="pre">comments</span></code>: toggles the display of the comments for</dt>
-<dd><p class="first last">each text: these are initially hidden.</p>
+<dt><code class="docutils literal"><span class="pre">Show/hide</span> <span class="pre">comments</span></code>: toggles the display of the comments and</dt>
+<dd><p class="first last">sources for each text: these are initially hidden.  <a class="footnote-reference" href="#f3" id="id3">[3]</a></p>
 </dd>
 </dl>
 </li>
@@ -96,36 +96,56 @@ version these are</p>
 <dt>Maximal injuries:</dt>
 <dd><p class="first last">actions</p>
 </dd>
+<dt>Who was involved:</dt>
+<dd><p class="first last">people</p>
+</dd>
 </dl>
 <p>The ‘tab’ key cycles between the coding fields, or an option can be
 selected using the mouse.</p>
 </li>
 <li><p class="first">When an annotated category field is active, all of the words and
 phrases in the text for that category are changed to red, with the
-first word highlighted using a green background. The arrow keys can
+first word that is in an expanded text highlighted using a green
+background. The arrow keys can
 be used to move the highlighted text into the field. These operate as
 follows:</p>
 <dl class="docutils">
 <dt>Right arrow:</dt>
-<dd><p class="first last">Highlight the next text in the category <a class="footnote-reference" href="#f2" id="id2">[2]</a></p>
+<dd><p class="first last">Highlight the next text in the category</p>
 </dd>
 <dt>Left arrow:</dt>
 <dd><p class="first last">Highlight the previous text in the category</p>
 </dd>
 <dt>Down arrow:</dt>
-<dd><p class="first last"><em>Replace</em> the contents of the field with either the currently
-selected text—this is effectively a single-key shortcut for a
-copy-and-paste—or, if no text is selected, the highlighted
-text. <a class="footnote-reference" href="#f3" id="id3">[3]</a></p>
+<dd><p class="first last"><em>Replace</em> the contents of the field with the highlighted
+text.</p>
 </dd>
 <dt>Up arrow:</dt>
-<dd><p class="first last"><em>Append</em> the contents of the field with either the currently
-selected text or, if no text is selected, the highlighted text</p>
+<dd><p class="first last"><em>Append</em> the contents of the field with the highlighted text.
+The appended texts are comma-delimited.</p>
 </dd>
 </dl>
+<p>If the highlighted text is off the screen, the window will automatically
+scroll to place the text on the bottom of the screen. If the text
+contains no words in the category, a pop-up window will alert you
+to this.</p>
+<p>If an annotated category field has an associated source field, that
+information will be automatically replaced or added when the down
+or up arrow is used. If a reference is already in the source field
+and information is being added from the same source, this will not
+be repeated. References can also be added to source fields using
+copy-and-paste.</p>
+<p><strong>Note:</strong> If there are a number of phrases in the target category—this occurs
+frequently for the named-entity and geographical-entity categories—and
+the phrase you want to extract is not in the first
+expanded block, click on the ledes to collapse them until you get
+to a text that does contain the target phrase. If the earlier ledes
+collapsed, the first phrase highlighted will be in the expanded
+lede, so you will not need to hit the right-arrow key many times
+to highlight and extract it.</p>
 </li>
 <li><p class="first">Copy-and-paste from the text to the data fields work as you would
-expect; text can also be entered manually.</p>
+expect; text can also be entered and edited manually.</p>
 </li>
 <li><p class="first">If bracketed values are included in the string, the system takes
 the value from within a set of brackets that is the final item <a class="footnote-reference" href="#f4" id="id4">[4]</a>
@@ -186,18 +206,17 @@ in <em>civet_coder.html.</em></p>
 <table class="docutils footnote" frame="void" id="f2" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td>Occasionally you will need to hit the key twice when changing
-directions: this is a bug, not a feature, and may be corrected at
-some point. Usually it works the first time. If you would like to try
-to fix this, look at the Javascript in the file <code class="docutils literal"><span class="pre">civet_coder.html</span></code></td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td>If you are switching back to the text from a text-extraction box,
+you will need to double-click: the first click switches the focus
+to the text; the second toggles the content</td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="f3" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id3">[3]</a></td><td>If you are tabbing between fields and extracting the first
-highlighted text, you will need to hit down arrow twice: also a bug
-rather than a feature.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id3">[3]</a></td><td>If the <code class="docutils literal"><span class="pre">textcmt</span></code> field for the text block was empty, the display will show
+<code class="docutils literal"><span class="pre">Comment:</span> <span class="pre">----</span></code>. If the <code class="docutils literal"><span class="pre">textbiblio</span></code> field for the text block was empty,
+no <code class="docutils literal"><span class="pre">Source:</span></code> line will be shown.</td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="f4" rules="none">
@@ -236,9 +255,8 @@ changed on the “Preferences” screen.</td></tr>
 <li class="toctree-l1"><a class="reference internal" href="future.html">Projected Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="appendix1.html">Appendix 1: Sample Template File</a></li>
 <li class="toctree-l1"><a class="reference internal" href="appendix2.html">Appendix 2: Input Format</a></li>
-<li class="toctree-l1"><a class="reference internal" href="appendix3.html">Appendix 3: Supporting Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix3.html">Appendix 3: Supporting Files and Source Code Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="appendix4.html">Appendix 4: Prototype on Google Application Engine</a></li>
-<li class="toctree-l1"><a class="reference internal" href="appendix5.html">Appendix 5: Installing in AWS-EB and Docker</a></li>
 </ul>
 
           <div role="search">
@@ -277,7 +295,7 @@ changed on the “Preferences” screen.</td></tr>
         <div class="right">
           
     <div class="footer" role="contentinfo">
-      Last updated on 2015-08-31.
+      Last updated on 2016-08-17.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
         </div>

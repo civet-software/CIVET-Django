@@ -32,6 +32,7 @@ from django import forms
 
 class PrefsForm(forms.Form):
     alwaysannotate = forms.BooleanField(label='Always apply annotation',required=False, error_messages={})
+    neverannotate = forms.BooleanField(label='Never apply annotation',required=False, error_messages={})
     showallcontent = forms.BooleanField(label='Show all content in coder',required=False, error_messages={})
     skipediting = forms.BooleanField(label='Skip editing',required=False, error_messages={})
     textmissing = forms.BooleanField(label='Use text if value is missing',required=False, error_messages={})
@@ -40,6 +41,9 @@ class PrefsForm(forms.Form):
     geogmarkup = forms.BooleanField(label='Use preposition-based geographical markup',required=False, error_messages={})
     missingvalue = forms.CharField(label='Missing value:', widget=forms.TextInput(attrs={'size':'8'}),
                                    required=False, error_messages={})
+    hidereadcodingform = forms.BooleanField(label='Hide "Read coding form"',required=False, error_messages={})
+    hidereadworkspace = forms.BooleanField(label='Hide "Read workspace"',required=False, error_messages={})
+    hidepreferences = forms.BooleanField(label='Hide "Preferences"',required=False, error_messages={})
 
 class CodingForm(forms.Form):
     # Dynamic form generation code thanks to https://jacobian.org/writing/dynamic-form-generation/
@@ -77,6 +81,9 @@ class CodingForm(forms.Form):
                                    widget=forms.Textarea(attrs={'rows':info[3],'cols':info[4]}),
                                    required=False, error_messages={})
             elif info[0] == 'select':
+                self.fields[fld] = forms.ChoiceField(label=info[1],initial=info[2],choices=info[3], 
+                                   required=False, error_messages={})
+            elif info[0] == 'dynselect':
                 self.fields[fld] = forms.ChoiceField(label=info[1],initial=info[2],choices=info[3], 
                                    required=False, error_messages={})
             elif info[0] == 'radio':

@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     'beta-0.9',
+        VERSION:     'beta-0.9.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -34,7 +34,7 @@
             <img class="logo" src="_static/civet200.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">CIVET beta-0.9 documentation</a></div>
+          href="index.html">CIVET beta-0.9.1 documentation</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="homepage.html" title="Home Page Options"
              accesskey="P">previous</a> |
@@ -107,7 +107,7 @@ this general pattern.</p>
 separated by blank lines.)</p>
 <p>Commands can also be cancelled by adding a “-” in front of the command:
 this will cancel the entire command, that is, all of the lines
-associated with the command, not just the first line. For visual
+associated with the command, not just the first line. <a class="footnote-reference" href="#f9" id="id2">[2]</a>  For visual
 symmetry, a “+” in front of the command “activates” it, though the
 command will also be active without the plus.</p>
 <p>“#” denotes a comment: anything following a “#” is ignored, so lines
@@ -121,7 +121,7 @@ beginning with “#” are completely ignored.</p>
 line-break (<code class="docutils literal"><span class="pre">&lt;br&gt;</span></code>) is inserted after the text. The titles are
 escaped: at present the characters &lt;, &gt;and the single and double
 quotes are replaced with the equivalent HTML entities
-<code class="docutils literal"><span class="pre">&amp;lt;,</span> <span class="pre">&amp;gt;</span> <span class="pre">&amp;quot;</span></code> and <code class="docutils literal"><span class="pre">&amp;rsquo;</span></code>. <a class="footnote-reference" href="#f2" id="id2">[2]</a> The <strong>entry-title</strong>
+<code class="docutils literal"><span class="pre">&amp;lt;,</span> <span class="pre">&amp;gt;</span> <span class="pre">&amp;quot;</span></code> and <code class="docutils literal"><span class="pre">&amp;rsquo;</span></code>. <a class="footnote-reference" href="#f2" id="id3">[3]</a> The <strong>entry-title</strong>
 field cannot contain the characters “[” or “]”—if these are present
 they will be interpreted as bounding the <strong>var-name</strong> field—but the
 escaped versions “\[” and “\]” are allowed.</dd>
@@ -216,11 +216,11 @@ downloading.</p>
 <div class="section" id="special-save-variables">
 <h3>Special <code class="docutils literal"><span class="pre">save</span></code> variables<a class="headerlink" href="#special-save-variables" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
-<dt><code class="docutils literal"><span class="pre">\_coder\_</span></code></dt>
+<dt>_coder_</dt>
 <dd>Coder text entered in the <em>CIVET template selection</em> page</dd>
-<dt><code class="docutils literal"><span class="pre">\_date\_</span></code></dt>
-<dd>Current date. this is currently in the form YYYY-MM-DD. <a class="footnote-reference" href="#f3" id="id3">[3]</a></dd>
-<dt><code class="docutils literal"><span class="pre">\_time\_</span></code></dt>
+<dt>_date_</dt>
+<dd>Current date. this is currently in the form YYYY-MM-DD. <a class="footnote-reference" href="#f3" id="id4">[4]</a></dd>
+<dt>_time_</dt>
 <dd>Current time in hh:mm:ss format</dd>
 </dl>
 </div>
@@ -252,7 +252,7 @@ can also be added to the output data like any other variable, but this
 is not required. The default size of the text box is 4 x 64 characters;
 alternative sizes can be specified by adding an empty set of brackets
 followed by <code class="docutils literal"><span class="pre">rows</span></code> and <code class="docutils literal"><span class="pre">cols</span></code> using the same format as the <code class="docutils literal"><span class="pre">textarea</span></code>
-command. <a class="footnote-reference" href="#f4" id="id4">[4]</a></p>
+command. <a class="footnote-reference" href="#f4" id="id5">[5]</a></p>
 <blockquote>
 <div><div class="line-block">
 <div class="line"><strong>comments:</strong> entry-title</div>
@@ -284,7 +284,7 @@ be substituted for the optional token <code class="docutils literal"><span class
 </dl>
 <p>The three fields are displayed in this order; they default to null strings.
 The individual <code class="docutils literal"><span class="pre">header</span></code> commands must be separated by blank lines; otherwise,
-consistent with the command syntax, <a class="footnote-reference" href="#f6" id="id5">[6]</a> the latter lines will be ignored.</p>
+consistent with the command syntax, <a class="footnote-reference" href="#f5" id="id6">[6]</a> the latter lines will be ignored.</p>
 <p><strong>Example:</strong></p>
 <div class="highlight-python"><div class="highlight"><pre>header: &lt;h3&gt;&lt;span style=&quot;color:blue&quot;&gt;Workspace _text_ &lt;/span&gt;&lt;/h3&gt;&#39; [workspace]
 
@@ -295,8 +295,10 @@ header: &lt;b&gt;Collection:&lt;/b&gt; _text_ &#39; [collection]
 <div class="section" id="special-save-variables-for-workspaces">
 <h3>Special <code class="docutils literal"><span class="pre">save</span></code> variables for workspaces<a class="headerlink" href="#special-save-variables-for-workspaces" title="Permalink to this headline">¶</a></h3>
 <p>These variables will not include any texts that were deleted using
-<code class="docutils literal"><span class="pre">shift-click</span></code> on the lede. <a class="footnote-reference" href="#f5" id="id6">[5]</a></p>
+<code class="docutils literal"><span class="pre">shift-click</span></code> on the lede. <a class="footnote-reference" href="#f6" id="id7">[7]</a></p>
 <dl class="docutils">
+<dt>_collection_</dt>
+<dd><code class="docutils literal"><span class="pre">collid</span></code> field of the collection</dd>
 <dt>_publisher_</dt>
 <dd>Comma-delimited list of the <code class="docutils literal"><span class="pre">textpublisher</span></code> fields of the texts in
 the collection</dd>
@@ -310,8 +312,8 @@ the collection</dd>
 <h2>Data entry fields<a class="headerlink" href="#data-entry-fields" title="Permalink to this headline">¶</a></h2>
 <p>Any of these commands can be prefixed with “//”, which inserts a <code class="docutils literal"><span class="pre">&lt;p&gt;&lt;/p&gt;</span></code>
 or a “/”, which inserts a <code class="docutils literal"><span class="pre">&lt;br&gt;</span></code>.</p>
-<div class="section" id="checkbox">
-<h3>Checkbox<a class="headerlink" href="#checkbox" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="checkbox-binary-checkbox">
+<h3><em>checkbox</em>: Binary checkbox<a class="headerlink" href="#checkbox-binary-checkbox" title="Permalink to this headline">¶</a></h3>
 <p>A simple binary check-box. The value of the variable will be first item
 in the list when the box is not checked; the second item when the box is
 checked. The * notation on the second item can be used to specify
@@ -323,11 +325,13 @@ whether or not the box is initially checked.</p>
 </div>
 </div></blockquote>
 <p><strong>Example:</strong></p>
-<blockquote>
-<div><code class="docutils literal"><span class="pre">select:</span> <span class="pre">Eyewitness</span> <span class="pre">report?</span> <span class="pre">[eyewit]</span> <span class="pre">no,*yes</span></code></div></blockquote>
+<div class="highlight-python"><div class="highlight"><pre>checkbox: Eyewitness report? [eyewit]
+no,*yes
+</pre></div>
 </div>
-<div class="section" id="select-from-pull-down-menu">
-<h3>Select from pull-down menu<a class="headerlink" href="#select-from-pull-down-menu" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="select-pull-down-menu">
+<h3><em>select</em>: Pull-down menu<a class="headerlink" href="#select-pull-down-menu" title="Permalink to this headline">¶</a></h3>
 <p>Pull-down menus—which are called a “select” in HTML—are specified with
 the syntax</p>
 <blockquote>
@@ -337,11 +341,31 @@ the syntax</p>
 </div>
 </div></blockquote>
 <p><strong>Example:</strong></p>
-<blockquote>
-<div><code class="docutils literal"><span class="pre">select:</span> <span class="pre">Region</span> <span class="pre">[worldregion]</span> <span class="pre">North</span> <span class="pre">America,</span> <span class="pre">South</span> <span class="pre">America,</span> <span class="pre">Europe,</span> <span class="pre">*Africa,</span> <span class="pre">Middle</span> <span class="pre">East,</span> <span class="pre">Asia</span></code></div></blockquote>
+<div class="highlight-python"><div class="highlight"><pre>select: Region [worldregion]
+North America, South America, Europe, *Africa, Middle East, Asia``
+</pre></div>
 </div>
-<div class="section" id="radio-buttons">
-<h3>Radio buttons<a class="headerlink" href="#radio-buttons" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="dynselect-select-from-dynamic-pull-down-menu-workspaces-only">
+<h3><em>dynselect</em>: Select from dynamic pull-down menu [workspaces only]<a class="headerlink" href="#dynselect-select-from-dynamic-pull-down-menu-workspaces-only" title="Permalink to this headline">¶</a></h3>
+<p>Pull-down menus which are specified dynamically using the <code class="docutils literal"><span class="pre">categories</span></code> section in the collections are specified with
+the syntax</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line"><strong>dynselect:</strong> entry-title [var-name]</div>
+<div class="line">category-name</div>
+</div>
+</div></blockquote>
+<p><strong>Example:</strong></p>
+<div class="highlight-python"><div class="highlight"><pre>select: Region [worldregion]
+statelist
+</pre></div>
+</div>
+<p>If the category-name is not found in the collection, the control defaults to a single entry <code class="docutils literal"><span class="pre">---</span></code>: this allows for
+situations where there were no items found in the category.</p>
+</div>
+<div class="section" id="radio-radio-buttons">
+<h3><em>radio</em>: Radio buttons<a class="headerlink" href="#radio-radio-buttons" title="Permalink to this headline">¶</a></h3>
 <p>A series of radio buttons are specified with the syntax</p>
 <blockquote>
 <div><div class="line-block">
@@ -352,11 +376,13 @@ the syntax</p>
 <p>The entry <code class="docutils literal"><span class="pre">/</span></code> in the option list causes a line-break (<code class="docutils literal"><span class="pre">&lt;br&gt;</span></code>) to be
 inserted</p>
 <p><strong>Example:</strong></p>
-<blockquote>
-<div><code class="docutils literal"><span class="pre">radio:</span> <span class="pre">Region/</span> <span class="pre">[worldregion]</span> <span class="pre">North</span> <span class="pre">America,</span> <span class="pre">South</span> <span class="pre">America,</span> <span class="pre">Europe,</span> <span class="pre">*Africa,</span> <span class="pre">/,Middle</span> <span class="pre">East,</span> <span class="pre">Asia</span></code></div></blockquote>
+<div class="highlight-python"><div class="highlight"><pre>radio: Region [worldregion]
+North America, South America, Europe, *Africa, /,Middle East, Asia
+</pre></div>
 </div>
-<div class="section" id="enter-single-line-of-text">
-<h3>Enter single line of text<a class="headerlink" href="#enter-single-line-of-text" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="textline-enter-single-line-of-text">
+<h3><em>textline</em>: Enter single line of text<a class="headerlink" href="#textline-enter-single-line-of-text" title="Permalink to this headline">¶</a></h3>
 <p>This creates a box for a single line of text (HTML `` type=text``). The
 <code class="docutils literal"><span class="pre">width</span> <span class="pre">=</span> <span class="pre">number</span></code> is optional and specifies the size of the text entry
 box in characters: the default is <code class="docutils literal"><span class="pre">width</span> <span class="pre">=</span> <span class="pre">32</span></code></p>
@@ -367,11 +393,13 @@ box in characters: the default is <code class="docutils literal"><span class="pr
 </div>
 </div></blockquote>
 <p><strong>Example:</strong></p>
-<blockquote>
-<div><code class="docutils literal"><span class="pre">textline:</span> <span class="pre">Name</span> <span class="pre">of</span> <span class="pre">group</span> <span class="pre">[groupname]</span> <span class="pre">&lt;enter</span> <span class="pre">name&gt;</span></code></div></blockquote>
+<div class="highlight-python"><div class="highlight"><pre>textline: Name of group [groupname]
+&lt;enter name&gt;
+</pre></div>
 </div>
-<div class="section" id="extract-single-line-from-annotated-text">
-<h3>Extract single line from annotated text<a class="headerlink" href="#extract-single-line-from-annotated-text" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="textclass-extract-single-line-from-annotated-text">
+<h3><em>textclass</em>: Extract single line from annotated text<a class="headerlink" href="#textclass-extract-single-line-from-annotated-text" title="Permalink to this headline">¶</a></h3>
 <p>This creates a box for a single line of text (HTML `` type=text``) that
 will interact with annotated text; in addition information can be
 manually entered or cut-and-pasted into this box. If this command is
@@ -379,12 +407,21 @@ used in a form that does not have associated annotated text, it behaves
 the same as <code class="docutils literal"><span class="pre">textline</span></code> and the <code class="docutils literal"><span class="pre">class</span></code> information is ignored.</p>
 <p>The <code class="docutils literal"><span class="pre">class=class-name</span></code> is required and specifies the name of the
 annotation class that the text-entry box is connected with; a class can
-be associated with multiple text-entry boxes. There are three standard
+be associated with multiple text-entry boxes. There are four standard
 classes:</p>
-<ul class="simple">
-<li><code class="docutils literal"><span class="pre">nament</span></code>: named-enties, which are determined by capitalization</li>
-<li><code class="docutils literal"><span class="pre">num</span></code>: numbers</li>
-<li><code class="docutils literal"><span class="pre">date</span></code>: dates</li>
+<ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">nament</span></code>: named-enties, which are determined by capitalization</p>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">geogent</span></code>: geographical locations, which are determined by a</dt>
+<dd><p class="first last">combination of prepositions and capitalization <a class="footnote-reference" href="#f7" id="id8">[8]</a></p>
+</dd>
+</dl>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">num</span></code>: numbers</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">date</span></code>: dates</p>
+</li>
 </ul>
 <p>The <code class="docutils literal"><span class="pre">width</span> <span class="pre">=</span> <span class="pre">number</span></code> is optional and specifies the size of the text
 entry box in characters: the default is <code class="docutils literal"><span class="pre">width</span> <span class="pre">=</span> <span class="pre">32</span></code></p>
@@ -396,11 +433,13 @@ width=number</div>
 </div>
 </div></blockquote>
 <p><strong>Example:</strong></p>
-<blockquote>
-<div><code class="docutils literal"><span class="pre">textclass:</span> <span class="pre">Name</span> <span class="pre">of</span> <span class="pre">city</span> <span class="pre">[cityname]</span> <span class="pre">class=nament</span> <span class="pre">&lt;enter</span> <span class="pre">city&gt;</span></code></div></blockquote>
+<div class="highlight-python"><div class="highlight"><pre>textclass: Name of city [cityname] class=nament
+ &lt;enter city&gt;
+</pre></div>
 </div>
-<div class="section" id="enter-multiple-lines-of-text">
-<h3>Enter multiple lines of text<a class="headerlink" href="#enter-multiple-lines-of-text" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="textarea-enter-multiple-lines-of-text">
+<h3><em>textarea</em>: Enter multiple lines of text<a class="headerlink" href="#textarea-enter-multiple-lines-of-text" title="Permalink to this headline">¶</a></h3>
 <p>This corresponds to an HTML “TEXTAREA” object. The
 <code class="docutils literal"><span class="pre">rows</span> <span class="pre">=</span> <span class="pre">number</span> <span class="pre">cols</span> <span class="pre">=</span> <span class="pre">number</span></code> is optional and specifies the size of
 the text entry box in characters: the default is <code class="docutils literal"><span class="pre">rows</span> <span class="pre">=</span> <span class="pre">4</span> <span class="pre">cols</span> <span class="pre">=</span> <span class="pre">80</span></code></p>
@@ -417,10 +456,81 @@ Briefly describe the incident
 </div>
 </div>
 </div>
+<div class="section" id="linking-fields">
+<h2>Linking fields<a class="headerlink" href="#linking-fields" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="link-linking-select-and-textline-fields">
+<h3><em>link</em>: Linking <em>select</em> and <em>textline</em> fields<a class="headerlink" href="#link-linking-select-and-textline-fields" title="Permalink to this headline">¶</a></h3>
+<p>The <strong>link:</strong> command can be used to connect a <strong>select:</strong> or <strong>dynselect:</strong> menu to a set of <strong>textline:</strong>
+fields so that their content is filled in from the menu if something is selected, but otherwise these
+fields can be filled in manually.</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line"><strong>link:</strong> one-to-four-textline-vars [select-var-name]</div>
+</div>
+</div></blockquote>
+<p>The list of variables is space-delimited and all of the variables must have been defined before the <strong>link:</strong>
+command is encountered, but otherwise the command can be anywhere in the file.</p>
+<p>The rules for extracting the fields depends on the number of variables specified:</p>
+<ol class="arabic simple">
+<li>Insert the entire menu item, which can have any format, in the text field</li>
+<li>The entire menu item has the form <code class="docutils literal"><span class="pre">xxxxx</span> <span class="pre">[yyy]</span></code>  The <code class="docutils literal"><span class="pre">xxxxx</span></code>—which can contain anything except
+<code class="docutils literal"><span class="pre">[</span> <span class="pre">]</span></code>—is inserted in the first field; <code class="docutils literal"><span class="pre">yyy</span></code> is inserted in the second field. This is typically used for names
+and codes, e.g. <code class="docutils literal"><span class="pre">Algeria</span> <span class="pre">[DZA]</span></code></li>
+<li>The entire menu item has the form <code class="docutils literal"><span class="pre">xxxxx</span> <span class="pre">(zzzz)</span> <span class="pre">[yyy]</span></code>  The <code class="docutils literal"><span class="pre">xxxxx</span></code>—which can contain anything except
+<code class="docutils literal"><span class="pre">(</span>&nbsp; <span class="pre">)</span></code>—is inserted in the first field; <code class="docutils literal"><span class="pre">zzzz</span></code> is inserted in the <em>third</em> field, and <code class="docutils literal"><span class="pre">yyy</span></code> is inserted
+in the second field. This a somewhat awkward generalization of the four-variable option.
+Example: <code class="docutils literal"><span class="pre">Algiers</span> <span class="pre">(Algeria)</span> <span class="pre">[DZA]</span></code></li>
+<li>The entire menu item has the form <code class="docutils literal"><span class="pre">xxxxx</span> <span class="pre">(lat,</span> <span class="pre">lon)</span> <span class="pre">[yyy]</span></code>  The <code class="docutils literal"><span class="pre">xxxxx</span></code>—which can contain anything except
+<code class="docutils literal"><span class="pre">(</span>&nbsp; <span class="pre">)</span></code>—is inserted in the first field; <code class="docutils literal"><span class="pre">lat</span></code> is inserted  in the third field, <code class="docutils literal"><span class="pre">lon</span></code> in the fourth field,
+and <code class="docutils literal"><span class="pre">yyy</span></code> is in the second field. This is typically used for names with geocoordinates and codes,
+e.g. <code class="docutils literal"><span class="pre">Algiers</span> <span class="pre">(36.757,</span> <span class="pre">3.063)</span> <span class="pre">[DZA]</span></code>, but <code class="docutils literal"><span class="pre">lat</span></code> and <code class="docutils literal"><span class="pre">lon</span></code> do not need to be numbers</li>
+</ol>
+<p>At present, there is only minimal error checking to insure that the fields are delimited correctly: These are taken
+from a set menu, not user input, so it is the responsibility of the form developer to make sure these aren&#8217;t ambiguous
+(e.g. the menu option <code class="docutils literal"><span class="pre">Florence</span> <span class="pre">(Firenze)</span> <span class="pre">(43.821641,</span> <span class="pre">11.286954)</span> <span class="pre">[ITA]</span></code> will generate the string <code class="docutils literal"><span class="pre">Firenze)</span> <span class="pre">(43.821641</span></code>
+as the <em>lon</em> field). Alternatively, you can add code in <code class="docutils literal"><span class="pre">civet_coder.html</span></code> to accommodate the more complex formats.</p>
+<div class="highlight-python"><div class="highlight"><pre>link: countryname countrycode [countrymenu]
+
+link: cname ccode clat clong [geolocmenu]
+</pre></div>
+</div>
+</div>
+<div class="section" id="textsource-extract-sources-from-annotated-text">
+<h3><em>textsource</em>: Extract sources from annotated text<a class="headerlink" href="#textsource-extract-sources-from-annotated-text" title="Permalink to this headline">¶</a></h3>
+<p>A <code class="docutils literal"><span class="pre">textsource:</span></code> field can be automatically linked to a <code class="docutils literal"><span class="pre">textclass:</span></code>
+field so that the information in the <code class="docutils literal"><span class="pre">textid:</span></code> and/or <code class="docutils literal"><span class="pre">textbiblio:</span></code> field
+for the workspace text block where an annotated word or phrase has been
+extracted will be automatically added. This linkage is done by using
+the variable name from a <code class="docutils literal"><span class="pre">textclass</span></code> field with <code class="docutils literal"><span class="pre">_src</span></code> added to the
+end.</p>
+<p>Except for the linkage, a <code class="docutils literal"><span class="pre">textsource</span></code> variable acts like a regular text
+variable: information can be typed or pasted into the text box—typically this
+will be done from the <code class="docutils literal"><span class="pre">Source</span></code> information that is visible when the
+<code class="docutils literal"><span class="pre">Show</span> <span class="pre">Comments</span></code> option is active—and the variable can be saved.</p>
+<p>If the variable name does not correspond to a <code class="docutils literal"><span class="pre">textclass</span></code> variable with
+an added <code class="docutils literal"><span class="pre">_src</span></code>, <code class="docutils literal"><span class="pre">textsource</span></code> behaves the same as <code class="docutils literal"><span class="pre">textline.</span></code>  <a class="footnote-reference" href="#f8" id="id9">[9]</a></p>
+<p>The <code class="docutils literal"><span class="pre">textid:/textbiblio:</span></code> content is controlled by the preferences
+“Use textid in source citation:” and “Use textbiblio in source citation:”;
+the default uses only <code class="docutils literal"><span class="pre">textbiblio:</span></code>.</p>
+<p>The <code class="docutils literal"><span class="pre">width</span> <span class="pre">=</span> <span class="pre">number</span></code> is optional and specifies the size of the text
+entry box in characters: the default is <code class="docutils literal"><span class="pre">width</span> <span class="pre">=</span> <span class="pre">32</span></code></p>
+<blockquote>
+<div><div class="line-block">
+<div class="line"><strong>textsource:</strong> entry-title [var-name]  width = number</div>
+<div class="line">initial-text</div>
+</div>
+</div></blockquote>
+<p><strong>Example:</strong></p>
+<div class="highlight-python"><div class="highlight"><pre>textsource: Source for city [cityname_src] width=40
+&lt;enter source&gt;
+</pre></div>
+</div>
+</div>
+</div>
 <div class="section" id="additional-web-page-formatting">
 <h2>Additional web page formatting<a class="headerlink" href="#additional-web-page-formatting" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="set-page-title">
-<h3>Set page title<a class="headerlink" href="#set-page-title" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="title-set-page-title">
+<h3><em>title</em>: Set page title<a class="headerlink" href="#title-set-page-title" title="Permalink to this headline">¶</a></h3>
 <p>Sets the title of the web page: that is, the HTML``&lt;title&gt;...&lt;/title&gt;``
 section of the header.</p>
 <blockquote>
@@ -464,12 +574,18 @@ p:Please enter data in the fields below,/ and be really, really careful!
 <p>is useful for putting some space between form elements; this is equivalent to the
 “//” prefix in the data entry commands.</p>
 </div>
-<div class="section" id="insert-a-line-break">
-<h3>Insert a line break<a class="headerlink" href="#insert-a-line-break" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="newline-insert-a-line-break">
+<h3><em>newline</em>: Insert a line break<a class="headerlink" href="#newline-insert-a-line-break" title="Permalink to this headline">¶</a></h3>
 <p>Adds a new line in the form; this is equivalent to the “/” prefix in the
 data entry commands.</p>
 <blockquote>
 <div><strong>newline:</strong></div></blockquote>
+</div>
+<div class="section" id="newpage-insert-a-page-break">
+<h3><em>newpage</em>: Insert a page break<a class="headerlink" href="#newpage-insert-a-page-break" title="Permalink to this headline">¶</a></h3>
+<p>Adds a new page to the form.</p>
+<blockquote>
+<div><strong>newpage:</strong></div></blockquote>
 </div>
 </div>
 <div class="section" id="advanced-formating-options">
@@ -570,10 +686,20 @@ using <em>Save Page As...</em> and that could provide a starting point for
 creating prettier code.</td></tr>
 </tbody>
 </table>
+<table class="docutils footnote" frame="void" id="f9" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td>This feature is actually a bit more subtle: cancellation is invoked when
+the first character in a line is “-” <em>and</em> there is a “:” in the line,
+which will always occur with a command. This allows default texts such as “- - -”
+to be used, though a default text such as “- - -: we really want to confuse CIVET”
+will cause an error.</td></tr>
+</tbody>
+</table>
 <table class="docutils footnote" frame="void" id="f2" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td>In the current implementation, named HTML entities such as <code class="docutils literal"><span class="pre">&amp;copy;</span></code>
+<tr><td class="label"><a class="fn-backref" href="#id3">[3]</a></td><td>In the current implementation, named HTML entities such as <code class="docutils literal"><span class="pre">&amp;copy;</span></code>
 and <code class="docutils literal"><span class="pre">&amp;euro;</span></code> can be included and should produce the correct
 character. At present numbered entities such as <code class="docutils literal"><span class="pre">&amp;#91;</span></code>—the HTML
 equivalent of ’]’—do not work since the # is interpreted as a comment
@@ -584,7 +710,7 @@ system could provide a way around this.</td></tr>
 <table class="docutils footnote" frame="void" id="f3" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id3">[3]</a></td><td>This format can be changed in the function <code class="docutils literal"><span class="pre">get_special_var(avar)</span></code> in
+<tr><td class="label"><a class="fn-backref" href="#id4">[4]</a></td><td>This format can be changed in the function <code class="docutils literal"><span class="pre">get_special_var(avar)</span></code> in
 <em>civet_form.py</em>: It is specified using the extensive Python/C date format
 operators shown <a class="reference external" href="http://strftime.org/">here.</a></td></tr>
 </tbody>
@@ -592,7 +718,7 @@ operators shown <a class="reference external" href="http://strftime.org/">here.<
 <table class="docutils footnote" frame="void" id="f4" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id4">[4]</a></td><td>In fact, the <code class="docutils literal"><span class="pre">comments:</span></code> command is just a shorthand for
+<tr><td class="label"><a class="fn-backref" href="#id5">[5]</a></td><td>In fact, the <code class="docutils literal"><span class="pre">comments:</span></code> command is just a shorthand for
 <code class="docutils literal"><span class="pre">textarea:</span> <span class="pre">entry-text</span> <span class="pre">[_comments_]</span></code>, and this will have the same
 effect, with the contents added to the metadata.</td></tr>
 </tbody>
@@ -600,15 +726,32 @@ effect, with the contents added to the metadata.</td></tr>
 <table class="docutils footnote" frame="void" id="f5" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id6">[5]</a></td><td>At present, only these two fields are available, but it is relatively
-straightforward to add the others by just following the existing
-code that you locate in a search for “textpublisher”</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id6">[6]</a></td><td>Neither a bug nor a feature: just is what it is.</td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="f6" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id5">[6]</a></td><td>Neither a bug nor a feature: just is what it is.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id7">[7]</a></td><td>At present, only these two fields are available, but it is relatively
+straightforward to add the others by just following the existing
+code that you locate in a search for “textpublisher”</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f7" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id8">[8]</a></td><td>This is only done in the automatic annotation if
+<code class="docutils literal"><span class="pre">civet_settings.USE_GEOG_MARKUP</span> <span class="pre">=</span> <span class="pre">True</span></code>: see the discussion in the
+<em>Preferences</em> chapter.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f8" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id9">[9]</a></td><td>In a future version of CIVET we hope to have a facility where citation
+information can be transferred into a <code class="docutils literal"><span class="pre">textsource</span></code> field by clicking on
+a lede but this has been implemented yet.
+<em>Preferences</em> chapter.</td></tr>
 </tbody>
 </table>
 </div>
@@ -633,6 +776,7 @@ code that you locate in a search for “textpublisher”</td></tr>
 <li class="toctree-l2"><a class="reference internal" href="#specifying-variables">Specifying variables</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#commands-only-relevant-in-workspaces">Commands only relevant in workspaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#data-entry-fields">Data entry fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#linking-fields">Linking fields</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#additional-web-page-formatting">Additional web page formatting</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#advanced-formating-options">Advanced formating options</a></li>
 </ul>
@@ -644,9 +788,8 @@ code that you locate in a search for “textpublisher”</td></tr>
 <li class="toctree-l1"><a class="reference internal" href="future.html">Projected Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="appendix1.html">Appendix 1: Sample Template File</a></li>
 <li class="toctree-l1"><a class="reference internal" href="appendix2.html">Appendix 2: Input Format</a></li>
-<li class="toctree-l1"><a class="reference internal" href="appendix3.html">Appendix 3: Supporting Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix3.html">Appendix 3: Supporting Files and Source Code Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="appendix4.html">Appendix 4: Prototype on Google Application Engine</a></li>
-<li class="toctree-l1"><a class="reference internal" href="appendix5.html">Appendix 5: Installing in AWS-EB and Docker</a></li>
 </ul>
 
           <div role="search">
@@ -685,7 +828,7 @@ code that you locate in a search for “textpublisher”</td></tr>
         <div class="right">
           
     <div class="footer" role="contentinfo">
-      Last updated on 2015-08-31.
+      Last updated on 2016-08-17.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
         </div>

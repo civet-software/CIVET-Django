@@ -19,8 +19,8 @@
 
 
 \title{CIVET Documentation}
-\date{August 31, 2015}
-\release{beta-0.9}
+\date{August 17, 2016}
+\release{beta-0.9.1}
 \author{Philip A. Schrodt\\Parus Analytics LLC\\Charlottesville, VA USA\\schrodt735@gmail.com}
 \newcommand{\sphinxlogo}{\includegraphics{civet200.png}\par}
 \renewcommand{\releasename}{Release}
@@ -245,6 +245,85 @@ much appreciate the contribution of any ancillary tools that the user
 community develops, particularly for common sources such as Lexis-Nexis,
 Factiva, ProQuest, LDC Gigaword, and various news feeds and social
 media.
+
+
+\section{Status of the Program: August 2016}
+\label{intro:status-of-the-program-august-2016}
+Over the past year, CIVET has been used in two projects, though both with
+my assistance in generating the YAML files and with some additional
+customization, much of which has been incorporated into the general
+system.
+
+To my knowledge, however—and if you know of some project using this,
+please let me know—it has not been used for the originally intended
+purpose of providing a platform which would allow someone with relatively
+limited programming knowledge to create a web-based form. I suspect this
+is due to one or more of the following factors:
+\begin{itemize}
+\item {} 
+The process of getting Django installed, while thoroughly documented,
+apparently can require some experimentation and tweaking. That
+said, one of the projects decided to install Django on laptops
+used by the coders rather than through a server: this
+allowed the coders to work anywhere.
+
+\item {} 
+When using workspaces, which allow access to the most sophisticated
+parts of the system, the texts must be converted to the YAML
+format, a task for which I've yet to see a general solution and
+almost certainly requires Python, perl or Java programming skills
+
+\item {} 
+Realistically, there are only a small number of new projects starting in any given
+year which are sufficiently large that existing tools such as
+spreadsheets or Google Forms are inadequate. And many of those,
+of course, will have resources to directly develop customized
+pages rather than working within the constraints of CIVET
+
+\end{itemize}
+
+So, this is essentially just an open-source version of a codebase that
+I can customize to generate coding forms. Which I'm realizing is
+probably pretty much what about 95\% of open-source projects are, though
+that still gives the client a whole lot more knowledge and power than
+they have with a proprietary system, even if they never change a line
+of code. Whatever.
+
+Some random observations from those two deployments:
+\begin{itemize}
+\item {} 
+Additional customization of the code has gone quite smoothly, even
+allowing for the inevitable decay of my comprehension of the
+system. Granted, even when I've forgotten the details of the code
+I'm still working with my programming idioms, but it does seem like as a
+base, this is quite solid. The same can be said for the YAML
+workspace format.
+
+\item {} 
+Neither of the two installations made any use of the manual
+annotation, and in the second, the \code{NEVER\_ANNOTATE} option was
+added to bypass this entirely: annotation is either handled
+automatically using vocabulary files, or directly putting the
+HTML into the YAML files.
+
+\item {} 
+More generally, though completely expected, the deployment have
+generated a number of interesting ideas for new features that
+did not emerge in the abstract design phase. I've also left
+in some custom code—commented-out or otherwise deactivated—
+that could be used for examples of further possible extensions.
+
+\item {} 
+On two occasions over the past year there were changes to
+Django that required minor changes—one or two lines of code—
+to CIVET in order to keep it running. Unsurprisingly, we have
+also found that Django is more likely to be fully compatible
+with up-to-date hardware
+and operating systems: in particular, one project ran into some
+issues running it on some old copies of Windows. Once again, this is
+less of a turn-key system than I'd hoped.
+
+\end{itemize}
 
 
 \section{Documentation}
@@ -599,7 +678,13 @@ separated by blank lines.)
 
 Commands can also be cancelled by adding a “-” in front of the command:
 this will cancel the entire command, that is, all of the lines
-associated with the command, not just the first line. For visual
+associated with the command, not just the first line. \footnote{
+This feature is actually a bit more subtle: cancellation is invoked when
+the first character in a line is “-” \emph{and} there is a “:” in the line,
+which will always occur with a command. This allows default texts such as “- - -”
+to be used, though a default text such as “- - -: we really want to confuse CIVET”
+will cause an error.
+}  For visual
 symmetry, a “+” in front of the command “activates” it, though the
 command will also be active without the plus.
 
@@ -741,17 +826,17 @@ downloading.
 
 \subsection{Special \texttt{save} variables}
 \label{forms:special-save-variables}\begin{description}
-\item[{\code{\textbackslash{}\_coder\textbackslash{}\_}}] \leavevmode
+\item[{\_coder\_}] \leavevmode
 Coder text entered in the \emph{CIVET template selection} page
 
-\item[{\code{\textbackslash{}\_date\textbackslash{}\_}}] \leavevmode
+\item[{\_date\_}] \leavevmode
 Current date. this is currently in the form YYYY-MM-DD. \footnote{
 This format can be changed in the function \code{get\_special\_var(avar)} in
 \emph{civet\_form.py}: It is specified using the extensive Python/C date format
 operators shown \href{http://strftime.org/}{here.}
 }
 
-\item[{\code{\textbackslash{}\_time\textbackslash{}\_}}] \leavevmode
+\item[{\_time\_}] \leavevmode
 Current time in hh:mm:ss format
 
 \end{description}
@@ -859,6 +944,9 @@ straightforward to add the others by just following the existing
 code that you locate in a search for “textpublisher”
 }
 \begin{description}
+\item[{\_collection\_}] \leavevmode
+\code{collid} field of the collection
+
 \item[{\_publisher\_}] \leavevmode
 Comma-delimited list of the \code{textpublisher} fields of the texts in
 the collection
@@ -876,8 +964,8 @@ Any of these commands can be prefixed with “//”, which inserts a \code{\text
 or a “/”, which inserts a \code{\textless{}br\textgreater{}}.
 
 
-\subsection{Checkbox}
-\label{forms:checkbox}
+\subsection{\emph{checkbox}: Binary checkbox}
+\label{forms:checkbox-binary-checkbox}
 A simple binary check-box. The value of the variable will be first item
 in the list when the box is not checked; the second item when the box is
 checked. The * notation on the second item can be used to specify
@@ -891,14 +979,15 @@ whether or not the box is initially checked.
 \end{quote}
 
 \textbf{Example:}
-\begin{quote}
 
-\code{select: Eyewitness report? {[}eyewit{]} no,*yes}
-\end{quote}
+\begin{Verbatim}[commandchars=\\\{\}]
+checkbox: Eyewitness report? [eyewit]
+no,*yes
+\end{Verbatim}
 
 
-\subsection{Select from pull-down menu}
-\label{forms:select-from-pull-down-menu}
+\subsection{\emph{select}: Pull-down menu}
+\label{forms:select-pull-down-menu}
 Pull-down menus—which are called a “select” in HTML—are specified with
 the syntax
 \begin{quote}
@@ -910,14 +999,38 @@ the syntax
 \end{quote}
 
 \textbf{Example:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+select: Region [worldregion]
+North America, South America, Europe, *Africa, Middle East, Asia{}`{}`
+\end{Verbatim}
+
+
+\subsection{\emph{dynselect}: Select from dynamic pull-down menu {[}workspaces only{]}}
+\label{forms:dynselect-select-from-dynamic-pull-down-menu-workspaces-only}
+Pull-down menus which are specified dynamically using the \code{categories} section in the collections are specified with
+the syntax
 \begin{quote}
 
-\code{select: Region {[}worldregion{]} North America, South America, Europe, *Africa, Middle East, Asia}
+\begin{DUlineblock}{0em}
+\item[] \textbf{dynselect:} entry-title {[}var-name{]}
+\item[] category-name
+\end{DUlineblock}
 \end{quote}
 
+\textbf{Example:}
 
-\subsection{Radio buttons}
-\label{forms:radio-buttons}
+\begin{Verbatim}[commandchars=\\\{\}]
+select: Region [worldregion]
+statelist
+\end{Verbatim}
+
+If the category-name is not found in the collection, the control defaults to a single entry \code{-{-}-}: this allows for
+situations where there were no items found in the category.
+
+
+\subsection{\emph{radio}: Radio buttons}
+\label{forms:radio-radio-buttons}
 A series of radio buttons are specified with the syntax
 \begin{quote}
 
@@ -931,14 +1044,15 @@ The entry \code{/} in the option list causes a line-break (\code{\textless{}br\t
 inserted
 
 \textbf{Example:}
-\begin{quote}
 
-\code{radio: Region/ {[}worldregion{]} North America, South America, Europe, *Africa, /,Middle East, Asia}
-\end{quote}
+\begin{Verbatim}[commandchars=\\\{\}]
+radio: Region [worldregion]
+North America, South America, Europe, *Africa, /,Middle East, Asia
+\end{Verbatim}
 
 
-\subsection{Enter single line of text}
-\label{forms:enter-single-line-of-text}
+\subsection{\emph{textline}: Enter single line of text}
+\label{forms:textline-enter-single-line-of-text}
 This creates a box for a single line of text (HTML {}`{}` type=text{}`{}`). The
 \code{width = number} is optional and specifies the size of the text entry
 box in characters: the default is \code{width = 32}
@@ -951,14 +1065,15 @@ box in characters: the default is \code{width = 32}
 \end{quote}
 
 \textbf{Example:}
-\begin{quote}
 
-\code{textline: Name of group {[}groupname{]} \textless{}enter name\textgreater{}}
-\end{quote}
+\begin{Verbatim}[commandchars=\\\{\}]
+textline: Name of group [groupname]
+\PYGZlt{}enter name\PYGZgt{}
+\end{Verbatim}
 
 
-\subsection{Extract single line from annotated text}
-\label{forms:extract-single-line-from-annotated-text}
+\subsection{\emph{textclass}: Extract single line from annotated text}
+\label{forms:textclass-extract-single-line-from-annotated-text}
 This creates a box for a single line of text (HTML {}`{}` type=text{}`{}`) that
 will interact with annotated text; in addition information can be
 manually entered or cut-and-pasted into this box. If this command is
@@ -967,11 +1082,21 @@ the same as \code{textline} and the \code{class} information is ignored.
 
 The \code{class=class-name} is required and specifies the name of the
 annotation class that the text-entry box is connected with; a class can
-be associated with multiple text-entry boxes. There are three standard
+be associated with multiple text-entry boxes. There are four standard
 classes:
 \begin{itemize}
 \item {} 
 \code{nament}: named-enties, which are determined by capitalization
+
+\item {} \begin{description}
+\item[{\code{geogent}: geographical locations, which are determined by a}] \leavevmode
+combination of prepositions and capitalization \footnote{
+This is only done in the automatic annotation if
+\code{civet\_settings.USE\_GEOG\_MARKUP = True}: see the discussion in the
+\emph{Preferences} chapter.
+}
+
+\end{description}
 
 \item {} 
 \code{num}: numbers
@@ -993,14 +1118,15 @@ width=number
 \end{quote}
 
 \textbf{Example:}
-\begin{quote}
 
-\code{textclass: Name of city {[}cityname{]} class=nament \textless{}enter city\textgreater{}}
-\end{quote}
+\begin{Verbatim}[commandchars=\\\{\}]
+textclass: Name of city [cityname] class=nament
+ \PYGZlt{}enter city\PYGZgt{}
+\end{Verbatim}
 
 
-\subsection{Enter multiple lines of text}
-\label{forms:enter-multiple-lines-of-text}
+\subsection{\emph{textarea}: Enter multiple lines of text}
+\label{forms:textarea-enter-multiple-lines-of-text}
 This corresponds to an HTML “TEXTAREA” object. The
 \code{rows = number cols = number} is optional and specifies the size of
 the text entry box in characters: the default is \code{rows = 4 cols = 80}
@@ -1020,11 +1146,109 @@ Briefly describe the incident
 \end{Verbatim}
 
 
+\section{Linking fields}
+\label{forms:linking-fields}
+
+\subsection{\emph{link}: Linking \emph{select} and \emph{textline} fields}
+\label{forms:link-linking-select-and-textline-fields}
+The \textbf{link:} command can be used to connect a \textbf{select:} or \textbf{dynselect:} menu to a set of \textbf{textline:}
+fields so that their content is filled in from the menu if something is selected, but otherwise these
+fields can be filled in manually.
+\begin{quote}
+
+\begin{DUlineblock}{0em}
+\item[] \textbf{link:} one-to-four-textline-vars {[}select-var-name{]}
+\end{DUlineblock}
+\end{quote}
+
+The list of variables is space-delimited and all of the variables must have been defined before the \textbf{link:}
+command is encountered, but otherwise the command can be anywhere in the file.
+
+The rules for extracting the fields depends on the number of variables specified:
+\begin{enumerate}
+\item {} 
+Insert the entire menu item, which can have any format, in the text field
+
+\item {} 
+The entire menu item has the form \code{xxxxx {[}yyy{]}}  The \code{xxxxx}—which can contain anything except
+\code{{[} {]}}—is inserted in the first field; \code{yyy} is inserted in the second field. This is typically used for names
+and codes, e.g. \code{Algeria {[}DZA{]}}
+
+\item {} 
+The entire menu item has the form \code{xxxxx (zzzz) {[}yyy{]}}  The \code{xxxxx}—which can contain anything except
+\code{(  )}—is inserted in the first field; \code{zzzz} is inserted in the \emph{third} field, and \code{yyy} is inserted
+in the second field. This a somewhat awkward generalization of the four-variable option.
+Example: \code{Algiers (Algeria) {[}DZA{]}}
+
+\item {} 
+The entire menu item has the form \code{xxxxx (lat, lon) {[}yyy{]}}  The \code{xxxxx}—which can contain anything except
+\code{(  )}—is inserted in the first field; \code{lat} is inserted  in the third field, \code{lon} in the fourth field,
+and \code{yyy} is in the second field. This is typically used for names with geocoordinates and codes,
+e.g. \code{Algiers (36.757, 3.063) {[}DZA{]}}, but \code{lat} and \code{lon} do not need to be numbers
+
+\end{enumerate}
+
+At present, there is only minimal error checking to insure that the fields are delimited correctly: These are taken
+from a set menu, not user input, so it is the responsibility of the form developer to make sure these aren't ambiguous
+(e.g. the menu option \code{Florence (Firenze) (43.821641, 11.286954) {[}ITA{]}} will generate the string \code{Firenze) (43.821641}
+as the \emph{lon} field). Alternatively, you can add code in \code{civet\_coder.html} to accommodate the more complex formats.
+
+\begin{Verbatim}[commandchars=\\\{\}]
+link: countryname countrycode [countrymenu]
+
+link: cname ccode clat clong [geolocmenu]
+\end{Verbatim}
+
+
+\subsection{\emph{textsource}: Extract sources from annotated text}
+\label{forms:textsource-extract-sources-from-annotated-text}
+A \code{textsource:} field can be automatically linked to a \code{textclass:}
+field so that the information in the \code{textid:} and/or \code{textbiblio:} field
+for the workspace text block where an annotated word or phrase has been
+extracted will be automatically added. This linkage is done by using
+the variable name from a \code{textclass} field with \code{\_src} added to the
+end.
+
+Except for the linkage, a \code{textsource} variable acts like a regular text
+variable: information can be typed or pasted into the text box—typically this
+will be done from the \code{Source} information that is visible when the
+\code{Show Comments} option is active—and the variable can be saved.
+
+If the variable name does not correspond to a \code{textclass} variable with
+an added \code{\_src}, \code{textsource} behaves the same as \code{textline.}  \footnote{
+In a future version of CIVET we hope to have a facility where citation
+information can be transferred into a \code{textsource} field by clicking on
+a lede but this has been implemented yet.
+\emph{Preferences} chapter.
+}
+
+The \code{textid:/textbiblio:} content is controlled by the preferences
+“Use textid in source citation:” and “Use textbiblio in source citation:”;
+the default uses only \code{textbiblio:}.
+
+The \code{width = number} is optional and specifies the size of the text
+entry box in characters: the default is \code{width = 32}
+\begin{quote}
+
+\begin{DUlineblock}{0em}
+\item[] \textbf{textsource:} entry-title {[}var-name{]}  width = number
+\item[] initial-text
+\end{DUlineblock}
+\end{quote}
+
+\textbf{Example:}
+
+\begin{Verbatim}[commandchars=\\\{\}]
+textsource: Source for city [cityname\PYGZus{}src] width=40
+\PYGZlt{}enter source\PYGZgt{}
+\end{Verbatim}
+
+
 \section{Additional web page formatting}
 \label{forms:additional-web-page-formatting}
 
-\subsection{Set page title}
-\label{forms:set-page-title}
+\subsection{\emph{title}: Set page title}
+\label{forms:title-set-page-title}
 Sets the title of the web page: that is, the HTML{}`{}`\textless{}title\textgreater{}...\textless{}/title\textgreater{}{}`{}`
 section of the header.
 \begin{quote}
@@ -1081,13 +1305,22 @@ is useful for putting some space between form elements; this is equivalent to th
 “//” prefix in the data entry commands.
 
 
-\subsection{Insert a line break}
-\label{forms:insert-a-line-break}
+\subsection{\emph{newline}: Insert a line break}
+\label{forms:newline-insert-a-line-break}
 Adds a new line in the form; this is equivalent to the “/” prefix in the
 data entry commands.
 \begin{quote}
 
 \textbf{newline:}
+\end{quote}
+
+
+\subsection{\emph{newpage}: Insert a page break}
+\label{forms:newpage-insert-a-page-break}
+Adds a new page to the form.
+\begin{quote}
+
+\textbf{newpage:}
 \end{quote}
 
 
@@ -1223,8 +1456,8 @@ Sets of text collections are grouped into “workspaces” that also contain
 an associated coding form and, optionally, other information such as
 user-specified categories that will be used in automatic annotation. The
 template file begins with the string “\code{form.}” and uses the category
-and template commands described in Section {[}sec:form{]}. Workspaces are
-compressed (\code{.zip}) directories (folders).
+and template commands described in the chapter \emph{CIVET Coding Form Templates}.
+Workspaces are compressed (\code{.zip}) directories (folders).
 
 In the current configuration of the system, workspace files are uploaded
 to the system, annotated and/or coded, then downloaded when a session is
@@ -1322,6 +1555,21 @@ section, any single quotes (\code{’}) must be “escaped”; that is,
 replaced with \code{\textbackslash{}’}. This will be done automatically when cases are
 generated from inside the program.
 
+\item {} 
+The system currently translates UTF-8 encodings to ASCII \footnote{
+\href{https://en.wikipedia.org/wiki/UTF-8}{UTF-8} is an expanded
+\href{https://en.wikipedia.org/wiki/Unicode}{UniCode} character set that includes
+accented letters, “smart quotes”
+and many many more characters not found in the older
+\href{https://en.wikipedia.org/wiki/ASCII}{ASCII} (American Standard Code for
+Information Interchange) character set. UTF-8 is very widely used on the
+Web so if you have downloaded texts, there's a pretty good change they
+contain at least some UTF-8 characters.
+} using the
+Django function \code{encoding.smart\_str()}. We expect to eventually
+convert the program to Python 3.x (at present it is Python 2.7) which
+is utf-8 “native” but it isn't there yet.
+
 \end{itemize}
 
 
@@ -1394,9 +1642,40 @@ in the listed order.
 \includegraphics{defaultcolors.png}
 \end{figure}
 
-The program will find capitalized versions of the words in the list—in
-the example below, both ``killed'' and ``Killed'' will match—but not
-all-capitalized versions: ``KILLED'' would not be matched. A word or
+
+\section{Automatic annotation/skip editing mode only:}
+\label{workspaces:automatic-annotation-skip-editing-mode-only}
+When the program is running with \code{Always apply annotation: True} and
+\code{Skip editing: True}, \footnote{
+This is the configuration typically used when just coding the texts
+with automated annotation. We plan to retrofit this to the editor
+as well but adding it to the annotation was a simple hack, and adding
+it to the editor is a little more complicated.
+} categories can be further visually differentiated using
+one or more of the following font specifications
+\begin{itemize}
+\item {} 
+bold: \textbf{bold face}
+
+\item {} 
+italic: \emph{italic}
+
+\item {} 
+under: underline
+
+\end{itemize}
+
+So for example \code{{[}Green bold italic{]}} will display the category in an
+italic bold font colored green.
+
+
+\section{Additional information on categories}
+\label{workspaces:additional-information-on-categories}
+1. Generally, matching of words and phrases is not case sensitive: in
+the example below, both ``killed'' and ``Killed'' will match. However, if the
+word in the category list is all uppercase—e.g. NATO, IRA, ISIS—it will
+only match all-uppercase strings: this should deal with most cases of
+acronyms, in particular US and IS. A word or
 phrase can only be in a a single category: putting one in multiple
 categories will not cause an error, but only the first category
 evaluated—generally this will occur in the order the categories were
@@ -1409,7 +1688,7 @@ If you want it now, delete the test \code{if endx == idx+len(st):} in
 \code{CIVET\_utilities.do\_string\_markup()}.
 }
 
-The comma-delimited-phrase/code-list can have codes assigned to each of
+2. The comma-delimited-phrase/code-list can have codes assigned to each of
 the phrases: these occur in brackets following the phrase and are added
 to the text during automated markup. The codes can be any character
 string. Either the phrase or the code or both can be specified in the
@@ -1417,8 +1696,8 @@ output. If some of the phrases in the list have codes and others do not,
 the blank codes will be assigned a null (or, optionally, missing)
 string.
 
-The vocabulary list can also be read from a file in the workspace. The
-file name must begin with \code{codes.+category-name.}; the remainder of
+3. The vocabulary list can also be read from a file in the workspace. The
+file name must begin with \code{codes.category-name.}; the remainder of
 the file name can be anything. \footnote{
 The period following the category-name is required!: the file name
 \code{codes.weapons\_mnsa\_list.txt} would not be recognized as a valid
@@ -1427,18 +1706,29 @@ category \code{weapons\_mnsa\_list}, not the category \code{weapons}.
 } This be a text file with one phrase
 per line and the code in brackets; a line beginning with \# is treated as
 a comment.
+\begin{enumerate}
+\setcounter{enumi}{3}
+\item {} 
+As with texts, UTF-8 encodings are translated to ASCII using the
+Django function \code{encoding.smart\_str()}.
+
+\end{enumerate}
 
 \textbf{Example:}
-\begin{quote}
 
-\code{category:action {[}red{]} killed {[}1{]}, wounded {[}2{]}, shot and killed {[}1{]}, bombed {[}3{]}, clashed {[}3{]}}
+\begin{Verbatim}[commandchars=\\\{\}]
+category:action [red italic]
+killed [1], wounded [2], shot and killed [1], bombed [3], clashed [3]
 
-\code{category:people {[}Brown{]} civilians, workers, authorities, troops, soldiers, rebels, people, group}
+category:people [Brown]
+civilians, workers, authorities, troops, soldiers, rebels, people, group{}`{}`
 
-\code{category:nationstate {[}Gold{]} codes.nationstate.txt}
+category:nationstate [Gold bold under]
+codes.nationstate.txt
 
-\code{category:weapons {[}Olive{]} codes.weapons.mnsa.weaponslist\_150724.txt}
-\end{quote}
+category:weapons [Olive]
+codes.weapons.mnsa.weaponslist\PYGZus{}150724.txt
+\end{Verbatim}
 
 
 \chapter{Annotation and Editing Collections}
@@ -1484,6 +1774,12 @@ categories of words and phrases:
 This is based on capitalization; consecutive capitalized words
 are combined.
 
+\item[{\emph{Location} {[}optional{]}}] \leavevmode
+When the \code{Use preposition-based geographical markup} preference is set to
+\code{True}, these are named-entities which are preceded somewhere in the
+text by prepositions in the list \code{'at','to','in','from'} See
+additional discussion in the “Preferences” chapter.
+
 \item[{\emph{Numbers}:}] \leavevmode
 Digits and numerical words and phrases such as “one” and
 “two-hundred.”
@@ -1493,7 +1789,7 @@ See the discussion of {\hyperref[workspaces:sec-categories]{\emph{\DUspan{}{cate
 
 \end{description}
 
-Annotation is done automatically when \code{civet\_settings.ALWAYS\_ANNOTATE} is
+Annotation is done automatically when \code{Always apply annotation} preference is
 set to \code{True}; this can be changed on the “Preferences” screen.
 \end{quote}
 
@@ -1663,7 +1959,11 @@ The general operation of the coder/extractor is described below:
 \item {} 
 Unless \code{civet\_settings.SHOW\_ALL\_CONTENT = True}, only the content
 of the first text will be expanded; to expand or collapse these,
-click on the lede (green text). The date of the
+click on the lede (green text). \footnote{
+If you are switching back to the text from a text-extraction box,
+you will need to double-click: the first click switches the focus
+to the text; the second toggles the content
+} The date of the
 article follows the lede in brackets.
 
 Shift-click on the lede will \emph{delete} the text: the lede and text
@@ -1676,8 +1976,12 @@ below for more details on this operation.
 There are three controls at the top of the text display:
 \begin{itemize}
 \item {} \begin{description}
-\item[{\code{Show/hide comments}: toggles the display of the comments for}] \leavevmode
-each text: these are initially hidden.
+\item[{\code{Show/hide comments}: toggles the display of the comments and}] \leavevmode
+sources for each text: these are initially hidden.  \footnote{
+If the \code{textcmt} field for the text block was empty, the display will show
+\code{Comment: -{-}-{-}}. If the \code{textbiblio} field for the text block was empty,
+no \code{Source:} line will be shown.
+}
 
 \end{description}
 
@@ -1700,6 +2004,9 @@ named-entities
 \item[{Maximal injuries:}] \leavevmode
 actions
 
+\item[{Who was involved:}] \leavevmode
+people
+
 \end{description}
 
 The ‘tab’ key cycles between the coding fields, or an option can be
@@ -1708,40 +2015,51 @@ selected using the mouse.
 \item {} 
 When an annotated category field is active, all of the words and
 phrases in the text for that category are changed to red, with the
-first word highlighted using a green background. The arrow keys can
+first word that is in an expanded text highlighted using a green
+background. The arrow keys can
 be used to move the highlighted text into the field. These operate as
 follows:
 \begin{description}
 \item[{Right arrow:}] \leavevmode
-Highlight the next text in the category \footnote{
-Occasionally you will need to hit the key twice when changing
-directions: this is a bug, not a feature, and may be corrected at
-some point. Usually it works the first time. If you would like to try
-to fix this, look at the Javascript in the file \code{civet\_coder.html}
-}
+Highlight the next text in the category
 
 \item[{Left arrow:}] \leavevmode
 Highlight the previous text in the category
 
 \item[{Down arrow:}] \leavevmode
-\emph{Replace} the contents of the field with either the currently
-selected text—this is effectively a single-key shortcut for a
-copy-and-paste—or, if no text is selected, the highlighted
-text. \footnote{
-If you are tabbing between fields and extracting the first
-highlighted text, you will need to hit down arrow twice: also a bug
-rather than a feature.
-}
+\emph{Replace} the contents of the field with the highlighted
+text.
 
 \item[{Up arrow:}] \leavevmode
-\emph{Append} the contents of the field with either the currently
-selected text or, if no text is selected, the highlighted text
+\emph{Append} the contents of the field with the highlighted text.
+The appended texts are comma-delimited.
 
 \end{description}
 
+If the highlighted text is off the screen, the window will automatically
+scroll to place the text on the bottom of the screen. If the text
+contains no words in the category, a pop-up window will alert you
+to this.
+
+If an annotated category field has an associated source field, that
+information will be automatically replaced or added when the down
+or up arrow is used. If a reference is already in the source field
+and information is being added from the same source, this will not
+be repeated. References can also be added to source fields using
+copy-and-paste.
+
+\textbf{Note:} If there are a number of phrases in the target category—this occurs
+frequently for the named-entity and geographical-entity categories—and
+the phrase you want to extract is not in the first
+expanded block, click on the ledes to collapse them until you get
+to a text that does contain the target phrase. If the earlier ledes
+collapsed, the first phrase highlighted will be in the expanded
+lede, so you will not need to hit the right-arrow key many times
+to highlight and extract it.
+
 \item {} 
 Copy-and-paste from the text to the data fields work as you would
-expect; text can also be entered manually.
+expect; text can also be entered and edited manually.
 
 \item {} 
 If bracketed values are included in the string, the system takes
@@ -1808,6 +2126,11 @@ in \emph{civet\_coder.html.}
 \label{preferences::doc}\label{preferences:preferences}
 This page has standard HTML check-boxes for setting the status of some of the
 variables affecting the work flow and initial presentation of the texts.
+
+\textbf{Note:} The “Default” values are those in the “off-the-shelf” version of the
+program: if you are using a version that has been customized for your specific
+project, these may have been changed. And if so, further changing them may have
+unpredictable consequences for the proper functioning of the program.
 \begin{description}
 \item[{\textbf{Always apply annotation}}] \leavevmode
 Always apply automatic annotation to texts that have not been previously
@@ -1818,6 +2141,21 @@ Default: \code{True}
 
 \item {} 
 “civet\_settings.py” variable: \code{ALWAYS\_ANNOTATE}
+
+\end{itemize}
+
+\item[{\textbf{Never apply annotation}}] \leavevmode
+Never apply automatic annotation to texts: this is used when the annotation has
+already been done in the YAML file. When \code{True},  the
+“Code next collection” button in the coding screen will read the next
+collection then display the text with the form without any additional
+markup.
+\begin{itemize}
+\item {} 
+Default: \code{False}
+
+\item {} 
+“civet\_settings.py” variable: \code{NEVER\_ANNOTATE}
 
 \end{itemize}
 
@@ -1869,6 +2207,52 @@ Default: \code{True}
 
 \item {} 
 “civet\_settings.py” variable: \code{USE\_TEXT\_FOR\_MISSING}
+
+\end{itemize}
+
+\item[{\textbf{Use preposition-based geographical markup:}}] \leavevmode
+Use prepositions to attempt to identify named entities that are geographical
+locations: capitalized phrases that are preceded by the prepositions in the
+list \code{'at','to','in','from'} are assigned the category “Location”. If a
+phrase is identified \emph{anywhere} in the text as a possible
+locations, all instances will be labelled with that category; that
+label will take precedence over the standard “Named entity” category.
+\begin{itemize}
+\item {} 
+Default: \code{False}
+
+\item {} 
+“civet\_settings.py” variable: \code{USE\_GEOG\_MARKUP}
+
+\item {} 
+“civet\_settings.py” preposition list: \code{GEOG\_PREPOSITIONS}
+
+\end{itemize}
+
+\end{description}
+
+\textbf{Use textid in source citation:}
+\begin{description}
+\item[{\textbf{Use textbiblio in source citation:}}] \leavevmode
+These control the content of the \code{Source:} that is saved in a \code{textsource}
+command and displayed in the \code{Comments:} \code{textid} and \code{textbiblio}
+refer to the fields in the texts in a workspace file. When both are true,
+the source has the form “textid:textbiblio” where the content of the
+field is substituted for the name, unless \code{textbiblio} is empty, in which
+case it has the form “textid”. If only one is true, only
+the contents of that field are included; if both are false, the source is
+empty and not shown.
+\begin{itemize}
+\item {} \begin{description}
+\item[{Default:}] \leavevmode
+textid: \code{False}
+
+textbiblio: \code{True}
+
+\end{description}
+
+\item {} 
+“civet\_settings.py” variables: \code{USE\_TEXTID\_IN\_SOURCE}, \code{USE\_TEXTBIBLIO\_IN\_SOURCE}
 
 \end{itemize}
 
@@ -2074,6 +2458,9 @@ datetime of editing of this collection  {[}provided by system{]}
 \item[{collcmt}] \leavevmode
 collection comments
 
+\item[{categories {[}optional{]}}] \leavevmode
+categories and items for dynamic selection menus (\textbf{dynselect})
+
 \item[{texts}] \leavevmode
 one or more related texts
 
@@ -2081,6 +2468,19 @@ one or more related texts
 zero or more coded records
 
 \end{description}
+
+
+\section{Category fields}
+\label{appendix2:category-fields}
+These are all indented: the first line is the category name followed by a required colon (:). This is followed by the
+menu options, one per line preceded by an indent and a hyphen-space (\code{- {}`{}`). If the menu option begins with an asterisk (}*{}`{}`)
+it is the default value for the menu.  The following figure shows an example of menu items specified for three categories,
+\code{statecat},{}`{}`torgcat{}`{}` and \code{loccat.}
+\begin{figure}[htbp]
+\centering
+
+\includegraphics{category_example.png}
+\end{figure}
 
 
 \section{Text fields}
@@ -2186,6 +2586,17 @@ YYYY-MM-DDThh:mm:ss{[}+-{]}hh:mm
 \end{itemize}
 
 
+\section{UTF-8 Encodings}
+\label{appendix2:utf-8-encodings}
+The system currently translates \href{https://en.wikipedia.org/wiki/UTF-8}{UTF-8}
+encodings to \href{https://en.wikipedia.org/wiki/ASCII}{ASCII} using the
+Django function \code{encoding.smart\_str()}. We expect to eventually
+convert CIVET to Python 3.x (at present it is Python 2.7) which
+is UTF-8 “native” but it isn't there yet, so you are best off doing
+your own conversions during the process of converting the original
+texts to the YAML formatting.
+
+
 \section{Sample File}
 \label{appendix2:sample-file}
 The following figure shows an example of a simple YAML file; This is a screen capture of a file being edited with \emph{BBEdit},
@@ -2197,8 +2608,8 @@ hence the color mark-up. A workspace demonstration file with several collections
 \end{figure}
 
 
-\chapter{Appendix 3: Supporting Files}
-\label{appendix3:appendix-3-supporting-files}\label{appendix3::doc}
+\chapter{Appendix 3: Supporting Files and Source Code Settings}
+\label{appendix3:appendix-3-supporting-files-and-source-code-settings}\label{appendix3::doc}
 
 \section{Files in \texttt{/static/djciv\_data}}
 \label{appendix3:files-in-static-djciv-data}
@@ -2240,6 +2651,50 @@ is the place to make the change
 \end{description}
 
 
+\section{Additional settings that can be changed in \texttt{civet\_settings.py}}
+\label{appendix3:additional-settings-that-can-be-changed-in-civet-settings-py}
+These are global options but do not appear in the “Preferences” menu since there
+is little reason to change them dynamically (and usually plenty of reasons not to)
+\begin{description}
+\item[{\textbf{Hide ‘Read coding form’}}] \leavevmode
+Hide the ‘Read coding form’ button on the home screen: this can be used if you
+only intend coders to be using workspaces.
+\begin{itemize}
+\item {} 
+Default: \code{False}
+
+\item {} 
+\textbf{civet\_settings.py} variable: \code{HIDE\_READ\_CODING\_FORM}
+
+\end{itemize}
+
+\item[{\textbf{Hide ‘Read workspace’}}] \leavevmode
+Hide the ‘Read workspace’ button on the home screen: this can be used if you
+only intend coders to be using coding forms.
+\begin{itemize}
+\item {} 
+Default: \code{False}
+
+\item {} 
+\textbf{civet\_settings.py} variable: \code{HIDE\_READ\_WORKSPACE}
+
+\end{itemize}
+
+\item[{\textbf{Hide ‘Preferences’}}] \leavevmode
+Hide the ‘Preferences’ button on the home screen: this can be used if you
+don't want coders changing these.
+\begin{itemize}
+\item {} 
+Default: \code{False}
+
+\item {} 
+\textbf{civet\_settings.py} variable: \code{HIDE\_PREFERENCES}
+
+\end{itemize}
+
+\end{description}
+
+
 \section{Documentation}
 \label{appendix3:documentation}
 CIVET's documentation is maintained using the Sphinx \href{http://sphinx-doc.org/}{http://sphinx-doc.org/} system.
@@ -2252,7 +2707,7 @@ make latexpdf
 \end{Verbatim}
 
 are used to generate the on-line and PDF documentation; the files are found in the
-\code{\textbackslash{}\_build/html} and \code{\textbackslash{}\_build/latex} directories.
+\code{\_build/html} and \code{\_build/latex} directories.
 
 Because of the images and the redundant files in the “\_build” directory,
 “djcivet\_site/docs” is a very large directory, about 70\% of the size of the
@@ -2345,322 +2800,6 @@ the same model-view-controller logical structure, and like Django uses the
 “jinja2” template system for web pages. It should be relatively
 straightforward to retro-fit the new features of the forms system—notably
 the “//” and “/” prefixes—to the older code.
-
-
-\chapter{Appendix 5: Installing in AWS-EB and Docker}
-\label{appendix5:appendix-5-installing-in-aws-eb-and-docker}\label{appendix5::doc}
-“Cloud” servers are an increasingly popular low-cost alternative to locally-administered servers. A large number of these
-options are available \footnote{
-In particular, Heroku (\href{https://www.heroku.com/}{https://www.heroku.com/}) appears to be another
-\href{https://devcenter.heroku.com/articles/getting-started-with-django}{Django-friendly} option, and also offers free accounts.
-Using Heroku requires a {[}free{]} GitHub account. With the
-\href{http://www.nytimes.com/2015/08/16/technology/inside-amazon-wrestling-big-ideas-in-a-bruising-workplace.html}{recent revelations}
-about the sheer brutality of Amazon's corporate culture, I've got some
-ethical issues with recommending this vendor, but for the moment it is
-the one widely-available cloud option where I know I can get CIVET to work.
-} and as time goes by we hope to have instructions for multiple platforms and,
-of course, would greatly appreciate any community contributions along these lines.
-
-
-\section{Amazon Web Services Elastic Beanstalk}
-\label{appendix5:amazon-web-services-elastic-beanstalk}
-Amazon Web Services “Elastic Beanstalk” (AWS-EB) was the first cloud service where we
-successfully deployed CIVET: At the time of this writing AWS provides a generous free trial
-option, and their instructions worked the first time I tried. \footnote{
-Which, ahem, cannot be said for my multiple attempts to get the system running on the comparable Google service,
-though I'm sure it is possible to do this and would be happy to add instructions once someone has figured it
-out.
-}
-
-A coherent set of instructions can be found at
-\href{http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/create-deploy-python-django.html}{http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/create-deploy-python-django.html}. Then follow these steps:
-\begin{enumerate}
-\item {} 
-Get an AWS account: \href{https://aws.amazon.com/}{https://aws.amazon.com/}
-
-\end{enumerate}
-
-2. In the instructions, skip the steps prior to the
-heading \textbf{Configure your Django application for AWS Elastic Beanstalk} unless you also want to try out the system
-locally (which is probably a good idea)
-\begin{enumerate}
-\setcounter{enumi}{2}
-\item {} 
-Download the CIVET system from GitHub: \href{https://github.com/civet-software/CIVET-Django}{https://github.com/civet-software/CIVET-Django} \footnote{
-At some point I'll put a “turn-key” directory on GitHub that will have all of the appropriate files. But not yet.
-}
-
-\item {} 
-In the file \emph{djcivet\_site/djciv\_data/civet\_settings.py} set \code{PRODUCTION\_MODE = True} \footnote{
-You can also leave \code{PRODUCTION\_MODE = False} and set \code{STATIC\_SOURCE = "http://civet.parusanalytics.com/civet\_static/"}:
-key here is that AWS needs to read static files from a remote server.
-}
-
-\end{enumerate}
-
-5. Create a directory that you will use to deploy the system: for consistency with the remaining instructions it should be
-called \emph{AWS-CIVET} though once you are comfortable with these instructions it could be named something different.
-
-6. In that directory, copy the directory \emph{djcivet\_site}. Following the instructions, create directories named \emph{.elasticbeanstalk}
-and \emph{.ebextensions} \footnote{
-The ‘.’ in front of the file name means these will probably be invisible in most standard views of the \emph{AWS-CIVET}
-directory: this is a Unix feature, not a bug.
-}
-and create a file named \emph{requirements.txt} Just copy the contents from the section below; you don't need the \code{pip freeze}
-step. Copy the code in the \textbf{AWS-EB Configuration Files} section below into the various files
-\begin{quote}
-
-Your directory will now look like
-
-\begin{Verbatim}[commandchars=\\\{\}]
-AWS\PYGZhy{}CIVET
-\textbar{}\PYGZhy{}\PYGZhy{} .ebextensions
-\textbar{}   {}`\PYGZhy{}\PYGZhy{} 01\PYGZhy{}django\PYGZus{}eb.config
-\textbar{}\PYGZhy{}\PYGZhy{} .elasticbeanstalk
-\textbar{}   {}`\PYGZhy{}\PYGZhy{} config.yml
-\textbar{}\PYGZhy{}\PYGZhy{} djcivet\PYGZus{}site
-\textbar{}   \textbar{}\PYGZhy{}\PYGZhy{} db.sqlite3
-\textbar{}   \textbar{}\PYGZhy{}\PYGZhy{} djcivet\PYGZus{}data
-\textbar{}   \textbar{}\PYGZhy{}\PYGZhy{} docs
-\textbar{}   \textbar{}\PYGZhy{}\PYGZhy{} djcivet\PYGZus{}site
-\textbar{}   \textbar{}   \textbar{}\PYGZhy{}\PYGZhy{} \PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}.py
-\textbar{}   \textbar{}   \textbar{}\PYGZhy{}\PYGZhy{} settings.py
-\textbar{}   \textbar{}   \textbar{}\PYGZhy{}\PYGZhy{} urls.py
-\textbar{}   \textbar{}   \textbar{}\PYGZhy{}\PYGZhy{} wsgi.py
-\textbar{}   {}`\PYGZhy{}\PYGZhy{} manage.py
-{}`\PYGZhy{}\PYGZhy{} requirements.txt
-\end{Verbatim}
-\end{quote}
-
-7. Install the “eb” command-line tool per the instructions found at
-\href{http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3.html}{http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3.html}. Initializing this will require AWS access credentials, a
-process described at \href{http://docs.aws.amazon.com/general/latest/gr/getting-aws-sec-creds.html}{http://docs.aws.amazon.com/general/latest/gr/getting-aws-sec-creds.html}.
-
-8. Follow the instructions in the \textbf{Deploy your site using AWS Elastic Beanstalk} section to use “eb” in a terminal
-application. It will take a minute or so for the \code{eb create} process to complete—there's plenty of feedback—and there is an
-additional lag before the URL will be recognized.
-
-9. You should now see the CIVET home page at the URL \href{http://aws-civet-dev.elasticbeanstalk.com}{http://aws-civet-dev.elasticbeanstalk.com}. This should take you to the
-login page unless you've set \code{REQUIRE\_LOGIN = False}. Run through the options with the demonstration files to make sure
-the site is working. If the site doesn't come up at your first attempt, try reloading a couple of times until AWS
-recognizes the URL.
-
-10. When you are finished, enter \code{eb terminate} and respond to the confirmation prompt with “AWS-CIVET-dev” in order to
-stop the program.
-
-
-\subsection{AWS-EB Configuration Files}
-\label{appendix5:aws-eb-configuration-files}
-In
-
-\begin{Verbatim}[commandchars=\\\{\}]
-Django==1.8.3
-\end{Verbatim}
-
-In \emph{AWS-CIVET/.elasticbeanstalk/} create the file \emph{config.yml}
-
-\begin{Verbatim}[commandchars=\\\{\}]
-branch\PYGZhy{}defaults:
-  default:
-    environment: AWS\PYGZhy{}CIVET\PYGZhy{}dev
-global:
-  application\PYGZus{}name: AWS\PYGZus{}CIVET
-  default\PYGZus{}ec2\PYGZus{}keyname: aws\PYGZhy{}civet
-  default\PYGZus{}platform: Python 2.7
-  default\PYGZus{}region: us\PYGZhy{}east\PYGZhy{}1
-  profile: eb\PYGZhy{}cli
-  sc: null
-\end{Verbatim}
-
-In \emph{AWS\_CIVET/.ebextensions/} create the file \emph{01-djcivet\_site.config}
-
-\begin{Verbatim}[commandchars=\\\{\}]
-container\PYGZus{}commands:
-    01\PYGZus{}collectstatic:
-      command: \PYGZdq{}source /opt/python/run/venv/bin/activate \PYGZam{}\PYGZam{} python djcivet\PYGZus{}site/manage.py collectstatic \PYGZhy{}\PYGZhy{}noinput\PYGZdq{}
-
-option\PYGZus{}settings:
-  \PYGZdq{}aws:elasticbeanstalk:application:environment\PYGZdq{}:
-    DJANGO\PYGZus{}SETTINGS\PYGZus{}MODULE: \PYGZdq{}djcivet\PYGZus{}site.settings\PYGZdq{}
-    PYTHONPATH: \PYGZdq{}/opt/python/current/app/djcivet\PYGZus{}site:\PYGZdl{}PYTHONPATH\PYGZdq{}
-  \PYGZdq{}aws:elasticbeanstalk:container:python\PYGZdq{}:
-    WSGIPath: \PYGZdq{}djcivet\PYGZus{}site/djcivet\PYGZus{}site/wsgi.py\PYGZdq{}
-\end{Verbatim}
-
-In \emph{djcivet\_site/djcivet\_site/settings.py}
-\begin{itemize}
-\item {} 
-Set \code{DEBUG = False}
-
-\item {} 
-Change SECRET\_KEY since the downloaded version isn't exactly secret
-
-\end{itemize}
-
-
-\subsection{Handling of \emph{static} files}
-\label{appendix5:handling-of-static-files}
-As even a brief perusal of the web will affirm, the handling of \emph{static} files in production versions of
-Django is, well, complicated. After joining legions of programmers past, present and future in beating my head against
-the wall on trying to get CIVET to access files internally in production as it does in the development mode, I gave up \footnote{
-Or simply took the approach that the Django system clearly prefers, depending on your perspective
-}
-and put the static resources referenced from inside templates on a directory on an external server, specifically
-\emph{http://civet.parusanalytics.com/civet\_static/}  Files that are read in \emph{views.py} remain in the \emph{static/djciv\_data}
-folder, which works in both the development and production modes.
-
-If you would like to modify the static files in the system—the main target would be \emph{CKEditor}, unless you find our
-mascot too insufferably cute—you can move this material (the contents of the directory \emph{static/djciv\_data} in the distribution) to
-the server of your choice: just change the address in \code{settings.STATIC\_SOURCE} to point to the new location. \footnote{
-An apparently popular approach for handling this is to use an AWS S3 server instance for external storage of static files:
-there are multiple descriptions on the Web describing how to do this. As it involves quite a few steps and I've
-got a perfectly good server already set up in the cloud, I went with that route instead.
-}
-
-
-\section{Docker}
-\label{appendix5:docker}
-Docker (\href{https://www.docker.com/}{https://www.docker.com/}) is a highly popular, rapidly evolving \footnote{
-Which is to say, a whole lot of moving parts which don't quite always play well together and inconsistently documented:
-see   \href{http://blog.circleci.com/its-the-future/}{http://blog.circleci.com/its-the-future/},
-\href{http://blog.circleci.com/it-really-is-the-future/}{http://blog.circleci.com/it-really-is-the-future/}, and \href{https://valdhaus.co/writings/docker-misconceptions/}{https://valdhaus.co/writings/docker-misconceptions/} \footnote{
-Thanks to John Beieler for the links.
-}
-} “containerization” system which will ultimately simplify the secure deployment
-of software in a wide variety of different systems. Briefly, “containers” are a more efficient extension of the concept of
-\href{https://en.wikipedia.org/wiki/Virtual\_machine}{virtual machines} —computers running programs which simulate the operation
-of other computers—by packaging all of the required software in an “image” file that is able to run on any system capable of
-running Docker. Because the operations within a container can be isolated from the host machine, and the contents of the
-container can be inspected and verified, this should provide a more secure (and efficient) environment than situations where
-a variety of software
-needs to be installed in order for a system to run, and that software potentially has access to all of the resources of the system. \footnote{
-Or as the situation was recently explicated at our local software development meet-up, in reference
-to a certain institution that does not have a campus but “Grounds”, and I am not referring to Starbucks, “So which
-is it with your sysadmins? They want to make sure Docker is deployed securely? Well, there are plenty of ways to do
-that. Or they just don't want to do any work? Then you've got a different set of problems.”
-}
-Hence the excitement.
-
-To date, I have successfully gotten the Docker container described below to run CIVET in development mode as a container on my
-Macintosh; I attempted to get it running on the Google Cloud but was unsuccessful; I have not tried any other configurations.
-As always, I will be happy to incorporate any additional suggestions into this documentation.
-
-The guide I used for the deployment is \href{http://michal.karzynski.pl/blog/2015/04/19/packaging-django-applications-as-docker-container-images/}{http://michal.karzynski.pl/blog/2015/04/19/packaging-django-applications-as-docker-container-images/}.
-This was not the first one I tried, and as indicated above, Docker is still evolving
-so you should make certain you are using a recent set of guides (and the instructions here may break sooner rather than
-later.)
-
-Using Karzynski as a guide, here are the steps:
-
-1. If you aren't already using Docker, get a Docker account—there is a free option—and install Docker: the instructions for
-this will vary depending on your operating system; Karzynski's instructions are just for Linux.
-
-2. Set-up a directory to hold the Docker project---I called this \emph{Docker-CIVET}, which corresponds to Karzynski's local
-directory \emph{dockyard}. I'll be using Karzynski's Docker image name DOCKYARD.
-\begin{enumerate}
-\setcounter{enumi}{2}
-\item {} 
-Copy the directory \emph{djcivet\_site} into \emph{Docker-CIVET}.
-
-\end{enumerate}
-
-4. In \emph{Docker-CIVET}, create the \emph{docker-entrypoint.sh} and \emph{Dockerfile} files from the code given below. Your directory
-will now look like
-\begin{quote}
-
-\begin{Verbatim}[commandchars=\\\{\}]
-Docker\PYGZhy{}CIVET
-\textbar{}\PYGZhy{}\PYGZhy{} docker\PYGZhy{}entrypoint.sh
-\textbar{}\PYGZhy{}\PYGZhy{} Dockerfile
-\textbar{}\PYGZhy{}\PYGZhy{} djcivet\PYGZus{}site
-\textbar{}   \textbar{}\PYGZhy{}\PYGZhy{} db.sqlite3
-\textbar{}   \textbar{}\PYGZhy{}\PYGZhy{} djcivet\PYGZus{}data
-\textbar{}   \textbar{}\PYGZhy{}\PYGZhy{} docs
-\textbar{}   \textbar{}\PYGZhy{}\PYGZhy{} djcivet\PYGZus{}site
-\textbar{}   \textbar{}   \textbar{}\PYGZhy{}\PYGZhy{} \PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}.py
-\textbar{}   \textbar{}   \textbar{}\PYGZhy{}\PYGZhy{} settings.py
-\textbar{}   \textbar{}   \textbar{}\PYGZhy{}\PYGZhy{} urls.py
-\textbar{}   \textbar{}   \textbar{}\PYGZhy{}\PYGZhy{} wsgi.py
-\textbar{}   {}`\PYGZhy{}\PYGZhy{} manage.py
-{}`\PYGZhy{}\PYGZhy{} requirements.txt
-\end{Verbatim}
-\end{quote}
-
-5. Follow the remaining instructions to build and test the container with the \code{user-name} from your Docker account and the
-\code{image-name} of your choice (e.g. \code{docker-civet}).
-
-
-\subsection{Contents of \emph{docker-entrypoint.sh}}
-\label{appendix5:contents-of-docker-entrypoint-sh}
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYGZsh{}!/bin/bash
-python manage.py migrate                  \PYGZsh{} Apply database migrations
-python manage.py collectstatic \PYGZhy{}\PYGZhy{}noinput  \PYGZsh{} Collect static files
-
-\PYGZsh{} Prepare log files and start outputting logs to stdout
-touch /srv/logs/gunicorn.log
-touch /srv/logs/access.log
-tail \PYGZhy{}n 0 \PYGZhy{}f /srv/logs/*.log \PYGZam{}
-
-\PYGZsh{} Start Gunicorn processes
-echo Starting Gunicorn.
-exec gunicorn djcivet\PYGZus{}site.wsgi:application \PYGZbs{}
-    \PYGZhy{}\PYGZhy{}name djcivet\PYGZus{}site \PYGZbs{}
-    \PYGZhy{}\PYGZhy{}bind 0.0.0.0:8000 \PYGZbs{}
-    \PYGZhy{}\PYGZhy{}workers 3 \PYGZbs{}
-    \PYGZhy{}\PYGZhy{}log\PYGZhy{}level=info \PYGZbs{}
-    \PYGZhy{}\PYGZhy{}log\PYGZhy{}file=/srv/logs/gunicorn.log \PYGZbs{}
-    \PYGZhy{}\PYGZhy{}access\PYGZhy{}logfile=/srv/logs/access.log \PYGZbs{}
-    \PYGZdq{}\PYGZdl{}@\PYGZdq{}
-\end{Verbatim}
-
-
-\subsection{Contents of \emph{Dockerfile}}
-\label{appendix5:contents-of-dockerfile}
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}
-\PYGZsh{} Dockerfile to run a Django\PYGZhy{}based web application
-\PYGZsh{} Based on an Ubuntu Image
-\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}
-
-\PYGZsh{} Set the base image to use to Ubuntu
-FROM ubuntu:14.04
-
-\PYGZsh{} Set the file maintainer (your name \PYGZhy{} the file\PYGZsq{}s author)
-MAINTAINER Parus Analytics
-
-\PYGZsh{} Set env variables used in this Dockerfile (add a unique prefix, such as DOCKYARD)
-\PYGZsh{} Local directory with project source
-ENV DOCKYARD\PYGZus{}SRC=djcivet\PYGZus{}site
-\PYGZsh{} Directory in container for all project files
-ENV DOCKYARD\PYGZus{}SRVHOME=/srv
-\PYGZsh{} Directory in container for project source files
-ENV DOCKYARD\PYGZus{}SRVPROJ=/srv/djcivet\PYGZus{}site
-
-\PYGZsh{} Update the default application repository sources list
-RUN apt\PYGZhy{}get update \PYGZam{}\PYGZam{} apt\PYGZhy{}get \PYGZhy{}y upgrade
-RUN apt\PYGZhy{}get install \PYGZhy{}y python python\PYGZhy{}pip
-
-\PYGZsh{} Create application subdirectories
-WORKDIR \PYGZdl{}DOCKYARD\PYGZus{}SRVHOME
-RUN mkdir media static logs
-VOLUME [\PYGZdq{}\PYGZdl{}DOCKYARD\PYGZus{}SRVHOME/media/\PYGZdq{}, \PYGZdq{}\PYGZdl{}DOCKYARD\PYGZus{}SRVHOME/logs/\PYGZdq{}]
-
-\PYGZsh{} Copy application source code to SRCDIR
-COPY \PYGZdl{}DOCKYARD\PYGZus{}SRC \PYGZdl{}DOCKYARD\PYGZus{}SRVPROJ
-
-\PYGZsh{} Install Python dependencies
-\PYGZsh{}RUN pip install \PYGZhy{}r \PYGZdl{}DOCKYARD\PYGZus{}SRVPROJ/requirements.txt
-RUN pip install Django
-RUN pip install gunicorn
-\PYGZsh{} Port to expose
-EXPOSE 8000
-
-\PYGZsh{} Copy entrypoint script into the image
-WORKDIR \PYGZdl{}DOCKYARD\PYGZus{}SRVPROJ
-COPY ./docker\PYGZhy{}entrypoint.sh /
-ENTRYPOINT [\PYGZdq{}/docker\PYGZhy{}entrypoint.sh\PYGZdq{}]
-\end{Verbatim}
 
 
 

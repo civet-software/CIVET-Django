@@ -21,8 +21,8 @@ Sets of text collections are grouped into “workspaces” that also contain
 an associated coding form and, optionally, other information such as
 user-specified categories that will be used in automatic annotation. The
 template file begins with the string “``form.``” and uses the category
-and template commands described in Section [sec:form]. Workspaces are
-compressed (``.zip``) directories (folders).
+and template commands described in the chapter *CIVET Coding Form Templates*. 
+Workspaces are compressed (``.zip``) directories (folders).
 
 In the current configuration of the system, workspace files are uploaded
 to the system, annotated and/or coded, then downloaded when a session is
@@ -89,6 +89,11 @@ Additional notes on workspaces:
    section, any single quotes (``’``) must be “escaped”; that is,
    replaced with ``\’``. This will be done automatically when cases are
    generated from inside the program.
+   
+-  The system currently translates UTF-8 encodings to ASCII [#f11]_ using the
+   Django function ``encoding.smart_str()``. We expect to eventually
+   convert the program to Python 3.x (at present it is Python 2.7) which
+   is utf-8 “native” but it isn't there yet.
 
 .. _sec-management:
 
@@ -159,9 +164,11 @@ italic bold font colored green.
 Additional information on categories
 ------------------------------------
 
-1. The program will find capitalized versions of the words in the list—in
-the example below, both "killed" and "Killed" will match—but not
-all-capitalized versions: "KILLED" would not be matched. A word or
+1. Generally, matching of words and phrases is not case sensitive: in
+the example below, both "killed" and "Killed" will match. However, if the 
+word in the category list is all uppercase—e.g. NATO, IRA, ISIS—it will
+only match all-uppercase strings: this should deal with most cases of
+acronyms, in particular US and IS. A word or
 phrase can only be in a a single category: putting one in multiple
 categories will not cause an error, but only the first category
 evaluated—generally this will occur in the order the categories were
@@ -180,10 +187,14 @@ the blank codes will be assigned a null (or, optionally, missing)
 string.
 
 3. The vocabulary list can also be read from a file in the workspace. The
-file name must begin with ``codes.+category-name.``; the remainder of
+file name must begin with ``codes.category-name.``; the remainder of
 the file name can be anything. [#f9]_ This be a text file with one phrase
 per line and the code in brackets; a line beginning with # is treated as
 a comment.
+
+   
+4. As with texts, UTF-8 encodings are translated to ASCII using the
+   Django function ``encoding.smart_str()``.
 
 **Example:**
 
@@ -228,6 +239,17 @@ a comment.
    ``'whois'='Case1-whois',`` which should actually be
    ``'whois':'Case1-whois',`` but that ‘``=``’ could only have been
    introduced through external editing.
+
+.. [#f11]
+   `UTF-8 <https://en.wikipedia.org/wiki/UTF-8>`_ is an expanded 
+   `UniCode <https://en.wikipedia.org/wiki/Unicode>`_ character set that includes 
+   accented letters, “smart quotes”
+   and many many more characters not found in the older 
+   `ASCII <https://en.wikipedia.org/wiki/ASCII>`_ (American Standard Code for 
+   Information Interchange) character set. UTF-8 is very widely used on the 
+   Web so if you have downloaded texts, there's a pretty good change they
+   contain at least some UTF-8 characters. 
+
 
 .. [#f5]
    If you need more, this can be changed by allowing more digits in 

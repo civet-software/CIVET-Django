@@ -34,11 +34,27 @@ colldate
 collcmt
     collection comments
 
+categories [optional]
+    categories and items for dynamic selection menus (**dynselect**)
+
 texts
     one or more related texts
 
 cases
     zero or more coded records
+
+========================
+Category fields
+========================
+
+These are all indented: the first line is the category name followed by a required colon (:). This is followed by the 
+menu options, one per line preceded by an indent and a hyphen-space (``- ``). If the menu option begins with an asterisk (``\*``)
+it is the default value for the menu.  The following figure shows an example of menu items specified for three categories,
+``statecat``,``torgcat`` and ``loccat.``
+
+.. figure:: category_example.png
+   :alt: Example of categories
+
 
 ========================
 Text fields
@@ -136,6 +152,19 @@ http://www.cl.cam.ac.uk/mgk25/iso-time.html) so generally either
 -  YYYY-MM-DDThh:mm:ss
 
 -  YYYY-MM-DDThh:mm:ss[+-]hh:mm
+
+
+========================
+UTF-8 Encodings
+========================
+
+The system currently translates `UTF-8 <https://en.wikipedia.org/wiki/UTF-8>`_ 
+encodings to `ASCII <https://en.wikipedia.org/wiki/ASCII>`_ using the
+Django function ``encoding.smart_str()``. We expect to eventually
+convert CIVET to Python 3.x (at present it is Python 2.7) which
+is UTF-8 “native” but it isn't there yet, so you are best off doing 
+your own conversions during the process of converting the original 
+texts to the YAML formatting.
 
 ========================
 Sample File

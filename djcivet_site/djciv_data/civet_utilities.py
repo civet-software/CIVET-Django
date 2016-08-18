@@ -27,6 +27,7 @@
 
 from __future__ import print_function
 import datetime
+import json
 import sys
 import ast
 import re
@@ -47,6 +48,8 @@ thetext = ''
 StopList = []  # words that will not be marked as NEs if capitalized in isolation
 NumberDict = {} # words referring to numbers and their values
 
+catindent = '    '
+
 AttrPattern = re.compile('(\S*)\s?=\s?\"(.*?)\"\s*')  # regular expression used in get_attributes()
 
 # ======== YAML I/O ========= #
@@ -57,6 +60,7 @@ def read_YAML_file(fin,filename):
         This converts utf-8 to ASCII, which needs to be changed in the relatively near future, though probably not until
         we convert the whole thing to Python 3.0
     """
+        
     def create_ascii(str):
         return encoding.smart_str(str, encoding='ascii', errors='ignore')
 
@@ -66,19 +70,44 @@ def read_YAML_file(fin,filename):
 
     textdicts = []
     casedicts = []
+    civet_form.CategoryDict = {}
+
+#    fdbg = open('../debugging.txt','w')
 #    print('GYF-0:')
 
     line = create_ascii(fin.readline())             
      
     while len(line) > 0 and not line.startswith('texts:'):  # could doc, headline, source info here
 #        print('>>',line[:-1])
+#        fdbg.write('>>'+line)
         if len(line) > 4 and line[:line.find(':')] in collfields:
             thefield = line[:line.find(':')].strip()
             collinfo[thefield] = line[line.find(':')+1:-1].strip()
             if 'date' in thefield and ':' in collinfo[thefield]:  # temporary fix removing times from the dates
                 collinfo[thefield] = collinfo[thefield][:collinfo[thefield].find(' ')]
+        elif line.startswith('categories:'):
+            line = create_ascii(fin.readline())
+            while line.startswith(catindent):
+#                fdbg.write('-->>'+line)
+                if line.startswith(catindent + '- '):
+                    civet_form.CategoryDict[curcat].append(line[6:-1])
+                else:
+                    curcat = line[4:line.find(':')]
+                    civet_form.CategoryDict[curcat] = []                                
+                line = create_ascii(fin.readline())             
+        
+            """for la in civet_form.CategoryDict:  # DEBUG
+                print(la,civet_form.CategoryDict[la])"""
+#                fdbg.write(la + ' : ' + str(CategoryDict[la]) + '\n')
+            catst = json.dumps(civet_form.CategoryDict)
+#            print('##:',catst)
+            collinfo['collcat'] = catst
+         
         line = create_ascii(fin.readline())             
-       
+
+    if 'collcat' not in collinfo:
+        collinfo['collcat'] = ''        
+               
     if len(line) == 0:
         raise Exception('No "texts:" segment found')
                 
@@ -140,13 +169,13 @@ def read_YAML_file(fin,filename):
 
 
     textdicts.append(curinfo) 
-    """print("GYF-2: Texts:\n")
+# --    print("GYF-2: Texts:\n")  # -- DEBUG
     for dc in textdicts:
-        print()
-        for k in textfields:
-            if k in dc: print(k, dc[k])
-        print('textoriginal:', dc['textoriginal'])
-        print('textmkup:', dc['textmkup'])"""
+        """if dc['textid'] == '2014-06-20_LBY_NR000':
+            for k in textfields:
+                if k in dc: print(k, dc[k])
+            print('textoriginal:', dc['textoriginal'])
+            print('textmkup:', dc['textmkup'])"""
             
     if len(line)>0: # get the previously coded cases
         while len(line) > 0 and not line.strip().startswith('-'):  
@@ -202,11 +231,13 @@ def read_YAML_file(fin,filename):
             print('casevalues:', dc['casevalues'])"""
 
 #    print("RYF-exit\n")
+    """fdbg.write("RYF-exit\n")
+    fdbg.close()"""
     return collinfo, textdicts, casedicts
 
 def write_YAML_file(thecoll, filehandle):
     """ writes the Collection thecoll to filehandle in YAML format"""
-    # TO DO: standardize the indentations with a string?
+    indent1 = '    '
 #    print('WYF-1:', collid)
 #    thecoll = Collection.objects.get(collid__exact=collid)
     colldict = thecoll.__dict__
@@ -216,6 +247,15 @@ def write_YAML_file(thecoll, filehandle):
         else:
             filehandle.write(flst+ ': ' + colldict[flst] + '\n')
 #    print('WYF-2:', colldict)
+
+    if colldict['collcat']:
+        catdict = json.loads(colldict['collcat'])
+        filehandle.write('\ncategories:\n')
+        for cati in catdict:
+            filehandle.write(indent1 + cati + ':\n')
+            for li in catdict[cati]:
+                filehandle.write(indent1 + '- ' + li + '\n')
+            
     filehandle.write('\ntexts:\n')
     
     curtexts = Text.objects.filter(textparent__exact=thecoll.collid)  # write the texts
@@ -580,7 +620,7 @@ def do_string_markup(category):
 
 def do_markup(oldtext):
     global thetext
-#    print('DM-entry')
+#    print('DM-entry',oldtext)
     thetext = oldtext + ' '
     for cat in civet_form.UserCategories:
         do_string_markup(cat)

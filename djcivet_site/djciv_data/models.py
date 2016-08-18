@@ -12,7 +12,7 @@
 ##				Charlottesville, VA, 22901 U.S.A.
 ##				http://parusanalytics.com
 ##
-##	Copyright (c) 2015	Philip A. Schrodt.	All rights reserved.
+##	Copyright (c) 2016	Philip A. Schrodt.	All rights reserved.
 ##
 ##  The development of CIVET is funded by the U.S. National Science Foundation Office of Multidisciplinary Activities in the 
 ##  Directorate for Social, Behavioral & Economic Sciences, Award 1338470 and the Odum Institute</a> at the University of 
@@ -26,6 +26,7 @@
 ##	14-March-15:	Initial version
 ##  4-August-15:    Beta 0.7
 ##  31-August-15:   Beta 0.9
+##  12-August-16:   Dynamic categories (collcat) added
 ##
 ##	----------------------------------------------------------------------------------
 
@@ -33,13 +34,14 @@ from django.db import models
 
 class CollManager(models.Manager):
     def create_coll(self, collid, collfilename, colldate, 
-        colledit, collcmt):
+        colledit, collcmt, collcat):
         coll = self.create(
             collid = collid,
             collfilename = collfilename, 
             colldate = colldate, 
             colledit = colledit, 
-            collcmt = collcmt)
+            collcmt = collcmt,
+            collcat = collcat)
         return coll
 
 class Collection(models.Model):
@@ -48,6 +50,7 @@ class Collection(models.Model):
     colldate = models.DateField()
     colledit = models.DateTimeField()  # allow this to be blank
     collcmt = models.CharField(max_length=500)
+    collcat = models.TextField()  # dictionary of dynamic categories
 
     objects = CollManager()
 
@@ -101,8 +104,9 @@ class Text(models.Model):
         return self.textparent + ': ' + self.textid
 
     def get_text_fields(self):
-        """ returns textmkup if it is not null, otherwise textoriginal"""
-        if len(self.textmkup) > 64:  ### <16.02.11> THIS IS A KLUDGE FOR THE ALBANY PROJECT: CORRECT IT
+        """ returns textmkup if it is not null, otherwise textoriginal. If this is changed, *_INDEX globals in views.py 
+            also need to be modified """
+        if len(self.textmkup) > 0: 
             return [self.textid, self.textlede, str(self.textdate), self.textcmt, self.textbiblio, self.textmkup]
         else:
             return [self.textid, self.textlede, str(self.textdate), self.textcmt, self.textbiblio, self.textoriginal]

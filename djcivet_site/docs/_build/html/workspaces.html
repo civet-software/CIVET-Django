@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     'beta-0.9',
+        VERSION:     'beta-0.9.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -34,7 +34,7 @@
             <img class="logo" src="_static/civet200.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">CIVET beta-0.9 documentation</a></div>
+          href="index.html">CIVET beta-0.9.1 documentation</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="forms.html" title="CIVET Coding Form Templates"
              accesskey="P">previous</a> |
@@ -71,8 +71,8 @@ of this are given in Appendix 2.</p>
 an associated coding form and, optionally, other information such as
 user-specified categories that will be used in automatic annotation. The
 template file begins with the string “<code class="docutils literal"><span class="pre">form.</span></code>” and uses the category
-and template commands described in Section [sec:form]. Workspaces are
-compressed (<code class="docutils literal"><span class="pre">.zip</span></code>) directories (folders).</p>
+and template commands described in the chapter <em>CIVET Coding Form Templates</em>.
+Workspaces are compressed (<code class="docutils literal"><span class="pre">.zip</span></code>) directories (folders).</p>
 <p>In the current configuration of the system, workspace files are uploaded
 to the system, annotated and/or coded, then downloaded when a session is
 completed: no data remain on the machine where the CIVET system is
@@ -128,6 +128,10 @@ display the errors it found, then return to the data selection page.</li>
 section, any single quotes (<code class="docutils literal"><span class="pre">’</span></code>) must be “escaped”; that is,
 replaced with <code class="docutils literal"><span class="pre">\’</span></code>. This will be done automatically when cases are
 generated from inside the program.</li>
+<li>The system currently translates UTF-8 encodings to ASCII <a class="footnote-reference" href="#f11" id="id5">[5]</a> using the
+Django function <code class="docutils literal"><span class="pre">encoding.smart_str()</span></code>. We expect to eventually
+convert the program to Python 3.x (at present it is Python 2.7) which
+is utf-8 “native” but it isn&#8217;t there yet.</li>
 </ul>
 <div class="section" id="workspace-management">
 <span id="sec-management"></span><h2>Workspace Management<a class="headerlink" href="#workspace-management" title="Permalink to this headline">¶</a></h2>
@@ -156,13 +160,13 @@ annotation editor.</p>
 </div></blockquote>
 <p>The <code class="docutils literal"><span class="pre">category-name</span></code> must be unique and cannot be one of the standard
 categories <code class="docutils literal"><span class="pre">nament,</span> <span class="pre">num</span></code> or <code class="docutils literal"><span class="pre">date</span></code>. The program currently
-accommodates up to 99 categories. <a class="footnote-reference" href="#f5" id="id5">[5]</a></p>
+accommodates up to 99 categories. <a class="footnote-reference" href="#f5" id="id6">[6]</a></p>
 <div class="line-block">
-<div class="line"><code class="docutils literal"><span class="pre">color</span></code> can be any of the 140 named HTML5 colors, <a class="footnote-reference" href="#f6" id="id6">[6]</a> a six-digit
+<div class="line"><code class="docutils literal"><span class="pre">color</span></code> can be any of the 140 named HTML5 colors, <a class="footnote-reference" href="#f6" id="id7">[7]</a> a six-digit
 hexadecimal RGB color (e.g. <code class="docutils literal"><span class="pre">6A5ACD</span></code> corresponds to the named color
 “SlateBlue”; the hex notation provides a presumably sufficient choice
 of 16,777,216 colors), or a two-digit color from the CIVET
-palette. <a class="footnote-reference" href="#f7" id="id7">[7]</a> The palette, shown below, can be
+palette. <a class="footnote-reference" href="#f7" id="id8">[8]</a> The palette, shown below, can be
 accessed by entering the address</div>
 </div>
 <blockquote>
@@ -175,9 +179,27 @@ in the listed order.</div>
 <div class="figure">
 <img alt="CIVET Default Category Colors" src="_images/defaultcolors.png" />
 </div>
-<p>The program will find capitalized versions of the words in the list—in
-the example below, both &#8220;killed&#8221; and &#8220;Killed&#8221; will match—but not
-all-capitalized versions: &#8220;KILLED&#8221; would not be matched. A word or
+</div>
+<div class="section" id="automatic-annotation-skip-editing-mode-only">
+<h2>Automatic annotation/skip editing mode only:<a class="headerlink" href="#automatic-annotation-skip-editing-mode-only" title="Permalink to this headline">¶</a></h2>
+<p>When the program is running with <code class="docutils literal"><span class="pre">Always</span> <span class="pre">apply</span> <span class="pre">annotation:</span> <span class="pre">True</span></code> and
+<code class="docutils literal"><span class="pre">Skip</span> <span class="pre">editing:</span> <span class="pre">True</span></code>, <a class="footnote-reference" href="#f10" id="id9">[9]</a> categories can be further visually differentiated using
+one or more of the following font specifications</p>
+<ul class="simple">
+<li>bold: <strong>bold face</strong></li>
+<li>italic: <em>italic</em></li>
+<li>under: underline</li>
+</ul>
+<p>So for example <code class="docutils literal"><span class="pre">[Green</span> <span class="pre">bold</span> <span class="pre">italic]</span></code> will display the category in an
+italic bold font colored green.</p>
+</div>
+<div class="section" id="additional-information-on-categories">
+<h2>Additional information on categories<a class="headerlink" href="#additional-information-on-categories" title="Permalink to this headline">¶</a></h2>
+<p>1. Generally, matching of words and phrases is not case sensitive: in
+the example below, both &#8220;killed&#8221; and &#8220;Killed&#8221; will match. However, if the
+word in the category list is all uppercase—e.g. NATO, IRA, ISIS—it will
+only match all-uppercase strings: this should deal with most cases of
+acronyms, in particular US and IS. A word or
 phrase can only be in a a single category: putting one in multiple
 categories will not cause an error, but only the first category
 evaluated—generally this will occur in the order the categories were
@@ -185,26 +207,38 @@ entered—will be marked. Words and phrases within a category are
 evaluated in the order they are listed—see the example in the chapter on annotation—
 which can be used to establish precedent when words or
 phrases overlap. At present the program does not allow partial matches,
-though a facility for this may be added in the future. <a class="footnote-reference" href="#f8" id="id8">[8]</a></p>
-<p>The comma-delimited-phrase/code-list can have codes assigned to each of
+though a facility for this may be added in the future. <a class="footnote-reference" href="#f8" id="id10">[10]</a></p>
+<p>2. The comma-delimited-phrase/code-list can have codes assigned to each of
 the phrases: these occur in brackets following the phrase and are added
 to the text during automated markup. The codes can be any character
 string. Either the phrase or the code or both can be specified in the
 output. If some of the phrases in the list have codes and others do not,
 the blank codes will be assigned a null (or, optionally, missing)
 string.</p>
-<p>The vocabulary list can also be read from a file in the workspace. The
-file name must begin with <code class="docutils literal"><span class="pre">codes.+category-name.</span></code>; the remainder of
-the file name can be anything. <a class="footnote-reference" href="#f9" id="id9">[9]</a> This be a text file with one phrase
+<p>3. The vocabulary list can also be read from a file in the workspace. The
+file name must begin with <code class="docutils literal"><span class="pre">codes.category-name.</span></code>; the remainder of
+the file name can be anything. <a class="footnote-reference" href="#f9" id="id11">[11]</a> This be a text file with one phrase
 per line and the code in brackets; a line beginning with # is treated as
 a comment.</p>
+<ol class="arabic simple" start="4">
+<li>As with texts, UTF-8 encodings are translated to ASCII using the
+Django function <code class="docutils literal"><span class="pre">encoding.smart_str()</span></code>.</li>
+</ol>
 <p><strong>Example:</strong></p>
-<blockquote>
-<div><p><code class="docutils literal"><span class="pre">category:action</span> <span class="pre">[red]</span> <span class="pre">killed</span> <span class="pre">[1],</span> <span class="pre">wounded</span> <span class="pre">[2],</span> <span class="pre">shot</span> <span class="pre">and</span> <span class="pre">killed</span> <span class="pre">[1],</span> <span class="pre">bombed</span> <span class="pre">[3],</span> <span class="pre">clashed</span> <span class="pre">[3]</span></code></p>
-<p><code class="docutils literal"><span class="pre">category:people</span> <span class="pre">[Brown]</span> <span class="pre">civilians,</span> <span class="pre">workers,</span> <span class="pre">authorities,</span> <span class="pre">troops,</span> <span class="pre">soldiers,</span> <span class="pre">rebels,</span> <span class="pre">people,</span> <span class="pre">group</span></code></p>
-<p><code class="docutils literal"><span class="pre">category:nationstate</span> <span class="pre">[Gold]</span> <span class="pre">codes.nationstate.txt</span></code></p>
-<p><code class="docutils literal"><span class="pre">category:weapons</span> <span class="pre">[Olive]</span> <span class="pre">codes.weapons.mnsa.weaponslist_150724.txt</span></code></p>
-</div></blockquote>
+<div class="highlight-python"><div class="highlight"><pre>category:action [red italic]
+killed [1], wounded [2], shot and killed [1], bombed [3], clashed [3]
+
+category:people [Brown]
+civilians, workers, authorities, troops, soldiers, rebels, people, group``
+
+category:nationstate [Gold bold under]
+codes.nationstate.txt
+
+category:weapons [Olive]
+codes.weapons.mnsa.weaponslist_150724.txt
+</pre></div>
+</div>
+<p class="rubric">Footnotes</p>
 <table class="docutils footnote" frame="void" id="f1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
@@ -242,10 +276,23 @@ occurs because of the substring
 introduced through external editing.</td></tr>
 </tbody>
 </table>
+<table class="docutils footnote" frame="void" id="f11" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id5">[5]</a></td><td><a class="reference external" href="https://en.wikipedia.org/wiki/UTF-8">UTF-8</a> is an expanded
+<a class="reference external" href="https://en.wikipedia.org/wiki/Unicode">UniCode</a> character set that includes
+accented letters, “smart quotes”
+and many many more characters not found in the older
+<a class="reference external" href="https://en.wikipedia.org/wiki/ASCII">ASCII</a> (American Standard Code for
+Information Interchange) character set. UTF-8 is very widely used on the
+Web so if you have downloaded texts, there&#8217;s a pretty good change they
+contain at least some UTF-8 characters.</td></tr>
+</tbody>
+</table>
 <table class="docutils footnote" frame="void" id="f5" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id5">[5]</a></td><td>If you need more, this can be changed by allowing more digits in
+<tr><td class="label"><a class="fn-backref" href="#id6">[6]</a></td><td>If you need more, this can be changed by allowing more digits in
 the <code class="docutils literal"><span class="pre">{:02d}</span></code> format in the code
 <code class="docutils literal"><span class="pre">UserCategories[newcat].append('termst{:02d}'.format(len(UserCategories)))</span></code>
 in <code class="docutils literal"><span class="pre">CIVET_template.make_category()</span></code></td></tr>
@@ -254,36 +301,42 @@ in <code class="docutils literal"><span class="pre">CIVET_template.make_category
 <table class="docutils footnote" frame="void" id="f6" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id6">[6]</a></td><td>See <a class="reference external" href="http://www.w3schools.com/html/html">http://www.w3schools.com/html/html</a> colornames.asp</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id7">[7]</a></td><td>See <a class="reference external" href="http://www.w3schools.com/html/html">http://www.w3schools.com/html/html</a> colornames.asp</td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="f7" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id7">[7]</a></td><td>This palette was assembled in a very ad hoc manner, is not
+<tr><td class="label"><a class="fn-backref" href="#id8">[8]</a></td><td>This palette was assembled in a very ad hoc manner, is not
 color-blind-friendly, and we would be delighted to substitute
 something better. The list is set as <code class="docutils literal"><span class="pre">CIV_template.CatColorList</span></code></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f10" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id9">[9]</a></td><td>This is the configuration typically used when just coding the texts
+with automated annotation. We plan to retrofit this to the editor
+as well but adding it to the annotation was a simple hack, and adding
+it to the editor is a little more complicated.</td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="f8" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id8">[8]</a></td><td>If you want it now, delete the test <code class="docutils literal"><span class="pre">if</span> <span class="pre">endx</span> <span class="pre">==</span> <span class="pre">idx+len(st):</span></code> in
+<tr><td class="label"><a class="fn-backref" href="#id10">[10]</a></td><td>If you want it now, delete the test <code class="docutils literal"><span class="pre">if</span> <span class="pre">endx</span> <span class="pre">==</span> <span class="pre">idx+len(st):</span></code> in
 <code class="docutils literal"><span class="pre">CIVET_utilities.do_string_markup()</span></code>.</td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="f9" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id9">[9]</a></td><td>The period following the category-name is required!: the file name
+<tr><td class="label"><a class="fn-backref" href="#id11">[11]</a></td><td>The period following the category-name is required!: the file name
 <code class="docutils literal"><span class="pre">codes.weapons_mnsa_list.txt</span></code> would not be recognized as a valid
 <code class="docutils literal"><span class="pre">codes.</span></code> file. Or rather it would be interpreted as applying to a
 category <code class="docutils literal"><span class="pre">weapons_mnsa_list</span></code>, not the category <code class="docutils literal"><span class="pre">weapons</span></code>.</td></tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="footnotes">
-<h2>Footnotes<a class="headerlink" href="#footnotes" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 
@@ -303,7 +356,8 @@ category <code class="docutils literal"><span class="pre">weapons_mnsa_list</spa
 <li class="toctree-l1 current"><a class="current reference internal" href="">CIVET Workspaces</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#workspace-management">Workspace Management</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#user-specified-annotation-vocabulary-using-category">User-specified annotation vocabulary using <strong>category</strong></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#footnotes">Footnotes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#automatic-annotation-skip-editing-mode-only">Automatic annotation/skip editing mode only:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#additional-information-on-categories">Additional information on categories</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="annotation.html">Annotation and Editing Collections</a></li>
@@ -312,9 +366,8 @@ category <code class="docutils literal"><span class="pre">weapons_mnsa_list</spa
 <li class="toctree-l1"><a class="reference internal" href="future.html">Projected Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="appendix1.html">Appendix 1: Sample Template File</a></li>
 <li class="toctree-l1"><a class="reference internal" href="appendix2.html">Appendix 2: Input Format</a></li>
-<li class="toctree-l1"><a class="reference internal" href="appendix3.html">Appendix 3: Supporting Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix3.html">Appendix 3: Supporting Files and Source Code Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="appendix4.html">Appendix 4: Prototype on Google Application Engine</a></li>
-<li class="toctree-l1"><a class="reference internal" href="appendix5.html">Appendix 5: Installing in AWS-EB and Docker</a></li>
 </ul>
 
           <div role="search">
@@ -353,7 +406,7 @@ category <code class="docutils literal"><span class="pre">weapons_mnsa_list</spa
         <div class="right">
           
     <div class="footer" role="contentinfo">
-      Last updated on 2015-08-31.
+      Last updated on 2016-08-17.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
         </div>

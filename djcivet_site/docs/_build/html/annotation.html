@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     'beta-0.9',
+        VERSION:     'beta-0.9.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -34,7 +34,7 @@
             <img class="logo" src="_static/civet200.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">CIVET beta-0.9 documentation</a></div>
+          href="index.html">CIVET beta-0.9.1 documentation</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="workspaces.html" title="CIVET Workspaces"
              accesskey="P">previous</a> |
@@ -78,13 +78,18 @@ categories of words and phrases:</p>
 <dt><em>Named-entities</em>:</dt>
 <dd>This is based on capitalization; consecutive capitalized words
 are combined.</dd>
+<dt><em>Location</em> [optional]</dt>
+<dd>When the <code class="docutils literal"><span class="pre">Use</span> <span class="pre">preposition-based</span> <span class="pre">geographical</span> <span class="pre">markup</span></code> preference is set to
+<code class="docutils literal"><span class="pre">True</span></code>, these are named-entities which are preceded somewhere in the
+text by prepositions in the list <code class="docutils literal"><span class="pre">'at','to','in','from'</span></code> See
+additional discussion in the “Preferences” chapter.</dd>
 <dt><em>Numbers</em>:</dt>
 <dd>Digits and numerical words and phrases such as “one” and
 “two-hundred.”</dd>
 <dt><em>User-specified categories</em>:</dt>
 <dd>See the discussion of <a class="reference internal" href="workspaces.html#sec-categories"><span>categories</span></a></dd>
 </dl>
-<p>Annotation is done automatically when <code class="docutils literal"><span class="pre">civet_settings.ALWAYS_ANNOTATE</span></code> is
+<p>Annotation is done automatically when <code class="docutils literal"><span class="pre">Always</span> <span class="pre">apply</span> <span class="pre">annotation</span></code> preference is
 set to <code class="docutils literal"><span class="pre">True</span></code>; this can be changed on the “Preferences” screen.</p>
 </div></blockquote>
 <p><strong>Save edits and select new collection:</strong></p>
@@ -258,9 +263,8 @@ presumably create issues further down the processing pipeline.</td></tr>
 <li class="toctree-l1"><a class="reference internal" href="future.html">Projected Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="appendix1.html">Appendix 1: Sample Template File</a></li>
 <li class="toctree-l1"><a class="reference internal" href="appendix2.html">Appendix 2: Input Format</a></li>
-<li class="toctree-l1"><a class="reference internal" href="appendix3.html">Appendix 3: Supporting Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix3.html">Appendix 3: Supporting Files and Source Code Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="appendix4.html">Appendix 4: Prototype on Google Application Engine</a></li>
-<li class="toctree-l1"><a class="reference internal" href="appendix5.html">Appendix 5: Installing in AWS-EB and Docker</a></li>
 </ul>
 
           <div role="search">
@@ -299,7 +303,7 @@ presumably create issues further down the processing pipeline.</td></tr>
         <div class="right">
           
     <div class="footer" role="contentinfo">
-      Last updated on 2015-08-31.
+      Last updated on 2016-08-17.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
         </div>

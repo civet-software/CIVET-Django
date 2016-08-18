@@ -62,7 +62,7 @@ DEMO_TEMPLATE = 'CIVET.demo.template.txt'
 DEMO_WORKSPACE = 'CIVET.workspace.demo.zip'
 DOCUMENTATION = 'civetdoc.pdf'            
             
-# ============= Preferences  ============= #
+# ============= General Preferences  ============= #
 
 HTML_OK = True   # allow html: command?
 HTML_OK = False
@@ -74,21 +74,34 @@ MISSING_VALUE = '*' # used only if values are missing
 USE_TEXT_FOR_MISSING = True   # substitute text rather than MISSING_VALUE if [value] is absent
 
 SHOW_ALL_CONTENT = False  # initially expand all content in coder
-ALWAYS_ANNOTATE = True
+ALWAYS_ANNOTATE = True   # 
+NEVER_ANNOTATE = False   # never annotate: HTML markup has been provided in the YAML file
 SKIP_EDITING = False
-USE_GEOG_MARKUP = False  # do geographical markup before named entity
+USE_GEOG_MARKUP = True  # do geographical markup before named entity
 HIGHLIGHT_NAMENT = True  # highlight the nament class during annotation
 HIGHLIGHT_NUM = True  # highlight the num class during annotation
 
-USE_TEXTBIBLIO_IN_SOURCE = True  # source includes textbiblio field
+USE_TEXTBIBLIO_IN_SOURCE = False  # source includes textbiblio field
 USE_TEXTID_IN_SOURCE = False # source includes textid field
-            
+
+# controls for options on the home screen:
+HIDE_READ_CODING_FORM = False
+HIDE_READ_WORKSPACE = False
+HIDE_PREFERENCES = False
 
 REQUIRE_LOGIN = False  
 #REQUIRE_LOGIN = True
 
-CLEAR_DATABASE = True  # clears database before reading workspace  
+CLEAR_DATABASE = True  # clears database before reading workspace              
             
+# ============= Custom Preferences  ============= #
+
+# UNCC-SmARTT summer-2016
+ 
+MAKE_MAPS = True 
+MAP_KEY = '<put the free key you get from Google here>'
+
+
 # ============= Production mode  ============= #
 
 PRODUCTION_MODE = False
@@ -106,6 +119,7 @@ else:
 def get_preferences():
     prefs = {}
     prefs['alwaysannotate'] = ALWAYS_ANNOTATE
+    prefs['neverannotate'] = NEVER_ANNOTATE
     prefs['showallcontent'] = SHOW_ALL_CONTENT
     prefs['skipediting'] = SKIP_EDITING
     prefs['textmissing'] = USE_TEXT_FOR_MISSING
@@ -116,8 +130,10 @@ def get_preferences():
     return prefs
     
 def set_preferences(form):
-    global ALWAYS_ANNOTATE, SKIP_EDITING, SHOW_ALL_CONTENT, USE_TEXT_FOR_MISSING, MISSING_VALUE, USE_TEXTBIBLIO_IN_SOURCE, USE_TEXTID_IN_SOURCE 
+    global ALWAYS_ANNOTATE, NEVER_ANNOTATE, SKIP_EDITING, SHOW_ALL_CONTENT, USE_TEXT_FOR_MISSING, MISSING_VALUE,\
+           USE_TEXTBIBLIO_IN_SOURCE, USE_TEXTID_IN_SOURCE, HIDE_READ_CODING_FORM, HIDE_READ_WORKSPACE, HIDE_PREFERENCES
     ALWAYS_ANNOTATE = form['alwaysannotate']
+    NEVER_ANNOTATE = form['neverannotate']
     SHOW_ALL_CONTENT = form['showallcontent']
     SKIP_EDITING = form['skipediting']
     USE_TEXT_FOR_MISSING = form['textmissing']

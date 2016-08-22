@@ -44,4 +44,6 @@
 \BOOKMARK [1][-]{section.13.1}{Files in /static/djciv\137data}{chapter.13}% 44
 \BOOKMARK [1][-]{section.13.2}{Additional settings that can be changed in civet\137settings.py}{chapter.13}% 45
 \BOOKMARK [1][-]{section.13.3}{Documentation}{chapter.13}% 46
-\BOOKMARK [0][-]{chapter.14}{Appendix 4: Prototype on Google Application Engine}{}% 47
+\BOOKMARK [0][-]{chapter.14}{Appendix 4: Installing in AWS-EB and Docker}{}% 47
+\BOOKMARK [1][-]{section.14.1}{Amazon Web Services Elastic Beanstalk}{chapter.14}% 48
+\BOOKMARK [1][-]{section.14.2}{Docker}{chapter.14}% 49

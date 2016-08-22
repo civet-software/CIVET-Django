@@ -262,7 +262,7 @@ def get_editor_blocks(thestring):
     
 def save_edits(request):
     """ saves current markup to the DB """
-# it would be useful to get rid of the magic numbers here... <16.08.18>
+# it would be useful to get rid of the magic numbers here... would it be useful to have a biblio placeholder? Then these are the globals - 1 <16.08.18>
 #    print('SE-Mk0:')
     thestring = request.POST['civ_editor']
     textblock = get_editor_blocks(thestring)
@@ -303,7 +303,7 @@ def apply_editor_markup(request):
     for idst, lst in textblock.iteritems():
 #        print('AEM1',ka, idst,lst)
         newstr += make_ckeditor_markup_string(
-                 [idst, civet_utilities.do_markup(lst[0]), lst[1], lst[2], civet_utilities.do_markup(lst[3])],
+                 [idst, civet_utilities.do_markup(lst[0]), lst[1], lst[2], '', civet_utilities.do_markup(lst[3])],  # insert placeholder for BIBLIO_INDEX 
                  ka)
 #        print('AEM2',newstr)
         ka += 1

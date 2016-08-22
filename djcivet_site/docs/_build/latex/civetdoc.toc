@@ -74,4 +74,10 @@
 \contentsline {subsection}{\numberline {13.1.3}CIVET Logo}{47}{subsection.13.1.3}
 \contentsline {section}{\numberline {13.2}Additional settings that can be changed in \texttt {civet\_settings.py}}{47}{section.13.2}
 \contentsline {section}{\numberline {13.3}Documentation}{48}{section.13.3}
-\contentsline {chapter}{\numberline {14}Appendix 4: Prototype on Google Application Engine}{49}{chapter.14}
+\contentsline {chapter}{\numberline {14}Appendix 4: Installing in AWS-EB and Docker}{49}{chapter.14}
+\contentsline {section}{\numberline {14.1}Amazon Web Services Elastic Beanstalk}{49}{section.14.1}
+\contentsline {subsection}{\numberline {14.1.1}AWS-EB Configuration Files}{50}{subsection.14.1.1}
+\contentsline {subsection}{\numberline {14.1.2}Handling of \emph {static} files}{51}{subsection.14.1.2}
+\contentsline {section}{\numberline {14.2}Docker}{51}{section.14.2}
+\contentsline {subsection}{\numberline {14.2.1}Contents of \emph {docker-entrypoint.sh}}{52}{subsection.14.2.1}
+\contentsline {subsection}{\numberline {14.2.2}Contents of \emph {Dockerfile}}{52}{subsection.14.2.2}
